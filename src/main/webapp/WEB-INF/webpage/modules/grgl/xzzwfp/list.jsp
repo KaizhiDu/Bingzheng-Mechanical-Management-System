@@ -31,60 +31,32 @@
 </head>
 <body>
 
-<h4>员工基本信息</h4>
+<h4>员工职位薪资分布</h4>
 <hr/>
 
-<grid:grid id="Grgl"
-           url="${adminPath}/grgl/grgl/ajaxListGrgl" pageable="true">
+<grid:grid id="GrglXzzwfp"
+           url="${adminPath}/grgl/xzzwfp/queryAjax" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
 
-    <grid:button title="修改" groupname="opt" function="modifyWorker"
-                 outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />
-    <grid:button title="删除" groupname="opt" function="deleteWorker"
-                 outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
+    <grid:button title="设置" groupname="opt" function="setEmp"
+                 outclass="btn-success" url="${adminPath}/grgl/xzzwfp/setEmp?id=\"+row.id+\"" />
 
     <grid:column label="姓名" name="name"/>
-    <grid:column label="性别" name="gender" dict="sex" dateformat=""/>
-    <grid:column label="电话" name="tel"/>
-    <grid:column label="邮箱" name="email"/>
-    <grid:column label="入职日期" name="enterdate" dateformat=""/>
+    <grid:column label="职位" name="zw"/>
+    <grid:column label="底薪" name="dx"/>
+    <grid:column label="时薪" name="sx"/>
+    <%--<grid:column label="餐补" name="cb"/>--%>
+    <grid:column label="房补" name="fb"/>
+    <grid:column label="补贴" name="bt"/>
+    <grid:column label="保险" name="bx"/>
 
-    <grid:toolbar function="createWorker" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
-    <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
 </grid:grid>
 
-
 <script type="text/javascript">
-    //添加一个员工
-    function createWorker(title, url, gridId, id, width, height, tipMsg) {
-        var url = "${adminPath}/grgl/grgl/createWorker";
-        openDia("添加员工",url,gridId,"800px","500px");
-    }
-
-    //修改一个员工信息
-    function modifyWorker(title, url, gridId, id, width, height, tipMsg) {
-        openDia("修改员工",url,gridId,"800px","500px");
-    }
-
-    //删除一个员工信息
-    function deleteWorker(title, url, gridId, id, width, height, tipMsg) {
-        layer.confirm('是否要删除信息!', {
-                btn: ['确定', '取消']
-            }, function (index, layero) {
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function (data) {
-                    refreshTable(gridId);
-                }
-            });
-                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                layer.msg("删除成功!",{ icon: 1, time: 1000 });
-
-            }
-        );
+    function setEmp(title, url, gridId, id, width, height, tipMsg) {
+        openDia("设置薪资职位",url,gridId,"800px","500px");
     }
 
     //打开一个窗口
@@ -128,5 +100,6 @@
         });
     }
 </script>
+
 </body>
 </html>

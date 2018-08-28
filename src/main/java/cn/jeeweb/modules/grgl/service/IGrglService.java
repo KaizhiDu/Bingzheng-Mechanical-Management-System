@@ -20,4 +20,6 @@ public interface IGrglService extends ICommonService<Grgl> {
 * @Version:        1.0
 */
 public PageJson<Grgl> grglList(Queryable queryable, Grgl grgl);
+
+
 }
