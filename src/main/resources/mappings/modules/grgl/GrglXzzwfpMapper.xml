@@ -7,12 +7,15 @@ SELECT
 					T1.ID,
 	        T.NAME,
           T1.ZWID ZW,
+					T1.ZWGZ,
 					T1.DX,
 				  T1.SX,
-					T1.CB,
 					T1.FB,
+					T1.JTF,
 					T1.BT,
-					T1.BX
+					T1.BX,
+					T1.KK,
+					T1.BGQM
       FROM
 	        T_GRGL T,
 	        T_GRGL_XZZWFP T1

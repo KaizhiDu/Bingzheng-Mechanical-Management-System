@@ -53,6 +53,14 @@
                 </tr>
                 <tr class="form-group">
                     <td>
+                        <label>职位工资：</label>
+                    </td>
+                    <td>
+                        <input name="zwgz" id="zwgz" htmlEscape="false" class="form-control" placeholder="请输入底薪" value="${xzzwfp.zwgz}"/>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>底薪：</label>
                     </td>
                     <td>
@@ -69,10 +77,26 @@
                 </tr>
                 <tr class="form-group">
                     <td>
+                        <label>餐补：</label>
+                    </td>
+                    <td>
+                        <input name="bgqm" id="bgqm" htmlEscape="false" class="form-control" placeholder="请输入餐补" value="${xzzwfp.bgqm}"/>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>房补：</label>
                     </td>
                     <td>
                         <input name="fb" id="fb" htmlEscape="false" class="form-control" placeholder="请输入房补" value="${xzzwfp.fb}"/>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>交通费：</label>
+                    </td>
+                    <td>
+                        <input name="jtf" id="jtf" htmlEscape="false" class="form-control" placeholder="请输入交通费" value="${xzzwfp.jtf}"/>
                     </td>
                 </tr>
                 <tr class="form-group">
@@ -91,6 +115,14 @@
                         <input name="bx" id="bx" htmlEscape="false" class="form-control" placeholder="请输入保险" value="${xzzwfp.bx}"/>
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>扣款：</label>
+                    </td>
+                    <td>
+                        <input name="kk" id="kk" htmlEscape="false" class="form-control" placeholder="请输入扣款" value="${xzzwfp.kk}"/>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -103,11 +135,15 @@
     function check() {
         var id = $("#xzzwfpid").val();
         var zwid = $("#zwid").val();
+        var zwgz = $("#zwgz").val();
         var dx = $("#dx").val();
         var sx = $("#sx").val();
         var fb = $("#fb").val();
+        var bgqm = $("#bgqm").val();
+        var jtf = $("#jtf").val();
         var bt = $("#bt").val();
         var bx = $("#bx").val();
+        var kk = $("#kk").val();
 
         $.ajax({
             type: "GET",
@@ -119,7 +155,11 @@
                 sx: sx,
                 fb: fb,
                 bt: bt,
-                bx: bx
+                bx: bx,
+                kk: kk,
+                jtf: jtf,
+                zwgz: zwgz,
+                bgqm: bgqm
             },
             success: function (data) {
 

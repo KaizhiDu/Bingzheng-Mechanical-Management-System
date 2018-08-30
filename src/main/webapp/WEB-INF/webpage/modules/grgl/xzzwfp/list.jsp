@@ -45,12 +45,16 @@
 
     <grid:column label="姓名" name="name"/>
     <grid:column label="职位" name="zw"/>
+    <grid:column label="职位工资" name="zwgz"/>
     <grid:column label="底薪" name="dx"/>
     <grid:column label="时薪" name="sx"/>
-    <%--<grid:column label="餐补" name="cb"/>--%>
+    <grid:column label="餐补" name="bgqm"/>
     <grid:column label="房补" name="fb"/>
+    <grid:column label="交通费" name="jtf"/>
     <grid:column label="补贴" name="bt"/>
     <grid:column label="保险" name="bx"/>
+    <grid:column label="扣款" name="kk"/>
+
 
 </grid:grid>
 

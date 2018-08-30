@@ -12,18 +12,24 @@ public class YgzxxDTO {
     private String name;
     /**职务*/
     private String zw;
+    /**职务工资*/
+    private String zwgz;
     /**底薪*/
     private String dx;
     /**时薪*/
     private String sx;
-    /**餐补*/
-    private String cb;
     /**房补*/
     private String fb;
+    /**交通费*/
+    private String jtf;
     /**补贴*/
     private String bt;
     /**保险*/
     private String bx;
+    /**扣款*/
+    private String kk;
+    /**不敢起名*/
+    private String bgqm;
 
     public String getId() {
         return id;
@@ -65,14 +71,6 @@ public class YgzxxDTO {
         this.sx = sx;
     }
 
-    public String getCb() {
-        return cb;
-    }
-
-    public void setCb(String cb) {
-        this.cb = cb;
-    }
-
     public String getFb() {
         return fb;
     }
@@ -95,5 +93,37 @@ public class YgzxxDTO {
 
     public void setBx(String bx) {
         this.bx = bx;
+    }
+
+    public String getZwgz() {
+        return zwgz;
+    }
+
+    public void setZwgz(String zwgz) {
+        this.zwgz = zwgz;
+    }
+
+    public String getJtf() {
+        return jtf;
+    }
+
+    public void setJtf(String jtf) {
+        this.jtf = jtf;
+    }
+
+    public String getKk() {
+        return kk;
+    }
+
+    public void setKk(String kk) {
+        this.kk = kk;
+    }
+
+    public String getBgqm() {
+        return bgqm;
+    }
+
+    public void setBgqm(String bgqm) {
+        this.bgqm = bgqm;
     }
 }

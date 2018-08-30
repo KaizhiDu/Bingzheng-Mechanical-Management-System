@@ -28,24 +28,33 @@ public class Xzzwfp extends AbstractEntity<String> {
     /** 职务ID */
     @TableField(value = "ZWID")
     private String zwid;
+    /** 职务工资 */
+    @TableField(value = "ZWGZ")
+    private String zwgz;
     /** 底薪 */
     @TableField(value = "DX")
     private String dx;
     /** 时薪 */
     @TableField(value = "SX")
     private String sx;
-    /** 餐补 */
-    @TableField(value = "CB")
-    private String cb;
     /** 房补 */
     @TableField(value = "FB")
     private String fb;
+    /** 交通费 */
+    @TableField(value = "JTF")
+    private String jtf;
     /** 补贴 */
     @TableField(value = "BT")
     private String bt;
     /** 保险 */
     @TableField(value = "BX")
     private String bx;
+    /** 扣款 */
+    @TableField(value = "KK")
+    private String kk;
+    /** 不敢起名cb */
+    @TableField(value = "BGQM")
+    private String bgqm;
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
     private User updateBy;
@@ -85,6 +94,14 @@ public class Xzzwfp extends AbstractEntity<String> {
         this.zwid = zwid;
     }
 
+    public String getZwgz() {
+        return zwgz;
+    }
+
+    public void setZwgz(String zwgz) {
+        this.zwgz = zwgz;
+    }
+
     public String getDx() {
         return dx;
     }
@@ -101,20 +118,20 @@ public class Xzzwfp extends AbstractEntity<String> {
         this.sx = sx;
     }
 
-    public String getCb() {
-        return cb;
-    }
-
-    public void setCb(String cb) {
-        this.cb = cb;
-    }
-
     public String getFb() {
         return fb;
     }
 
     public void setFb(String fb) {
         this.fb = fb;
+    }
+
+    public String getJtf() {
+        return jtf;
+    }
+
+    public void setJtf(String jtf) {
+        this.jtf = jtf;
     }
 
     public String getBt() {
@@ -131,6 +148,14 @@ public class Xzzwfp extends AbstractEntity<String> {
 
     public void setBx(String bx) {
         this.bx = bx;
+    }
+
+    public String getKk() {
+        return kk;
+    }
+
+    public void setKk(String kk) {
+        this.kk = kk;
     }
 
     public User getUpdateBy() {
@@ -163,5 +188,13 @@ public class Xzzwfp extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getBgqm() {
+        return bgqm;
+    }
+
+    public void setBgqm(String bgqm) {
+        this.bgqm = bgqm;
     }
 }
