@@ -25,6 +25,7 @@ import java.util.List;
 @Service("IGrglService")
 public class GrglServiceImpl extends CommonServiceImpl<GrglMapper, Grgl> implements IGrglService {
 
+    /**员工管理Mapper*/
     @Autowired
     private GrglMapper grglMapper;
 

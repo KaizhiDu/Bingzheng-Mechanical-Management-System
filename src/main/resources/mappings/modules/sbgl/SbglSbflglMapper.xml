@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.sbgl.mapper.SbglSbflglMapper" >
+    <select id="sbglSbflglList" resultType="cn.jeeweb.modules.sbgl.entity.SbglSbflgl">
+        SELECT * FROM T_SBGL_SBFLGL
+  </select>
+
+</mapper>
