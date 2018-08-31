@@ -16,7 +16,7 @@ import java.util.Date;
 * @CreateDate:     2018/8/30 17:00
 * @Version:        1.0
 */
-@TableName("T_SBGL")
+@TableName("T_SBGL_SBGL")
 @SuppressWarnings("serial")
 public class Sbgl extends AbstractEntity<String> {
     /** 主键 */
@@ -28,6 +28,9 @@ public class Sbgl extends AbstractEntity<String> {
     /** 设备名称 */
     @TableField(value = "SBMC")
     private String sbmc;
+    /** 所属大类 */
+    @TableField(value = "SSDL")
+    private String ssdl;
     /** 状态 */
     @TableField(value = "ZT")
     private String zt;
@@ -131,5 +134,13 @@ public class Sbgl extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getSsdl() {
+        return ssdl;
+    }
+
+    public void setSsdl(String ssdl) {
+        this.ssdl = ssdl;
     }
 }

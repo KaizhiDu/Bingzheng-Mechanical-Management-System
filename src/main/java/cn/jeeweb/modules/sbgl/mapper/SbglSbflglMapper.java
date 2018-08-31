@@ -15,6 +15,7 @@ import java.util.List;
  * @Version:        1.0
  */
 public interface SbglSbflglMapper extends BaseMapper<SbglSbflgl> {
+
     /**
      * @Description:    展示所有设备分类管理
      * @Author:         杜凯之
