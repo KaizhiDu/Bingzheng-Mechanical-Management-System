@@ -22,5 +22,5 @@ public interface GrglXzzwfpMapper extends BaseMapper<Xzzwfp> {
      * @CreateDate:     2018/8/28 14:51
      * @Version:        1.0
      */
-    public List<YgzxxDTO> xzzwfpList(Pagination page, @Param("xzzwfp") Xzzwfp entity);
+    public List<YgzxxDTO> xzzwfpList(Pagination page, @Param("entity") YgzxxDTO entity);
 }

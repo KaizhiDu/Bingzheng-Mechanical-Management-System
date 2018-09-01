@@ -45,9 +45,9 @@
                     </td>
                     <td>
                         <select id="zwid" name="zwid" class="form-control">
-
                             <option ${xzzwfp.zwid eq '工人' ? 'selected' : ''} value="工人">工人</option>
                             <option ${xzzwfp.zwid eq '管理' ? 'selected' : ''} value="管理">管理</option>
+                            <option ${xzzwfp.zwid eq '其他' ? 'selected' : ''} value="其他">其他</option>
                         </select>
                     </td>
                 </tr>

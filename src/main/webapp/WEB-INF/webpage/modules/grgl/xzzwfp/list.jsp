@@ -32,7 +32,25 @@
 <body>
 
 <h4>员工职位薪资分布</h4>
-
+<div class="row">
+    <div id="GrglXzzwfpGridQuery" class="col-md-12">
+        <div class="form-inline">
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">职位：</label>
+                <select name="zw" class="form-control" id="zw">
+                    <option value="">请选择</option>
+                    <option value="工人">工人</option>
+                    <option value="管理">管理</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">员工姓名：</label>
+                <input htmlEscape="false" class="form-control" placeholder="请输入员工姓名"  maxlength="20" id="name" name="name"/>
+            </div>
+        </div>
+    </div>
+</div>
 <grid:grid id="GrglXzzwfp"
            url="${adminPath}/grgl/xzzwfp/queryAjax" pageable="true">
 
@@ -54,7 +72,8 @@
     <grid:column label="保险" name="bx"/>
     <grid:column label="扣款" name="kk"/>
 
-
+    <grid:toolbar function="search"/>
+    <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">

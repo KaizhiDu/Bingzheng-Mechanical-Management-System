@@ -40,8 +40,8 @@ public class GrglXzzwfpController extends BaseCRUDController<Xzzwfp, String> {
     */
     @RequestMapping(value = "queryAjax", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<YgzxxDTO> queryAjax(Queryable queryable, Xzzwfp xzzwfp, HttpServletRequest request, HttpServletResponse response, Model model){
-        PageJson<YgzxxDTO> pageJson = grglXzzwfpService.queryAjax(queryable,xzzwfp);
+    public PageJson<YgzxxDTO> queryAjax(Queryable queryable, YgzxxDTO ygzxxDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<YgzxxDTO> pageJson = grglXzzwfpService.queryAjax(queryable,ygzxxDTO);
         return pageJson;
     }
 

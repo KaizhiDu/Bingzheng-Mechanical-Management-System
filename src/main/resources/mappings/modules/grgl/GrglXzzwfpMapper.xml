@@ -19,7 +19,15 @@ SELECT
       FROM
 	        T_GRGL T,
 	        T_GRGL_XZZWFP T1
-      WHERE
-	        T.ID = T1.YGID
+      WHERE 1=1
+	        AND T.ID = T1.YGID
+		<if test="entity.zw!=null and entity.zw!=''">
+			AND T1.ZWID = #{entity.zw}
+		</if>
+		<if test="entity.name!=null and entity.name!=''">
+			AND T.NAME = #{entity.name}
+		</if>
+		ORDER BY ZW DESC
+
   </select>
 </mapper>

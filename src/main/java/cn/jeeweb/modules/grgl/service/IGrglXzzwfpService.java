@@ -19,5 +19,5 @@ public interface IGrglXzzwfpService extends ICommonService<Xzzwfp> {
      * @CreateDate:     2018/8/28 14:51
      * @Version:        1.0
      */
-    public PageJson<YgzxxDTO> queryAjax(Queryable queryable, Xzzwfp xzzwfp);
+    public PageJson<YgzxxDTO> queryAjax(Queryable queryable, YgzxxDTO ygzxxDTO);
 }

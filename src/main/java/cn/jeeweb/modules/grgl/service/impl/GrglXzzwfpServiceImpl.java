@@ -33,10 +33,10 @@ public class GrglXzzwfpServiceImpl extends CommonServiceImpl<GrglXzzwfpMapper, X
      * @Version:        1.0
      */
     @Override
-    public PageJson<YgzxxDTO> queryAjax(Queryable queryable, Xzzwfp xzzwfp) {
+    public PageJson<YgzxxDTO> queryAjax(Queryable queryable, YgzxxDTO ygzxxDTO) {
         Pageable pageable = queryable.getPageable();
         Page<YgzxxDTO> page = new Page<YgzxxDTO>(pageable.getPageNumber(), pageable.getPageSize());
-        page.setRecords(grglXzzwfpMapper.xzzwfpList(page, xzzwfp));
+        page.setRecords(grglXzzwfpMapper.xzzwfpList(page, ygzxxDTO));
         PageJson<YgzxxDTO> pagejson = new PageJson<YgzxxDTO>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }
