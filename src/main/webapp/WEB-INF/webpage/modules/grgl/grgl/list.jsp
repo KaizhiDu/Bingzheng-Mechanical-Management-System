@@ -32,7 +32,7 @@
 <body>
 
 <h4>员工基本信息</h4>
-<hr/>
+
 
 <grid:grid id="Grgl"
            url="${adminPath}/grgl/grgl/ajaxListGrgl" pageable="true">

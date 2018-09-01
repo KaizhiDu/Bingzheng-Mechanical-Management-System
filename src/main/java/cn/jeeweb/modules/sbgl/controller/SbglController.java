@@ -40,6 +40,21 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
     private ISbglSbflglService sbglSbflglService;
 
     /**
+    * @Description:    搜索项
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/1 10:17
+    * @Version:        1.0
+    */
+    @Override
+    public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
+        //设备分类
+        EntityWrapper<SbglSbflgl> wrapper = new EntityWrapper();
+        wrapper.orderBy("fldm");
+        List<SbglSbflgl> sbflglList = sbglSbflglService.selectList(wrapper);
+        model.addAttribute("list",sbflglList);
+    }
+
+    /**
 * @Description:    展示所有设备
 * @Author:         杜凯之
 * @CreateDate:     2018/8/30 17:58
@@ -61,6 +76,7 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
     @RequestMapping(value = "createSb", method={RequestMethod.GET, RequestMethod.POST})
    public String createSb(HttpServletRequest request, HttpServletResponse response, Model model){
         EntityWrapper<SbglSbflgl> wrapper = new EntityWrapper();
+        wrapper.orderBy("fldm");
         List<SbglSbflgl> sbflglList = sbglSbflglService.selectList(wrapper);
         model.addAttribute("list",sbflglList);
         return display("create");
@@ -87,5 +103,36 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
 
         ajaxJson.setMsg("保存成功");
         return ajaxJson;
+    }
+
+    /**
+    * @Description:    转到更新页面
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/1 9:15
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "updateSb", method={RequestMethod.GET, RequestMethod.POST})
+    public String updateSb(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        //需要设备的设备信息
+        Sbgl sbgl = sbglSbflgl.selectById(id);
+        model.addAttribute("sbgl", sbgl);
+        //设备分类
+        EntityWrapper<SbglSbflgl> wrapper = new EntityWrapper();
+        wrapper.orderBy("fldm");
+        List<SbglSbflgl> sbflglList = sbglSbflglService.selectList(wrapper);
+        model.addAttribute("list",sbflglList);
+        return display("update");
+    }
+
+    /**
+    * @Description:    删除一个设备
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/1 9:55
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "deleteSb", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void deleteSb(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        sbglSbflgl.deleteById(id);
     }
 }

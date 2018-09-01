@@ -32,7 +32,6 @@
 <body>
 
 <h4>设备分类管理</h4>
-<hr/>
 
 <grid:grid id="Sbflgl"
            url="${adminPath}/sbgl/sbflgl/ajaxListSbflgl" pageable="true">

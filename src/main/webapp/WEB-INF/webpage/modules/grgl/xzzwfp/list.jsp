@@ -32,7 +32,6 @@
 <body>
 
 <h4>员工职位薪资分布</h4>
-<hr/>
 
 <grid:grid id="GrglXzzwfp"
            url="${adminPath}/grgl/xzzwfp/queryAjax" pageable="true">

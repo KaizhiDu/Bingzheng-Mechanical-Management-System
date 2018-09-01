@@ -7,7 +7,7 @@
 <html lang="en">
 
 <head>
-    <title><spring:message code="sys.site.title" arguments="${platformName}"/></title>
+    <title>秉正机械有限公司</title>
     <meta name="keywords" content="<spring:message code="sys.site.keywords" arguments="${platformName}"/>">
     <meta name="description" content="<spring:message code="sys.site.description" arguments="${platformName}"/>">
     
@@ -32,7 +32,7 @@
                 <h1><spring:message code="sys.login.submit.label"/></h1>
             </div>
             <div class="body-content">
-                <p>JeeWeb欢迎您！</p>
+                <p>秉正机械欢迎您！！！</p>
                 <div class="form-group">
                     <div class="input-icon right"><i class="fa fa-user"></i>
                         <input name="username" class="form-control" placeholder="<spring:message code="sys.login.username.placeholder"/>" required="">
@@ -67,12 +67,7 @@
 	                </div>
 	            </div>
                 <div class="clearfix"></div>
-                <div class="forget-password">
-                    <span>默认账号密码:<b>admin/123456</span>
-                </div>
-                <hr>
-                <p>如果您没有帐号? <a id="btn-register" href="#">请注册</a>
-                </p>
+
             </div>
         </form>
     </div>

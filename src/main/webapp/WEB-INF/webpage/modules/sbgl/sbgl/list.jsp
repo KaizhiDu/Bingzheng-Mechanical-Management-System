@@ -32,8 +32,38 @@
 <body>
 
 <h4>设备管理</h4>
-<hr/>
-
+<div class="row">
+    <div id="SbglGridQuery" class="col-md-12">
+        <div class="form-inline">
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">设备类型：</label>
+                <select name="ssdl" class="form-control" id="ssdl">
+                    <option value="">请选择</option>
+                    <c:forEach items="${list}" var="each">
+                        <option value="${each.id}">${each.flmc}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">状态：</label>
+                <select name="zt" class="form-control" id="zt">
+                    <option value="">请选择</option>
+                    <option value="1">可用</option>
+                    <option value="0">停用</option>
+                    <option value="2">维修</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">设备编号：</label>
+                <input htmlEscape="false" class="form-control" placeholder="请输入设备编号"  maxlength="20" id="sbbh" name="sbbh"/>
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">设备名称：</label>
+                <input htmlEscape="false" class="form-control" placeholder="请输入设备名称"  maxlength="20" id="sbmc" name="sbmc"/>
+            </div>
+        </div>
+    </div>
+</div>
 <grid:grid id="Sbgl"
            url="${adminPath}/sbgl/sbgl/ajaxListSbgl" pageable="true">
 
@@ -52,19 +82,41 @@
 
     <grid:toolbar function="createSb" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
     <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
+
+    <grid:toolbar function="search"/>
+    <grid:toolbar function="reset"/>
 </grid:grid>
 
 
 <script type="text/javascript">
-    //添加一个设备分类
+    //添加一个设备
     function createSb(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/sbgl/sbgl/createSb";
         openDia("添加设备",url,gridId,"800px","350px");
     }
 
-    //修改一个设备分类
-    function updateSbflgl(title, url, gridId, id, width, height, tipMsg){
-        openDia("更新设备分类",url,gridId,"600px","300px");
+    //修改一个设备
+    function updateSb(title, url, gridId, id, width, height, tipMsg){
+        openDia("更新设备",url,gridId,"800px","350px");
+    }
+
+    //删除一个设备
+    function deleteSb(title, url, gridId, id, width, height, tipMsg){
+        layer.confirm('是否要删除信息!', {
+                btn: ['确定', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (data) {
+                        refreshTable(gridId);
+                    }
+                });
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
+            }
+        );
     }
 
     //打开一个窗口

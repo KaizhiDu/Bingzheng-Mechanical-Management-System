@@ -2,11 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.jeeweb.modules.sbgl.mapper.SbglMapper" >
     <select id="ajaxListSbgl" resultType="cn.jeeweb.modules.sbgl.entity.Sbgl">
-       SELECT T.ID,
+SELECT SS.ID,SS.SBBH,SS.SBMC,SS.SSDL,SS.ZT FROM(
+		       SELECT T.ID,
 			 T.SBBH,
 			 T.SBMC,
-			 (SELECT FLMC FROM T_SBGL_SBFLGL T1 WHERE T.SSDL = T1.ID) SSDL,
+			 T.SSDL SSDLDM,
+			(SELECT FLMC FROM T_SBGL_SBFLGL T1 WHERE T.SSDL = T1.ID) SSDL,
 			 T.ZT
 FROM T_SBGL_SBGL T
+)SS
+WHERE 1=1
+		<if test="entity.ssdl!=null and entity.ssdl!=''">
+			and SS.SSDLDM = #{entity.ssdl}
+		</if>
+		<if test="entity.sbbh!=null and entity.sbbh!=''">
+			and SS.SBBH = #{entity.sbbh}
+		</if>
+		<if test="entity.sbmc!=null and entity.sbmc!=''">
+			and SS.SBMC = #{entity.sbmc}
+		</if>
+		<if test="entity.zt!=null and entity.zt!=''">
+			and SS.ZT = #{entity.zt}
+		</if>
+		ORDER BY SS.SBBH
     </select>
+
 </mapper>
