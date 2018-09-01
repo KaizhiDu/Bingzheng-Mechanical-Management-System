@@ -13,16 +13,16 @@ FROM T_SBGL_SBGL T
 )SS
 WHERE 1=1
 		<if test="entity.ssdl!=null and entity.ssdl!=''">
-			and SS.SSDLDM = #{entity.ssdl}
+			AND SS.SSDLDM = #{entity.ssdl}
 		</if>
 		<if test="entity.sbbh!=null and entity.sbbh!=''">
-			and SS.SBBH = #{entity.sbbh}
+			AND SS.SBBH = #{entity.sbbh}
 		</if>
 		<if test="entity.sbmc!=null and entity.sbmc!=''">
-			and SS.SBMC = #{entity.sbmc}
+			AND SS.SBMC = #{entity.sbmc}
 		</if>
 		<if test="entity.zt!=null and entity.zt!=''">
-			and SS.ZT = #{entity.zt}
+			AND SS.ZT = #{entity.zt}
 		</if>
 		ORDER BY SS.SBBH
     </select>

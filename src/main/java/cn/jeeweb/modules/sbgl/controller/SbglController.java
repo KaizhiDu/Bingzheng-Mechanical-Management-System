@@ -94,6 +94,7 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
         AjaxJson ajaxJson = new AjaxJson();
         //插入一条记录
         if (sbgl.getId()==null||sbgl.getId().equals("")){
+            sbgl.setSfky("1");
             sbglSbflgl.insert(sbgl);
         }
         //更新这条记录
