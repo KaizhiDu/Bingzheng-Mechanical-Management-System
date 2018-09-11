@@ -42,30 +42,22 @@
 <grid:grid id="Gymbxlsz"
            url="${adminPath}/scgl/gymbsz/ajaxGymbxlszList" pageable="true">
 
-    <grid:column label="sys.common.key" hidden="true" name="id"/>
+    <grid:column label="sys.common.key" hidden="false" name="id"/>
 
     <grid:column label="工艺小类代码" name="gyxldm"/>
     <grid:column label="工艺小类名称" name="gyxlmc"/>
     <grid:column label="是否启用" name="sfqy" dict="SBZT" formatterValue=""/>
-
-    <grid:toolbar function="createGyxl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺小类"/>
-    <grid:toolbar function="deleteGyxl" title="删除" btnclass="btn-danger"/>
 
     <%--<grid:toolbar function="search"/>--%>
     <%--<grid:toolbar function="reset"/>--%>
 </grid:grid>
 
 <script type="text/javascript">
-    //添加一个工艺小类
-    function createGyxl(title, url, gridId, id, width, height, tipMsg) {
-        var url = "${adminPath}/scgl/gymbsz/createGyxl";
-        openDia("添加工艺小类",url,gridId,"800px","350px");
-    }
 
-    //删除工艺小类
-    function deleteGyxl(title, url, gridId, id, width, height, tipMsg){
+    //添加工艺小类
+    function check(title, url, gridId, id, width, height, tipMsg){
         //获取选中行的id数组
-        var idsArray = $("#"+gridId).jqGrid("getGridParam", "selarrrow")
+        var idsArray = $("#GymbxlszGrid").jqGrid("getGridParam", "selarrrow")
         if (idsArray.length>0){
             var ids = "";
             for (var i=0;i<idsArray.length;i++){
@@ -76,12 +68,12 @@
                     ids = ids + "," + idsArray[i];
                 }
             }
-            layer.confirm('是否要删除信息!', {
+            layer.confirm('是否要添加!', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     $.ajax({
                         type: "GET",
-                        url: "${adminPath}/scgl/gymbsz/deleteGyxlsz?ids="+ids,
+                        url: "${adminPath}/scgl/gymbsz/addGyxl?ids="+ids,
                         success: function (data) {
                             refreshTable(gridId);
                             layer.msg(data.msg);
@@ -94,7 +86,7 @@
             );
         }
         else{
-            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+            top.layer.alert('请选择要添加的数据!', {icon: 0, title:'警告'});
             return;
         }
     }

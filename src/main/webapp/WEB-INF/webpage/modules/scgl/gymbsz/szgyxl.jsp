@@ -31,7 +31,10 @@
 </head>
 <body>
 
-<h4>工艺小类模板设置</h4>
+<h4>添加工艺小类</h4>
+
+<input id="dlid" name="dlid" type="hidden" value="${dlid}">
+
 <div class="row">
     <div id="SbglGridQuery" class="col-md-12">
         <div class="form-inline">
@@ -39,64 +42,34 @@
         </div>
     </div>
 </div>
-<grid:grid id="Gymbxlsz"
-           url="${adminPath}/scgl/gymbsz/ajaxGymbxlszList" pageable="true">
+<grid:grid id="Gymbsz"
+           url="${adminPath}/scgl/gymbsz/ajaxGymbszList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
 
-    <grid:column label="工艺小类代码" name="gyxldm"/>
-    <grid:column label="工艺小类名称" name="gyxlmc"/>
+    <grid:button title="设置工艺小类" groupname="opt" function="szgyxl"
+                 outclass="btn-success" url="${adminPath}/scgl/gymbsz/szgyxl?id=\"+row.id+\"" />
+
+    <grid:column label="工艺大类代码" name="gydldm"/>
+    <grid:column label="工艺大类名称" name="gydlmc"/>
     <grid:column label="是否启用" name="sfqy" dict="SBZT" formatterValue=""/>
 
-    <grid:toolbar function="createGyxl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺小类"/>
-    <grid:toolbar function="deleteGyxl" title="删除" btnclass="btn-danger"/>
+    <grid:toolbar function="addGyxl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺小类"/>
+    <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
 
     <%--<grid:toolbar function="search"/>--%>
     <%--<grid:toolbar function="reset"/>--%>
 </grid:grid>
 
+
 <script type="text/javascript">
-    //添加一个工艺小类
-    function createGyxl(title, url, gridId, id, width, height, tipMsg) {
-        var url = "${adminPath}/scgl/gymbsz/createGyxl";
-        openDia("添加工艺小类",url,gridId,"800px","350px");
-    }
 
-    //删除工艺小类
-    function deleteGyxl(title, url, gridId, id, width, height, tipMsg){
-        //获取选中行的id数组
-        var idsArray = $("#"+gridId).jqGrid("getGridParam", "selarrrow")
-        if (idsArray.length>0){
-            var ids = "";
-            for (var i=0;i<idsArray.length;i++){
-                if (i==0){
-                    ids = idsArray[i];
-                }
-                else{
-                    ids = ids + "," + idsArray[i];
-                }
-            }
-            layer.confirm('是否要删除信息!', {
-                    btn: ['确定', '取消']
-                }, function (index, layero) {
-                    $.ajax({
-                        type: "GET",
-                        url: "${adminPath}/scgl/gymbsz/deleteGyxlsz?ids="+ids,
-                        success: function (data) {
-                            refreshTable(gridId);
-                            layer.msg(data.msg);
-                        }
-                    });
-                    layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                    //layer.msg("删除成功!",{ icon: 1, time: 1000 });
-
-                }
-            );
-        }
-        else{
-            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
-            return;
-        }
+    //添加工艺小类
+    function addGyxl(title, url, gridId, id, width, height, tipMsg){
+        var dlid = $("#dlid").val();
+        url = "${adminPath}/scgl/gymbsz/addGyxl?dlid="+dlid;
+        openDia("添加工艺小类",url,gridId,"1200px","800px");
     }
 
     //打开一个窗口
@@ -127,8 +100,8 @@
                 //http://www.layui.com/doc/modules/layer.html#use
                 iframeWin.contentWindow.check();
                 //判断逻辑并关闭
-                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
-                layer.alert("保存成功！！", {icon: 0, title: '提示'});
+                //setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
+                //layer.alert("保存成功！！", {icon: 0, title: '提示'});
                 refreshTable(gridId);
             },
             cancel: function(index){

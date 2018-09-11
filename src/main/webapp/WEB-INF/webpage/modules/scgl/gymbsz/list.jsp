@@ -40,7 +40,7 @@
     </div>
 </div>
 <grid:grid id="Gymbsz"
-           url="${adminPath}/scgl/gymbsz/ajaxList" pageable="true">
+           url="${adminPath}/scgl/gymbsz/ajaxGymbszList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
@@ -56,8 +56,8 @@
     <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
     <grid:toolbar function="Gyxl" icon="fa fa-pencil-square-o" btnclass="btn btn-sm btn-warning" title="编辑工艺小类模板"/>
 
-    <grid:toolbar function="search"/>
-    <grid:toolbar function="reset"/>
+    <%--<grid:toolbar function="search"/>--%>
+    <%--<grid:toolbar function="reset"/>--%>
 </grid:grid>
 
 
@@ -71,12 +71,38 @@
     //编辑工艺小类模板
     function Gyxl(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/scgl/gymbsz/Gyxl";
-        openDia("工艺小类模板",url,gridId,"800px","350px");
+        //openDia("工艺小类模板",url,gridId,"1600px","850px");
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["1600px", "850px"],
+            title: "工艺小类模板",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: [ '关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
     }
 
     //设置工艺小类
     function szgyxl(title, url, gridId, id, width, height, tipMsg){
-        openDia("添加工艺小类",url,gridId,"800px","350px");
+        openDia("添加工艺小类",url,gridId,"1600px","850px");
     }
 
     //打开一个窗口

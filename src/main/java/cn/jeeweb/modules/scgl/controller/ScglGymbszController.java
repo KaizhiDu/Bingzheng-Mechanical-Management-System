@@ -1,16 +1,23 @@
 package cn.jeeweb.modules.scgl.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.model.AjaxJson;
+import cn.jeeweb.core.model.PageJson;
+import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.scgl.entity.ScglGymbsz;
+import cn.jeeweb.modules.scgl.entity.ScglGymbxlsz;
 import cn.jeeweb.modules.scgl.service.IScglGymbszService;
+import cn.jeeweb.modules.scgl.service.IScglGymbxlszService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -24,9 +31,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequiresPathPermission("scgl:gymbsz")
 public class ScglGymbszController extends BaseCRUDController<ScglGymbsz, String> {
 
-    /**工艺模板设置Service*/
+    /**工艺模板大类设置Service*/
     @Autowired
     private IScglGymbszService scglGymbszService;
+    /**工艺模板小类设置Service*/
+    @Autowired
+    private IScglGymbxlszService scglGymbxlszService;
 
     /**
     * @Description:    转到添加工艺大类页面
@@ -61,4 +71,103 @@ public class ScglGymbszController extends BaseCRUDController<ScglGymbsz, String>
     public String Gyxl(HttpServletResponse response, HttpServletRequest request){
         return display("gyxl");
     }
+
+    /**
+     * @Description:    转到添加工艺小类页面
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/5 17:13
+     * @Version:        1.0
+     */
+    @RequestMapping(value = "createGyxl", method={RequestMethod.GET, RequestMethod.POST})
+    public String createGyxl(HttpServletResponse response, HttpServletRequest request){
+        return display("createGyxl");
+    }
+
+    /**
+     * @Description:    保存工艺大类信息
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/5 17:26
+     * @Version:        1.0
+     */
+    @RequestMapping(value = "saveGyxl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveGyxl(ScglGymbxlsz scglGymbxlsz, HttpServletResponse response, HttpServletRequest request){
+        scglGymbxlszService.insert(scglGymbxlsz);
+    }
+
+    /**
+    * @Description:    工艺模板大类信息展示
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/11 10:01
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "ajaxGymbszList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<ScglGymbsz> ajaxListGrgl(Queryable queryable, ScglGymbsz scglGymbsz, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<ScglGymbsz> pageJson = scglGymbszService.gymbszList(queryable,scglGymbsz);
+        return pageJson;
+    }
+
+    /**
+     * @Description:    工艺模板小类信息展示
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/11 10:01
+     * @Version:        1.0
+     */
+    @RequestMapping(value = "ajaxGymbxlszList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<ScglGymbxlsz> ajaxGymbxlszList(Queryable queryable, ScglGymbxlsz scglGymbxlsz, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<ScglGymbxlsz> pageJson = scglGymbxlszService.gymbxlszList(queryable,scglGymbxlsz);
+        return pageJson;
+    }
+
+    /**
+    * @Description:    删除工艺模板小类
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/11 11:40
+    * @Version:        1.0
+    */
+
+    public AjaxJson deleteGyxlsz(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+        AjaxJson ajaxJson = new AjaxJson();
+        String[] idsArray = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            scglGymbxlszService.deleteById(idsArray[i]);
+        }
+        ajaxJson.setMsg("删除成功！！！");
+        return ajaxJson;
+    }
+
+    /**
+    * @Description:    跳转到设置工艺小类页面
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/11 16:18
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "szgyxl", method={RequestMethod.GET, RequestMethod.POST})
+    public String szgyxl(String id ,HttpServletResponse response, HttpServletRequest request, Model model){
+        model.addAttribute("dlid", id);
+        return display("szgyxl");
+    }
+
+    /**
+    * @Description:    添加工艺小类
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/11 16:27
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "addGyxl", method={RequestMethod.GET, RequestMethod.POST})
+    public String addGyxl(String dlid, HttpServletRequest request, HttpServletResponse response, Model model){
+        model.addAttribute("dlid",dlid);
+        return display("addGyxl");
+    }
+
+    /**
+    * @Description:    添加工艺小类
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/11 16:46
+    * @Version:        1.0
+    */
+
+
 }
