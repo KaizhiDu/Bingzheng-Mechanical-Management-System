@@ -102,7 +102,33 @@
 
     //设置工艺小类
     function szgyxl(title, url, gridId, id, width, height, tipMsg){
-        openDia("添加工艺小类",url,gridId,"1600px","850px");
+        //openDia("添加工艺小类",url,gridId,"1600px","850px");
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["1600px", "850px"],
+            title: "添加工艺小类",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: [ '关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
     }
 
     //打开一个窗口
@@ -133,7 +159,7 @@
                 //http://www.layui.com/doc/modules/layer.html#use
                 iframeWin.contentWindow.check();
                 //判断逻辑并关闭
-                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
+                //setTimeout(function(){top.layer.close(index)}, 2000);//延时0.1秒，对应360 7.1版本bug
                 layer.alert("保存成功！！", {icon: 0, title: '提示'});
                 refreshTable(gridId);
             },

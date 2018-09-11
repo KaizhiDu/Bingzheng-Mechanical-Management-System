@@ -32,6 +32,9 @@
 <body>
 
 <h4>工艺小类模板设置</h4>
+
+<input name="dlid" id="dlid" type="hidden" value="${dlid}">
+
 <div class="row">
     <div id="SbglGridQuery" class="col-md-12">
         <div class="form-inline">
@@ -40,9 +43,9 @@
     </div>
 </div>
 <grid:grid id="Gymbxlsz"
-           url="${adminPath}/scgl/gymbsz/ajaxGymbxlszList" pageable="true">
+           url="${adminPath}/scgl/gymbsz/ajaxGymbxlszList?dlid=${dlid}" pageable="true">
 
-    <grid:column label="sys.common.key" hidden="false" name="id"/>
+    <grid:column label="sys.common.key" hidden="true" name="id"/>
 
     <grid:column label="工艺小类代码" name="gyxldm"/>
     <grid:column label="工艺小类名称" name="gyxlmc"/>
@@ -56,6 +59,7 @@
 
     //添加工艺小类
     function check(title, url, gridId, id, width, height, tipMsg){
+        var dlid = $("#dlid").val();
         //获取选中行的id数组
         var idsArray = $("#GymbxlszGrid").jqGrid("getGridParam", "selarrrow")
         if (idsArray.length>0){
@@ -68,22 +72,17 @@
                     ids = ids + "," + idsArray[i];
                 }
             }
-            layer.confirm('是否要添加!', {
-                    btn: ['确定', '取消']
-                }, function (index, layero) {
                     $.ajax({
                         type: "GET",
-                        url: "${adminPath}/scgl/gymbsz/addGyxl?ids="+ids,
+                        url: "${adminPath}/scgl/gymbsz/saveAddGyxl?ids="+ids+"&dlid="+dlid,
                         success: function (data) {
-                            refreshTable(gridId);
                             layer.msg(data.msg);
+                            //top.layer.close(index);
                         }
                     });
                     layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
                     //layer.msg("删除成功!",{ icon: 1, time: 1000 });
 
-                }
-            );
         }
         else{
             top.layer.alert('请选择要添加的数据!', {icon: 0, title:'警告'});

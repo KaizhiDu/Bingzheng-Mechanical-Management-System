@@ -32,6 +32,15 @@ public class ScglGymbxlsz extends AbstractEntity<String> {
     /** 是否启用 */
     @TableField(value = "SFQY")
     private String sfqy;
+    private String dlid;
+
+    public String getDlid() {
+        return dlid;
+    }
+
+    public void setDlid(String dlid) {
+        this.dlid = dlid;
+    }
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)

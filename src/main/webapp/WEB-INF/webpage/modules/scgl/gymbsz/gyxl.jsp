@@ -40,7 +40,7 @@
     </div>
 </div>
 <grid:grid id="Gymbxlsz"
-           url="${adminPath}/scgl/gymbsz/ajaxGymbxlszList" pageable="true">
+           url="${adminPath}/scgl/gymbsz/ajaxGymbxlszList?dlid=kong" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 

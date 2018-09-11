@@ -16,7 +16,7 @@ import java.util.Date;
 * @CreateDate:     2018/9/11 16:47
 * @Version:        1.0
 */
-@TableName("T_SCGL_GYMBSZ")
+@TableName("T_SCGL_SZGYXL")
 @SuppressWarnings("serial")
 public class ScglSzgyxl extends AbstractEntity<String> {
     /** 主键 */
@@ -24,14 +24,51 @@ public class ScglSzgyxl extends AbstractEntity<String> {
     private String id;
 
     /** 工艺大类代码 */
-    @TableField(value = "GYDLDM")
-    private String gydldm;
+    @TableField(value = "GYDLID")
+    private String gydlid;
     /** 工艺小类代码 */
-    @TableField(value = "GYXLMC")
-    private String gyxldm;
+    @TableField(value = "GYXLID")
+    private String gyxlid;
     /** 数量 */
     @TableField(value = "SL")
     private String sl;
+
+    private String gydldm;
+    private String gydlmc;
+    private String gyxldm;
+    private String gyxlmc;
+
+    public String getGydldm() {
+        return gydldm;
+    }
+
+    public void setGydldm(String gydldm) {
+        this.gydldm = gydldm;
+    }
+
+    public String getGydlmc() {
+        return gydlmc;
+    }
+
+    public void setGydlmc(String gydlmc) {
+        this.gydlmc = gydlmc;
+    }
+
+    public String getGyxldm() {
+        return gyxldm;
+    }
+
+    public void setGyxldm(String gyxldm) {
+        this.gyxldm = gyxldm;
+    }
+
+    public String getGyxlmc() {
+        return gyxlmc;
+    }
+
+    public void setGyxlmc(String gyxlmc) {
+        this.gyxlmc = gyxlmc;
+    }
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -56,20 +93,20 @@ public class ScglSzgyxl extends AbstractEntity<String> {
         this.id = id;
     }
 
-    public String getGydldm() {
-        return gydldm;
+    public String getGydlid() {
+        return gydlid;
     }
 
-    public void setGydldm(String gydldm) {
-        this.gydldm = gydldm;
+    public void setGydlid(String gydlid) {
+        this.gydlid = gydlid;
     }
 
-    public String getGyxldm() {
-        return gyxldm;
+    public String getGyxlid() {
+        return gyxlid;
     }
 
-    public void setGyxldm(String gyxldm) {
-        this.gyxldm = gyxldm;
+    public void setGyxlid(String gyxlid) {
+        this.gyxlid = gyxlid;
     }
 
     public String getSl() {

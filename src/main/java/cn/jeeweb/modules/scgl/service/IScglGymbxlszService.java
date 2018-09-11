@@ -17,5 +17,5 @@ public interface IScglGymbxlszService extends ICommonService<ScglGymbxlsz> {
      * @CreateDate:     2018/9/11 10:01
      * @Version:        1.0
      */
-    public PageJson<ScglGymbxlsz> gymbxlszList(Queryable queryable, ScglGymbxlsz scglGymbxlsz);
+    public PageJson<ScglGymbxlsz> gymbxlszList(Queryable queryable, ScglGymbxlsz scglGymbxlsz, String dlid);
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglSzgyxlMapper" >
+    <select id="szgyxlList" resultType="cn.jeeweb.modules.scgl.entity.ScglSzgyxl">
+         SELECT T.ID,
+			 (SELECT GYDLDM FROM T_SCGL_GYMBSZ T1 WHERE T1.ID = T.GYDLID) GYDLDM,
+			 (SELECT GYDLMC FROM T_SCGL_GYMBSZ T1 WHERE T1.ID = T.GYDLID) GYDLMC,
+			 (SELECT GYXLDM FROM T_SCGL_GYMBXLSZ T1 WHERE T1.ID = T.GYXLID) GYXLDM,
+			 (SELECT GYXLMC FROM T_SCGL_GYMBXLSZ T1 WHERE T1.ID = T.GYXLID) GYXLMC
+FROM T_SCGL_SZGYXL T
+WHERE GYDLID = #{entity.gydlid}
+ORDER BY GYXLDM
+    </select>
+
+</mapper>

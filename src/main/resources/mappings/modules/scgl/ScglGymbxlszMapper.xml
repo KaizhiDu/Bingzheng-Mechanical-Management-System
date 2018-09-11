@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglGymbxlszMapper" >
     <select id="gymbxlszList" resultType="cn.jeeweb.modules.scgl.entity.ScglGymbxlsz">
-         SELECT * FROM T_SCGL_GYMBXLSZ ORDER BY GYXLDM
+         SELECT * FROM T_SCGL_GYMBXLSZ
+         WHERE 1=1
+         AND ID NOT IN(SELECT GYXLID FROM T_SCGL_SZGYXL WHERE GYDLID=#{entity.dlid})
+         AND SFQY = '1'
+         ORDER BY GYXLDM
     </select>
 
 </mapper>

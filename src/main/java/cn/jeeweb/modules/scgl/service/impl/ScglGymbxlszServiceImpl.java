@@ -34,10 +34,10 @@ public class ScglGymbxlszServiceImpl extends CommonServiceImpl<ScglGymbxlszMappe
      * @Version:        1.0
      */
     @Override
-    public PageJson<ScglGymbxlsz> gymbxlszList(Queryable queryable, ScglGymbxlsz scglGymbxlsz) {
+    public PageJson<ScglGymbxlsz> gymbxlszList(Queryable queryable, ScglGymbxlsz scglGymbxlsz, String dlid) {
         Pageable pageable = queryable.getPageable();
         Page<ScglGymbxlsz> page = new Page<ScglGymbxlsz>(pageable.getPageNumber(), pageable.getPageSize());
-        page.setRecords(scglGymbxlszMapper.gymbxlszList(page, scglGymbxlsz));
+        page.setRecords(scglGymbxlszMapper.gymbxlszList(page, scglGymbxlsz, dlid));
         PageJson<ScglGymbxlsz> pagejson = new PageJson<ScglGymbxlsz>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }

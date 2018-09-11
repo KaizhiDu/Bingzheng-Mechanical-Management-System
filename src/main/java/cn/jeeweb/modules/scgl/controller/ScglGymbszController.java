@@ -4,11 +4,14 @@ import cn.jeeweb.core.common.controller.BaseCRUDController;
 import cn.jeeweb.core.model.AjaxJson;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.scgl.entity.ScglGymbsz;
 import cn.jeeweb.modules.scgl.entity.ScglGymbxlsz;
+import cn.jeeweb.modules.scgl.entity.ScglSzgyxl;
 import cn.jeeweb.modules.scgl.service.IScglGymbszService;
 import cn.jeeweb.modules.scgl.service.IScglGymbxlszService;
+import cn.jeeweb.modules.scgl.service.IScglSzgyxlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +40,9 @@ public class ScglGymbszController extends BaseCRUDController<ScglGymbsz, String>
     /**工艺模板小类设置Service*/
     @Autowired
     private IScglGymbxlszService scglGymbxlszService;
+    /**设置工艺小类Service*/
+    @Autowired
+    private IScglSzgyxlService scglSzgyxlService;
 
     /**
     * @Description:    转到添加工艺大类页面
@@ -116,8 +122,9 @@ public class ScglGymbszController extends BaseCRUDController<ScglGymbsz, String>
      */
     @RequestMapping(value = "ajaxGymbxlszList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<ScglGymbxlsz> ajaxGymbxlszList(Queryable queryable, ScglGymbxlsz scglGymbxlsz, HttpServletRequest request, HttpServletResponse response, Model model){
-        PageJson<ScglGymbxlsz> pageJson = scglGymbxlszService.gymbxlszList(queryable,scglGymbxlsz);
+    public PageJson<ScglGymbxlsz> ajaxGymbxlszList(String dlid,Queryable queryable, ScglGymbxlsz scglGymbxlsz, HttpServletRequest request, HttpServletResponse response, Model model){
+        scglGymbxlsz.setDlid(dlid);
+        PageJson<ScglGymbxlsz> pageJson = scglGymbxlszService.gymbxlszList(queryable,scglGymbxlsz,dlid);
         return pageJson;
     }
 
@@ -168,6 +175,51 @@ public class ScglGymbszController extends BaseCRUDController<ScglGymbsz, String>
     * @CreateDate:     2018/9/11 16:46
     * @Version:        1.0
     */
+    @RequestMapping(value = "saveAddGyxl", method={RequestMethod.GET, RequestMethod.POST})
+    public AjaxJson saveAddGyxl(String dlid ,String ids ,HttpServletRequest request, HttpServletResponse response, Model model){
+        AjaxJson ajaxJson = new AjaxJson();
+        String[] idsArray = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            ScglSzgyxl scglSzgyxl = new ScglSzgyxl();
+            scglSzgyxl.setGydlid(dlid);
+            scglSzgyxl.setGyxlid(idsArray[i]);
+            scglSzgyxlService.insert(scglSzgyxl);
+        }
+        ajaxJson.setMsg("添加成功！！！");
+        return ajaxJson;
+    }
 
+    /**
+    * @Description:    显示设置工艺小类
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/11 18:45
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "szgyxlList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<ScglSzgyxl> szgyxlList(String dlid,Queryable queryable, ScglSzgyxl scglSzgyxl, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        scglSzgyxl.setGydlid(dlid);
+        PageJson<ScglSzgyxl> pageJson = scglSzgyxlService.szgyxlList(queryable,scglSzgyxl);
+        return pageJson;
+    }
+
+    /**
+    * @Description:    删除工艺小类
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/11 19:18
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "deleteGyxl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public AjaxJson deleteGyxl(String ids, HttpServletResponse response, HttpServletRequest request, Model model){
+        AjaxJson ajaxJson = new AjaxJson();
+        String[] idsArray = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            scglSzgyxlService.deleteById(idsArray[i]);
+        }
+        ajaxJson.setMsg("删除成功！！！");
+        return ajaxJson;
+    }
 
 }
