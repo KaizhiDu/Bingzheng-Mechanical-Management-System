@@ -65,7 +65,7 @@
     function addGyxl(title, url, gridId, id, width, height, tipMsg){
         var dlid = $("#dlid").val();
         url = "${adminPath}/scgl/gymbsz/addGyxl?dlid="+dlid;
-        openDia("添加工艺小类",url,gridId,"1200px","800px");
+        openDia("添加工艺小类",url,gridId,"85%","75%");
     }
 
     //删除工艺小类

@@ -80,7 +80,7 @@
         }
         top.layer.open({
             type: 2,
-            area: ["1600px", "850px"],
+            area: ["90%", "85%"],
             title: "工艺小类模板",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
@@ -111,7 +111,7 @@
         }
         top.layer.open({
             type: 2,
-            area: ["1600px", "850px"],
+            area: ["90%", "85%"],
             title: "添加工艺小类",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
