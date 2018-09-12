@@ -26,6 +26,9 @@ public class ScjhglLjgl extends AbstractEntity<String> {
     /** 合同ID */
     @TableField(value = "HTID")
     private String htid;
+    /** 零件图号 */
+    @TableField(value = "LJTH")
+    private String ljth;
     /** 零件名称 */
     @TableField(value = "LJMC")
     private String ljmc;
@@ -110,5 +113,13 @@ public class ScjhglLjgl extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getLjth() {
+        return ljth;
+    }
+
+    public void setLjth(String ljth) {
+        this.ljth = ljth;
     }
 }

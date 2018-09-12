@@ -44,8 +44,18 @@
                     </td>
                     <td>
                         <select id="htid" name="htid" class="form-control">
-                            <option value="">请选择</option>
+                            <c:forEach var="ht" items="${htList}">
+                                <option value="${ht.id}">${ht.htbh}</option>
+                            </c:forEach>
                         </select>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>零件图号：</label>
+                    </td>
+                    <td>
+                        <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零件图号"/>
                     </td>
                 </tr>
                 <tr class="form-group">
@@ -76,6 +86,7 @@
     //点击保存，保存数据
     function check() {
         var htid = $("#htid").val();
+        var ljth = $("#ljth").val();
         var ljmc = $("#ljmc").val();
         var sl = $("#sl").val();
         $.ajax({
@@ -85,7 +96,8 @@
                 id: null,
                 htid: htid,
                 ljmc: ljmc,
-                sl: sl
+                sl: sl,
+                ljth: ljth
             },
             success: function (data) {
 

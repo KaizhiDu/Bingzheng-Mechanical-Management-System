@@ -33,9 +33,28 @@
 
 <h4>零件管理</h4>
 
+<div class="row">
+    <div id="ljglGridQuery" class="col-md-12">
+        <div class="form-inline">
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">合同编号：</label>
+                <select name="htid" class="form-control" id="htid">
+                    <option value="">请选择</option>
+                    <c:forEach items="${htList}" var="ht">
+                        <option value="${ht.id}">${ht.htbh}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">零件图号：</label>
+                <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零件图号"/>
+            </div>
+        </div>
+    </div>
+</div>
 
 <grid:grid id="ljgl"
-           url="${adminPath}/scjhgl/ljgl/ajaxList" pageable="true">
+           url="${adminPath}/scjhgl/ljgl/ajaxljglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <%--<grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>--%>
@@ -44,13 +63,16 @@
                  <%--outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />--%>
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
                  <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
-
+    <grid:column label="合同编号" name="htid"/>
     <grid:column label="零件名称" name="ljmc"/>
-    <grid:column label="零件图号" name="htid"/>
+    <grid:column label="零件图号" name="ljth"/>
     <grid:column label="数量" name="sl"/>
 
     <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
     <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
+
+    <grid:toolbar function="search"/>
+    <grid:toolbar function="reset"/>
 </grid:grid>
 
 
