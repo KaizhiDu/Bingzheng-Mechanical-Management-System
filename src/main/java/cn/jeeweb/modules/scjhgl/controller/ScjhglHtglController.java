@@ -1,8 +1,10 @@
 package cn.jeeweb.modules.scjhgl.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     /**合同管理Service*/
     @Autowired
     private IScjhglHtglService scjhglHtglService;
+    /**零件管理Service*/
+    @Autowired
+    private IScjhglLjglService scjhglLjglService;
 
     /**
     * @Description:    展示所有合同信息
@@ -72,5 +77,26 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
         ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(id);
         model.addAttribute("scjhglHtgl", scjhglHtgl);
         return display("update");
+    }
+
+    /**
+    * @Description:    删除
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/13 14:03
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "deleteHt",method = {RequestMethod.GET,RequestMethod.POST})
+    public void deleteHt(String ids ,HttpServletRequest request, HttpServletResponse response, Model model){
+        String[] idsArray = ids.split(",");
+        //删除零件表里面相关的信息
+        for (int i=0;i<idsArray.length;i++){
+            EntityWrapper<ScjhglLjgl> wrapper = new EntityWrapper<ScjhglLjgl>();
+            wrapper.eq("HTID",idsArray[i]);
+            scjhglLjglService.delete(wrapper);
+        }
+        //删除计划表里面相关的信息
+        for (int i=0;i<idsArray.length;i++){
+            scjhglHtglService.deleteById(idsArray[i]);
+        }
     }
 }
