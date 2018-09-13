@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>合同管理</h4>
+<h4>计划管理</h4>
 
 
 <grid:grid id="ljgl"
@@ -42,8 +42,9 @@
     <grid:button title="修改" groupname="opt" function="updateHt"
     outclass="btn-success" url="${adminPath}/scjhgl/htgl/updateHt?id=\"+row.id+\"" />
 
-    <grid:column label="合同编号" name="htbh" width="30"/>
+    <grid:column label="计划编号" name="htbh" width="30"/>
     <grid:column label="描述" name="ms"/>
+    <grid:column label="数量" name="sl"/>
 
     <grid:toolbar function="createHt" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
     <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
@@ -53,12 +54,12 @@
     //添加一个合同
     function createHt(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/scjhgl/htgl/createHt";
-        openDia("添加合同",url,gridId,"45%","40%");
+        openDia("添加单项计划",url,gridId,"45%","40%");
     }
 
     //修改一个员工信息
     function updateHt(title, url, gridId, id, width, height, tipMsg) {
-        openDia("修改合同",url,gridId,"45%","40%");
+        openDia("修改单项计划",url,gridId,"45%","40%");
     }
 
     //打开一个窗口

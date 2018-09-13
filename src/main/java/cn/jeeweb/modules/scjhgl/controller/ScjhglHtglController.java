@@ -50,6 +50,9 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     @RequestMapping(value = "saveHt",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public void saveHt(HttpServletRequest request, HttpServletResponse response, Model model, ScjhglHtgl scjhglHtgl){
+        if (scjhglHtgl.getId().equals("")){
+            scjhglHtgl.setId(null);
+        }
         if (scjhglHtgl.getId()==null){
             scjhglHtglService.insert(scjhglHtgl);
         }

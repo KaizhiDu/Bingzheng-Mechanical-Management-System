@@ -40,10 +40,10 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>合同编号：</label>
+                        <label>计划编号：</label>
                     </td>
                     <td>
-                        <input name="htbh" id="htbh" htmlEscape="false" class="form-control" placeholder="请输入合同编号"/>
+                        <input name="htbh" id="htbh" htmlEscape="false" class="form-control" placeholder="请输入计划编号"/>
                     </td>
                 </tr>
                 <tr class="form-group">
@@ -51,7 +51,15 @@
                         <label>描述：</label>
                     </td>
                     <td>
-                        <textarea id="ms" name="ms" class="form-control" rows="3" cols="20" placeholder="请对该合同进行描述"></textarea>
+                        <textarea id="ms" name="ms" class="form-control" rows="3" cols="20" placeholder="请对该计划进行描述"></textarea>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>数量：</label>
+                    </td>
+                    <td>
+                        <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入计划生产数量"/>
                     </td>
                 </tr>
 
@@ -68,13 +76,15 @@
     function check() {
         var htbh = $("#htbh").val();
         var ms = $("#ms").val();
+        var sl = $("#sl").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/htgl/saveHt",
             data: {
                 id: null,
                 htbh: htbh,
-                ms: ms
+                ms: ms,
+                sl:sl
             },
             success: function (data) {
 

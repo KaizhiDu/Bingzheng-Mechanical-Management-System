@@ -29,6 +29,9 @@ public class ScjhglHtgl  extends AbstractEntity<String> {
     /** 描述 */
     @TableField(value = "MS")
     private String ms;
+    /** 数量 */
+    @TableField(value = "SL")
+    private String sl;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -99,5 +102,13 @@ public class ScjhglHtgl  extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getSl() {
+        return sl;
+    }
+
+    public void setSl(String sl) {
+        this.sl = sl;
     }
 }
