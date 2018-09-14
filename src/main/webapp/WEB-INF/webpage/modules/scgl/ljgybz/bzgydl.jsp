@@ -32,6 +32,9 @@
 <body>
 
 <h4>零件工艺编制</h4>
+
+<input id="jhid" name="jhid" type="hidden" value="${scjhglHtgl.id}">
+
 <div class="row">
     <div id="ScglGydlbzGridQuery" class="col-md-12">
 
@@ -44,7 +47,7 @@
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
 
     <grid:button title="编制工艺小类" groupname="opt" function="bzgyxl"
-                 outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgyxl?id=\"+row.id+\"" />
+                 outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgyxl?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
 
     <grid:column label="计划编号" name="jhid" width="30"/>
     <grid:column label="工艺大类" name="gydlid"  width="200"/>
@@ -61,7 +64,8 @@
 
     //编制工艺大类
     function addGydl(title, url, gridId, id, width, height, tipMsg) {
-        var url = "${adminPath}/scgl/ljgybz/addGydl";
+        var jhid = $("#jhid").val();
+        var url = "${adminPath}/scgl/ljgybz/addGydl?jhid="+jhid;
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -70,7 +74,7 @@
         }
         top.layer.open({
             type: 2,
-            area: ["60%", "50%"],
+            area: ["85%", "70%"],
             title: "编制工艺大类",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
@@ -80,7 +84,18 @@
                     $(this).blur();
                 });
             },
-            btn: [ '关闭'],
+            btn: ['添加', '关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
+                //layer.alert("添加成功！！", {icon: 0, title: '提示'});
+                refreshTable(gridId);
+            },
             cancel: function(index){
                 refreshTable(gridId);
             },

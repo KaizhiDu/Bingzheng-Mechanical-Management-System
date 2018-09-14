@@ -25,10 +25,10 @@ public class ScglGydlbz extends AbstractEntity<String> {
 
     /** 计划ID */
     @TableField(value = "JHID")
-    private String gydldm;
+    private String jhid;
     /** 工艺大类ID */
     @TableField(value = "GYDLID")
-    private String gydlmc;
+    private String gydlid;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -43,28 +43,30 @@ public class ScglGydlbz extends AbstractEntity<String> {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getGydldm() {
-        return gydldm;
+    public String getJhid() {
+        return jhid;
     }
 
-    public void setGydldm(String gydldm) {
-        this.gydldm = gydldm;
+    public void setJhid(String jhid) {
+        this.jhid = jhid;
     }
 
-    public String getGydlmc() {
-        return gydlmc;
+    public String getGydlid() {
+        return gydlid;
     }
 
-    public void setGydlmc(String gydlmc) {
-        this.gydlmc = gydlmc;
+    public void setGydlid(String gydlid) {
+        this.gydlid = gydlid;
     }
 
     public User getUpdateBy() {

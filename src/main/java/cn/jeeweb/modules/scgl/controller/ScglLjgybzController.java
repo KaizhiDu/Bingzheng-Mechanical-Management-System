@@ -1,11 +1,14 @@
 package cn.jeeweb.modules.scgl.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.model.AjaxJson;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
+import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,10 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     /**计划管理Service*/
     @Autowired
     private IScjhglHtglService scjhglHtglService;
+
+    /**工艺大类编制*/
+    @Autowired
+    private IScglGydlbzService scglGydlbzService;
 
     /**
     * @Description:    搜索项
@@ -81,7 +88,30 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     * @Version:        1.0
     */
     @RequestMapping(value = "addGydl", method={RequestMethod.GET, RequestMethod.POST})
-    public String addGydl(HttpServletRequest request, HttpServletResponse response, Model model){
+    public String addGydl(String jhid, HttpServletRequest request, HttpServletResponse response, Model model){
+        model.addAttribute("jhid", jhid);
         return display("addGydl");
     }
+
+    /**
+     * Dscription: 编制工艺大类
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/15 1:19
+     */
+     @RequestMapping(value = "saveGydlbz", method={RequestMethod.GET, RequestMethod.POST})
+     @ResponseBody
+    public AjaxJson saveGydlbz(String jhid, String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+         AjaxJson ajaxJson = new AjaxJson();
+         String idsArray[] = ids.split(",");
+         for (int i=0;i<idsArray.length;i++){
+             ScglGydlbz s = new ScglGydlbz();
+             s.setJhid(jhid);
+             s.setGydlid(idsArray[i]);
+             scglGydlbzService.insert(s);
+
+         }
+         ajaxJson.setMsg("添加成功！！！");
+         return ajaxJson;
+     }
 }
