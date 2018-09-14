@@ -73,4 +73,15 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
         model.addAttribute("scjhglHtgl", scjhglHtgl);
         return display("bzgydl");
     }
+
+    /**
+    * @Description:    编制工艺大类
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/14 18:20
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "addGydl", method={RequestMethod.GET, RequestMethod.POST})
+    public String addGydl(HttpServletRequest request, HttpServletResponse response, Model model){
+        return display("addGydl");
+    }
 }
