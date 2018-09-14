@@ -33,9 +33,8 @@
 
 <h4>计划管理</h4>
 
-
 <grid:grid id="ljgl"
-           url="${adminPath}/scjhgl/htgl/ajaxList" pageable="true">
+           url="${adminPath}/scgl/ljgybz/ajaxJhglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>

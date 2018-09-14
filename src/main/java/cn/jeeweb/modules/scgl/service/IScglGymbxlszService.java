@@ -11,6 +11,7 @@ import cn.jeeweb.modules.scgl.entity.ScglGymbxlsz;
 * @Version:        1.0
 */
 public interface IScglGymbxlszService extends ICommonService<ScglGymbxlsz> {
+
     /**
      * @Description:    工艺模板小类信息展示
      * @Author:         杜凯之
