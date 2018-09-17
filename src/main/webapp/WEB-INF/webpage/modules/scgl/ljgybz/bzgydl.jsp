@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>零件工艺编制</h4>
+<h4>计划（${scjhglHtgl.htbh}）工艺编制</h4>
 
 <input id="jhid" name="jhid" type="hidden" value="${scjhglHtgl.id}">
 
@@ -53,8 +53,8 @@
     <grid:column label="排序" name="px"  width="30"/>
 
     <grid:column label="设置" name="opt2" formatter="button" width="30"/>
-    <grid:button title="设置排序" groupname="opt2" function="bzgyxl"
-                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/bzgyxl?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
+    <grid:button title="设置排序" groupname="opt2" function="szdlpx"
+                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/szdlpx?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
 
     <grid:toolbar function="addGydl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="编制工艺大类"/>\
     <grid:toolbar function="deleteGydl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>
@@ -98,6 +98,47 @@
                 //判断逻辑并关闭
                 setTimeout(function(){top.layer.close(index)}, 1000);//延时0.1秒，对应360 7.1版本bug
                 //layer.alert("添加成功！！", {icon: 0, title: '提示'});
+                refreshTable(gridId);
+            },
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
+
+    //设置大类排序
+    function szdlpx(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["40%", "30%"],
+            title: "设置排序",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['设置', '关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 500);//延时0.1秒，对应360 7.1版本bug
+                layer.alert("修改成功！！", {icon: 0, title: '提示'});
                 refreshTable(gridId);
             },
             cancel: function(index){

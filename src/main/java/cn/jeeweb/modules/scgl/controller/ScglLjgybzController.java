@@ -153,4 +153,42 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
          PageJson<GydlbzDTO> pageJson = scglGydlbzService.ajaxGydlbzList(queryable,gydlbzDTO);
          return pageJson;
      }
+
+     /**
+     * @Description:    转到设置大类排序页面
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/17 14:16
+     * @Version:        1.0
+     */
+     @RequestMapping(value = "szdlpx", method={RequestMethod.GET, RequestMethod.POST})
+     public String szdlpx(String id ,String jhid, HttpServletRequest request, HttpServletResponse response, Model model){
+         //修改用到的id
+         model.addAttribute("id",id);
+         //当前排序
+         ScglGydlbz scglGydlbz = scglGydlbzService.selectById(id);
+         model.addAttribute("dqpx", scglGydlbz.getPx());
+         //计划ID
+         model.addAttribute("jhid", jhid);
+         //排序总数
+         EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
+        wrapper.eq("JHID", jhid);
+        List<ScglGydlbz> scglGydlbzs = scglGydlbzService.selectList(wrapper);
+        model.addAttribute("pxzs", scglGydlbzs.size());
+         return display("szdlpx");
+     }
+
+     /**
+     * @Description:    修改大类排序
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/17 14:07
+     * @Version:        1.0
+     */
+    @RequestMapping(value = "savePx", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void savePx(String id, String px, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglGydlbz scglGydlbz = scglGydlbzService.selectById(id);
+        int px2 = Integer.parseInt(px);
+        scglGydlbz.setPx(px2);
+        scglGydlbzService.updateById(scglGydlbz);
+    }
 }
