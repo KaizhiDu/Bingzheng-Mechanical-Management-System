@@ -23,18 +23,21 @@ public class ScglLjgybz extends AbstractEntity<String> {
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 计划ID */
-    @TableField(value = "JHID")
-    private String jhid;
-    /** 工艺大类ID */
-    @TableField(value = "GYDLID")
-    private String gydlid;
+    /** 工艺大类编制ID */
+    @TableField(value = "GYDLBZID")
+    private String gydlbzid;
     /** 工艺小类ID */
     @TableField(value = "GYXLID")
     private String gyxlid;
+    /** 工艺小类名称 */
+    @TableField(value = "GYXLMC")
+    private String gyxlmc;
     /** 描述 */
     @TableField(value = "MS")
     private String ms;
+    /** 总数量 */
+    @TableField(value = "SL")
+    private String sl;
     /** 总数量 */
     @TableField(value = "ZSL")
     private String zsl;
@@ -65,20 +68,12 @@ public class ScglLjgybz extends AbstractEntity<String> {
         this.id = id;
     }
 
-    public String getJhid() {
-        return jhid;
+    public String getGydlbzid() {
+        return gydlbzid;
     }
 
-    public void setJhid(String jhid) {
-        this.jhid = jhid;
-    }
-
-    public String getGydlid() {
-        return gydlid;
-    }
-
-    public void setGydlid(String gydlid) {
-        this.gydlid = gydlid;
+    public void setGydlbzid(String gydlbzid) {
+        this.gydlbzid = gydlbzid;
     }
 
     public String getGyxlid() {
@@ -89,6 +84,14 @@ public class ScglLjgybz extends AbstractEntity<String> {
         this.gyxlid = gyxlid;
     }
 
+    public String getGyxlmc() {
+        return gyxlmc;
+    }
+
+    public void setGyxlmc(String gyxlmc) {
+        this.gyxlmc = gyxlmc;
+    }
+
     public String getMs() {
         return ms;
     }
@@ -97,12 +100,28 @@ public class ScglLjgybz extends AbstractEntity<String> {
         this.ms = ms;
     }
 
+    public String getSl() {
+        return sl;
+    }
+
+    public void setSl(String sl) {
+        this.sl = sl;
+    }
+
     public String getZsl() {
         return zsl;
     }
 
     public void setZsl(String zsl) {
         this.zsl = zsl;
+    }
+
+    public String getPx() {
+        return px;
+    }
+
+    public void setPx(String px) {
+        this.px = px;
     }
 
     public User getUpdateBy() {
@@ -135,13 +154,5 @@ public class ScglLjgybz extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public String getPx() {
-        return px;
-    }
-
-    public void setPx(String px) {
-        this.px = px;
     }
 }

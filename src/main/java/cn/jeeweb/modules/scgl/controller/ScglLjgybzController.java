@@ -10,8 +10,10 @@ import cn.jeeweb.modules.scgl.dto.GydlbzDTO;
 import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.entity.ScglGymbsz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
+import cn.jeeweb.modules.scgl.entity.ScglSzgyxl;
 import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglGymbszService;
+import cn.jeeweb.modules.scgl.service.IScglSzgyxlService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,10 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     /**大类模板*/
     @Autowired
     private IScglGymbszService scglGymbszService;
+
+    @Autowired
+    /**工艺小类模板*/
+    private IScglSzgyxlService scglSzgyxlService;
 
     /**
     * @Description:    搜索项
@@ -190,5 +196,39 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
         int px2 = Integer.parseInt(px);
         scglGydlbz.setPx(px2);
         scglGydlbzService.updateById(scglGydlbz);
+    }
+
+    /**
+    * @Description:    转到零件工艺编制页面
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/17 15:26
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "bzgyxl", method={RequestMethod.GET, RequestMethod.POST})
+    public String bzgyxl(String id ,String jhid, HttpServletRequest request, HttpServletResponse response, Model model){
+        //计划编号
+        ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(jhid);
+        model.addAttribute("jhxx",scjhglHtgl);
+        //计划大类编制信息
+        ScglGydlbz gydlbz = scglGydlbzService.selectById(id);
+        model.addAttribute("gydlbz", gydlbz);
+        return display("bzgyxl");
+    }
+
+    /**
+    * @Description:    转到添加零件工艺编制页面
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/17 16:21
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "addGyxl", method={RequestMethod.GET, RequestMethod.POST})
+    public String addGyxl(String gydlbzid, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglGydlbz scglGydlbz = scglGydlbzService.selectById(gydlbzid);
+        String dlid = scglGydlbz.getGydlid();
+       List<ScglSzgyxl> gyxlList = scglSzgyxlService.getXlList(dlid);
+        model.addAttribute("gyxlList", gyxlList);
+        //工艺大类编制ID
+        model.addAttribute("gydlbzid", gydlbzid);
+        return display("addGyxl");
     }
 }

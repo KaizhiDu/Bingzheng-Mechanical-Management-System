@@ -31,9 +31,10 @@
 </head>
 <body>
 
-<h4>计划（${scjhglHtgl.htbh}）工艺编制</h4>
+<h4>${jhxx.htbh} - ${gydlbz.gydlmc}</h4>
 
-<input id="jhid" name="jhid" type="hidden" value="${scjhglHtgl.id}">
+<input id="gydlid" name="gydlid" type="hidden" value="${gydlbz.gydlid}">
+<input id="gydlbzid" name="gydlbzid" type="hidden" value="${gydlbz.id}">
 
 <div class="row">
     <div id="ScglGydlbzGridQuery" class="col-md-12">
@@ -41,23 +42,23 @@
     </div>
 </div>
 <grid:grid id="ScglGydlbz"
-           url="${adminPath}/scgl/ljgybz/ajaxGydlbzList?jhid=${scjhglHtgl.id}" pageable="true">
+           url="${adminPath}/scgl/ljgybz/xxxx" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
-    <grid:button title="编制工艺小类" groupname="opt" function="bzgyxl"
-                 outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgyxl?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
 
     <grid:column label="计划编号" name="jhbh" width="30"/>
-    <grid:column label="工艺大类" name="gydlmc"  width="200"/>
+    <grid:column label="工艺大类" name="gydlmc"  width="50"/>
+    <grid:column label="工艺小类" name="gyxlmc"  width="30"/>
+    <grid:column label="描述" name="ms"  width="100"/>
+    <grid:column label="数量" name="sl"  width="30"/>
     <grid:column label="排序" name="px"  width="30"/>
 
-    <grid:column label="设置" name="opt2" formatter="button" width="30"/>
-    <grid:button title="设置排序" groupname="opt2" function="szdlpx"
-                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/szdlpx?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
+    <grid:column label="设置" name="opt" formatter="button" width="30"/>
+    <grid:button title="设置排序" groupname="opt" function="szxlpx"
+                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/szxlpx?id=\"+row.id+\"" />
 
-    <grid:toolbar function="addGydl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺大类"/>\
-    <grid:toolbar function="deleteGydl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>
+    <grid:toolbar function="addGyxl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺小类"/>\
+    <grid:toolbar function="deleteGyxl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -67,9 +68,9 @@
 <script type="text/javascript">
 
     //添加工艺大类
-    function addGydl(title, url, gridId, id, width, height, tipMsg) {
-        var jhid = $("#jhid").val();
-        var url = "${adminPath}/scgl/ljgybz/addGydl?jhid="+jhid;
+    function addGyxl(title, url, gridId, id, width, height, tipMsg) {
+        var gydlbzid = $("#gydlbzid").val();
+        var url = "${adminPath}/scgl/ljgybz/addGyxl?gydlbzid="+gydlbzid;
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -160,7 +161,7 @@
         }
         top.layer.open({
             type: 2,
-            area: ["95%", "95%"],
+            area: ["95%", "85%"],
             title: "编制工艺小类",
             maxmin: true, //开启最大化最小化按钮
             content: url,

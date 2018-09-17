@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Description:    生产管理-设置工艺小类
  * @Author:         杜凯之
@@ -39,5 +41,16 @@ public class ScglSzgyxlServiceImpl extends CommonServiceImpl<ScglSzgyxlMapper, S
         page.setRecords(scglSzgyxlMapper.szgyxlList(page, scglSzgyxl));
         PageJson<ScglSzgyxl> pagejson = new PageJson<ScglSzgyxl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * @Description:    得到所有该ID下的工艺小类
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/17 17:31
+     * @Version:        1.0
+     */
+    @Override
+    public List<ScglSzgyxl> getXlList(String gydlid) {
+        return scglSzgyxlMapper.getXlList(gydlid);
     }
 }

@@ -23,4 +23,12 @@ public interface ScglSzgyxlMapper extends BaseMapper<ScglSzgyxl> {
      * @Version:        1.0
      */
     public List<ScglSzgyxl> szgyxlList(Pagination page, @Param("entity") ScglSzgyxl entity);
+
+    /**
+     * @Description:    得到所有该ID下的工艺小类
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/17 17:31
+     * @Version:        1.0
+     */
+    public List<ScglSzgyxl> getXlList(@Param("gydlid")String gydlid);
 }

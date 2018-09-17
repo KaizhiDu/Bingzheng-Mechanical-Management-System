@@ -12,4 +12,13 @@ WHERE GYDLID = #{entity.gydlid}
 ORDER BY GYXLDM
     </select>
 
+	<select id="getXlList" resultType="cn.jeeweb.modules.scgl.entity.ScglSzgyxl">
+         SELECT T.ID,
+			 T.GYDLID,
+			 T.GYXLID,
+			 (SELECT GYXLMC FROM T_SCGL_GYMBXLSZ WHERE ID = T.GYXLID) GYXLMC
+FROM T_SCGL_SZGYXL T
+         WHERE T.GYDLID = #{gydlid}
+    </select>
+
 </mapper>
