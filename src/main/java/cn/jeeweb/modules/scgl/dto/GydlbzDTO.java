@@ -3,10 +3,10 @@ package cn.jeeweb.modules.scgl.dto;
 public class GydlbzDTO {
     /**主键ID*/
     private String id;
-    /**计划ID*/
-    private String jhid;
-    /**计划编号*/
-    private String jhbh;
+    /**零件ID*/
+    private String ljid;
+    /**零件名称*/
+    private String ljmc;
     /**工艺大类ID*/
     private String gydlid;
     /**工艺大类名称*/
@@ -22,20 +22,20 @@ public class GydlbzDTO {
         this.id = id;
     }
 
-    public String getJhid() {
-        return jhid;
+    public String getLjid() {
+        return ljid;
     }
 
-    public void setJhid(String jhid) {
-        this.jhid = jhid;
+    public void setLjid(String ljid) {
+        this.ljid = ljid;
     }
 
-    public String getJhbh() {
-        return jhbh;
+    public String getLjmc() {
+        return ljmc;
     }
 
-    public void setJhbh(String jhbh) {
-        this.jhbh = jhbh;
+    public void setLjmc(String ljmc) {
+        this.ljmc = ljmc;
     }
 
     public String getGydlid() {

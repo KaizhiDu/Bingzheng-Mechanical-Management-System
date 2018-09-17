@@ -55,7 +55,7 @@
                         <label>描述：</label>
                     </td>
                     <td>
-                        <textarea id="ms" name="ms" class="form-control" rows="3" cols="20" placeholder="请对该零件进行描述"></textarea>
+                        <textarea id="ms" name="ms" class="form-control" rows="3" cols="20" placeholder="请对该工序进行描述"></textarea>
                     </td>
                 </tr>
                 <tr class="form-group">

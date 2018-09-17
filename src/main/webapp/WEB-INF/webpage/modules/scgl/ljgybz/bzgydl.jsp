@@ -31,9 +31,9 @@
 </head>
 <body>
 
-<h4>计划（${scjhglHtgl.htbh}）工艺编制</h4>
+<h4>零件（${scjhglLjgl.ljmc}）工艺编制</h4>
 
-<input id="jhid" name="jhid" type="hidden" value="${scjhglHtgl.id}">
+<input id="ljid" name="ljid" type="hidden" value="${scjhglLjgl.id}">
 
 <div class="row">
     <div id="ScglGydlbzGridQuery" class="col-md-12">
@@ -41,20 +41,20 @@
     </div>
 </div>
 <grid:grid id="ScglGydlbz"
-           url="${adminPath}/scgl/ljgybz/ajaxGydlbzList?jhid=${scjhglHtgl.id}" pageable="true">
+           url="${adminPath}/scgl/ljgybz/ajaxGydlbzList?ljid=${scjhglLjgl.id}" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
     <grid:button title="编制工艺小类" groupname="opt" function="bzgyxl"
-                 outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgyxl?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
+                 outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgyxl?ljid=${scjhglLjgl.id}&id=\"+row.id+\"" />
 
-    <grid:column label="计划编号" name="jhbh" width="30"/>
+    <grid:column label="零件名称" name="ljmc" width="30"/>
     <grid:column label="工艺大类" name="gydlmc"  width="200"/>
     <grid:column label="排序" name="px"  width="30"/>
 
     <grid:column label="设置" name="opt2" formatter="button" width="30"/>
     <grid:button title="设置排序" groupname="opt2" function="szdlpx"
-                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/szdlpx?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
+                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/szdlpx?ljid=${scjhglLjgl.id}&id=\"+row.id+\"" />
 
     <grid:toolbar function="addGydl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺大类"/>\
     <grid:toolbar function="deleteGydl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>
@@ -68,8 +68,8 @@
 
     //添加工艺大类
     function addGydl(title, url, gridId, id, width, height, tipMsg) {
-        var jhid = $("#jhid").val();
-        var url = "${adminPath}/scgl/ljgybz/addGydl?jhid="+jhid;
+        var ljid = $("#ljid").val();
+        var url = "${adminPath}/scgl/ljgybz/addGydl?ljid="+ljid;
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';

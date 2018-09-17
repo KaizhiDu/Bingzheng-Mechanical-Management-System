@@ -33,11 +33,11 @@
 
 <h4>零件工艺编制</h4>
 <div class="row">
-    <div id="JhglGridQuery" class="col-md-12">
+    <div id="LjglGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">计划编号：</label>
-                <select id="id" name="id" class="form-control">
+                <select id="htid" name="htid" class="form-control">
                     <option value="">请选择</option>
                     <c:forEach items="${jhList}" var="each">
                         <option value="${each.id}">${each.htbh}</option>
@@ -47,18 +47,18 @@
         </div>
     </div>
 </div>
-<grid:grid id="Jhgl"
-           url="${adminPath}/scgl/ljgybz/ajaxJhglList" pageable="true">
+<grid:grid id="Ljgl"
+           url="${adminPath}/scgl/ljgybz/ajaxljglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
-
     <grid:button title="编制工艺大类" groupname="opt" function="bzgydl"
                  outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgydl?id=\"+row.id+\"" />
 
-    <grid:column label="计划编号" name="htbh" width="30"/>
-    <grid:column label="描述" name="ms"  width="200"/>
-    <grid:column label="数量" name="sl"/>
+    <grid:column label="计划编号" name="htid" width="30"/>
+    <grid:column label="计划名称" name="ljmc" width="30"/>
+    <grid:column label="计划图号" name="ljth" width="30"/>
+    <grid:column label="数量" name="sl" width="30"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>

@@ -15,7 +15,9 @@ import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglGymbszService;
 import cn.jeeweb.modules.scgl.service.IScglSzgyxlService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
+import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +56,10 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     /**工艺小类模板*/
     private IScglSzgyxlService scglSzgyxlService;
 
+    @Autowired
+    /**零件管理*/
+    private IScjhglLjglService scjhglLjglService;
+
     /**
     * @Description:    搜索项
     * @Author:         杜凯之
@@ -82,6 +88,19 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     }
 
     /**
+     * Dscription: 展示所有零件信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/17 23:17
+     */
+    @RequestMapping(value = "ajaxljglList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<ScjhglLjgl> ajaxljglList(Queryable queryable, ScjhglLjgl scjhglLjgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<ScjhglLjgl> pageJson = scjhglLjglService.ajaxljglList(queryable,scjhglLjgl);
+        return pageJson;
+    }
+
+    /**
     * @Description:    跳转到编制工艺页面
     * @Author:         杜凯之
     * @CreateDate:     2018/9/14 17:32
@@ -89,8 +108,10 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     */
     @RequestMapping(value = "bzgydl", method={RequestMethod.GET, RequestMethod.POST})
     public String bzgydl(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
-        ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(id);
-        model.addAttribute("scjhglHtgl", scjhglHtgl);
+        //这个id为零件id
+
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
+        model.addAttribute("scjhglLjgl", scjhglLjgl);
         return display("bzgydl");
     }
 
@@ -98,11 +119,11 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     * @Description:    编制工艺大类
     * @Author:         杜凯之
     * @CreateDate:     2018/9/14 18:20
-    * @Version:        1.0ajaxGymbszList
+    * @Version:        1.0
     */
     @RequestMapping(value = "addGydl", method={RequestMethod.GET, RequestMethod.POST})
-    public String addGydl(String jhid, HttpServletRequest request, HttpServletResponse response, Model model){
-        model.addAttribute("jhid", jhid);
+    public String addGydl(String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
+        model.addAttribute("ljid", ljid);
         return display("addGydl");
     }
 
@@ -114,24 +135,24 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
      */
      @RequestMapping(value = "saveGydlbz", method={RequestMethod.GET, RequestMethod.POST})
      @ResponseBody
-    public AjaxJson saveGydlbz(String jhid, String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+    public AjaxJson saveGydlbz(String ljid, String ids, HttpServletRequest request, HttpServletResponse response, Model model){
          AjaxJson ajaxJson = new AjaxJson();
          String idsArray[] = ids.split(",");
          for (int i=0;i<idsArray.length;i++){
              EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
-             wrapper.eq("JHID",jhid);
+             wrapper.eq("LJID",ljid);
              int count = scglGydlbzService.selectCount(wrapper);
              int px = count+1;
              ScglGydlbz s = new ScglGydlbz();
              s.setPx(px);
-             s.setJhid(jhid);
+             s.setLjid(ljid);
              s.setGydlid(idsArray[i]);
              //先查数据库里面该大类名称
              ScglGymbsz scglGymbsz = scglGymbszService.selectById(idsArray[i]);
              //然后查插入表里面该大类的数量
              EntityWrapper<ScglGydlbz> wrapper2 = new EntityWrapper<ScglGydlbz>();
              wrapper2.eq("GYDLID",idsArray[i]);
-             wrapper2.eq("JHID",jhid);
+             wrapper2.eq("LJID",ljid);
              int count2 = scglGydlbzService.selectCount(wrapper2);
              //没有该工艺大类
              if (count2==0){
@@ -167,17 +188,17 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
      * @Version:        1.0
      */
      @RequestMapping(value = "szdlpx", method={RequestMethod.GET, RequestMethod.POST})
-     public String szdlpx(String id ,String jhid, HttpServletRequest request, HttpServletResponse response, Model model){
+     public String szdlpx(String id ,String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
          //修改用到的id
          model.addAttribute("id",id);
          //当前排序
          ScglGydlbz scglGydlbz = scglGydlbzService.selectById(id);
          model.addAttribute("dqpx", scglGydlbz.getPx());
-         //计划ID
-         model.addAttribute("jhid", jhid);
+         //零件ID
+         model.addAttribute("ljid", ljid);
          //排序总数
          EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
-        wrapper.eq("JHID", jhid);
+        wrapper.eq("LJID", ljid);
         List<ScglGydlbz> scglGydlbzs = scglGydlbzService.selectList(wrapper);
         model.addAttribute("pxzs", scglGydlbzs.size());
          return display("szdlpx");
@@ -205,10 +226,10 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     * @Version:        1.0
     */
     @RequestMapping(value = "bzgyxl", method={RequestMethod.GET, RequestMethod.POST})
-    public String bzgyxl(String id ,String jhid, HttpServletRequest request, HttpServletResponse response, Model model){
-        //计划编号
-        ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(jhid);
-        model.addAttribute("jhxx",scjhglHtgl);
+    public String bzgyxl(String id ,String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
+        //零件名称
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
+        model.addAttribute("jhxx",scjhglLjgl);
         //计划大类编制信息
         ScglGydlbz gydlbz = scglGydlbzService.selectById(id);
         model.addAttribute("gydlbz", gydlbz);

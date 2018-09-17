@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>${jhxx.htbh} - ${gydlbz.gydlmc}</h4>
+<h4>${jhxx.ljmc} - ${gydlbz.gydlmc}</h4>
 
 <input id="gydlid" name="gydlid" type="hidden" value="${gydlbz.gydlid}">
 <input id="gydlbzid" name="gydlbzid" type="hidden" value="${gydlbz.id}">
@@ -52,10 +52,6 @@
     <grid:column label="描述" name="ms"  width="100"/>
     <grid:column label="数量" name="sl"  width="30"/>
     <grid:column label="排序" name="px"  width="30"/>
-
-    <grid:column label="设置" name="opt" formatter="button" width="30"/>
-    <grid:button title="设置排序" groupname="opt" function="szxlpx"
-                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/szxlpx?id=\"+row.id+\"" />
 
     <grid:toolbar function="addGyxl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺小类"/>\
     <grid:toolbar function="deleteGyxl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>

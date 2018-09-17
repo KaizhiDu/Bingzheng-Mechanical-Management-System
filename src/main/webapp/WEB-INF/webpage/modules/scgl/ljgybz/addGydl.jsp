@@ -33,7 +33,7 @@
 
 <h4>编制工艺</h4>
 
-<input id="jhid" name="jhid" type="hidden" value="${jhid}">
+<input id="ljid" name="ljid" type="hidden" value="${ljid}">
 
 <div class="row">
     <div id="GymbszGridQuery" class="col-md-12">
@@ -59,7 +59,7 @@
 <script type="text/javascript">
     function check(title, url, gridId, id, width, height, tipMsg){
         //获取选中行的id数组
-        var jhid = $("#jhid").val();
+        var ljid = $("#ljid").val();
         var idsArray = $("#GymbszGrid").jqGrid("getGridParam", "selarrrow")
         if (idsArray.length>0){
             var ids = "";
@@ -74,7 +74,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "${adminPath}/scgl/ljgybz/saveGydlbz?ids="+ids+"&jhid="+jhid,
+                url: "${adminPath}/scgl/ljgybz/saveGydlbz?ids="+ids+"&ljid="+ljid,
                 success: function (data) {
                     refreshTable(gridId);
                     layer.msg(data.msg);

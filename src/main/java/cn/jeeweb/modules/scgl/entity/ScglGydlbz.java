@@ -24,8 +24,8 @@ public class ScglGydlbz extends AbstractEntity<String> {
     private String id;
 
     /** 计划ID */
-    @TableField(value = "JHID")
-    private String jhid;
+    @TableField(value = "LJID")
+    private String ljid;
     /** 工艺大类ID */
     @TableField(value = "GYDLID")
     private String gydlid;
@@ -59,12 +59,12 @@ public class ScglGydlbz extends AbstractEntity<String> {
         this.id = id;
     }
 
-    public String getJhid() {
-        return jhid;
+    public String getLjid() {
+        return ljid;
     }
 
-    public void setJhid(String jhid) {
-        this.jhid = jhid;
+    public void setLjid(String ljid) {
+        this.ljid = ljid;
     }
 
     public String getGydlid() {
