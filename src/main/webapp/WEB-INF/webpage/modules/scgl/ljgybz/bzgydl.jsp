@@ -92,7 +92,7 @@
                 //http://www.layui.com/doc/modules/layer.html#use
                 iframeWin.contentWindow.check();
                 //判断逻辑并关闭
-                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
+                setTimeout(function(){top.layer.close(index)}, 1000);//延时0.1秒，对应360 7.1版本bug
                 //layer.alert("添加成功！！", {icon: 0, title: '提示'});
                 refreshTable(gridId);
             },

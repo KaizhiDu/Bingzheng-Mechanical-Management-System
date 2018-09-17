@@ -85,7 +85,7 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     * @Description:    编制工艺大类
     * @Author:         杜凯之
     * @CreateDate:     2018/9/14 18:20
-    * @Version:        1.0
+    * @Version:        1.0ajaxGymbszList
     */
     @RequestMapping(value = "addGydl", method={RequestMethod.GET, RequestMethod.POST})
     public String addGydl(String jhid, HttpServletRequest request, HttpServletResponse response, Model model){
@@ -105,11 +105,14 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
          AjaxJson ajaxJson = new AjaxJson();
          String idsArray[] = ids.split(",");
          for (int i=0;i<idsArray.length;i++){
+             EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
+             int count = scglGydlbzService.selectCount(wrapper);
+             String px = count+1+"";
              ScglGydlbz s = new ScglGydlbz();
+             s.setPx(px);
              s.setJhid(jhid);
              s.setGydlid(idsArray[i]);
              scglGydlbzService.insert(s);
-
          }
          ajaxJson.setMsg("添加成功！！！");
          return ajaxJson;

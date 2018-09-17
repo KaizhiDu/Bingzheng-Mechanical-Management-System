@@ -83,7 +83,7 @@
 
         }
         else{
-            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+            top.layer.alert('请选择要添加的工艺大类!', {icon: 0, title:'警告'});
             return;
         }
     }

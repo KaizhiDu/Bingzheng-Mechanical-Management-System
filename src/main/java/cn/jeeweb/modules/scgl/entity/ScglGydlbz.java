@@ -29,6 +29,9 @@ public class ScglGydlbz extends AbstractEntity<String> {
     /** 工艺大类ID */
     @TableField(value = "GYDLID")
     private String gydlid;
+    /** 排序 */
+    @TableField(value = "PX")
+    private String px;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -99,5 +102,13 @@ public class ScglGydlbz extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getPx() {
+        return px;
+    }
+
+    public void setPx(String px) {
+        this.px = px;
     }
 }
