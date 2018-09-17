@@ -4,6 +4,8 @@ import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
+import cn.jeeweb.modules.scgl.mapper.ScglGydlbzMapper;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.mapper.ScjhglHtglMapper;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
@@ -25,7 +27,9 @@ public class ScjhglHtglServiceImpl extends CommonServiceImpl<ScjhglHtglMapper, S
     /**生产计划管理-计划管理Mapper*/
     @Autowired
     private ScjhglHtglMapper scjhglHtglMapper;
-
+    /**生产计划管理-工艺大类编制Mapper*/
+    @Autowired
+    private ScglGydlbzMapper scglGydlbzMapper;
     /**
      * @Description:    展示所有计划信息
      * @Author:         杜凯之

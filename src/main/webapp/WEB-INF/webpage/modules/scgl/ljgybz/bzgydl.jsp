@@ -45,12 +45,16 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
-
     <grid:button title="编制工艺小类" groupname="opt" function="bzgyxl"
                  outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgyxl?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
 
-    <grid:column label="计划编号" name="jhid" width="30"/>
-    <grid:column label="工艺大类" name="gydlid"  width="200"/>
+    <grid:column label="计划编号" name="jhbh" width="30"/>
+    <grid:column label="工艺大类" name="gydlmc"  width="200"/>
+    <grid:column label="排序" name="px"  width="30"/>
+
+    <grid:column label="设置" name="opt2" formatter="button" width="30"/>
+    <grid:button title="设置排序" groupname="opt2" function="bzgyxl"
+                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/bzgyxl?jhid=${scjhglHtgl.id}&id=\"+row.id+\"" />
 
     <grid:toolbar function="addGydl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="编制工艺大类"/>\
     <grid:toolbar function="deleteGydl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>

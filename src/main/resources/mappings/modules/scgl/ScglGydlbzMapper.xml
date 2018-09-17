@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglGydlbzMapper" >
+    <select id="ajaxGydlbzList" resultType="cn.jeeweb.modules.scgl.dto.GydlbzDTO">
+         SELECT ID,
+			 JHID,
+			 (SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.JHID) JHBH,
+			 GYDLID,
+			 GYDLMC,
+			 PX
+FROM T_SCGL_GYDLBZ T
+WHERE T.JHID = #{entity.jhid}
+ORDER BY T.PX
+    </select>
+
+</mapper>

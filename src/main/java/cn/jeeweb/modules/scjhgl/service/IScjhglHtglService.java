@@ -3,6 +3,7 @@ package cn.jeeweb.modules.scjhgl.service;
 import cn.jeeweb.core.common.service.ICommonService;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 
 /**
@@ -20,4 +21,5 @@ public interface IScjhglHtglService extends ICommonService<ScjhglHtgl> {
      * @Version:        1.0
      */
     public PageJson<ScjhglHtgl> ajaxJhglList(Queryable queryable, ScjhglHtgl scjhglHtgl);
+
 }

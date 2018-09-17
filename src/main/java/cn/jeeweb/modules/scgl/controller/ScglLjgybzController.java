@@ -6,9 +6,12 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.scgl.dto.GydlbzDTO;
 import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
+import cn.jeeweb.modules.scgl.entity.ScglGymbsz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
 import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
+import cn.jeeweb.modules.scgl.service.IScglGymbszService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +43,10 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     /**工艺大类编制*/
     @Autowired
     private IScglGydlbzService scglGydlbzService;
+
+    /**大类模板*/
+    @Autowired
+    private IScglGymbszService scglGymbszService;
 
     /**
     * @Description:    搜索项
@@ -106,15 +113,44 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
          String idsArray[] = ids.split(",");
          for (int i=0;i<idsArray.length;i++){
              EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
+             wrapper.eq("JHID",jhid);
              int count = scglGydlbzService.selectCount(wrapper);
-             String px = count+1+"";
+             int px = count+1;
              ScglGydlbz s = new ScglGydlbz();
              s.setPx(px);
              s.setJhid(jhid);
              s.setGydlid(idsArray[i]);
+             //先查数据库里面该大类名称
+             ScglGymbsz scglGymbsz = scglGymbszService.selectById(idsArray[i]);
+             //然后查插入表里面该大类的数量
+             EntityWrapper<ScglGydlbz> wrapper2 = new EntityWrapper<ScglGydlbz>();
+             wrapper2.eq("GYDLID",idsArray[i]);
+             wrapper2.eq("JHID",jhid);
+             int count2 = scglGydlbzService.selectCount(wrapper2);
+             //没有该工艺大类
+             if (count2==0){
+                 s.setGydlmc(scglGymbsz.getGydlmc());
+             }
+             else{
+                 String gydlmc = scglGymbsz.getGydlmc()+(count2+1)+"";
+                 s.setGydlmc(gydlmc);
+             }
              scglGydlbzService.insert(s);
          }
          ajaxJson.setMsg("添加成功！！！");
          return ajaxJson;
+     }
+
+     /**
+     * @Description:    根据计划id得到所有大类信息
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/17 9:30
+     * @Version:        1.0
+     */
+     @RequestMapping(value = "ajaxGydlbzList", method={RequestMethod.GET, RequestMethod.POST})
+     @ResponseBody
+     public PageJson<GydlbzDTO> ajaxGydlbzList(Queryable queryable, GydlbzDTO gydlbzDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+         PageJson<GydlbzDTO> pageJson = scglGydlbzService.ajaxGydlbzList(queryable,gydlbzDTO);
+         return pageJson;
      }
 }
