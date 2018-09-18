@@ -7,13 +7,9 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.scgl.dto.GydlbzDTO;
-import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
-import cn.jeeweb.modules.scgl.entity.ScglGymbsz;
-import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
-import cn.jeeweb.modules.scgl.entity.ScglSzgyxl;
-import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
-import cn.jeeweb.modules.scgl.service.IScglGymbszService;
-import cn.jeeweb.modules.scgl.service.IScglSzgyxlService;
+import cn.jeeweb.modules.scgl.dto.GyxlbzDTO;
+import cn.jeeweb.modules.scgl.entity.*;
+import cn.jeeweb.modules.scgl.service.*;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
@@ -53,13 +49,21 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     @Autowired
     private IScglGymbszService scglGymbszService;
 
+    /**小类模板*/
     @Autowired
-    /**工艺小类模板*/
+    private IScglGymbxlszService scglGymbxlszService;
+
+    @Autowired
+    /**工艺小类*/
     private IScglSzgyxlService scglSzgyxlService;
 
     @Autowired
     /**零件管理*/
     private IScjhglLjglService scjhglLjglService;
+
+    @Autowired
+    /**零件工艺编制*/
+    private IScglLjgybzService scglLjgybzService;
 
     /**
     * @Description:    搜索项
@@ -183,6 +187,19 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
      }
 
      /**
+     * @Description:    根据工艺大类编制ID获取所有小类信息
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/18 16:24
+     * @Version:        1.0
+     */
+     @RequestMapping(value = "ajaxGyxlbzList", method={RequestMethod.GET, RequestMethod.POST})
+     @ResponseBody
+     public PageJson<ScglLjgybz> ajaxGyxlbzList(String gydlbzid,Queryable queryable, ScglLjgybz scglLjgybz, HttpServletRequest request, HttpServletResponse response, Model model){
+         PageJson<ScglLjgybz> pageJson = scglLjgybzService.ajaxGyxlbzList(queryable,scglLjgybz,gydlbzid);
+         return pageJson;
+     }
+
+     /**
      * @Description:    转到设置大类排序页面
      * @Author:         杜凯之
      * @CreateDate:     2018/9/17 14:16
@@ -198,6 +215,24 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
          model.addAttribute("gydlbzsList", gydlbzsList);
          return display("szdlpx");
      }
+
+     /**
+     * @Description:    转到设置小类排序页面
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/18 17:03
+     * @Version:        1.0
+     */
+     @RequestMapping(value = "szxlpx", method={RequestMethod.GET, RequestMethod.POST})
+     public String szxlpx(String gydlbzid, HttpServletRequest request, HttpServletResponse response, Model model){
+         //得到所有改零件的大类信息
+         EntityWrapper<ScglLjgybz> wrapper = new EntityWrapper<ScglLjgybz>();
+         wrapper.eq("GYDLBZID", gydlbzid);
+         wrapper.orderBy("PX");
+         List<ScglLjgybz> gyxlbzsList = scglLjgybzService.selectList(wrapper);
+         model.addAttribute("gyxlbzsList", gyxlbzsList);
+         return display("szxlpx");
+     }
+
 
      /**
      * @Description:    修改大类排序
@@ -264,6 +299,83 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
             ScglGydlbz scglGydlbz = scglGydlbzService.selectById(id);
             scglGydlbz.setPx(px);
             scglGydlbzService.updateById(scglGydlbz);
+        }
+    }
+
+    /**
+    * @Description:    保存小类排序
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/18 17:07
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "saveXlpx", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveXlpx(String list, HttpServletRequest request, HttpServletResponse response, Model model){
+        String xlpx[] = list.split(",");
+        for (int i=0;i<xlpx.length;i++){
+            String id = xlpx[i].split("-")[0];
+            int px = Integer.parseInt(xlpx[i].split("-")[1]);
+            ScglLjgybz scglLjgybz = scglLjgybzService.selectById(id);
+            scglLjgybz.setPx(px);
+            scglLjgybzService.updateById(scglLjgybz);
+        }
+    }
+
+    /**
+    * @Description:    保存零件工艺小类
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/18 15:25
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "saveGyxl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveGyxl(String gyxlid, String gydlbzid, String ms, HttpServletResponse response, HttpServletRequest request, Model model){
+        //要保存的信息
+        ScglLjgybz s = new ScglLjgybz();
+        s.setGydlbzid(gydlbzid);
+        s.setGyxlid(gyxlid);
+        s.setMs(ms);
+        //现在处理工艺小类名称
+        ScglGymbxlsz scglGymbxlsz = scglGymbxlszService.selectById(gyxlid);
+        //然后根据gydlbzid和gyxlid，计算现在有几个一样的数据
+        EntityWrapper<ScglLjgybz> wrapper = new EntityWrapper<ScglLjgybz>();
+        wrapper.eq("GYDLBZID", gydlbzid);
+        wrapper.eq("GYXLID", gyxlid);
+        int count = scglLjgybzService.selectCount(wrapper);
+        if (count==0){
+            s.setGyxlmc(scglGymbxlsz.getGyxlmc());
+        }
+        else{
+            s.setGyxlmc(scglGymbxlsz.getGyxlmc()+""+(count+1));
+        }
+        //现在处理排序
+        EntityWrapper<ScglLjgybz> wrapper2 = new EntityWrapper<ScglLjgybz>();
+        wrapper2.eq("GYDLBZID", gydlbzid);
+        int count2 = scglLjgybzService.selectCount(wrapper2);
+        s.setPx(count2+1);
+
+        //可以插入了
+        scglLjgybzService.insert(s);
+    }
+
+    /**
+    * @Description:    删除编制大类，并且删除对应小类
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/18 17:29
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "deleteGydl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void deleteGydl(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+        String idsArray[] = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            String id = idsArray[i];
+            //首先删除小类下面所有相关联的数据
+            EntityWrapper<ScglLjgybz> wrapper = new EntityWrapper<ScglLjgybz>();
+            wrapper.eq("GYDLBZID", id);
+            scglLjgybzService.delete(wrapper);
+            //然后该删除大类
+            scglGydlbzService.deleteById(id);
         }
     }
 }

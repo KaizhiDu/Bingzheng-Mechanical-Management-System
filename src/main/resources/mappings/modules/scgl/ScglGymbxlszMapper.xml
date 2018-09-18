@@ -4,7 +4,7 @@
     <select id="gymbxlszList" resultType="cn.jeeweb.modules.scgl.entity.ScglGymbxlsz">
          SELECT * FROM T_SCGL_GYMBXLSZ
          WHERE 1=1
-         AND ID NOT IN(SELECT GYXLID FROM T_SCGL_SZGYXL WHERE GYDLID=#{entity.dlid})
+         AND ID NOT IN(SELECT GYXLID FROM T_SCGL_SZGYXL WHERE GYDLID=#{dlid})
          AND SFQY = '1'
          ORDER BY GYXLDM
     </select>

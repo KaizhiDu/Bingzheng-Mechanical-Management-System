@@ -35,15 +35,9 @@ public class ScglLjgybz extends AbstractEntity<String> {
     /** 描述 */
     @TableField(value = "MS")
     private String ms;
-    /** 总数量 */
-    @TableField(value = "SL")
-    private String sl;
-    /** 总数量 */
-    @TableField(value = "ZSL")
-    private String zsl;
     /** 排序 */
     @TableField(value = "PX")
-    private String px;
+    private int px;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -100,27 +94,11 @@ public class ScglLjgybz extends AbstractEntity<String> {
         this.ms = ms;
     }
 
-    public String getSl() {
-        return sl;
-    }
-
-    public void setSl(String sl) {
-        this.sl = sl;
-    }
-
-    public String getZsl() {
-        return zsl;
-    }
-
-    public void setZsl(String zsl) {
-        this.zsl = zsl;
-    }
-
-    public String getPx() {
+    public int getPx() {
         return px;
     }
 
-    public void setPx(String px) {
+    public void setPx(int px) {
         this.px = px;
     }
 

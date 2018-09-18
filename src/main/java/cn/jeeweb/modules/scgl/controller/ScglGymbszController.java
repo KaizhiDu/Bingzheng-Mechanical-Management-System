@@ -123,7 +123,7 @@ public class ScglGymbszController extends BaseCRUDController<ScglGymbsz, String>
     @RequestMapping(value = "ajaxGymbxlszList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<ScglGymbxlsz> ajaxGymbxlszList(String dlid,Queryable queryable, ScglGymbxlsz scglGymbxlsz, HttpServletRequest request, HttpServletResponse response, Model model){
-        scglGymbxlsz.setDlid(dlid);
+        //scglGymbxlsz.setDlid(dlid);
         PageJson<ScglGymbxlsz> pageJson = scglGymbxlszService.gymbxlszList(queryable,scglGymbxlsz,dlid);
         return pageJson;
     }
@@ -134,7 +134,7 @@ public class ScglGymbszController extends BaseCRUDController<ScglGymbsz, String>
     * @CreateDate:     2018/9/11 11:40
     * @Version:        1.0
     */
-
+    @RequestMapping(value = "deleteGyxlsz", method={RequestMethod.GET, RequestMethod.POST})
     public AjaxJson deleteGyxlsz(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
         AjaxJson ajaxJson = new AjaxJson();
         String[] idsArray = ids.split(",");

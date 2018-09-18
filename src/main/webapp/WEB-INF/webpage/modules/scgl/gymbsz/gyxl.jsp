@@ -49,7 +49,7 @@
     <grid:column label="是否启用" name="sfqy" dict="SBZT" formatterValue=""/>
 
     <grid:toolbar function="createGyxl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺小类"/>
-    <grid:toolbar function="deleteGyxl" title="删除" btnclass="btn-danger"/>
+    <%--<grid:toolbar function="deleteGyxl" title="删除" btnclass="btn-danger"/>--%>
 
     <%--<grid:toolbar function="search"/>--%>
     <%--<grid:toolbar function="reset"/>--%>

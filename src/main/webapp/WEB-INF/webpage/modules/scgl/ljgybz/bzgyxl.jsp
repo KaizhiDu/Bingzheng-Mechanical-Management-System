@@ -41,20 +41,19 @@
 
     </div>
 </div>
-<grid:grid id="ScglGydlbz"
-           url="${adminPath}/scgl/ljgybz/xxxx" pageable="true">
+<grid:grid id="ScglGyxlbz"
+           url="${adminPath}/scgl/ljgybz/ajaxGyxlbzList?gydlbzid=${gydlbz.id}" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
-    <grid:column label="计划编号" name="jhbh" width="30"/>
-    <grid:column label="工艺大类" name="gydlmc"  width="50"/>
     <grid:column label="工艺小类" name="gyxlmc"  width="30"/>
     <grid:column label="描述" name="ms"  width="100"/>
-    <grid:column label="数量" name="sl"  width="30"/>
     <grid:column label="排序" name="px"  width="30"/>
 
-    <grid:toolbar function="addGyxl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺小类"/>\
-    <grid:toolbar function="deleteGyxl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>
+    <grid:toolbar function="addGyxl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺小类"/>
+    <%--<grid:toolbar function="deleteGyxl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>--%>
+    <grid:toolbar function="delete"/>
+    <grid:toolbar function="szxlpx" icon="fa fa-edit" btnclass="btn btn-sm btn-warning" title="修改排序"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -75,8 +74,8 @@
         }
         top.layer.open({
             type: 2,
-            area: ["85%", "70%"],
-            title: "编制工艺大类",
+            area: ["40%", "50%"],
+            title: "添加工艺小类",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
             success: function(layero, index){
@@ -93,8 +92,8 @@
                 //http://www.layui.com/doc/modules/layer.html#use
                 iframeWin.contentWindow.check();
                 //判断逻辑并关闭
-                setTimeout(function(){top.layer.close(index)}, 1000);//延时0.1秒，对应360 7.1版本bug
-                //layer.alert("添加成功！！", {icon: 0, title: '提示'});
+                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
+                layer.alert("添加成功！！", {icon: 0, title: '提示'});
                 refreshTable(gridId);
             },
             cancel: function(index){
@@ -106,8 +105,9 @@
         });
     }
 
-    //设置大类排序
-    function szdlpx(title, url, gridId, id, width, height, tipMsg){
+    //设置小类排序
+    function szxlpx(title, url, gridId, id, width, height, tipMsg){
+        var url="${adminPath}/scgl/ljgybz/szxlpx?gydlbzid=${gydlbz.id}";
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -116,8 +116,8 @@
         }
         top.layer.open({
             type: 2,
-            area: ["40%", "30%"],
-            title: "设置排序",
+            area: ["45%", "95%"],
+            title: "设置小类排序",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
             success: function(layero, index){
@@ -134,7 +134,7 @@
                 //http://www.layui.com/doc/modules/layer.html#use
                 iframeWin.contentWindow.check();
                 //判断逻辑并关闭
-                setTimeout(function(){top.layer.close(index)}, 500);//延时0.1秒，对应360 7.1版本bug
+                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
                 layer.alert("修改成功！！", {icon: 0, title: '提示'});
                 refreshTable(gridId);
             },

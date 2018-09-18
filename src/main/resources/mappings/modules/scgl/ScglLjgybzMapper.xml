@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglLjgybzMapper" >
-    <select id="" resultType="cn.jeeweb.modules.scgl.entity.ScglLjgybz">
-
+    <select id="ajaxGyxlbzList" resultType="cn.jeeweb.modules.scgl.dto.GyxlbzDTO">
+        select * from
+t_scgl_ljgybz t
+where t.gydlbzid = #{gydlbzid}
+ORDER BY px
     </select>
 
 </mapper>

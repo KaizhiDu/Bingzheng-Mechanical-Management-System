@@ -48,8 +48,8 @@
     <grid:button title="编制工艺小类" groupname="opt" function="bzgyxl"
                  outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgyxl?ljid=${scjhglLjgl.id}&id=\"+row.id+\"" />
 
-    <grid:column label="零件名称" name="ljmc" width="30"/>
-    <grid:column label="工艺大类" name="gydlmc"  width="200"/>
+    <grid:column label="零件名称" name="ljmc" width="100"/>
+    <grid:column label="工艺大类" name="gydlmc"  width="100"/>
     <grid:column label="排序" name="px"  width="30"/>
 
     <%--<grid:column label="设置" name="opt2" formatter="button" width="30"/>--%>
@@ -108,6 +108,47 @@
                 refreshTable(gridId);
             }
         });
+    }
+
+    //删除工艺大类
+    function deleteGydl(title, url, gridId, id, width, height, tipMsg) {
+        //获取选中行的id数组
+        var idsArray = $("#ScglGydlbzGrid").jqGrid("getGridParam", "selarrrow")
+        if (idsArray.length>0){
+            var ids = "";
+            for (var i=0;i<idsArray.length;i++){
+                if (i==0){
+                    ids = idsArray[i];
+                }
+                else{
+                    ids = ids + "," + idsArray[i];
+                }
+            }
+            //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
+            layer.confirm('删除这个大类相关小类也会删除!  确定要删除吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    $.ajax({
+                        type: "GET",
+                        url: "${adminPath}/scgl/ljgybz/deleteGydl?ids="+ids,
+                        success: function (data) {
+                            refreshTable(gridId);
+                        }
+                    });
+                    layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                    layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
+                }
+            );
+
+        }
+        else{
+            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+            return;
+        }
+
+
+
     }
 
     //设置大类排序
