@@ -52,12 +52,13 @@
     <grid:column label="工艺大类" name="gydlmc"  width="200"/>
     <grid:column label="排序" name="px"  width="30"/>
 
-    <grid:column label="设置" name="opt2" formatter="button" width="30"/>
-    <grid:button title="设置排序" groupname="opt2" function="szdlpx"
-                 outclass="btn-primary" url="${adminPath}/scgl/ljgybz/szdlpx?ljid=${scjhglLjgl.id}&id=\"+row.id+\"" />
+    <%--<grid:column label="设置" name="opt2" formatter="button" width="30"/>--%>
+    <%--<grid:button title="设置排序" groupname="opt2" function="szdlpx"--%>
+                 <%--outclass="btn-primary" url="${adminPath}/scgl/ljgybz/szdlpx?ljid=${scjhglLjgl.id}&id=\"+row.id+\"" />--%>
 
     <grid:toolbar function="addGydl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加工艺大类"/>\
     <grid:toolbar function="deleteGydl" icon="fa fa-trash-o" btnclass="btn btn-sm btn-danger" title="删除"/>
+    <grid:toolbar function="szdlpx" icon="fa fa-edit" btnclass="btn btn-sm btn-warning" title="修改排序"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -111,6 +112,7 @@
 
     //设置大类排序
     function szdlpx(title, url, gridId, id, width, height, tipMsg){
+        var url="${adminPath}/scgl/ljgybz/szdlpx?ljid=${scjhglLjgl.id}";
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -119,7 +121,7 @@
         }
         top.layer.open({
             type: 2,
-            area: ["40%", "30%"],
+            area: ["45%", "95%"],
             title: "设置排序",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
@@ -137,7 +139,7 @@
                 //http://www.layui.com/doc/modules/layer.html#use
                 iframeWin.contentWindow.check();
                 //判断逻辑并关闭
-                setTimeout(function(){top.layer.close(index)}, 500);//延时0.1秒，对应360 7.1版本bug
+                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
                 layer.alert("修改成功！！", {icon: 0, title: '提示'});
                 refreshTable(gridId);
             },

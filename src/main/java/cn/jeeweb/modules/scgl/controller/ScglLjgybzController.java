@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
 * @Description:    生产管理-零件工艺编制
@@ -188,19 +189,13 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
      * @Version:        1.0
      */
      @RequestMapping(value = "szdlpx", method={RequestMethod.GET, RequestMethod.POST})
-     public String szdlpx(String id ,String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
-         //修改用到的id
-         model.addAttribute("id",id);
-         //当前排序
-         ScglGydlbz scglGydlbz = scglGydlbzService.selectById(id);
-         model.addAttribute("dqpx", scglGydlbz.getPx());
-         //零件ID
-         model.addAttribute("ljid", ljid);
-         //排序总数
+     public String szdlpx(String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
+         //得到所有改零件的大类信息
          EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
-        wrapper.eq("LJID", ljid);
-        List<ScglGydlbz> scglGydlbzs = scglGydlbzService.selectList(wrapper);
-        model.addAttribute("pxzs", scglGydlbzs.size());
+         wrapper.eq("LJID", ljid);
+         wrapper.orderBy("PX");
+         List<ScglGydlbz> gydlbzsList = scglGydlbzService.selectList(wrapper);
+         model.addAttribute("gydlbzsList", gydlbzsList);
          return display("szdlpx");
      }
 
@@ -251,5 +246,24 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
         //工艺大类编制ID
         model.addAttribute("gydlbzid", gydlbzid);
         return display("addGyxl");
+    }
+
+    /**
+    * @Description:    保存大类排序
+    * @Author:         杜凯之
+    * @CreateDate:     2018/9/18 14:38
+    * @Version:        1.0
+    */
+    @RequestMapping(value = "saveDlpx", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveDlpx(String list, HttpServletRequest request, HttpServletResponse response, Model model){
+        String dlpx[] = list.split(",");
+        for (int i=0;i<dlpx.length;i++){
+            String id = dlpx[i].split("-")[0];
+            int px = Integer.parseInt(dlpx[i].split("-")[1]);
+            ScglGydlbz scglGydlbz = scglGydlbzService.selectById(id);
+            scglGydlbz.setPx(px);
+            scglGydlbzService.updateById(scglGydlbz);
+        }
     }
 }
