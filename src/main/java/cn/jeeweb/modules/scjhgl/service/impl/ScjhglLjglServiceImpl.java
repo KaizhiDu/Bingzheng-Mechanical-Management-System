@@ -4,6 +4,7 @@ import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.scgl.dto.SsxDTO;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.mapper.ScjhglLjglMapper;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
@@ -11,6 +12,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @Description:    生产计划管理-零件管理
@@ -39,5 +42,16 @@ public class ScjhglLjglServiceImpl extends CommonServiceImpl<ScjhglLjglMapper, S
         page.setRecords(scjhglLjglMapper.ajaxljglList(page, scjhglLjgl));
         PageJson<ScjhglLjgl> pagejson = new PageJson<ScjhglLjgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 根据计划ID获取所有的零件信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/20 12:55
+     */
+    @Override
+    public List<SsxDTO> cxLj(String jhid) {
+        return scjhglLjglMapper.cxLj(jhid);
     }
 }

@@ -1,4 +1,4 @@
-package cn.jeeweb.modules.scjhgl.entity;
+package cn.jeeweb.modules.scgl.entity;
 
 import cn.jeeweb.core.common.entity.AbstractEntity;
 import cn.jeeweb.modules.sys.entity.User;
@@ -11,33 +11,36 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * @Description:    生产计划管理-零件管理
+ * @Description:    生产管理-零件工艺编制
  * @Author:         杜凯之
- * @CreateDate:     2018/9/4 17:07
+ * @CreateDate:     2018/9/14 15:58
  * @Version:        1.0
  */
-@TableName("T_SCJHGL_LJGL")
+@TableName("T_SCGL_LJGYBZ")
 @SuppressWarnings("serial")
-public class ScjhglLjgl extends AbstractEntity<String> {
+public class ScglGybzgl extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 合同ID */
-    @TableField(value = "HTID")
-    private String htid;
-    /** 零件图号 */
-    @TableField(value = "LJTH")
-    private String ljth;
-    /** 零件名称 */
-    @TableField(value = "LJMC")
-    private String ljmc;
-    /** 单用量 */
-    @TableField(value = "DYL")
-    private String dyl;
+    /** 工艺大类编制ID */
+    @TableField(value = "GYDLBZID")
+    private String gydlbzid;
+    /** 工艺小类ID */
+    @TableField(value = "GYXLID")
+    private String gyxlid;
+    /** 工艺小类名称 */
+    @TableField(value = "GYXLMC")
+    private String gyxlmc;
+    /** 描述 */
+    @TableField(value = "MS")
+    private String ms;
+    /** 排序 */
+    @TableField(value = "PX")
+    private int px;
     /** 数量 */
     @TableField(value = "SL")
-    private String sl;
+    private int sl;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -62,28 +65,44 @@ public class ScjhglLjgl extends AbstractEntity<String> {
         this.id = id;
     }
 
-    public String getHtid() {
-        return htid;
+    public String getGydlbzid() {
+        return gydlbzid;
     }
 
-    public void setHtid(String htid) {
-        this.htid = htid;
+    public void setGydlbzid(String gydlbzid) {
+        this.gydlbzid = gydlbzid;
     }
 
-    public String getLjmc() {
-        return ljmc;
+    public String getGyxlid() {
+        return gyxlid;
     }
 
-    public void setLjmc(String ljmc) {
-        this.ljmc = ljmc;
+    public void setGyxlid(String gyxlid) {
+        this.gyxlid = gyxlid;
     }
 
-    public String getSl() {
-        return sl;
+    public String getGyxlmc() {
+        return gyxlmc;
     }
 
-    public void setSl(String sl) {
-        this.sl = sl;
+    public void setGyxlmc(String gyxlmc) {
+        this.gyxlmc = gyxlmc;
+    }
+
+    public String getMs() {
+        return ms;
+    }
+
+    public void setMs(String ms) {
+        this.ms = ms;
+    }
+
+    public int getPx() {
+        return px;
+    }
+
+    public void setPx(int px) {
+        this.px = px;
     }
 
     public User getUpdateBy() {
@@ -118,19 +137,11 @@ public class ScjhglLjgl extends AbstractEntity<String> {
         this.updateDate = updateDate;
     }
 
-    public String getLjth() {
-        return ljth;
+    public int getSl() {
+        return sl;
     }
 
-    public void setLjth(String ljth) {
-        this.ljth = ljth;
-    }
-
-    public String getDyl() {
-        return dyl;
-    }
-
-    public void setDyl(String dyl) {
-        this.dyl = dyl;
+    public void setSl(int sl) {
+        this.sl = sl;
     }
 }

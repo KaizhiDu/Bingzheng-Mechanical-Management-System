@@ -3,7 +3,10 @@ package cn.jeeweb.modules.scjhgl.service;
 import cn.jeeweb.core.common.service.ICommonService;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.scgl.dto.SsxDTO;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
+
+import java.util.List;
 
 /**
  * @Description:    生产计划管理-零件管理
@@ -19,4 +22,12 @@ public interface IScjhglLjglService extends ICommonService<ScjhglLjgl> {
      * @Version:        1.0
      */
     public PageJson<ScjhglLjgl> ajaxljglList(Queryable queryable, ScjhglLjgl scjhglLjgl);
+
+    /**
+     * Dscription: 根据计划ID获取所有的零件信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/20 12:55
+     */
+    public List<SsxDTO> cxLj(String jhid);
 }

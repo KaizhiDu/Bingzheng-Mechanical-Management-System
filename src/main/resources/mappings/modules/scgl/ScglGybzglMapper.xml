@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglGybzglMapper" >
+    <select id="ajaxGybzglList" resultType="cn.jeeweb.modules.scgl.dto.GybzglDTO">
+SELECT T.ID ID,
+       T3.HTBH JHBH,
+			 T2.LJMC LJMC,
+			 T2.LJTH LJTH,
+			 T1.GYDLMC GYDLMC,
+			 T.GYXLMC GYXLMC,
+			 T1.PX DPX,
+			 T.PX XPX,
+			 T.SL SL,
+			 T.SYSL SYSL
+FROM T_SCGL_LJGYBZ T,
+     T_SCGL_GYDLBZ T1,
+		 T_SCJHGL_LJGL T2,
+		 T_SCJHGL_HTGL T3
+WHERE 1=1
+      AND T.GYDLBZID = T1.ID
+			AND T1.LJID = T2.ID
+			AND T2.HTID = T3.ID
+		<if test="entity.jhbh!=null and entity.jhbh!=''">
+		AND T3.ID = #{entity.jhbh}
+		</if>
+		<if test="entity.ljmc!=null and entity.ljmc!=''">
+			AND T2.ID = #{entity.ljmc}
+		</if>
+		<if test="entity.gydlmc!=null and entity.gydlmc!=''">
+			AND T1.ID = #{entity.gydlmc}
+		</if>
+		<if test="entity.gyxlmc!=null and entity.gyxlmc!=''">
+			AND T.ID = #{entity.gyxlmc}
+		</if>
+ORDER BY JHBH,LJMC,DPX,XPX
+
+    </select>
+
+</mapper>

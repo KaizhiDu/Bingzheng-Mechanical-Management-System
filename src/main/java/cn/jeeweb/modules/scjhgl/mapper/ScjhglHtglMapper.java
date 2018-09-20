@@ -2,6 +2,7 @@ package cn.jeeweb.modules.scjhgl.mapper;
 
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.scgl.dto.SsxDTO;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
@@ -24,4 +25,12 @@ public interface ScjhglHtglMapper extends BaseMapper<ScjhglHtgl> {
      * @Version:        1.0
      */
     public List<ScjhglHtgl> ajaxJhglList(Pagination page, @Param("entity") ScjhglHtgl entity);
+
+    /**
+     * Dscription: 得到所有计划信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/20 12:47
+     */
+    public List<SsxDTO> getJhList();
 }

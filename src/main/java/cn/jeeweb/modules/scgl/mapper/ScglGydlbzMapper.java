@@ -1,6 +1,7 @@
 package cn.jeeweb.modules.scgl.mapper;
 
 import cn.jeeweb.modules.scgl.dto.GydlbzDTO;
+import cn.jeeweb.modules.scgl.dto.SsxDTO;
 import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
@@ -22,4 +23,12 @@ public interface ScglGydlbzMapper extends BaseMapper<ScglGydlbz> {
      * @Version:        1.0
      */
     public List<GydlbzDTO> ajaxGydlbzList(Pagination page, @Param("entity") GydlbzDTO gydlbzDTO);
+
+    /**
+     * Dscription: 根据根据零件id得到所有大类信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/20 13:13
+     */
+    public List<SsxDTO> cxGydl(@Param("ljid") String ljid);
 }

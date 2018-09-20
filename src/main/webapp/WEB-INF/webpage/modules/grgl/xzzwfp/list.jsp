@@ -39,9 +39,18 @@
                 <label class="control-label">职位：</label>
                 <select name="zw" class="form-control" id="zw">
                     <option value="">请选择</option>
-                    <option value="工人">工人</option>
-                    <option value="管理">管理</option>
-                    <option value="其他">其他</option>
+                    <option value="钳工">钳工</option>
+                    <option value="钳工领班">钳工领班</option>
+                    <option value="铣工">铣工</option>
+                    <option value="车工">车工</option>
+                    <option value="数控">数控</option>
+                    <option value="数控领班">数控领班</option>
+                    <option value="后勤">后勤</option>
+                    <option value="保管">保管</option>
+                    <option value="司机采购">司机采购</option>
+                    <option value="技术">技术</option>
+                    <option value="生产">生产</option>
+                    <option value="质检外协">质检外协</option>
                 </select>
             </div>
             <div class="form-group col-md-4" style="margin-bottom: 10px">

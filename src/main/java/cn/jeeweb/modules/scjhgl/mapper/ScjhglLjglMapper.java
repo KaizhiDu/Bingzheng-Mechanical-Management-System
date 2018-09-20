@@ -1,5 +1,6 @@
 package cn.jeeweb.modules.scjhgl.mapper;
 
+import cn.jeeweb.modules.scgl.dto.SsxDTO;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
@@ -22,4 +23,12 @@ public interface ScjhglLjglMapper extends BaseMapper<ScjhglLjgl> {
      * @Version:        1.0
      */
     public List<ScjhglLjgl> ajaxljglList(Pagination page, @Param("entity") ScjhglLjgl entity);
+
+    /**
+     * Dscription: 根据计划ID获取所有的零件信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/20 12:55
+     */
+    public List<SsxDTO> cxLj(@Param("jhid") String jhid);
 }

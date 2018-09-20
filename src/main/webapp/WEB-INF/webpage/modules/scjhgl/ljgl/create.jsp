@@ -40,7 +40,7 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>合同编号：</label>
+                        <label>计划编号：</label>
                     </td>
                     <td>
                         <select id="htid" name="htid" class="form-control">
@@ -68,10 +68,10 @@
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>零件数量：</label>
+                        <label>单用量：</label>
                     </td>
                     <td>
-                        <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入零件数量"/>
+                        <input name="dyl" id="dyl" htmlEscape="false" class="form-control" placeholder="请输入零件单用量"/>
                     </td>
                 </tr>
             </table>
@@ -88,7 +88,7 @@
         var htid = $("#htid").val();
         var ljth = $("#ljth").val();
         var ljmc = $("#ljmc").val();
-        var sl = $("#sl").val();
+        var dyl = $("#dyl").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/ljgl/saveLj",
@@ -96,7 +96,7 @@
                 id: null,
                 htid: htid,
                 ljmc: ljmc,
-                sl: sl,
+                dyl: dyl,
                 ljth: ljth
             },
             success: function (data) {

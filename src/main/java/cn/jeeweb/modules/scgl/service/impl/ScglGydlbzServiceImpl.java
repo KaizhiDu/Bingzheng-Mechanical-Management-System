@@ -5,6 +5,7 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.scgl.dto.GydlbzDTO;
+import cn.jeeweb.modules.scgl.dto.SsxDTO;
 import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.mapper.ScglGydlbzMapper;
 import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
@@ -12,6 +13,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @Description:    生产管理-工艺大类编制
@@ -40,5 +43,16 @@ public class ScglGydlbzServiceImpl extends CommonServiceImpl<ScglGydlbzMapper, S
         page.setRecords(scglGydlbzMapper.ajaxGydlbzList(page, gydlbzDTO));
         PageJson<GydlbzDTO> pagejson = new PageJson<GydlbzDTO>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 根据根据零件id得到所有大类信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/20 13:13
+     */
+    @Override
+    public List<SsxDTO> cxGydl(String ljid) {
+        return scglGydlbzMapper.cxGydl(ljid);
     }
 }

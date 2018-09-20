@@ -4,6 +4,7 @@ import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.scgl.dto.SsxDTO;
 import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.mapper.ScglGydlbzMapper;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
@@ -13,6 +14,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @Description:    生产计划管理-合同管理
@@ -43,5 +46,16 @@ public class ScjhglHtglServiceImpl extends CommonServiceImpl<ScjhglHtglMapper, S
         page.setRecords(scjhglHtglMapper.ajaxJhglList(page, scjhglHtgl));
         PageJson<ScjhglHtgl> pagejson = new PageJson<ScjhglHtgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 得到所有计划信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/20 12:47
+     */
+    @Override
+    public List<SsxDTO> getJhList() {
+        return scjhglHtglMapper.getJhList();
     }
 }

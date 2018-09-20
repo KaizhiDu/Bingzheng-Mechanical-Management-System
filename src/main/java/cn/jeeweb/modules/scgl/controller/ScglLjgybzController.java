@@ -354,6 +354,14 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
         int count2 = scglLjgybzService.selectCount(wrapper2);
         s.setPx(count2+1);
 
+        //添加工序的数量和剩余数量
+        ScglGydlbz scglGydlbz = scglGydlbzService.selectById(gydlbzid);
+        String ljid = scglGydlbz.getLjid();
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
+        int sl = Integer.parseInt(scjhglLjgl.getSl());
+        s.setSl(sl);
+        s.setSysl(sl);
+
         //可以插入了
         scglLjgybzService.insert(s);
     }

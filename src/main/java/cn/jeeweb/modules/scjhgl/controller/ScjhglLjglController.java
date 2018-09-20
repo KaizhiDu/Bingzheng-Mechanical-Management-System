@@ -74,6 +74,12 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     @RequestMapping(value = "saveLj",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public void saveLj(HttpServletRequest request, HttpServletResponse response, Model model, ScjhglLjgl scjhglLjgl){
+        String jhid = scjhglLjgl.getHtid();
+        ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(jhid);
+        int jhsl = Integer.parseInt(scjhglHtgl.getSl());
+        int ljsl = Integer.parseInt(scjhglLjgl.getDyl());
+        int zyl = jhsl*ljsl;
+        scjhglLjgl.setSl(zyl+"");
         scjhglLjglService.insert(scjhglLjgl);
     }
 

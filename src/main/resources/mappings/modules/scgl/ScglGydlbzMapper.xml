@@ -13,4 +13,23 @@
 		ORDER BY T.PX
     </select>
 
+	<select id="cxGydl" resultType="cn.jeeweb.modules.scgl.dto.SsxDTO">
+		SELECT T3.ID JHID,
+       T2.ID LJID,
+       T1.ID GYDLBZID,
+       T1.GYDLMC
+FROM T_SCGL_LJGYBZ T,
+     T_SCGL_GYDLBZ T1,
+		 T_SCJHGL_LJGL T2,
+		 T_SCJHGL_HTGL T3
+WHERE 1=1
+      AND T.GYDLBZID = T1.ID
+			AND T1.LJID = T2.ID
+			AND T2.HTID = T3.ID
+		<if test="ljid!=null and ljid!=''">
+			AND T1.LJID = #{ljid}
+		</if>
+GROUP BY GYDLBZID
+	</select>
+
 </mapper>

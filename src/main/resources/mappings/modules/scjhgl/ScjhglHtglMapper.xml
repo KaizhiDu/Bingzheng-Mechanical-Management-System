@@ -11,4 +11,17 @@
         ORDER BY HTBH
     </select>
 
+    <select id="getJhList" resultType="cn.jeeweb.modules.scgl.dto.SsxDTO">
+        SELECT T3.ID JHID,
+       T3.HTBH JHBH
+FROM T_SCGL_LJGYBZ T,
+     T_SCGL_GYDLBZ T1,
+		 T_SCJHGL_LJGL T2,
+		 T_SCJHGL_HTGL T3
+WHERE 1=1
+      AND T.GYDLBZID = T1.ID
+			AND T1.LJID = T2.ID
+			AND T2.HTID = T3.ID
+GROUP BY JHID
+    </select>
 </mapper>

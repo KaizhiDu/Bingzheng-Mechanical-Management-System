@@ -38,6 +38,12 @@ public class ScglLjgybz extends AbstractEntity<String> {
     /** 排序 */
     @TableField(value = "PX")
     private int px;
+    /** 数量 */
+    @TableField(value = "SL")
+    private int sl;
+    /** 剩余数量 */
+    @TableField(value = "SYSL")
+    private int sysl;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -132,5 +138,21 @@ public class ScglLjgybz extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public int getSl() {
+        return sl;
+    }
+
+    public void setSl(int sl) {
+        this.sl = sl;
+    }
+
+    public int getSysl() {
+        return sysl;
+    }
+
+    public void setSysl(int sysl) {
+        this.sysl = sysl;
     }
 }

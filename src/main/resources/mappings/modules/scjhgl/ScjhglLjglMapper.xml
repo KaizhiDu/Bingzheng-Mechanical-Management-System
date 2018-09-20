@@ -6,6 +6,7 @@
 			 (SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.HTID) HTID,
 			 LJTH,
 			 LJMC,
+			 DYL,
 			 SL
 FROM T_SCJHGL_LJGL T
 WHERE 1=1
@@ -17,5 +18,24 @@ WHERE 1=1
 		</if>
 ORDER BY T.HTID
     </select>
+
+	<select id="cxLj" resultType="cn.jeeweb.modules.scgl.dto.SsxDTO">
+		SELECT T3.ID JHID,
+		T2.ID LJID,
+		T2.LJMC
+		FROM T_SCGL_LJGYBZ T,
+		T_SCGL_GYDLBZ T1,
+		T_SCJHGL_LJGL T2,
+		T_SCJHGL_HTGL T3
+		WHERE 1=1
+		AND T.GYDLBZID = T1.ID
+		AND T1.LJID = T2.ID
+		AND T2.HTID = T3.ID
+		<if test="jhid!=null and jhid!=''">
+			AND T2.HTID = #{jhid}
+		</if>
+		GROUP BY LJID
+
+	</select>
 
 </mapper>

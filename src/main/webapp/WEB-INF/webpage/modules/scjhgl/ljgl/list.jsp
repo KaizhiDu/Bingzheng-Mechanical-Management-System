@@ -63,9 +63,10 @@
                  <%--outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />--%>
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
                  <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
-    <grid:column label="合同编号" name="htid"/>
+    <grid:column label="计划编号" name="htid"/>
     <grid:column label="零件名称" name="ljmc"/>
     <grid:column label="零件图号" name="ljth"/>
+    <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
 
     <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
