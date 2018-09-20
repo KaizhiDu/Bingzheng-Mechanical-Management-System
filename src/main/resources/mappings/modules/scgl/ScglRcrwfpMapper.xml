@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglRcrwfpMapper" >
+    <select id="getYgsj" resultType="cn.jeeweb.modules.scgl.dto.YgsjDTO">
+SELECT T.NAME XM,
+       T1.ZWID ZW,
+       T.GENDER XB
+FROM T_GRGL T,
+     t_grgl_xzzwfp T1
+WHERE 1=1
+      AND T.ID = T1.YGID
+      AND T1.ZWID IN('数控','数控领班','钳工','钳工领班','车工','铣工')
+ORDER BY T1.ZWID DESC
+    </select>
+
+    <select id="ajaxRcrwfpList" resultType="cn.jeeweb.modules.scgl.entity.ScglRcrwfp">
+        SELECT *
+        FROM T_SCGL_RCRWFP
+        WHERE RQ = #{RQ}
+        ORDER BY ZW
+    </select>
+
+</mapper>
