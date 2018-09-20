@@ -17,7 +17,7 @@ ORDER BY T1.ZWID DESC
         SELECT *
         FROM T_SCGL_RCRWFP
         WHERE RQ = #{RQ}
-        ORDER BY ZW
+        ORDER BY ZW DESC
     </select>
 
 </mapper>
