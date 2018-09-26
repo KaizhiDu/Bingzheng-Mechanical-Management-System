@@ -11,33 +11,30 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * Dscription: 生产管理-日常任务分配
+ * Dscription: 日工 - 工时
  * @author : Kevin Du
  * @version : 1.0
- * @date : 2018/9/20 17:04
+ * @date : 2018/9/26 9:40
  */
-@TableName("T_SCGL_RCRWFP")
+@TableName("T_SCGL_RCRWFP_RG_GS")
 @SuppressWarnings("serial")
-public class ScglRcrwfp extends AbstractEntity<String> {
+public class ScglRggs extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 员工ID */
-    @TableField(value = "ygid")
-    private String ygid;
-    /** 日期 */
-    @TableField(value = "RQ")
-    private String rq;
-    /** 姓名 */
-    @TableField(value = "XM")
-    private String xm;
-    /** 职位 */
-    @TableField(value = "ZW")
-    private String zw;
-    /** 性别 */
-    @TableField(value = "XB")
-    private String xb;
+    /** 日常任务分配ID */
+    @TableField(value = "rcrwfpid")
+    private String rcrwfpid;
+    /** 工时名称 */
+    @TableField(value = "gsmc")
+    private String gsmc;
+    /** 工时 */
+    @TableField(value = "gs")
+    private String gs;
+    /** 加班 */
+    @TableField(value = "jb")
+    private String jb;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -62,36 +59,36 @@ public class ScglRcrwfp extends AbstractEntity<String> {
         this.id = id;
     }
 
-    public String getRq() {
-        return rq;
+    public String getRcrwfpid() {
+        return rcrwfpid;
     }
 
-    public void setRq(String rq) {
-        this.rq = rq;
+    public void setRcrwfpid(String rcrwfpid) {
+        this.rcrwfpid = rcrwfpid;
     }
 
-    public String getXm() {
-        return xm;
+    public String getGsmc() {
+        return gsmc;
     }
 
-    public void setXm(String xm) {
-        this.xm = xm;
+    public void setGsmc(String gsmc) {
+        this.gsmc = gsmc;
     }
 
-    public String getZw() {
-        return zw;
+    public String getGs() {
+        return gs;
     }
 
-    public void setZw(String zw) {
-        this.zw = zw;
+    public void setGs(String gs) {
+        this.gs = gs;
     }
 
-    public String getXb() {
-        return xb;
+    public String getJb() {
+        return jb;
     }
 
-    public void setXb(String xb) {
-        this.xb = xb;
+    public void setJb(String jb) {
+        this.jb = jb;
     }
 
     public User getUpdateBy() {
@@ -124,13 +121,5 @@ public class ScglRcrwfp extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public String getYgid() {
-        return ygid;
-    }
-
-    public void setYgid(String ygid) {
-        this.ygid = ygid;
     }
 }

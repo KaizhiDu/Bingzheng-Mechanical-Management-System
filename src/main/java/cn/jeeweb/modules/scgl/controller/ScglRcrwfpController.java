@@ -7,7 +7,9 @@ import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.ScglRcrwfp;
+import cn.jeeweb.modules.scgl.entity.ScglRggs;
 import cn.jeeweb.modules.scgl.service.IScglRcrwfpService;
+import cn.jeeweb.modules.scgl.service.IScglRggsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +39,10 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @Autowired
     private IScglRcrwfpService scglRcrwfpService;
 
+    @Autowired
+    /**生产管理-日工工时*/
+    private IScglRggsService scglRggsService;
+
     /**
      * Dscription: 添加日子和搜索项
      * @author : Kevin Du
@@ -65,6 +71,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                 s.setRq(currentTime);
                 s.setXm(ygsjDTO.getXm());
                 s.setZw(ygsjDTO.getZw());
+                s.setYgid(ygsjDTO.getYgid());
                 list.add(s);
             }
             scglRcrwfpService.insertBatch(list);
@@ -82,5 +89,64 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     public PageJson<ScglRcrwfp> ajaxRcrwfpList(Queryable queryable, ScglRcrwfp scglRcrwfp, HttpServletRequest request, HttpServletResponse response, Model model){
         PageJson<ScglRcrwfp> pageJson = scglRcrwfpService.ajaxRcrwfpList(queryable,scglRcrwfp);
         return pageJson;
+    }
+
+    /**
+     * Dscription: 跳转到日常任务分配页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/25 11:07
+     */
+    @RequestMapping(value = "fprw", method={RequestMethod.GET, RequestMethod.POST})
+    public String fprw(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglRcrwfp scglRcrwfp = scglRcrwfpService.selectById(id);
+        model.addAttribute("rcrwfp",scglRcrwfp);
+        return display("fprw");
+    }
+
+    /**
+     * Dscription: 跳转到分配工时页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/25 11:44
+     */
+    @RequestMapping(value = "fpgs", method={RequestMethod.GET, RequestMethod.POST})
+    public String fpgs(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglRcrwfp scglRcrwfp = scglRcrwfpService.selectById(id);
+        model.addAttribute("rcrwfp",scglRcrwfp);
+        EntityWrapper<ScglRggs> wrapper = new EntityWrapper<ScglRggs>();
+        wrapper.eq("RCRWFPID", scglRcrwfp.getId());
+        ScglRggs scglRggs = scglRggsService.selectOne(wrapper);
+        model.addAttribute("rggs", scglRggs);
+        if (scglRggs==null){
+            model.addAttribute("RggsId", "");
+        }
+        else{
+            model.addAttribute("RggsId", scglRggs.getId());
+        }
+        return display("fpgs");
+    }
+
+    /**
+     * Dscription: 保存工时
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/26 9:27
+     */
+    @RequestMapping(value = "saveGs", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveGs(ScglRggs scglRggs, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (scglRggs.getGsmc()==null){
+            scglRggs.setGsmc("");
+        }
+        //执行插入操作
+        if (scglRggs.getId()==null||scglRggs.getId().equals("")){
+            scglRggs.setId(null);
+            scglRggsService.insert(scglRggs);
+        }
+        //执行更新操作
+        else{
+            scglRggsService.updateById(scglRggs);
+        }
     }
 }

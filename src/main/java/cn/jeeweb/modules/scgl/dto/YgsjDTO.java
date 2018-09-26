@@ -6,6 +6,8 @@ package cn.jeeweb.modules.scgl.dto;
  * @date : 2018/9/20 18:20
  */
 public class YgsjDTO {
+    /**员工ID*/
+    private String ygid;
     /**姓名*/
     private String xm;
     /**职务*/
@@ -14,6 +16,13 @@ public class YgsjDTO {
     private String xb;
     /**日期*/
     private String rq;
+
+    public String getYgid() {
+        return ygid;
+    }
+    public void setYgid(String ygid) {
+        this.ygid = ygid;
+    }
 
     public String getXm() {
         return xm;

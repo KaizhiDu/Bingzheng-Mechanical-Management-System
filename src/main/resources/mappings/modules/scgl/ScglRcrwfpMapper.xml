@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglRcrwfpMapper" >
     <select id="getYgsj" resultType="cn.jeeweb.modules.scgl.dto.YgsjDTO">
-SELECT T.NAME XM,
+SELECT T.ID YGID,
+       T.NAME XM,
        T1.ZWID ZW,
        T.GENDER XB
 FROM T_GRGL T,
