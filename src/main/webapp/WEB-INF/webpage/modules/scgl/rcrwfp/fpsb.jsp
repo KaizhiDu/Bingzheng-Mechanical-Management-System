@@ -31,29 +31,25 @@
 </head>
 <body>
 
-<h2>${currentTime} 日工分配</h2>
-<div class="row">
-    <div id="RcrwfpGridQuery" class="col-md-12">
-        <div class="form-inline">
-            <div class="form-group col-md-3" style="margin-bottom: 10px">
+<h2>${rcrwfp.xm}</h2>
+<hr>
 
-            </div>
-        </div>
-    </div>
-</div>
-<grid:grid id="Rcrwfp"
-           url="${adminPath}/scgl/rcrwfp/ajaxRcrwfpList" pageable="true">
+<input type="hidden" id="rcrwfpid" name="rcrwfpid" value="${rcrwfp.id}">
+
+<grid:grid id="RcrwfpSb"
+           url="${adminPath}/scgl/rcrwfp/ajaxRcrwfpSbList?rcrwfpid=${rcrwfp.id}" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="50"/>
-    <grid:button title="分配工时" groupname="opt" function="fpgs"
-                 outclass="btn-primary" url="${adminPath}/scgl/rcrwfp/fpgs?id=\"+row.id+\"" />
-    <grid:button title="分配任务" groupname="opt" function="fpsb"
-                 outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fpsb?id=\"+row.id+\"" />
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
+    <grid:button title="任务分配" groupname="opt" function="fprw"
+                 outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fprw?id=\"+row.id+\"" />
 
-    <grid:column label="姓名" name="xm"/>
-    <grid:column label="职位" name="zw"/>
-    <grid:column label="性别" name="xb" dict="sex" dateformat=""/>
+    <grid:column label="设备编号" name="sbbh"/>
+    <grid:column label="设备名称" name="sbmc"/>
+    <grid:column label="所属类别" name="ssdl"/>
+
+    <grid:toolbar function="addSb" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加设备"/>
+    <grid:toolbar function="deleteSb" icon="fa fa-trash" title="删除设备" btnclass="btn-danger"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -61,8 +57,47 @@
 
 <script type="text/javascript">
 
-    //分配工时
-    function fpgs(title, url, gridId, id, width, height, tipMsg) {
+    //删除设备
+    function deleteSb(title, url, gridId, id, width, height, tipMsg){
+        //获取选中行的id数组
+        var idsArray = $("#RcrwfpSbGrid").jqGrid("getGridParam", "selarrrow")
+        if (idsArray.length>0){
+            var ids = "";
+            for (var i=0;i<idsArray.length;i++){
+                if (i==0){
+                    ids = idsArray[i];
+                }
+                else{
+                    ids = ids + "," + idsArray[i];
+                }
+            }
+            //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
+            layer.confirm('确定要删除吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    $.ajax({
+                        type: "GET",
+                        url: "${adminPath}/scgl/rcrwfp/deleteSb?ids="+ids,
+                        success: function (data) {
+                            refreshTable(gridId);
+                        }
+                    });
+                    layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                    layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
+                }
+            );
+
+        }
+        else{
+            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+            return;
+        }
+    }
+
+    //添加设备
+    function addSb(title, url, gridId, id, width, height, tipMsg){
+        url = "${adminPath}/scgl/rcrwfp/addSb?rcrwfpid=${rcrwfp.id}";
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -71,8 +106,8 @@
         }
         top.layer.open({
             type: 2,
-            area: ["30%", "50%"],
-            title: "分配工时",
+            area: ["90%", "85%"],
+            title: "添加设备",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
             success: function(layero, index){
@@ -81,7 +116,7 @@
                     $(this).blur();
                 });
             },
-            btn: ['保存', '关闭'],
+            btn: ['添加', '关闭'],
             yes: function(index, layero){
                 var body = top.layer.getChildFrame('body', index);
                 var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -102,8 +137,9 @@
         });
     }
 
-    //分配日常任务
-    function fpsb(title, url, gridId, id, width, height, tipMsg) {
+    //分配任务
+    function fprw(title, url, gridId, id, width, height, tipMsg){
+
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -112,8 +148,8 @@
         }
         top.layer.open({
             type: 2,
-            area: ["95%", "90%"],
-            title: "日常任务分配",
+            area: ["90%", "85%"],
+            title: "添加任务",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
             success: function(layero, index){
@@ -122,7 +158,7 @@
                     $(this).blur();
                 });
             },
-            btn: ['保存', '关闭'],
+            btn: ['添加', '关闭'],
             yes: function(index, layero){
                 var body = top.layer.getChildFrame('body', index);
                 var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -142,6 +178,7 @@
             }
         });
     }
+
 </script>
 
 </body>

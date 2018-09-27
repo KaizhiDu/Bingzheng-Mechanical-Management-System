@@ -62,8 +62,8 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
 */
     @RequestMapping(value = "ajaxListSbgl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<Sbgl> ajaxListSbgl(Queryable queryable, Sbgl sbgl, HttpServletRequest request, HttpServletResponse response, Model model){
-        PageJson<Sbgl> pageJson = sbglSbflgl.ajaxListSbgl(queryable,sbgl);
+    public PageJson<Sbgl> ajaxListSbgl(String addSb ,Queryable queryable, Sbgl sbgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<Sbgl> pageJson = sbglSbflgl.ajaxListSbgl(queryable,sbgl,addSb);
         return pageJson;
     }
 

@@ -19,5 +19,5 @@ public interface ISbglService extends ICommonService<Sbgl>{
      * @CreateDate:     2018/8/30 17:58
      * @Version:        1.0
      */
-    public PageJson<Sbgl> ajaxListSbgl(Queryable queryable, Sbgl sbgl);
+    public PageJson<Sbgl> ajaxListSbgl(Queryable queryable, Sbgl sbgl, String addSb);
 }

@@ -34,10 +34,10 @@ public class SbglServiceImpl  extends CommonServiceImpl<SbglMapper, Sbgl> implem
      * @Version:        1.0
      */
     @Override
-    public PageJson<Sbgl> ajaxListSbgl(Queryable queryable, Sbgl sbgl) {
+    public PageJson<Sbgl> ajaxListSbgl(Queryable queryable, Sbgl sbgl, String addSb) {
         Pageable pageable = queryable.getPageable();
         Page<Sbgl> page = new Page<Sbgl>(pageable.getPageNumber(), pageable.getPageSize());
-        page.setRecords(sbglMapper.ajaxListSbgl(page, sbgl));
+        page.setRecords(sbglMapper.ajaxListSbgl(page, sbgl, addSb));
         PageJson<Sbgl> pagejson = new PageJson<Sbgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }

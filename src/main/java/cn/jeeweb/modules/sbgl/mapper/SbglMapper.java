@@ -21,5 +21,5 @@ public interface SbglMapper extends BaseMapper<Sbgl> {
      * @CreateDate:     2018/8/30 17:58
      * @Version:        1.0
      */
-    public List<Sbgl> ajaxListSbgl(Pagination page, @Param("entity") Sbgl entity);
+    public List<Sbgl> ajaxListSbgl(Pagination page, @Param("entity") Sbgl entity, @Param("addSb") String addSb);
 }

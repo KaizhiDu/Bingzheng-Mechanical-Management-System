@@ -24,6 +24,9 @@ WHERE 1=1
 		<if test="entity.zt!=null and entity.zt!=''">
 			AND SS.ZT = #{entity.zt}
 		</if>
+		<if test="addSb!=null and addSb!=''">
+			AND SS.ZT = '1'
+		</if>
 		ORDER BY SS.SBBH
     </select>
 
