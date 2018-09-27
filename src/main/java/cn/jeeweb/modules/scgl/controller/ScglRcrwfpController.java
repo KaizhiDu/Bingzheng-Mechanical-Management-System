@@ -8,15 +8,12 @@ import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
 import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
 import cn.jeeweb.modules.sbgl.service.ISbglService;
+import cn.jeeweb.modules.scgl.dto.RgrwDTO;
 import cn.jeeweb.modules.scgl.dto.RgsbDTO;
 import cn.jeeweb.modules.scgl.dto.SsxDTO;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
-import cn.jeeweb.modules.scgl.entity.ScglRcrwfp;
-import cn.jeeweb.modules.scgl.entity.ScglRggs;
-import cn.jeeweb.modules.scgl.entity.ScglRgsb;
-import cn.jeeweb.modules.scgl.service.IScglRcrwfpService;
-import cn.jeeweb.modules.scgl.service.IScglRggsService;
-import cn.jeeweb.modules.scgl.service.IScglRgsbService;
+import cn.jeeweb.modules.scgl.entity.*;
+import cn.jeeweb.modules.scgl.service.*;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,12 +40,12 @@ import java.util.List;
 @RequiresPathPermission("scgl:rcrwfp")
 public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String> {
 
-    /**生产管理-日常任务分配*/
+    /**生产管理-日常任务分配Service*/
     @Autowired
     private IScglRcrwfpService scglRcrwfpService;
 
     @Autowired
-    /**生产管理-日工工时*/
+    /**生产管理-日工工时Service*/
     private IScglRggsService scglRggsService;
 
     /**设备分类管理Service*/
@@ -59,13 +56,21 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @Autowired
     private ISbglService sbglService;
 
-    /**生产管理-日工设备*/
+    /**生产管理-日工设备Service*/
     @Autowired
     private IScglRgsbService scglRgsbService;
 
     /**生产计划管理-计划管理Service*/
     @Autowired
     private IScjhglHtglService scjhglHtglService;
+
+    /**生产管理-日工任务Service*/
+    @Autowired
+    private IScglRgrwService scglRgrwService;
+
+    @Autowired
+    /**生产管理-零件工艺编制Service*/
+    private IScglLjgybzService scglLjgybzService;
 
     /**
      * Dscription: 添加日子和搜索项
@@ -125,6 +130,19 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @ResponseBody
     public PageJson<RgsbDTO> ajaxRcrwfpSbList(Queryable queryable, RgsbDTO rgsbDTO, HttpServletRequest request, HttpServletResponse response, Model model){
         PageJson<RgsbDTO> pageJson = scglRgsbService.ajaxRcrwfpSbList(queryable,rgsbDTO);
+        return pageJson;
+    }
+
+    /**
+     * Dscription: 日工 - 添加的任务展示
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 14:30
+     */
+    @RequestMapping(value = "ajaxRcrwfpRwList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<RgrwDTO> ajaxRcrwfpRwList(Queryable queryable, RgrwDTO rgrwDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<RgrwDTO> pageJson = scglRgrwService.ajaxRcrwfpRwList(queryable,rgrwDTO);
         return pageJson;
     }
 
@@ -255,6 +273,21 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     }
 
     /**
+     * Dscription: 删除任务信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 15:20
+     */
+    @RequestMapping(value = "deleteRw", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void deleteRw(String ids , HttpServletRequest request, HttpServletResponse response, Model model){
+        String idsArray[] = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            scglRgrwService.deleteById(idsArray[i]);
+        }
+    }
+
+    /**
      * Dscription: 跳转到任务分配页面
      * @author : Kevin Du
      * @version : 1.0
@@ -292,6 +325,66 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
       */
     @RequestMapping(value = "saveRw", method={RequestMethod.GET, RequestMethod.POST})
     public void saveRw(String ids ,String fpsbid ,HttpServletRequest request, HttpServletResponse response, Model model){
-        int a = 1;
+        String idsArray[] = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            EntityWrapper<ScglRgrw> wrapper = new EntityWrapper<ScglRgrw>();
+            wrapper.orderBy("PX");
+            int index = scglRgrwService.selectList(wrapper).size();
+            if (index == 0){
+                int px = 1;
+                ScglRgrw s = new ScglRgrw();
+                s.setPx(px);
+                s.setLjgybzid(idsArray[i]);
+                s.setFpsbid(fpsbid);
+                scglRgrwService.insert(s);
+            }
+            else{
+                int px = scglRgrwService.selectList(wrapper).get(index-1).getPx()+1;
+                ScglRgrw s = new ScglRgrw();
+                s.setPx(px);
+                s.setLjgybzid(idsArray[i]);
+                s.setFpsbid(fpsbid);
+                scglRgrwService.insert(s);
+            }
+
+        }
     }
+
+    /**
+     * Dscription: 转到分配工作量页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 16:04
+     */
+    @RequestMapping(value = "fpgzl", method={RequestMethod.GET, RequestMethod.POST})
+    public String fpgzl(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        ScglRgrw scglRgrw = scglRgrwService.selectById(id);
+        String ljgybzid = scglRgrw.getLjgybzid();
+        String xygzl = scglRgrw.getYwcl();
+        int syslint = scglLjgybzService.selectById(ljgybzid).getSysl();
+        String sysl = syslint+"";
+        model.addAttribute("rgrwid", id);
+        model.addAttribute("ljgybzid" ,ljgybzid);
+        model.addAttribute("sysl", sysl);
+        model.addAttribute("xygzl", xygzl);
+        return display("fpgzl");
+    }
+
+    /**
+     * Dscription: 保存工作量
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 16:05
+     */
+    @RequestMapping(value = "saveGzl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveGzl(String rgrwid, String gzl, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglRgrw scglRgrw = new ScglRgrw();
+        scglRgrw.setId(rgrwid);
+        scglRgrw.setYwcl(gzl);
+        scglRgrwService.updateById(scglRgrw);
+    }
+
+
 }
