@@ -8,10 +8,8 @@ import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
 import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
 import cn.jeeweb.modules.sbgl.service.ISbglService;
-import cn.jeeweb.modules.scgl.dto.BgsbDTO;
-import cn.jeeweb.modules.scgl.dto.RgsbDTO;
-import cn.jeeweb.modules.scgl.dto.SsxDTO;
-import cn.jeeweb.modules.scgl.dto.YgsjDTO;
+import cn.jeeweb.modules.scgl.dto.*;
+import cn.jeeweb.modules.scgl.entity.ScglBgrw;
 import cn.jeeweb.modules.scgl.entity.ScglBgrwfp;
 import cn.jeeweb.modules.scgl.entity.ScglBgsb;
 import cn.jeeweb.modules.scgl.entity.ScglRcrwfp;
@@ -81,6 +79,10 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
     @Autowired
     /**包工-包工设备Service*/
     private IScglBgsbService scglBgsbService;
+
+    @Autowired
+    /**包工-任务设备Service*/
+    private IScglBgrwService scglBgrwService;
 
     /**
      * Dscription: 添加日子和搜索项
@@ -250,5 +252,102 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         List<SsxDTO> jhglList = scjhglHtglService.getJhList();
         model.addAttribute("jhglList", jhglList);
         return display("addRw");
+    }
+
+    /**
+     * Dscription: 保存任务信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 13:30
+     */
+    @RequestMapping(value = "saveRw", method={RequestMethod.GET, RequestMethod.POST})
+    public void saveRw(String ids ,String fpsbid ,HttpServletRequest request, HttpServletResponse response, Model model){
+        String idsArray[] = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            EntityWrapper<ScglBgrw> wrapper = new EntityWrapper<ScglBgrw>();
+            wrapper.orderBy("PX");
+            int index = scglBgrwService.selectList(wrapper).size();
+            if (index == 0){
+                int px = 1;
+                ScglBgrw s = new ScglBgrw();
+                s.setPx(px);
+                s.setLjgybzid(idsArray[i]);
+                s.setFpsbid(fpsbid);
+                scglBgrwService.insert(s);
+            }
+            else{
+                int px = scglBgrwService.selectList(wrapper).get(index-1).getPx()+1;
+                ScglBgrw s = new ScglBgrw();
+                s.setPx(px);
+                s.setLjgybzid(idsArray[i]);
+                s.setFpsbid(fpsbid);
+                scglBgrwService.insert(s);
+            }
+
+        }
+    }
+
+    /**
+     * Dscription: 日工 - 添加的任务展示
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 14:30
+     */
+    @RequestMapping(value = "ajaxBgrwfpRwList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<BgrwDTO> ajaxBgrwfpRwList(Queryable queryable, BgrwDTO bgrwDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<BgrwDTO> pageJson = scglBgrwService.ajaxBgrwfpRwList(queryable,bgrwDTO);
+        return pageJson;
+    }
+
+    /**
+     * Dscription: 删除任务信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 15:20
+     */
+    @RequestMapping(value = "deleteRw", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void deleteRw(String ids , HttpServletRequest request, HttpServletResponse response, Model model){
+        String idsArray[] = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            scglBgrwService.deleteById(idsArray[i]);
+        }
+    }
+
+    /**
+     * Dscription: 转到分配工作量页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 16:04
+     */
+    @RequestMapping(value = "fpgzl", method={RequestMethod.GET, RequestMethod.POST})
+    public String fpgzl(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        ScglBgrw scglBgrw = scglBgrwService.selectById(id);
+        String ljgybzid = scglBgrw.getLjgybzid();
+        String xygzl = scglBgrw.getYwcl();
+        int syslint = scglLjgybzService.selectById(ljgybzid).getSysl();
+        String sysl = syslint+"";
+        model.addAttribute("bgrwid", id);
+        model.addAttribute("ljgybzid" ,ljgybzid);
+        model.addAttribute("sysl", sysl);
+        model.addAttribute("xygzl", xygzl);
+        return display("fpgzl");
+    }
+
+    /**
+     * Dscription: 保存工作量
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/27 16:05
+     */
+    @RequestMapping(value = "saveGzl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveGzl(String bgrwid, String gzl, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglBgrw scglBgrw = new ScglBgrw();
+        scglBgrw.setId(bgrwid);
+        scglBgrw.setYwcl(gzl);
+        scglBgrwService.updateById(scglBgrw);
     }
 }

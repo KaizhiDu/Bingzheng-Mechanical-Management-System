@@ -36,8 +36,8 @@
 
 <input type="hidden" id="fpsbid" name="fpsbid" value="${fpsbid}">
 
-<grid:grid id="RcrwfpRw"
-           url="${adminPath}/scgl/bgrwfp/ajaxRcrwfpRwList?fpsbid=${fpsbid}" pageable="true">
+<grid:grid id="BgrwfpRw"
+           url="${adminPath}/scgl/bgrwfp/ajaxBgrwfpRwList?fpsbid=${fpsbid}" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="80"/>
@@ -64,7 +64,7 @@
     //删除任务
     function deleteRw(title, url, gridId, id, width, height, tipMsg){
         //获取选中行的id数组
-        var idsArray = $("#RcrwfpRwGrid").jqGrid("getGridParam", "selarrrow")
+        var idsArray = $("#BgrwfpRwGrid").jqGrid("getGridParam", "selarrrow")
         if (idsArray.length>0){
             var ids = "";
             for (var i=0;i<idsArray.length;i++){
@@ -81,7 +81,7 @@
                 }, function (index, layero) {
                     $.ajax({
                         type: "GET",
-                        url: "${adminPath}/scgl/rcrwfp/deleteRw?ids="+ids,
+                        url: "${adminPath}/scgl/bgrwfp/deleteRw?ids="+ids,
                         success: function (data) {
                             refreshTable(gridId);
                         }
