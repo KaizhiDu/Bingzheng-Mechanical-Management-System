@@ -30,7 +30,9 @@
     </style>
 </head>
 <body class="container">
-<input id="htid" name="htid" type="hidden" value="${scjhglHtgl.id}">
+<h2>${bgrwfp.xm}</h2>
+<input type="hidden" id="bgrwfpid" name="bgrwfpid" value="${bgrwfp.id}">
+<input type="hidden" id="bgmxid" name="bgmxid" value="${scglBgmx.id}">
 <div class="row">
     <div class="col-md-3">
 
@@ -40,29 +42,21 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>计划编号：</label>
+                        <label>承包金额：</label>
                     </td>
                     <td>
-                        <input name="htbh" id="htbh" htmlEscape="false" class="form-control" placeholder="请输入合同编号" value="${scjhglHtgl.htbh}"/>
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>描述：</label>
-                    </td>
-                    <td>
-                        <textarea id="ms" name="ms" class="form-control" rows="3" cols="20" placeholder="请对该计划进行描述">${scjhglHtgl.ms}</textarea>
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>数量：</label>
-                    </td>
-                    <td>
-                        <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入计划生产数量" value="${scjhglHtgl.sl}"/>
+                        <input name="cbje" id="cbje" htmlEscape="false" class="form-control" placeholder="请输入承包金额" value="${scglBgmx.cbje}" onchange="checkCbje()"/>
                     </td>
                 </tr>
 
+                <tr class="form-group">
+                    <td>
+                        <label>注释：</label>
+                    </td>
+                    <td>
+                        <textarea id="zs" name="zs" class="form-control" rows="4" cols="30" placeholder="请对该承包进行注释">${scglBgmx.zs}</textarea>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -72,20 +66,33 @@
 
 
 <script type="text/javascript">
+
+    //校验
+    function checkCbje() {
+        var cbje = $("#cbje").val();
+        var r = cbje.match(/^[0-9]*$/);
+        if(r == null){
+            top.layer.alert("请输入数字");
+            $("#cbje").val("");
+        }else{
+
+        }
+    }
+
     //点击保存，保存数据
     function check() {
-        var id = $("#htid").val();
-        var htbh = $("#htbh").val();
-        var ms = $("#ms").val();
-        var sl = $("#sl").val();
+        var zs = $("#zs").val();
+        var cbje = $("#cbje").val();
+        var id = $("#bgmxid").val();
+        var bgrwfpid = $("#bgrwfpid").val();
         $.ajax({
             type: "GET",
-            url: "${adminPath}/scjhgl/htgl/saveHt",
+            url: "${adminPath}/scgl/bgrwfp/saveBgmx",
             data: {
                 id: id,
-                htbh: htbh,
-                ms: ms,
-                sl: sl
+                zs: zs,
+                cbje: cbje,
+                bgrwfpid: bgrwfpid
             },
             success: function (data) {
 

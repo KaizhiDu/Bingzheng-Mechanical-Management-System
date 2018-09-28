@@ -46,8 +46,8 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="50"/>
-    <grid:button title="包工明细" groupname="opt" function="xxx"
-                 outclass="btn-primary" url="${adminPath}/scgl/bgrwfp/xxx?id=\"+row.id+\"" />
+    <grid:button title="包工明细" groupname="opt" function="bgmx"
+                 outclass="btn-primary" url="${adminPath}/scgl/bgrwfp/bgmx?id=\"+row.id+\"" />
     <grid:button title="分配任务" groupname="opt" function="fpsb"
                  outclass="btn-success" url="${adminPath}/scgl/bgrwfp/fpsb?id=\"+row.id+\"" />
 
@@ -61,8 +61,8 @@
 
 <script type="text/javascript">
 
-    //分配工时
-    function fpgs(title, url, gridId, id, width, height, tipMsg) {
+    //包工明细
+    function bgmx(title, url, gridId, id, width, height, tipMsg) {
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -72,7 +72,7 @@
         top.layer.open({
             type: 2,
             area: ["30%", "50%"],
-            title: "分配工时",
+            title: "包工明细",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
             success: function(layero, index){

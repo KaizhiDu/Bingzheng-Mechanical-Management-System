@@ -9,10 +9,7 @@ import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
 import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
 import cn.jeeweb.modules.sbgl.service.ISbglService;
 import cn.jeeweb.modules.scgl.dto.*;
-import cn.jeeweb.modules.scgl.entity.ScglBgrw;
-import cn.jeeweb.modules.scgl.entity.ScglBgrwfp;
-import cn.jeeweb.modules.scgl.entity.ScglBgsb;
-import cn.jeeweb.modules.scgl.entity.ScglRcrwfp;
+import cn.jeeweb.modules.scgl.entity.*;
 import cn.jeeweb.modules.scgl.service.*;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,12 +74,16 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
     private IScglLjgybzService scglLjgybzService;
 
     @Autowired
-    /**包工-包工设备Service*/
+    /**包工-设备Service*/
     private IScglBgsbService scglBgsbService;
 
     @Autowired
-    /**包工-任务设备Service*/
+    /**包工-任务Service*/
     private IScglBgrwService scglBgrwService;
+
+    /**包工-明细Service*/
+    @Autowired
+    IScglBgmxService scglBgmxService;
 
     /**
      * Dscription: 添加日子和搜索项
@@ -349,5 +350,43 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         scglBgrw.setId(bgrwid);
         scglBgrw.setYwcl(gzl);
         scglBgrwService.updateById(scglBgrw);
+    }
+
+    /**
+     * Dscription: 包工明细
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/28 15:24
+     */
+    @RequestMapping(value = "bgmx", method={RequestMethod.GET, RequestMethod.POST})
+    public String bgmx(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(id);
+        model.addAttribute("bgrwfp",scglBgrwfp);
+        //查看如果有表里有数据，就把把数据代入
+        EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<ScglBgmx>();
+        wrapper.eq("BGRWFPID", id);
+        ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper);
+        model.addAttribute("scglBgmx", scglBgmx);
+        return display("bgmx");
+    }
+
+    /**
+     * Dscription: 保存包工明细
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/28 16:14
+     */
+    @RequestMapping(value = "saveBgmx",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public void saveBgmx(ScglBgmx scglBgmx, HttpServletRequest request, HttpServletResponse response, Model model){
+        //插入
+        if (scglBgmx.getId().equals("")||scglBgmx.getId()==null){
+            scglBgmx.setId(null);
+            scglBgmxService.insert(scglBgmx);
+        }
+        //更新
+        else {
+            scglBgmxService.updateById(scglBgmx);
+        }
     }
 }
