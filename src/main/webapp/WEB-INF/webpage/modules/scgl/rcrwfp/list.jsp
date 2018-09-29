@@ -55,6 +55,8 @@
     <grid:column label="职位" name="zw"/>
     <grid:column label="性别" name="xb" dict="sex" dateformat=""/>
 
+    <grid:toolbar function="createPgd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="生成派工单"/>
+
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 </grid:grid>
@@ -139,6 +141,16 @@
             },
             end: function (index) {
                 refreshTable(gridId);
+            }
+        });
+    }
+
+    function createPgd(){
+        $.ajax({
+            type: "get",
+            url: "${adminPath}/scgl/rcrwfp/createPgd",
+            success: function (data) {
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
             }
         });
     }

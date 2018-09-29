@@ -4,6 +4,8 @@ import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.scgl.dto.RgpgJcxxDTO;
+import cn.jeeweb.modules.scgl.dto.RgpgdDTO;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.ScglRcrwfp;
 import cn.jeeweb.modules.scgl.mapper.ScglRcrwfpMapper;
@@ -59,5 +61,27 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
         page.setRecords(scglRcrwfpMapper.ajaxRcrwfpList(page, scglRcrwfp, currentTime));
         PageJson<ScglRcrwfp> pagejson = new PageJson<ScglRcrwfp>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 获取派工信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/29 14:00
+     */
+    @Override
+    public List<RgpgJcxxDTO> getRgpgJcxx() {
+        return scglRcrwfpMapper.getRgpgJcxx();
+    }
+
+    /**
+     * Dscription: 获取最终派工信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/29 14:00
+     */
+    @Override
+    public List<RgpgdDTO> getRgpgd() {
+        return scglRcrwfpMapper.getRgpgd();
     }
 }
