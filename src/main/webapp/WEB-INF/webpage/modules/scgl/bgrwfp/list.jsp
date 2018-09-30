@@ -124,18 +124,7 @@
                     $(this).blur();
                 });
             },
-            btn: ['保存', '关闭'],
-            yes: function(index, layero){
-                var body = top.layer.getChildFrame('body', index);
-                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                //文档地址
-                //http://www.layui.com/doc/modules/layer.html#use
-                iframeWin.contentWindow.check();
-                //判断逻辑并关闭
-                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
-                layer.alert("保存成功！！", {icon: 0, title: '提示'});
-                refreshTable(gridId);
-            },
+            btn: ['关闭'],
             cancel: function(index){
                 refreshTable(gridId);
             },
