@@ -40,7 +40,7 @@ public interface ScglRcrwfpMapper extends BaseMapper<ScglRcrwfp> {
      * @version : 1.0
      * @date : 2018/9/29 14:00
      */
-    public List<RgpgJcxxDTO> getRgpgJcxx();
+    public List<RgpgJcxxDTO> getRgpgJcxx(@Param("RQ") String currentTime);
 
     /**
      * Dscription: 获取最终派工信息
@@ -48,5 +48,5 @@ public interface ScglRcrwfpMapper extends BaseMapper<ScglRcrwfp> {
      * @version : 1.0
      * @date : 2018/9/29 14:00
      */
-    public List<RgpgdDTO> getRgpgd();
+    public List<RgpgdDTO> getRgpgd(@Param("RQ") String currentTime);
 }

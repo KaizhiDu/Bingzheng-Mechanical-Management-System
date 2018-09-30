@@ -71,7 +71,10 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
      */
     @Override
     public List<RgpgJcxxDTO> getRgpgJcxx() {
-        return scglRcrwfpMapper.getRgpgJcxx();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String currentTime = sdf.format(date);
+        return scglRcrwfpMapper.getRgpgJcxx(currentTime);
     }
 
     /**
@@ -82,6 +85,9 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
      */
     @Override
     public List<RgpgdDTO> getRgpgd() {
-        return scglRcrwfpMapper.getRgpgd();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String currentTime = sdf.format(date);
+        return scglRcrwfpMapper.getRgpgd(currentTime);
     }
 }
