@@ -4,6 +4,8 @@ import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.scgl.dto.BgpgJcxxDTO;
+import cn.jeeweb.modules.scgl.dto.BgpgdDTO;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.ScglBgrwfp;
 import cn.jeeweb.modules.scgl.mapper.ScglBgrwfpMapper;
@@ -59,5 +61,33 @@ public class ScglBgrwfpServiceImpl extends CommonServiceImpl<ScglBgrwfpMapper, S
         page.setRecords(scglBgrwfpMapper.ajaxBgrwfpList(page, scglBgrwfp, currentTime));
         PageJson<ScglBgrwfp> pagejson = new PageJson<ScglBgrwfp>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 得到包工派工信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/30 10:49
+     */
+    @Override
+    public List<BgpgdDTO> getBgpgd(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String currentTime = sdf.format(date);
+        return scglBgrwfpMapper.getBgpgd(currentTime);
+    }
+
+    /**
+     * Dscription: 得到包工派工基础数据
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/30 10:55
+     */
+    @Override
+    public List<BgpgJcxxDTO> getBgpgJcxx() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String currentTime = sdf.format(date);
+        return scglBgrwfpMapper.getBgpgJcxx(currentTime);
     }
 }

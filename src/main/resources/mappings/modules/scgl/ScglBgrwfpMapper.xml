@@ -21,4 +21,54 @@
         ORDER BY ZW DESC
     </select>
 
+    <select id="getBgpgJcxx" resultType="cn.jeeweb.modules.scgl.dto.BgpgJcxxDTO">
+        SELECT T.ID,
+			 T.ZW,
+			 T.XM,
+       T.RQ,
+			 T1.CBJE,
+			 T1.ZS,
+			 T3.SBMC,
+			 T8.HTBH JHBH,
+			 T7.LJMC,
+			 T6.GYDLMC,
+			 T5.GYXLMC,
+			 T4.YWCL
+FROM T_SCGL_BGRWFP T,
+		 T_SCGL_BGRWFP_BG_MX T1,
+		 T_SCGL_BGRWFP_BG_SB T2,
+		 T_SBGL_SBGL T3,
+		 T_SCGL_BGRWFP_BG_RW T4,
+		 T_SCGL_LJGYBZ T5,
+		 T_SCGL_GYDLBZ T6,
+		 T_SCJHGL_LJGL T7,
+		 T_SCJHGL_HTGL T8
+WHERE 1=1
+      AND T.ID = T1.BGRWFPID
+			AND T.ID = T2.BGRWFPID
+      AND T2.SBID = T3.ID
+			AND T4.FPSBID = T2.ID
+			AND T4.LJGYBZID = T5.ID
+			AND T5.GYDLBZID = T6.ID
+			AND T6.LJID = T7.ID
+			AND T7.HTID = T8.ID
+			AND T.RQ = #{RQ}
+ORDER BY T.ZW,T.XM,T3.SBMC,T8.HTBH,T7.LJMC,T6.GYDLMC,T5.GYXLMC
+    </select>
+
+    <select id="getBgpgd" resultType="cn.jeeweb.modules.scgl.dto.BgpgdDTO">
+SELECT T.ID,
+			 T.ZW,
+			 T.XM,
+       T.RQ,
+			 T1.CBJE,
+			 T1.ZS
+FROM T_SCGL_BGRWFP T,
+		 T_SCGL_BGRWFP_BG_MX T1
+WHERE 1=1
+      AND T.ID = T1.BGRWFPID
+      AND T.RQ = #{RQ}
+ORDER BY T.ZW,T.XM
+    </select>
+
 </mapper>

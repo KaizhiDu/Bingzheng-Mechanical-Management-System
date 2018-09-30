@@ -12,6 +12,11 @@ import cn.jeeweb.modules.scgl.dto.*;
 import cn.jeeweb.modules.scgl.entity.*;
 import cn.jeeweb.modules.scgl.service.*;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -389,4 +396,236 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
             scglBgmxService.updateById(scglBgmx);
         }
     }
+
+    /**
+     * Dscription: 生成派工单
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/29 11:03
+     */
+    @RequestMapping(value = "createPgd", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void createPgd(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+
+        //获得派工数据
+        List<BgpgdDTO> list = getBgpgxx();
+
+        //新建一个工作簿
+        Workbook wb = new XSSFWorkbook();
+        //新建工作表
+        Sheet sheet1 = wb.createSheet("包工派工单");
+        //设置单元格宽度
+        sheet1.setColumnWidth(2, 3000);
+        sheet1.setColumnWidth(3, 3000);
+        sheet1.setColumnWidth(4, 3000);
+        sheet1.setColumnWidth(5, 3000);
+        //设置边框
+        CellStyle style = wb.createCellStyle();
+        style.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+
+        //开始搞,得到所有最终内容展示集合
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                //出现一个存放最终内容结果的集合
+                List<BgnrDTO> bgnrDTOList = new ArrayList<BgnrDTO>();
+                BgpgdDTO bgpgd = list.get(i);
+                if (bgpgd.getNr() == null) {
+                    //放10个空值进去
+                    for (int t = 0; t < 10; t++) {
+                        BgnrDTO bgnrDTO = new BgnrDTO();
+                        bgnrDTO.setSbmc("");
+                        bgnrDTO.setNr("");
+                        bgnrDTOList.add(bgnrDTO);
+                    }
+                } else {
+                    String[] rwArray = bgpgd.getNr().split("dafenge");
+                    for (int j = 0; j < rwArray.length; j++) {
+                        String sbmc = rwArray[j].split("xiaofenge")[0];
+                        String nr = rwArray[j].split("xiaofenge")[1];
+                        BgnrDTO bgnrDTO = new BgnrDTO();
+                        bgnrDTO.setSbmc(sbmc);
+                        bgnrDTO.setNr(nr);
+                        bgnrDTOList.add(bgnrDTO);
+                    }
+                    //检查一下现在最终内容集合的size
+                    int size = bgnrDTOList.size();
+                    int dtj = 10 - size;
+                    for (int t = 0; t < dtj; t++) {
+                        BgnrDTO bgnrDTO = new BgnrDTO();
+                        bgnrDTO.setSbmc("");
+                        bgnrDTO.setNr("");
+                        bgnrDTOList.add(bgnrDTO);
+                    }
+                }
+
+                //创建一行
+                Row row0 = sheet1.createRow(i*15);
+                row0.setHeightInPoints(35);
+                //创建单元格
+                Cell cell00 = row0.createCell(0);
+                Cell cell01 = row0.createCell(1);
+                Cell cell02 = row0.createCell(2);
+                Cell cell03 = row0.createCell(3);
+                Cell cell04 = row0.createCell(4);
+                Cell cell05 = row0.createCell(5);
+
+                //给单元格设值
+                cell00.setCellValue("姓名");
+                cell01.setCellValue(bgpgd.getXm());
+                cell02.setCellValue("职位");
+                cell03.setCellValue(bgpgd.getZw());
+                cell04.setCellValue("日期");
+                cell05.setCellValue(bgpgd.getRq());
+                cell00.setCellStyle(style);
+                cell01.setCellStyle(style);
+                cell02.setCellStyle(style);
+                cell03.setCellStyle(style);
+                cell04.setCellStyle(style);
+                cell05.setCellStyle(style);
+
+                //第二行
+                Row row1 = sheet1.createRow(i*15+1);
+                row1.setHeightInPoints(35);
+                //创建单元格
+                Cell cell10 = row1.createCell(0);
+                Cell cell11 = row1.createCell(1);
+                Cell cell12 = row1.createCell(2);
+                Cell cell13 = row1.createCell(3);
+                //给单元格设值
+                cell10.setCellValue("承包金额");
+                cell11.setCellValue(bgpgd.getCbje());
+                cell12.setCellValue("注释");
+                cell13.setCellValue(bgpgd.getZs());
+                cell10.setCellStyle(style);
+                cell11.setCellStyle(style);
+                cell12.setCellStyle(style);
+                cell13.setCellStyle(style);
+
+                //循环rgnrDTOList，放入值
+                for (int a=0;a<bgnrDTOList.size();a++){
+                    BgnrDTO bgnr = bgnrDTOList.get(a);
+                    Row row = sheet1.createRow(i*15+2+a);
+                    row.setHeightInPoints(30);
+                    //创建单元格
+                    Cell cell0 = row.createCell(0);
+                    Cell cell1 = row.createCell(1);
+                    Cell cell2 = row.createCell(2);
+                    //给单元格设值
+                    cell0.setCellValue("");
+                    cell1.setCellValue(bgnr.getSbmc());
+                    cell2.setCellValue(bgnr.getNr());
+                    cell0.setCellStyle(style);
+                    cell1.setCellStyle(style);
+                }
+
+
+                //合并单元格
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+2,i*15+11,0,0));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+1,i*15+1,3,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+2,i*15+2,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+3,i*15+3,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+4,i*15+4,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+5,i*15+5,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+6,i*15+6,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+7,i*15+7,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+8,i*15+8,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+9,i*15+9,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+10,i*15+10,2,5));
+                sheet1.addMergedRegion(new CellRangeAddress(i*15+11,i*15+11,2,5));
+
+                //给合并的单元格加边框
+                setRegionBorder(1,new CellRangeAddress(i*15+2,i*15+11,0,0),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+1,i*15+1,3,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+2,i*15+2,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+3,i*15+3,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+4,i*15+4,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+5,i*15+5,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+6,i*15+6,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+7,i*15+7,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+8,i*15+8,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+9,i*15+9,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+10,i*15+10,2,5),sheet1,wb);
+                setRegionBorder(1,new CellRangeAddress(i*15+11,i*15+11,2,5),sheet1,wb);
+
+                }
+            }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String currentTime = sdf.format(date);
+        //创建流
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+currentTime+"包工派工单.xlsx");
+        //输出流
+        wb.write(fileOut);
+        fileOut.close();
+        }
+
+
+    /**
+     * @param border 边框宽度
+     * @param region 合并单元格区域范围
+     * @param sheet
+     * @param wb
+     */
+    public static void setRegionBorder(int border, CellRangeAddress region, Sheet sheet, Workbook wb){
+        RegionUtil.setBorderBottom(border,region, sheet, wb);
+        RegionUtil.setBorderLeft(border,region, sheet, wb);
+        RegionUtil.setBorderRight(border,region, sheet, wb);
+        RegionUtil.setBorderTop(border,region, sheet, wb);
+    }
+
+    /**
+     * Dscription: 得到包工显示数据
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/30 10:24
+     */
+    public List<BgpgdDTO> getBgpgxx(){
+        List<BgpgdDTO> bgpgdDTOList = scglBgrwfpService.getBgpgd();
+        //从数据库里面得到原始数据
+        List<BgpgJcxxDTO> bgpgJcxxList = scglBgrwfpService.getBgpgJcxx();
+        //如果没有任何数据的话，直接返回null
+        if (bgpgJcxxList.size()==0){
+            return null;
+        }
+        else{
+            BgpgJcxxDTO r0 = bgpgJcxxList.get(0);
+            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getGydlmc()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
+            for (int i=1;i<bgpgJcxxList.size();i++){
+                BgpgJcxxDTO r1 = bgpgJcxxList.get(i);
+                BgpgJcxxDTO r2 = bgpgJcxxList.get(i-1);
+
+                //id相同，r1继续插入
+                if (r1.getId().equals(r2.getId())){
+                    rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                }
+                //id不相同
+                else{
+                    for (BgpgdDTO r : bgpgdDTOList) {
+                        if (r.getId().equals(r2.getId())){
+                            rw = rw.substring(0,rw.length()-7);
+                            r.setNr(rw);
+                        }
+                    }
+                    //重设rw
+                    rw = r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                }
+
+                if (i==bgpgJcxxList.size()-1){
+                    //rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件";
+                    for (BgpgdDTO r : bgpgdDTOList) {
+                        if (r.getId().equals(r2.getId())){
+                            r.setNr(rw);
+                        }
+                    }
+                }
+
+            }
+        }
+        return bgpgdDTOList;
+    }
+
 }

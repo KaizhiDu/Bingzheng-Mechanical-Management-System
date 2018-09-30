@@ -1,5 +1,7 @@
 package cn.jeeweb.modules.scgl.mapper;
 
+import cn.jeeweb.modules.scgl.dto.BgpgJcxxDTO;
+import cn.jeeweb.modules.scgl.dto.BgpgdDTO;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.ScglBgrwfp;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
@@ -31,4 +33,20 @@ public interface ScglBgrwfpMapper extends BaseMapper<ScglBgrwfp> {
      * @date : 2018/9/20 18:50
      */
     public List<ScglBgrwfp> ajaxBgrwfpList(Pagination page, @Param("entity") ScglBgrwfp entity, @Param("RQ") String rq);
+
+    /**
+     * Dscription: 得到包工派工信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/30 10:52
+     */
+    public List<BgpgdDTO> getBgpgd(@Param("RQ") String currentTime);
+
+    /**
+     * Dscription: 得到包工派工基础数据
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/9/30 10:55
+     */
+    public List<BgpgJcxxDTO> getBgpgJcxx(@Param("RQ") String currentTime);
 }
