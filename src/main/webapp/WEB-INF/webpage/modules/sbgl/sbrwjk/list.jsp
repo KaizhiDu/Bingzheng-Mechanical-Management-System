@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>设备任务监控</h4>
+<h4>设备任务监控<font color="red">（还未完成）</font></h4>
 <div class="row">
     <div id="SbrwjkGridQuery" class="col-md-12">
         <div class="form-inline">

@@ -389,6 +389,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         //插入
         if (scglBgmx.getId().equals("")||scglBgmx.getId()==null){
             scglBgmx.setId(null);
+            scglBgmx.setSfwc("0");
             scglBgmxService.insert(scglBgmx);
         }
         //更新
