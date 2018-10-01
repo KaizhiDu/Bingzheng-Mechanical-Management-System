@@ -3,7 +3,6 @@ package cn.jeeweb.modules.jygl.controller;
 import cn.jeeweb.core.common.controller.BaseCRUDController;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
-import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.jygl.dto.RgjyDTO;
 import cn.jeeweb.modules.jygl.entity.JyglRgjy;
