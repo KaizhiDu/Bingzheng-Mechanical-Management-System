@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.jygl.mapper.JyglRgjyMapper" >
+
+    <select id="ajaxRgjyList" resultType="cn.jeeweb.modules.jygl.dto.RgjyDTO">
+        SELECT T.ID,
+			 T2.XM,
+			 T2.ZW,
+       T2.RQ,
+			 T7.HTBH JHBH,
+			 T6.LJMC,
+			 T5.GYDLMC,
+			 T4.GYXLMC,
+			 T3.SBMC,
+       T.YWCL,
+			 T.SJWCL
+FROM T_SCGL_RCRWFP_RG_RW T,
+     T_SCGL_RCRWFP_RG_SB T1,
+		 T_SCGL_RCRWFP T2,
+		 T_SBGL_SBGL T3,
+		 T_SCGL_LJGYBZ T4,
+		 T_SCGL_GYDLBZ T5,
+		 T_SCJHGL_LJGL T6,
+		 T_SCJHGL_HTGL T7
+WHERE 1=1
+      AND T.FPSBID = T1.ID
+      AND T1.RCRWFPID = T2.ID
+		  AND T2.RQ = #{RQ}
+        <if test="entity.xm!=null and entity.xm!=''">
+            AND T2.XM = #{entity.xm}
+        </if>
+			AND T.YWCL IS NOT NULL
+			AND T1.SBID = T3.ID
+			AND T.LJGYBZID = T4.ID
+			AND T4.GYDLBZID = T5.ID
+			AND T5.LJID = T6.ID
+			AND T6.HTID = T7.ID
+ORDER BY XM,LJMC,GYDLMC,GYXLMC,SBMC
+    </select>
+</mapper>
