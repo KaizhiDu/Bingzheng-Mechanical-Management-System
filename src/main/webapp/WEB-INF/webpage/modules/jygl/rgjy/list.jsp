@@ -13,7 +13,7 @@
     <html:css
             name="bootstrap-fileinput,font-awesome,animate,iCheck,datepicker,jqgrid,sweetalert,Validform,jqgrid"/>
     <html:js
-            name="layer,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
+            name="layer,laydate,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
     <script>
         $(function () {
             $(".ibox-title").hide();
@@ -43,6 +43,10 @@
                         <option value="${each.xm}">${each.xm}</option>
                     </c:forEach>
                 </select>
+            </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">日期：</label>
+                <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
             </div>
         </div>
     </div>

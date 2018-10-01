@@ -25,7 +25,7 @@ FROM T_SCGL_RCRWFP_RG_RW T,
 WHERE 1=1
       AND T.FPSBID = T1.ID
       AND T1.RCRWFPID = T2.ID
-		  AND T2.RQ = #{RQ}
+		  AND T2.RQ = #{entity.rq}
         <if test="entity.xm!=null and entity.xm!=''">
             AND T2.XM = #{entity.xm}
         </if>
