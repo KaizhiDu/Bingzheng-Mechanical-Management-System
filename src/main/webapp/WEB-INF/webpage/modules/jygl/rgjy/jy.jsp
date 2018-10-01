@@ -70,13 +70,12 @@
 
     //校验任务量
     function checkRwl(){
-        var ywcl = $("#ywcl").val();
         var sjwcl = $("#sjwcl").val();
-        var r = rwl.match(/^[0-9]*$/);
+        var r = sjwcl.match(/^[0-9]*$/);
         //先判断是不是数字
         if(r == null){
             top.layer.alert("请输入数字");
-            $("#rwl").val("");
+            $("#sjwcl").val("");
         }else{
 
         }
