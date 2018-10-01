@@ -409,10 +409,11 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         //新建工作表
         Sheet sheet1 = wb.createSheet("日工派工单");
         //设置单元格宽度
-        sheet1.setColumnWidth(2, 3000);
-        sheet1.setColumnWidth(3, 3000);
-        sheet1.setColumnWidth(4, 3000);
-        sheet1.setColumnWidth(5, 3000);
+        sheet1.setColumnWidth(1, 3700);
+        sheet1.setColumnWidth(2, 3700);
+        sheet1.setColumnWidth(3, 3700);
+        sheet1.setColumnWidth(4, 3700);
+        sheet1.setColumnWidth(5, 3700);
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
