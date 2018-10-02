@@ -13,7 +13,7 @@
     <html:css
             name="bootstrap-fileinput,font-awesome,animate,iCheck,datepicker,jqgrid,sweetalert,Validform,jqgrid"/>
     <html:js
-            name="layer,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
+            name="layer,laydate,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
     <script>
         $(function () {
             $(".ibox-title").hide();
@@ -31,62 +31,54 @@
 </head>
 <body>
 
-<h4>员工职位薪资分布</h4>
+<h4>员工考勤记录</h4>
+
 <div class="row">
-    <div id="GrglXzzwfpGridQuery" class="col-md-12">
+    <div id="GrglYgkqjlGridQuery" class="col-md-12">
         <div class="form-inline">
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">职位：</label>
-                <select name="zw" class="form-control" id="zw">
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">工人：</label>
+                <select name="name" class="form-control" id="name">
                     <option value="">请选择</option>
-                    <option value="钳工">钳工</option>
-                    <option value="钳工领班">钳工领班</option>
-                    <option value="铣工">铣工</option>
-                    <option value="车工">车工</option>
-                    <option value="数控">数控</option>
-                    <option value="数控领班">数控领班</option>
-                    <option value="后勤">后勤</option>
-                    <option value="保管">保管</option>
-                    <option value="司机采购">司机采购</option>
-                    <option value="技术">技术</option>
-                    <option value="生产">生产</option>
-                    <option value="质检外协">质检外协</option>
+                    <c:forEach items="${ygsjList}" var="each">
+                        <option value="${each.name}">${each.name}</option>
+                    </c:forEach>
                 </select>
             </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">员工姓名：</label>
-                <input htmlEscape="false" class="form-control" placeholder="请输入员工姓名"  maxlength="20" id="name" name="name"/>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">日期：</label>
+                <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
             </div>
         </div>
     </div>
 </div>
-<grid:grid id="GrglXzzwfp"
-           url="${adminPath}/grgl/xzzwfp/queryAjax" pageable="true">
+
+<grid:grid id="GrglYgkqjl"
+           url="${adminPath}/grgl/ygkqjl/ajaxGrglYgkqjlList?currentTime=${currentTime}" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
-    <grid:button title="设置" groupname="opt" function="setEmp"
-                 outclass="btn-success" url="${adminPath}/grgl/xzzwfp/setEmp?id=\"+row.id+\"" />
 
+    <grid:button title="记录考勤" groupname="opt" function="jlkq"
+                 outclass="btn-success" url="${adminPath}/grgl/ygkqjl/jlkq?id=\"+row.id+\"" />
+
+    <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="name"/>
-    <grid:column label="职位" name="zw"/>
-    <grid:column label="职位工资" name="zwgz"/>
-    <grid:column label="底薪" name="dx"/>
-    <grid:column label="时薪" name="sx"/>
-    <grid:column label="餐补" name="bgqm"/>
-    <grid:column label="房补" name="fb"/>
-    <grid:column label="交通费" name="jtf"/>
-    <grid:column label="补贴" name="bt"/>
-    <grid:column label="保险" name="bx"/>
+    <grid:column label="性别" name="gender" dict="sex" dateformat=""/>
+    <grid:column label="上午" name="sw" dict="kq" dateformat=""/>
+    <grid:column label="下午" name="xw" dict="kq" dateformat=""/>
+    <grid:column label="缺勤原因" name="qqyy"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
+
 </grid:grid>
 
+
 <script type="text/javascript">
-    function setEmp(title, url, gridId, id, width, height, tipMsg) {
-        openDia("设置薪资职位",url,gridId,"800px","500px");
+    //记录考勤
+    function jlkq(title, url, gridId, id, width, height, tipMsg) {
+        openDia("记录考勤",url,gridId,"40%","40%");
     }
 
     //打开一个窗口
@@ -130,6 +122,5 @@
         });
     }
 </script>
-
 </body>
 </html>

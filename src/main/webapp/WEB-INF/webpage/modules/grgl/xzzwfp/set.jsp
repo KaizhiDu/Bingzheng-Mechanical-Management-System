@@ -125,14 +125,6 @@
                         <input name="bx" id="bx" htmlEscape="false" class="form-control" placeholder="请输入保险" value="${xzzwfp.bx}"/>
                     </td>
                 </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>扣款：</label>
-                    </td>
-                    <td>
-                        <input name="kk" id="kk" htmlEscape="false" class="form-control" placeholder="请输入扣款" value="${xzzwfp.kk}"/>
-                    </td>
-                </tr>
             </table>
         </form>
     </div>
