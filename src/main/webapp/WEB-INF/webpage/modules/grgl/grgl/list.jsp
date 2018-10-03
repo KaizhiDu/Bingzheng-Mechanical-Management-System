@@ -42,8 +42,8 @@
 
     <grid:button title="修改" groupname="opt" function="modifyWorker"
                  outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />
-    <grid:button title="删除" groupname="opt" function="deleteWorker"
-                 outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />
+    <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
+                 <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
 
     <grid:column label="姓名" name="name"/>
     <grid:column label="性别" name="gender" dict="sex" dateformat=""/>
@@ -52,7 +52,7 @@
     <grid:column label="入职日期" name="enterdate" dateformat=""/>
 
     <grid:toolbar function="createWorker" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
-    <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
+    <grid:toolbar function="deleteWorker" icon="fa fa-trash" title="删除" btnclass="btn-danger"/>
 </grid:grid>
 
 
@@ -70,21 +70,45 @@
 
     //删除一个员工信息
     function deleteWorker(title, url, gridId, id, width, height, tipMsg) {
-        layer.confirm('是否要删除信息!', {
-                btn: ['确定', '取消']
-            }, function (index, layero) {
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function (data) {
-                    refreshTable(gridId);
+        //获取选中行的id数组
+        var idsArray = $("#GrglGrid").jqGrid("getGridParam", "selarrrow")
+        if (idsArray.length>0){
+            var ids = "";
+            for (var i=0;i<idsArray.length;i++){
+                if (i==0){
+                    ids = idsArray[i];
                 }
-            });
-                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                layer.msg("删除成功!",{ icon: 1, time: 1000 });
-
+                else{
+                    ids = ids + "," + idsArray[i];
+                }
             }
-        );
+            layer.confirm('是否要删除员工!', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    $.ajax({
+                        type: "GET",
+                        url: "${adminPath}/grgl/grgl/deleteWorker?ids="+ids,
+                        success: function (data) {
+                            refreshTable(gridId);
+                        }
+                    });
+                    layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                    layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
+                }
+            );
+
+        }
+        else{
+            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+            return;
+        }
+
+
+
+
+
+
     }
 
     //打开一个窗口

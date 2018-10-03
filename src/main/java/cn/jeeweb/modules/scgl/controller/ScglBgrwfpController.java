@@ -5,6 +5,10 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.grgl.entity.Grgl;
+import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
+import cn.jeeweb.modules.grgl.service.IGrglService;
+import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
 import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
 import cn.jeeweb.modules.sbgl.service.ISbglService;
@@ -43,6 +47,14 @@ import java.util.List;
 @RequestMapping("${admin.url.prefix}/scgl/bgrwfp")
 @RequiresPathPermission("scgl:bgrwfp")
 public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String> {
+
+    /** 员工管理Service*/
+    @Autowired
+    private IGrglService grglService;
+
+    /**员工管理 - 员工薪资管理Service*/
+    @Autowired
+    private IGrglYgxzglService grglYgxzglService;
 
     /**生产管理-日常任务分配Service*/
     @Autowired
@@ -100,6 +112,35 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
+
+        //得到当前年月
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM");
+        Date date0 = new Date();
+        String currentDate = sdf0.format(date0);
+        String[] dateArray = currentDate.split("-");
+        int nd = Integer.parseInt(dateArray[0]);
+        int yf = Integer.parseInt(dateArray[1]);
+        //查一下有没有当前年度和月份的信息，如果没有的话，插入
+        EntityWrapper<GrglYgxzgl> wrapper0 = new EntityWrapper<GrglYgxzgl>();
+        wrapper0.eq("ND", nd);
+        wrapper0.eq("YF", yf);
+        int count = grglYgxzglService.selectCount(wrapper0);
+        if (count == 0){
+            //得到所有员工信息
+            EntityWrapper<Grgl> wrapper1 = new EntityWrapper<Grgl>();
+            List<Grgl> grgls = grglService.selectList(wrapper1);
+            //循环插入当前月的信息
+            for (Grgl g : grgls) {
+                GrglYgxzgl grglYgxzgl = new GrglYgxzgl();
+                grglYgxzgl.setNd(nd);
+                grglYgxzgl.setYf(yf);
+                grglYgxzgl.setYgid(g.getId());
+                grglYgxzglService.insert(grglYgxzgl);
+            }
+
+        }
+
+
         //得到当前时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
