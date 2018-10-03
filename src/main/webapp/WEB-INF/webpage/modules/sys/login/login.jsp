@@ -7,7 +7,7 @@
 <html lang="en">
 
 <head>
-    <title>秉正机械有限公司</title>
+    <title>易思创科机械有限公司</title>
     <meta name="keywords" content="<spring:message code="sys.site.keywords" arguments="${platformName}"/>">
     <meta name="description" content="<spring:message code="sys.site.description" arguments="${platformName}"/>">
     
@@ -32,7 +32,7 @@
                 <h1><spring:message code="sys.login.submit.label"/></h1>
             </div>
             <div class="body-content">
-                <p>秉正机械欢迎您！！！</p>
+                <p>易思创科欢迎您！！！</p>
                 <div class="form-group">
                     <div class="input-icon right"><i class="fa fa-user"></i>
                         <input name="username" class="form-control" placeholder="<spring:message code="sys.login.username.placeholder"/>" required="">
