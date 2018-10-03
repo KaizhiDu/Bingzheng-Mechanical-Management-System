@@ -17,7 +17,7 @@
 		<a href="#" class="navbar-brand">
 			<small>
 				<i class="fa fa fa-fire"></i>
-				秉正机械管理系统
+				易思创科机械管理系统
 			</small>
 		</a>
 
