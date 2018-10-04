@@ -5,6 +5,7 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.grgl.dto.YgzxxDTO;
 import cn.jeeweb.modules.grgl.entity.Grgl;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.entity.Xzzwfp;
@@ -160,6 +161,19 @@ public class GrglController extends BaseCRUDController<Grgl, String> {
             //最后删除员工基本信息
             grglService.deleteById(ygid);
         }
-
     }
+
+/**
+ * Dscription: 只得到所有的工人信息
+ * @author : Kevin Du
+ * @version : 1.0
+ * @date : 2018/10/4 14:57
+ */
+@RequestMapping(value = "ajaxGrglList", method={RequestMethod.GET, RequestMethod.POST})
+@ResponseBody
+public PageJson<YgzxxDTO> ajaxGrglList(Queryable queryable, YgzxxDTO ygzxxDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+    PageJson<YgzxxDTO> pageJson = grglService.ajaxListGrgl(queryable,ygzxxDTO);
+    return pageJson;
+}
+
 }

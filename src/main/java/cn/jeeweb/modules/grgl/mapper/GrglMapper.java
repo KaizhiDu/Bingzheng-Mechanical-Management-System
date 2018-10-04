@@ -1,5 +1,6 @@
 package cn.jeeweb.modules.grgl.mapper;
 
+import cn.jeeweb.modules.grgl.dto.YgzxxDTO;
 import cn.jeeweb.modules.grgl.entity.Grgl;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
@@ -16,4 +17,7 @@ import java.util.List;
 public interface GrglMapper extends BaseMapper<Grgl> {
 
     public List<Grgl> grglList(Pagination page, @Param("grgl") Grgl entity);
+
+    public List<YgzxxDTO> ajaxListGrgl(Pagination page, @Param("grgl") YgzxxDTO entity);
+
 }

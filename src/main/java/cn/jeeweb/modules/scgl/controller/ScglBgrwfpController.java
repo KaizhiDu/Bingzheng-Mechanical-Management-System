@@ -7,7 +7,9 @@ import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.grgl.entity.Grgl;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
+import cn.jeeweb.modules.grgl.entity.Xzzwfp;
 import cn.jeeweb.modules.grgl.service.IGrglService;
+import cn.jeeweb.modules.grgl.service.IGrglXzzwfpService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
 import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
@@ -55,6 +57,10 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
     /**员工管理 - 员工薪资管理Service*/
     @Autowired
     private IGrglYgxzglService grglYgxzglService;
+
+    /**员工管理 - 薪资职位分配Service*/
+    @Autowired
+    private IGrglXzzwfpService grglXzzwfpService;
 
     /**生产管理-日常任务分配Service*/
     @Autowired
@@ -141,31 +147,31 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         }
 
 
-        //得到当前时间
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
-        model.addAttribute("currentTime",currentTime);
-
-        //判断表里面有没有该数据
-        EntityWrapper<ScglBgrwfp> wrapper = new EntityWrapper<ScglBgrwfp>();
-        wrapper.eq("RQ",currentTime);
-        List<ScglBgrwfp> scglRcrwfps = scglBgrwfpService.selectList(wrapper);
-        //如果表里面没有就插入数据
-        if (scglRcrwfps.size()==0){
-            List<ScglBgrwfp> list = new ArrayList<ScglBgrwfp>();
-            List<YgsjDTO> ygsjList = scglBgrwfpService.getYgsj();
-            for (YgsjDTO ygsjDTO: ygsjList) {
-                ScglBgrwfp s = new ScglBgrwfp();
-                s.setXb(ygsjDTO.getXb());
-                s.setRq(currentTime);
-                s.setXm(ygsjDTO.getXm());
-                s.setZw(ygsjDTO.getZw());
-                s.setYgid(ygsjDTO.getYgid());
-                list.add(s);
-            }
-            scglBgrwfpService.insertBatch(list);
-        }
+//        //得到当前时间
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date = new Date();
+//        String currentTime = sdf.format(date);
+//        model.addAttribute("currentTime",currentTime);
+//
+//        //判断表里面有没有该数据
+//        EntityWrapper<ScglBgrwfp> wrapper = new EntityWrapper<ScglBgrwfp>();
+//        wrapper.eq("RQ",currentTime);
+//        List<ScglBgrwfp> scglRcrwfps = scglBgrwfpService.selectList(wrapper);
+//        //如果表里面没有就插入数据
+//        if (scglRcrwfps.size()==0){
+//            List<ScglBgrwfp> list = new ArrayList<ScglBgrwfp>();
+//            List<YgsjDTO> ygsjList = scglBgrwfpService.getYgsj();
+//            for (YgsjDTO ygsjDTO: ygsjList) {
+//                ScglBgrwfp s = new ScglBgrwfp();
+//                s.setXb(ygsjDTO.getXb());
+//                s.setRq(currentTime);
+//                s.setXm(ygsjDTO.getXm());
+//                s.setZw(ygsjDTO.getZw());
+//                s.setYgid(ygsjDTO.getYgid());
+//                list.add(s);
+//            }
+//            scglBgrwfpService.insertBatch(list);
+//        }
     }
 
     /**
@@ -176,7 +182,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @RequestMapping(value = "ajaxBgrwfpList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<ScglBgrwfp> ajaxBgrwfpList(Queryable queryable, ScglBgrwfp scglBgrwfp, HttpServletRequest request, HttpServletResponse response, Model model){
+    public PageJson<ScglBgrwfp> ajaxBgrwfpList(String ygid, Queryable queryable, ScglBgrwfp scglBgrwfp, HttpServletRequest request, HttpServletResponse response, Model model){
+        scglBgrwfp.setYgid(ygid);
         PageJson<ScglBgrwfp> pageJson = scglBgrwfpService.ajaxBgrwfpList(queryable,scglBgrwfp);
         return pageJson;
     }
@@ -669,6 +676,47 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
             }
         }
         return bgpgdDTOList;
+    }
+
+    /**
+     * Dscription: 转到查看包工任务页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/4 15:29
+     */
+    @RequestMapping(value = "ckbgrw",method = {RequestMethod.GET,RequestMethod.POST})
+    public String ckbgrw(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        Grgl grgl = grglService.selectById(id);
+        model.addAttribute("grgl", grgl);
+        return display("ckbgrw");
+    }
+
+    /**
+     * Dscription: 模块功能
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/4 15:43
+     */
+    @RequestMapping(value = "createBgrw",method = {RequestMethod.GET,RequestMethod.POST})
+    public void createBgrw(String ygid, HttpServletRequest request, HttpServletResponse response, Model model){
+        //得到当前时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String rq = sdf.format(date);
+        Grgl grgl = grglService.selectById(ygid);
+        String xm = grgl.getName();
+        String xb = grgl.getGender();
+        EntityWrapper<Xzzwfp> wrapper = new EntityWrapper<Xzzwfp>();
+        wrapper.eq("YGID", ygid);
+        Xzzwfp xzzwfp = grglXzzwfpService.selectOne(wrapper);
+        String zw = xzzwfp.getZwid();
+        ScglBgrwfp scglBgrwfp = new ScglBgrwfp();
+        scglBgrwfp.setYgid(ygid);
+        scglBgrwfp.setXm(xm);
+        scglBgrwfp.setXb(xb);
+        scglBgrwfp.setZw(zw);
+        scglBgrwfp.setRq(rq);
+        scglBgrwfpService.insert(scglBgrwfp);
     }
 
 }

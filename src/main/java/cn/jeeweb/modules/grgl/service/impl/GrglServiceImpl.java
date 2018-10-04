@@ -4,6 +4,7 @@ import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.modules.grgl.dto.YgzxxDTO;
 import cn.jeeweb.modules.grgl.entity.Grgl;
 import cn.jeeweb.modules.grgl.mapper.GrglMapper;
 import cn.jeeweb.modules.grgl.service.IGrglService;
@@ -41,6 +42,21 @@ public class GrglServiceImpl extends CommonServiceImpl<GrglMapper, Grgl> impleme
         Page<Grgl> page = new Page<Grgl>(pageable.getPageNumber(), pageable.getPageSize());
         page.setRecords(grglMapper.grglList(page, grgl));
         PageJson<Grgl> pagejson = new PageJson<Grgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
+        return pagejson;
+    }
+
+    /**
+     * Dscription: 只得到所有的工人信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/4 14:57
+     */
+    @Override
+    public PageJson<YgzxxDTO> ajaxListGrgl(Queryable queryable, YgzxxDTO ygzxxDTO) {
+        Pageable pageable = queryable.getPageable();
+        Page<YgzxxDTO> page = new Page<YgzxxDTO>(pageable.getPageNumber(), pageable.getPageSize());
+        page.setRecords(grglMapper.ajaxListGrgl(page, ygzxxDTO));
+        PageJson<YgzxxDTO> pagejson = new PageJson<YgzxxDTO>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }
 }

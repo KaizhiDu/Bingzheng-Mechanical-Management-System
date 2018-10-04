@@ -41,15 +41,17 @@
         </div>
     </div>
 </div>
-<grid:grid id="Yggl"
-           url="${adminPath}/grgl/grgl/ajaxGrglList" pageable="true">
+<grid:grid id="Bgrwfp"
+           url="${adminPath}/scgl/bgrwfp/ajaxBgrwfpList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="50"/>
-    <grid:button title="查看包工任务" groupname="opt" function="ckbgrw"
-                 outclass="btn-primary" url="${adminPath}/scgl/bgrwfp/ckbgrw?id=\"+row.id+\"" />
+    <grid:button title="包工明细" groupname="opt" function="bgmx"
+                 outclass="btn-primary" url="${adminPath}/scgl/bgrwfp/bgmx?id=\"+row.id+\"" />
+    <grid:button title="分配任务" groupname="opt" function="fpsb"
+                 outclass="btn-success" url="${adminPath}/scgl/bgrwfp/fpsb?id=\"+row.id+\"" />
 
-    <grid:column label="姓名" name="name"/>
+    <grid:column label="姓名" name="xm"/>
     <grid:column label="职位" name="zw"/>
     <grid:column label="性别" name="xb" dict="sex" dateformat=""/>
 
@@ -61,8 +63,49 @@
 
 <script type="text/javascript">
 
-    //分配包工任务
-    function ckbgrw(title, url, gridId, id, width, height, tipMsg){
+    //包工明细
+    function bgmx(title, url, gridId, id, width, height, tipMsg) {
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["30%", "50%"],
+            title: "包工明细",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['保存', '关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
+                layer.alert("保存成功！！", {icon: 0, title: '提示'});
+                refreshTable(gridId);
+            },
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
+
+    //分配日常任务
+    function fpsb(title, url, gridId, id, width, height, tipMsg) {
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -72,7 +115,7 @@
         top.layer.open({
             type: 2,
             area: ["95%", "90%"],
-            title: "分配包工任务",
+            title: "包工任务分配",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
             success: function(layero, index){
@@ -91,7 +134,6 @@
         });
     }
 
-    //生成派工单
     function createPgd(){
         $.ajax({
             type: "get",

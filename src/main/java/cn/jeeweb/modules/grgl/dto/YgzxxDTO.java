@@ -12,6 +12,8 @@ public class YgzxxDTO {
     private String name;
     /**职务*/
     private String zw;
+    /**性别*/
+    private String xb;
     /**职务工资*/
     private String zwgz;
     /**底薪*/
@@ -125,5 +127,13 @@ public class YgzxxDTO {
 
     public void setBgqm(String bgqm) {
         this.bgqm = bgqm;
+    }
+
+    public String getXb() {
+        return xb;
+    }
+
+    public void setXb(String xb) {
+        this.xb = xb;
     }
 }

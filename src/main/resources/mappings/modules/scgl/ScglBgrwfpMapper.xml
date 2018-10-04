@@ -17,7 +17,7 @@
     <select id="ajaxBgrwfpList" resultType="cn.jeeweb.modules.scgl.entity.ScglBgrwfp">
         SELECT *
         FROM T_SCGL_BGRWFP
-        WHERE RQ = #{RQ}
+        WHERE YGID = #{entity.ygid}
         ORDER BY ZW DESC
     </select>
 
