@@ -239,6 +239,21 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @RequestMapping(value = "saveGs", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveGs(ScglRggs scglRggs, HttpServletRequest request, HttpServletResponse response, Model model){
+        //拿到原始数据
+        String gsid = scglRggs.getId();
+        ScglRggs ysRggs1 = scglRggsService.selectById(gsid);
+        //得到当前年月
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM");
+        Date date0 = new Date();
+        String currentDate = sdf0.format(date0);
+        String[] dateArray = currentDate.split("-");
+        int nd = Integer.parseInt(dateArray[0]);
+        int yf = Integer.parseInt(dateArray[1]);
+
+        //得到员工ID
+        ScglRcrwfp scglRcrwfp = scglRcrwfpService.selectById(scglRggs.getRcrwfpid());
+        String ygid = scglRcrwfp.getYgid();
+
         if (scglRggs.getGsmc()==null){
             scglRggs.setGsmc("");
         }
@@ -251,6 +266,50 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         else{
             scglRggsService.updateById(scglRggs);
         }
+
+        //同步插入工资表里
+        float zgs = 0;
+        if (ysRggs1!=null){
+            if (ysRggs1.getGs()!=null){
+                if (!ysRggs1.getGs().equals("")){
+                    zgs = zgs - Float.parseFloat(ysRggs1.getGs());
+                }
+            }
+            if (ysRggs1.getJb()!=null){
+                if (!ysRggs1.getJb().equals("")){
+                    zgs = zgs - Float.parseFloat(ysRggs1.getJb());
+                }
+            }
+        }
+        float gs = 0;
+        float jb = 0;
+        if (scglRggs.getGs()!=null){
+            if (!scglRggs.getGs().equals("")){
+                gs = Float.parseFloat(scglRggs.getGs());
+            }
+        }
+        if (scglRggs.getJb()!=null){
+            if (!scglRggs.getJb().equals("")){
+                jb = Float.parseFloat(scglRggs.getJb());
+            }
+
+        }
+            zgs = zgs + gs + jb;
+            EntityWrapper<GrglYgxzgl> wrapper = new EntityWrapper<GrglYgxzgl>();
+            wrapper.eq("ND", nd);
+            wrapper.eq("YF", yf);
+            wrapper.eq("YGID", ygid);
+            GrglYgxzgl grglYgxzgl = grglYgxzglService.selectOne(wrapper);
+            if (grglYgxzgl.getGs()==null){
+                grglYgxzgl.setGs(zgs+"");
+            }
+            else{
+                zgs = zgs + Float.parseFloat(grglYgxzgl.getGs());
+
+                grglYgxzgl.setGs(zgs+"");
+            }
+        grglYgxzglService.updateById(grglYgxzgl);
+
     }
 
     /**

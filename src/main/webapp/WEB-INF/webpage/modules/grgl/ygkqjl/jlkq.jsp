@@ -36,6 +36,7 @@
 <input type="hidden" id="ygkqjlid" name="ygkqjlid" value="${ygkqjl.id}">
 <input type="hidden" id="sww" name="sww" value="${ygkqjl.sw}">
 <input type="hidden" id="xww" name="xww" value="${ygkqjl.xw}">
+<input type="hidden" id="jbb" name="jbb" value="${ygkqjl.jb}">
 <div class="row">
     <div class="col-md-3">
 
@@ -61,6 +62,14 @@
                 </tr>
                 <tr class3201="form-group">
                     <td>
+                        <label>加班：</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="jb" id="jb" value="jb"> 加班
+                    </td>
+                </tr>
+                <tr class3201="form-group">
+                    <td>
                         <label>缺勤原因：</label>
                     </td>
                     <td>
@@ -80,11 +89,15 @@
     window.onload=function(){
         var sw = $("#sww").val();
         var xw = $("#xww").val();
+        var jb = $("#jbb").val();
         if (sw=='1'){
             $("#sw").attr("checked","checked");
         }
         if (xw=='1'){
             $("#xw").attr("checked","checked");
+        }
+        if (jb=='1'){
+            $("#jb").attr("checked","checked");
         }
     }
 </script>

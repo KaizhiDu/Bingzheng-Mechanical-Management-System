@@ -13,6 +13,7 @@ public class YgkqjlDTO {
     private String gender;
     private String sw;
     private String xw;
+    private String jb;
     private String qqyy;
 
     public String getId() {
@@ -77,5 +78,13 @@ public class YgkqjlDTO {
 
     public void setQqyy(String qqyy) {
         this.qqyy = qqyy;
+    }
+
+    public String getJb() {
+        return jb;
+    }
+
+    public void setJb(String jb) {
+        this.jb = jb;
     }
 }

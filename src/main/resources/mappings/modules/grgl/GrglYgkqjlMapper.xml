@@ -10,6 +10,7 @@
 			 T1.GENDER,
 			 T.SW,
 			 T.XW,
+			 T.JB,
 			 T.QQYY
 FROM T_GRGL_YGKQJL T,
      T_GRGL T1

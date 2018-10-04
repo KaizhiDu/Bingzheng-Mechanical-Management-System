@@ -67,6 +67,7 @@
     <grid:column label="性别" name="gender" dict="sex" dateformat=""/>
     <grid:column label="上午" name="sw" dict="kq" dateformat=""/>
     <grid:column label="下午" name="xw" dict="kq" dateformat=""/>
+    <grid:column label="加班" name="jb" dict="sf" dateformat=""/>
     <grid:column label="缺勤原因" name="qqyy"/>
 
     <grid:toolbar function="search"/>
