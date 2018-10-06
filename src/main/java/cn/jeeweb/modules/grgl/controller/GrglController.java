@@ -7,10 +7,12 @@ import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.grgl.dto.YgzxxDTO;
 import cn.jeeweb.modules.grgl.entity.Grgl;
+import cn.jeeweb.modules.grgl.entity.GrglYgkqjl;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.entity.Xzzwfp;
 import cn.jeeweb.modules.grgl.service.IGrglService;
 import cn.jeeweb.modules.grgl.service.IGrglXzzwfpService;
+import cn.jeeweb.modules.grgl.service.IGrglYgkqjlService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,6 +49,10 @@ public class GrglController extends BaseCRUDController<Grgl, String> {
     /** 员工薪资管理Service*/
     @Autowired
     private IGrglYgxzglService grglYgxzglService;
+
+    /** 员工考勤记录Service*/
+    @Autowired
+    private IGrglYgkqjlService grglYgkqjlService;
 
     /**
     * @Description:    展示所有员工信息
@@ -100,10 +106,26 @@ public class GrglController extends BaseCRUDController<Grgl, String> {
             int yf = Integer.parseInt(dateArray[1]);
             //插入本月的员工薪资管理数据
             GrglYgxzgl grglYgxzgl = new GrglYgxzgl();
+            grglYgxzgl.setXm(grgl.getName());
             grglYgxzgl.setYgid(uuid);
             grglYgxzgl.setNd(nd);
             grglYgxzgl.setYf(yf);
             grglYgxzglService.insert(grglYgxzgl);
+            //判断是不是要加入当天考勤表
+            //得到当前时间
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            Date date2 = new Date();
+            String currentTime = sdf2.format(date2);
+            //如果当天考勤表里面没有数据，则怎么都不做，否则插入该员工的考勤数据
+            EntityWrapper<GrglYgkqjl> wrapper = new EntityWrapper<GrglYgkqjl>();
+            wrapper.eq("RQ", currentTime);
+            int count = grglYgkqjlService.selectCount(wrapper);
+            if (count>0){
+                GrglYgkqjl grglYgkqjl = new GrglYgkqjl();
+                grglYgkqjl.setYgid(uuid);
+                grglYgkqjl.setRq(currentTime);
+                grglYgkqjlService.insert(grglYgkqjl);
+            }
         }
         //更新
         else{
@@ -125,7 +147,7 @@ public class GrglController extends BaseCRUDController<Grgl, String> {
     }
 
     /**
-    * @Description:    删除一个员工
+    * @Description:    删除员工
     * @Author:         杜凯之
     * @CreateDate:     2018/8/25 11:50
     * @Version:        1.0

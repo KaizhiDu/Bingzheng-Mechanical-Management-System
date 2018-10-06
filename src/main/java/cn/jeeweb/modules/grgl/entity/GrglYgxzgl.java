@@ -33,12 +33,42 @@ public class GrglYgxzgl extends AbstractEntity<String> {
     /** 员工ID */
     @TableField(value = "YGID")
     private String ygid;
+    /** 姓名 */
+    @TableField(value = "XM")
+    private String xm;
+    /** 职位 */
+    @TableField(value = "ZW")
+    private String zw;
+    /** 职位工资 */
+    @TableField(value = "ZWGZ")
+    private String zwgz;
+    /** 底薪 */
+    @TableField(value = "DX")
+    private String dx;
+    /** 房补 */
+    @TableField(value = "FB")
+    private String fb;
+    /** 交通费 */
+    @TableField(value = "JTF")
+    private String jtf;
+    /** 补贴 */
+    @TableField(value = "BT")
+    private String bt;
+    /** 保险 */
+    @TableField(value = "BX")
+    private String bx;
     /** 出勤 */
     @TableField(value = "CQ")
     private String cq;
+    /** 时薪 */
+    @TableField(value = "SX")
+    private String sx;
     /** 工时 */
     @TableField(value = "GS")
     private String gs;
+    /** 日工工资 */
+    @TableField(value = "RGGZ")
+    private String rggz;
     /** 承包金额 */
     @TableField(value = "CBJE")
     private String cbje;
@@ -51,6 +81,9 @@ public class GrglYgxzgl extends AbstractEntity<String> {
     /** 备注 */
     @TableField(value = "BZ")
     private String bz;
+    /** 合计 */
+    @TableField(value = "HJ")
+    private String hj;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -175,5 +208,93 @@ public class GrglYgxzgl extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getXm() {
+        return xm;
+    }
+
+    public void setXm(String xm) {
+        this.xm = xm;
+    }
+
+    public String getZw() {
+        return zw;
+    }
+
+    public void setZw(String zw) {
+        this.zw = zw;
+    }
+
+    public String getZwgz() {
+        return zwgz;
+    }
+
+    public void setZwgz(String zwgz) {
+        this.zwgz = zwgz;
+    }
+
+    public String getDx() {
+        return dx;
+    }
+
+    public void setDx(String dx) {
+        this.dx = dx;
+    }
+
+    public String getFb() {
+        return fb;
+    }
+
+    public void setFb(String fb) {
+        this.fb = fb;
+    }
+
+    public String getJtf() {
+        return jtf;
+    }
+
+    public void setJtf(String jtf) {
+        this.jtf = jtf;
+    }
+
+    public String getBt() {
+        return bt;
+    }
+
+    public void setBt(String bt) {
+        this.bt = bt;
+    }
+
+    public String getBx() {
+        return bx;
+    }
+
+    public void setBx(String bx) {
+        this.bx = bx;
+    }
+
+    public String getSx() {
+        return sx;
+    }
+
+    public void setSx(String sx) {
+        this.sx = sx;
+    }
+
+    public String getRggz() {
+        return rggz;
+    }
+
+    public void setRggz(String rggz) {
+        this.rggz = rggz;
+    }
+
+    public String getHj() {
+        return hj;
+    }
+
+    public void setHj(String hj) {
+        this.hj = hj;
     }
 }

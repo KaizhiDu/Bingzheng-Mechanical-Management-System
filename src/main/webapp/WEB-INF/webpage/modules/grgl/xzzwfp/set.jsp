@@ -36,6 +36,7 @@
 
     </div>
     <input id="xzzwfpid" name="xzzwfpid" type="hidden" value="${xzzwfp.id}">
+    <input id="ygid" name="ygid" type="hidden" value="${xzzwfp.ygid}">
     <div class="col-md-6">
         <form>
             <table class="table">
@@ -87,14 +88,6 @@
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>餐补：</label>
-                    </td>
-                    <td>
-                        <input name="bgqm" id="bgqm" htmlEscape="false" class="form-control" placeholder="请输入餐补" value="${xzzwfp.bgqm}"/>
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
                         <label>房补：</label>
                     </td>
                     <td>
@@ -137,6 +130,7 @@
     function check() {
         var id = $("#xzzwfpid").val();
         var zwid = $("#zwid").val();
+        var ygid = $("#ygid").val();
         var zwgz = $("#zwgz").val();
         var dx = $("#dx").val();
         var sx = $("#sx").val();
@@ -153,6 +147,7 @@
             data: {
                 id: id,
                 zwid: zwid,
+                ygid: ygid,
                 dx: dx,
                 sx: sx,
                 fb: fb,
