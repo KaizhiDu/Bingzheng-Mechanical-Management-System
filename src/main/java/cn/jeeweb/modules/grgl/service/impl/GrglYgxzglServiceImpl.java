@@ -1,11 +1,15 @@
 package cn.jeeweb.modules.grgl.service.impl;
 
 import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
+import cn.jeeweb.core.model.PageJson;
+import cn.jeeweb.core.query.data.Pageable;
+import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.mapper.GrglMapper;
 import cn.jeeweb.modules.grgl.mapper.GrglYgxzglMapper;
 import cn.jeeweb.modules.grgl.service.IGrglYgkqjlService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +28,9 @@ public class GrglYgxzglServiceImpl extends CommonServiceImpl<GrglYgxzglMapper, G
 //    @Autowired
 //    private GrglMapper grglMapper;
 //
-//    /**员工管理 - 员工薪资管理Mapper*/
-//    @Autowired
-//    private GrglYgxzglMapper grglYgxzglMapper;
+    /**员工管理 - 员工薪资管理Mapper*/
+    @Autowired
+    private GrglYgxzglMapper grglYgxzglMapper;
 //    /**员工管理 - 员工薪资管理Service*/
 //    @Autowired
 //    private IGrglYgxzglService grglYgxzglService;
@@ -102,5 +106,20 @@ public class GrglYgxzglServiceImpl extends CommonServiceImpl<GrglYgxzglMapper, G
         grglYgxzgl.setHj(hj+"");
 
 //        grglYgxzglService.updateById(grglYgxzgl);
+    }
+
+    /**
+     * Dscription: 得到所有员工薪资管理数据
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/6 17:56
+     */
+    @Override
+    public PageJson<GrglYgxzgl> ajaxYgxzglList(Queryable queryable, GrglYgxzgl grglYgxzgl) {
+        Pageable pageable = queryable.getPageable();
+        Page<GrglYgxzgl> page = new Page<GrglYgxzgl>(pageable.getPageNumber(), pageable.getPageSize());
+        page.setRecords(grglYgxzglMapper.ajaxYgxzglList(page, grglYgxzgl));
+        PageJson<GrglYgxzgl> pagejson = new PageJson<GrglYgxzgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
+        return pagejson;
     }
 }
