@@ -159,6 +159,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
 //        sheet1.setColumnWidth(3, 3700);
 //        sheet1.setColumnWidth(4, 3700);
 //        sheet1.setColumnWidth(5, 3700);
+        sheet1.setColumnWidth(14, 3000);
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
@@ -170,8 +171,8 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
             for (int i=0;i<grglYgxzglList.size();i++){
                 GrglYgxzgl g = grglYgxzglList.get(i);
                 //创建一行
-                Row row0 = sheet1.createRow(i*5);
-                row0.setHeightInPoints(35);
+                Row row0 = sheet1.createRow(i*3);
+                //row0.setHeightInPoints(35);
                 //创建单元格
                 Cell cell00 = row0.createCell(0);
                 Cell cell01 = row0.createCell(1);
@@ -187,6 +188,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 Cell cell011 = row0.createCell(11);
                 Cell cell012 = row0.createCell(12);
                 Cell cell013 = row0.createCell(13);
+                Cell cell014 = row0.createCell(14);
                 //给单元格设值
                 cell00.setCellValue("年月");
                 cell01.setCellValue("姓名");
@@ -202,6 +204,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 cell011.setCellValue("奖励");
                 cell012.setCellValue("扣款");
                 cell013.setCellValue("合计");
+                cell014.setCellValue("签字");
                 cell00.setCellStyle(style);
                 cell01.setCellStyle(style);
                 cell02.setCellStyle(style);
@@ -216,10 +219,11 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 cell011.setCellStyle(style);
                 cell012.setCellStyle(style);
                 cell013.setCellStyle(style);
+                cell014.setCellStyle(style);
 
                 //创建二行
-                Row row1 = sheet1.createRow(i*5+1);
-                row0.setHeightInPoints(35);
+                Row row1 = sheet1.createRow(i*3+1);
+                //row0.setHeightInPoints(35);
                 //创建单元格
                 Cell cell10 = row1.createCell(0);
                 Cell cell11 = row1.createCell(1);
@@ -235,6 +239,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 Cell cell111 = row1.createCell(11);
                 Cell cell112 = row1.createCell(12);
                 Cell cell113 = row1.createCell(13);
+                Cell cell114 = row1.createCell(14);
 
                 //给单元格设值
                 cell10.setCellValue(g.getNd()+"-"+g.getYf());
@@ -251,6 +256,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 cell111.setCellValue(g.getJl());
                 cell112.setCellValue(g.getKk());
                 cell113.setCellValue(g.getHj());
+                cell114.setCellValue("");
                 cell10.setCellStyle(style);
                 cell11.setCellStyle(style);
                 cell12.setCellStyle(style);
@@ -265,7 +271,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 cell111.setCellStyle(style);
                 cell112.setCellStyle(style);
                 cell113.setCellStyle(style);
-
+                cell114.setCellStyle(style);
 
             }
         }
