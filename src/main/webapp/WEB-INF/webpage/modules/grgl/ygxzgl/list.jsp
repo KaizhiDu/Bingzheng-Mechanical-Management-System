@@ -95,7 +95,7 @@
     <grid:toolbar function="exportGzd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="导出工资单"/>
 
     <grid:toolbar function="search"/>
-    <grid:toolbar function="reset"/>
+    <%--<grid:toolbar function="reset"/>--%>
 
 </grid:grid>
 
@@ -145,6 +145,25 @@
                 refreshTable(gridId);
             }
         });
+    }
+
+    //导出工资单
+    function exportGzd(){
+        var nd = $("#nd2").val();
+        var yf = $("#yf2").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/grgl/ygxzgl/exportGzd",
+            data: {
+                nd: nd,
+                yf: yf
+            },
+            success: function (data) {
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+
+            }
+        });
+
     }
 </script>
 </body>
