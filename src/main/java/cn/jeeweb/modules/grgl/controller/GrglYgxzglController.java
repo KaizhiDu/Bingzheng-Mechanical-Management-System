@@ -9,6 +9,7 @@ import cn.jeeweb.modules.grgl.entity.Grgl;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.service.IGrglService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,5 +82,49 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
         return pageJson;
     }
 
+    /**
+     * Dscription: 转到设置奖罚页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/8 8:28
+     */
+    @RequestMapping(value = "szjf", method={RequestMethod.GET, RequestMethod.POST})
+    public String szjf(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
+        GrglYgxzgl grglYgxzgl = grglYgxzglService.selectById(id);
+        model.addAttribute("grglYgxzgl", grglYgxzgl);
+        return display("szjf");
+    }
+
+    /**
+     * Dscription: 保存员工薪资管理
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/8 8:46
+     */
+    @RequestMapping(value = "saveYgxzgl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveYgxzgl(String id, String jl, String kk, String bz, HttpServletRequest request, HttpServletResponse response, Model model){
+        GrglYgxzgl grglYgxzgl = grglYgxzglService.selectById(id);
+
+        float hj = Float.parseFloat(grglYgxzgl.getHj());
+        if (grglYgxzgl.getJl()!=null&&!grglYgxzgl.getJl().equals("")){
+           hj = hj - Float.parseFloat(grglYgxzgl.getJl());
+        }
+        if (grglYgxzgl.getKk()!=null&&!grglYgxzgl.getKk().equals("")){
+            hj = hj + Float.parseFloat(grglYgxzgl.getKk());
+        }
+        grglYgxzgl.setId(id);
+        grglYgxzgl.setJl(jl);
+        grglYgxzgl.setKk(kk);
+        grglYgxzgl.setBz(bz);
+        if (grglYgxzgl.getJl()!=null&&!grglYgxzgl.getJl().equals("")){
+            hj = hj + Float.parseFloat(grglYgxzgl.getJl());
+        }
+        if (grglYgxzgl.getKk()!=null&&!grglYgxzgl.getKk().equals("")){
+            hj = hj - Float.parseFloat(grglYgxzgl.getKk());
+        }
+        grglYgxzgl.setHj(hj+"");
+        grglYgxzglService.updateById(grglYgxzgl);
+    }
 
 }

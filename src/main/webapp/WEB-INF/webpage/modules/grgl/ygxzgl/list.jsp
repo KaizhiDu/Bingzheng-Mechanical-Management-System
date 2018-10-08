@@ -101,7 +101,7 @@
 
 
 <script type="text/javascript">
-    //记录考勤
+    //设置奖罚
     function szjf(title, url, gridId, id, width, height, tipMsg) {
         openDia("设置奖罚",url,gridId,"50%","50%");
     }
