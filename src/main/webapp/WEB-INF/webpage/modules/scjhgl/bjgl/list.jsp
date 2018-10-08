@@ -31,10 +31,10 @@
 </head>
 <body>
 
-<h4>零件管理</h4>
+<h4>部件管理</h4>
 
 <div class="row">
-    <div id="ljglGridQuery" class="col-md-12">
+    <div id="BjglGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">合同编号：</label>
@@ -46,30 +46,30 @@
                 </select>
             </div>
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">零件图号：</label>
+                <label class="control-label">部件图号：</label>
                 <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零件图号"/>
             </div>
         </div>
     </div>
 </div>
 
-<grid:grid id="ljgl"
-           url="${adminPath}/scjhgl/ljgl/ajaxljglList" pageable="true">
+<grid:grid id="Bjgl"
+           url="${adminPath}/scjhgl/bjgl/ajaxBjglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <%--<grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>--%>
 
     <%--<grid:button title="修改" groupname="opt" function="modifyWorker"--%>
-                 <%--outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />--%>
+    <%--outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />--%>
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
-                 <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
+    <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
     <grid:column label="计划编号" name="htid"/>
-    <grid:column label="零件名称" name="ljmc"/>
+    <grid:column label="部件名称" name="ljmc"/>
     <grid:column label="零件图号" name="ljth"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
 
-    <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零件"/>
+    <grid:toolbar function="createBj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加部件"/>
     <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
 
     <grid:toolbar function="search"/>
@@ -80,32 +80,8 @@
 <script type="text/javascript">
     //添加一个员工
     function createLj(title, url, gridId, id, width, height, tipMsg) {
-        var url = "${adminPath}/scjhgl/ljgl/createLj";
+        var url = "${adminPath}/scjhgl/bjgl/createLj";
         openDia("添加零件",url,gridId,"800px","500px");
-    }
-
-    //修改一个员工信息
-    function modifyWorker(title, url, gridId, id, width, height, tipMsg) {
-        openDia("修改员工",url,gridId,"800px","500px");
-    }
-
-    //删除一个员工信息
-    function deleteWorker(title, url, gridId, id, width, height, tipMsg) {
-        layer.confirm('是否要删除信息!', {
-                btn: ['确定', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    success: function (data) {
-                        refreshTable(gridId);
-                    }
-                });
-                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                layer.msg("删除成功!",{ icon: 1, time: 1000 });
-
-            }
-        );
     }
 
     //打开一个窗口

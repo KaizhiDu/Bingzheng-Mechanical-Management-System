@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>零件工艺编制</h4>
+<h4>零部件工艺编制</h4>
 <div class="row">
     <div id="LjglGridQuery" class="col-md-12">
         <div class="form-inline">
@@ -56,8 +56,8 @@
                  outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgydl?id=\"+row.id+\"" />
 
     <grid:column label="计划编号" name="htid" width="30"/>
-    <grid:column label="零件名称" name="ljmc" width="30"/>
-    <grid:column label="零件图号" name="ljth" width="30"/>
+    <grid:column label="名称" name="ljmc" width="30"/>
+    <grid:column label="图号" name="ljth" width="30"/>
     <grid:column label="数量" name="sl" width="30"/>
 
     <grid:toolbar function="search"/>

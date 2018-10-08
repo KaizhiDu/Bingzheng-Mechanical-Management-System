@@ -116,6 +116,14 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
         //这个id为零件id
 
         ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
+        String mc = "";
+        if (scjhglLjgl.getSfsbj().equals("0")){
+            mc = "零件";
+        }
+        if (scjhglLjgl.getSfsbj().equals("1")){
+            mc = "部件";
+        }
+        model.addAttribute("mc", mc);
         model.addAttribute("scjhglLjgl", scjhglLjgl);
         return display("bzgydl");
     }

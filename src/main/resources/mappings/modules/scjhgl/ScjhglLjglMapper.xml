@@ -16,6 +16,7 @@ WHERE 1=1
 		<if test="entity.ljth!=null and entity.ljth!=''">
 			AND T.LJTH = #{entity.ljth}
 		</if>
+		AND T.SFSBJ = '0'
 ORDER BY T.HTID
     </select>
 

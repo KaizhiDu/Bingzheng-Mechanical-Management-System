@@ -46,7 +46,7 @@
                 </select>
             </div>
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">零件名称：</label>
+                <label class="control-label">零部件名称：</label>
                 <select name="ljmc" class="form-control" id="ljmc" onchange="cxgydl()">
                     <option value="">请选择</option>
                 </select>
@@ -73,7 +73,7 @@
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
     <grid:column label="计划编号" name="jhbh"/>
-    <grid:column label="零件名称" name="ljmc"/>
+    <grid:column label="零部件名称" name="ljmc"/>
     <grid:column label="工艺大类" name="gydlmc"/>
     <grid:column label="工艺小类" name="gyxlmc"/>
     <grid:column label="数量" name="sl"/>

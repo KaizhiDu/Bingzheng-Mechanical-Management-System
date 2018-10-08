@@ -11,14 +11,14 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * @Description:    生产计划管理-零件管理
- * @Author:         杜凯之
- * @CreateDate:     2018/9/4 17:07
- * @Version:        1.0
+ * Dscription: 生产计划管理 - 部件管理
+ * @author : Kevin Du
+ * @version : 1.0
+ * @date : 2018/10/8 13:06
  */
 @TableName("T_SCJHGL_LJGL")
 @SuppressWarnings("serial")
-public class ScjhglLjgl extends AbstractEntity<String> {
+public class ScjhglBjgl extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
@@ -160,6 +160,7 @@ public class ScjhglLjgl extends AbstractEntity<String> {
     }
 
     public String getSysl() {
+
         return sysl;
     }
 

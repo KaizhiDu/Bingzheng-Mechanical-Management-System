@@ -45,7 +45,7 @@
                  outclass="btn-success" url="${adminPath}/scgl/bgrwfp/fpgzl?id=\"+row.id+\"" />
 
     <grid:column label="计划编号" name="jhbh"/>
-    <grid:column label="零件名称" name="ljmc"/>
+    <grid:column label="零部件名称" name="ljmc"/>
     <grid:column label="工艺大类名称" name="gydlmc"/>
     <grid:column label="工艺小类名称" name="gyxlmc"/>
     <grid:column label="任务量" name="ywcl"/>

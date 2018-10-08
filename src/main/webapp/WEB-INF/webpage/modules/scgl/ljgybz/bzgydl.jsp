@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>零件（${scjhglLjgl.ljmc}）工艺编制</h4>
+<h4>${mc}（${scjhglLjgl.ljmc}）工艺编制</h4>
 
 <input id="ljid" name="ljid" type="hidden" value="${scjhglLjgl.id}">
 
