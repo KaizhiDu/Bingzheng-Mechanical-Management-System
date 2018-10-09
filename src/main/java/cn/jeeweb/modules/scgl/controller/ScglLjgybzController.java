@@ -369,7 +369,7 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
         int sl = Integer.parseInt(scjhglLjgl.getSl());
         s.setSl(sl);
         s.setSysl(sl);
-
+        s.setWrksl(sl);
         //可以插入了
         scglLjgybzService.insert(s);
     }
