@@ -1,13 +1,17 @@
 package cn.jeeweb.modules.scjhgl.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.model.AjaxJson;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBjgl;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglBjzc;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglBjglService;
+import cn.jeeweb.modules.scjhgl.service.IScjhglBjzcService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,10 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     @Autowired
     private IScjhglHtglService scjhglHtglService;
 
+    /**部件组成Service*/
+    @Autowired
+    private IScjhglBjzcService scjhglBjzcService;
+
     /**
      * @Description:    搜索项
      * @Author:         杜凯之
@@ -68,5 +76,180 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     public PageJson<ScjhglBjgl> ajaxBjglList(Queryable queryable, ScjhglBjgl scjhglBjgl, HttpServletRequest request, HttpServletResponse response, Model model){
         PageJson<ScjhglBjgl> pageJson = scjhglBjglService.ajaxBjglList(queryable,scjhglBjgl);
         return pageJson;
+    }
+    
+    /**
+     * Dscription: 转到添加部件页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/9 9:33
+     */
+    @RequestMapping(value = "createBj", method={RequestMethod.GET, RequestMethod.POST})
+    public String createBj(HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
+        model.addAttribute("htList", list);
+        return display("createBj");
+    }
+
+    /**
+     * Dscription: 保存部件基本信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/9 10:24
+     */
+    @RequestMapping(value = "saveBj", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveBj(ScjhglLjgl scjhglLjgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        scjhglLjgl.setSfsbj("1");
+        scjhglLjglService.insert(scjhglLjgl);
+    }
+
+    /**
+     * Dscription: 转到部件组成页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/9 10:32
+     */
+    @RequestMapping(value = "bjzc", method={RequestMethod.GET, RequestMethod.POST})
+    public String bjzc(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
+        //得到计划ID
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
+        String jhid = scjhglLjgl.getHtid();
+        //拿到所有该计划下的零件
+        EntityWrapper<ScjhglLjgl> wrapper = new EntityWrapper<ScjhglLjgl>();
+        wrapper.eq("HTID", jhid);
+        wrapper.eq("SFSBJ", "0");
+        List<ScjhglLjgl> ljList = scjhglLjglService.selectList(wrapper);
+        model.addAttribute("ljList", ljList);
+        //部件ID
+        model.addAttribute("bjid", id);
+        return display("bjzc");
+    }
+
+    /**
+     * Dscription: 保存部件组成
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/9 12:04
+     */
+    @RequestMapping(value = "saveBjzc", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveBjzc(String id, String check_val, HttpServletRequest request, HttpServletResponse response, Model model){
+        String checkArray[] = check_val.split(",");
+        String bjzc = "";
+        for (int i=1;i<checkArray.length;i++){
+           String ljmc = scjhglLjglService.selectById(checkArray[i]).getLjmc();
+           if (bjzc.equals("")){
+               bjzc = ljmc;
+           }
+           else{
+               bjzc = bjzc + "," +ljmc;
+           }
+        }
+        //得到部件信息，添加部件组成，最后更新
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
+        scjhglLjgl.setBjzc(bjzc);
+        scjhglLjglService.updateById(scjhglLjgl);
+    }
+
+    /**
+     * Dscription: 检查数量
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/9 12:37
+     */
+    @RequestMapping(value = "checkSl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public int checkSl(String ljid, String bjid, HttpServletRequest request, HttpServletResponse response, Model model){
+        int check = 0;
+        AjaxJson ajaxJson = new AjaxJson();
+        //得到零件的剩余数量
+        String ljsyslS = scjhglLjglService.selectById(ljid).getSysl();
+        //得到部件的数量
+        String bjslS = scjhglLjglService.selectById(bjid).getSl();
+        float ljsysl = 0;
+        float bjsl = 0;
+        if (ljsyslS!=null&&!ljsyslS.equals("")){
+            ljsysl = Float.parseFloat(ljsyslS);
+        }
+        if (bjslS!=null&&!bjslS.equals("")){
+            bjsl = Float.parseFloat(bjslS);
+        }
+        if (ljsysl<bjsl){
+            check = 0;
+        }
+        else{
+            check = 1;
+        }
+        return check;
+    }
+
+    /**
+     * Dscription: 操作部件组成
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/9 13:47
+     */
+    @RequestMapping(value = "addDelete", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void addDelete(String flag, String ljid, String bjid, HttpServletRequest request, HttpServletResponse response, Model model){
+        //添加
+        if (flag.equals("add")){
+            //零件减去部件数量
+            //首先要拿到部件数量
+            ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(bjid);
+            float bjsl = 0;
+            if (scjhglLjgl.getSl()!=null&&!scjhglLjgl.getSl().equals("")){
+                bjsl = Float.parseFloat(scjhglLjgl.getSl());
+            }
+
+            ScjhglLjgl scjhglLjgl2 = scjhglLjglService.selectById(ljid);
+            float ljsysl = 0;
+            if (scjhglLjgl2.getSysl()!=null&&!scjhglLjgl2.getSysl().equals("")){
+                ljsysl = Float.parseFloat(scjhglLjgl2.getSysl());
+            }
+            ljsysl = ljsysl - bjsl;
+            scjhglLjgl2.setSysl(ljsysl+"");
+            scjhglLjglService.updateById(scjhglLjgl2);
+
+            //添加
+            ScjhglBjzc scjhglBjzc = new ScjhglBjzc();
+            scjhglBjzc.setBjid(bjid);
+            scjhglBjzc.setLjid(ljid);
+            scjhglBjzcService.insert(scjhglBjzc);
+        }
+        if (flag.equals("delete")){
+            //零件加上部件数量
+            ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(bjid);
+            float bjsl = 0;
+            if (scjhglLjgl.getSl()!=null&&!scjhglLjgl.getSl().equals("")){
+                bjsl = Float.parseFloat(scjhglLjgl.getSl());
+            }
+
+            ScjhglLjgl scjhglLjgl2 = scjhglLjglService.selectById(ljid);
+            float ljsysl = 0;
+            if (scjhglLjgl2.getSysl()!=null&&!scjhglLjgl2.getSysl().equals("")){
+                ljsysl = Float.parseFloat(scjhglLjgl2.getSysl());
+            }
+            ljsysl = ljsysl + bjsl;
+            scjhglLjgl2.setSysl(ljsysl+"");
+            scjhglLjglService.updateById(scjhglLjgl2);
+
+            //删除
+            EntityWrapper<ScjhglBjzc> wrapper = new EntityWrapper<ScjhglBjzc>();
+            wrapper.eq("LJID", ljid);
+            wrapper.eq("BJID", bjid);
+            scjhglBjzcService.delete(wrapper);
+        }
+    }
+
+    @RequestMapping(value = "serachBjzc", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public List<ScjhglBjzc> serachBjzc(String bjid, HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<ScjhglBjzc> wrapper = new EntityWrapper<ScjhglBjzc>();
+        wrapper.eq("BJID", bjid);
+        List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper);
+        return scjhglBjzcs;
     }
 }

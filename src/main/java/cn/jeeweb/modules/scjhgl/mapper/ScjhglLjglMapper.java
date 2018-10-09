@@ -25,6 +25,14 @@ public interface ScjhglLjglMapper extends BaseMapper<ScjhglLjgl> {
     public List<ScjhglLjgl> ajaxljglList(Pagination page, @Param("entity") ScjhglLjgl entity);
 
     /**
+     * @Description:    展示所有零部件信息
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/12 16:53
+     * @Version:        1.0
+     */
+    public List<ScjhglLjgl> ajaxlbjglList(Pagination page, @Param("entity") ScjhglLjgl entity);
+
+    /**
      * Dscription: 根据计划ID获取所有的零件信息
      * @author : Kevin Du
      * @version : 1.0

@@ -7,6 +7,9 @@
         LJTH,
         LJMC,
         DYL,
+        BJZC,
+        SYSL,
+        SFSBJ,
         SL
         FROM T_SCJHGL_LJGL T
         WHERE 1=1

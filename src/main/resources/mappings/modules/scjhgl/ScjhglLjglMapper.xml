@@ -20,6 +20,24 @@ WHERE 1=1
 ORDER BY T.HTID
     </select>
 
+	<select id="ajaxlbjglList" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
+		SELECT ID,
+		(SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.HTID) HTID,
+		LJTH,
+		LJMC,
+		DYL,
+		SL
+		FROM T_SCJHGL_LJGL T
+		WHERE 1=1
+		<if test="entity.htid!=null and entity.htid!=''">
+			AND T.HTID = #{entity.htid}
+		</if>
+		<if test="entity.ljth!=null and entity.ljth!=''">
+			AND T.LJTH = #{entity.ljth}
+		</if>
+		ORDER BY T.HTID
+	</select>
+
 	<select id="cxLj" resultType="cn.jeeweb.modules.scgl.dto.SsxDTO">
 		SELECT T3.ID JHID,
 		T2.ID LJID,
