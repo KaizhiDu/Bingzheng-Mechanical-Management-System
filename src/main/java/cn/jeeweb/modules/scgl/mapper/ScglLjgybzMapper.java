@@ -22,4 +22,12 @@ public interface ScglLjgybzMapper extends BaseMapper<ScglLjgybz> {
      * @Version:        1.0
      */
     public List<ScglLjgybz> ajaxGyxlbzList(Pagination page, @Param("entity") ScglLjgybz entity, @Param("gydlbzid") String gydlbzid);
+
+    /**
+     * Dscription: 通过零件ID，得到所有下属工艺信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/10 12:20
+     */
+    public List<ScglLjgybz> getLjgybzByLjid(@Param("ljid") String ljid);
 }

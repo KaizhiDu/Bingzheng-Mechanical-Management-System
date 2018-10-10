@@ -6,6 +6,8 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.scgl.entity.ScglGymbxlsz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
 
+import java.util.List;
+
 /**
  * @Description:    生产管理-零件工艺编制
  * @Author:         杜凯之
@@ -21,4 +23,13 @@ public interface IScglLjgybzService extends ICommonService<ScglLjgybz> {
      * @Version:        1.0
      */
     public PageJson<ScglLjgybz> ajaxGyxlbzList(Queryable queryable, ScglLjgybz scglLjgybz, String gydlbzid);
+
+    /**
+     * Dscription: 通过零件ID，得到所有下属工艺信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/10 12:20
+     */
+    public List<ScglLjgybz> getLjgybzByLjid(String ljid);
+
 }

@@ -3,14 +3,21 @@ package cn.jeeweb.modules.jygl.controller;
 import cn.jeeweb.core.common.controller.BaseCRUDController;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.ckgl.entity.Ckgl;
+import cn.jeeweb.modules.ckgl.service.ICkglService;
 import cn.jeeweb.modules.jygl.dto.RgjyDTO;
 import cn.jeeweb.modules.jygl.entity.JyglRgjy;
 import cn.jeeweb.modules.jygl.service.IJyglRgjyService;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
+import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
 import cn.jeeweb.modules.scgl.service.IScglRcrwfpService;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
+import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
+import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +51,22 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
     /**生产管理-零件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
+
+    /**生产管理-工艺大类编制Service*/
+    @Autowired
+    private IScglGydlbzService scglGydlbzService;
+
+    /**生产计划管理-零件管理Service*/
+    @Autowired
+    private IScjhglLjglService scjhglLjglService;
+
+    /**生产计划管理-计划管理Service*/
+    @Autowired
+    private IScjhglHtglService scjhglJhglService;
+
+    /**仓库管理Service*/
+    @Autowired
+    private ICkglService ckglService;
 
     /**
      * Dscription: 搜索项
@@ -115,8 +138,76 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         int sysl = scglLjgybz.getSysl()+sss-Integer.parseInt(sjwcl);
         scglLjgybz.setSysl(sysl);
         scglLjgybzService.updateById(scglLjgybz);
+
         //最后更新 日工任务下的 实际完成量
         jyglRgjy.setSjwcl(sjwcl);
         jyglRgjyService.updateById(jyglRgjy);
+
+        //判断该零件工艺所在的零件下的所有工艺，是否有全完成了的。有就入仓库（判断sysl 和 wrksl）
+        //首先要拿到零件ID
+        String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
+        String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
+        //下一步要拿到零件下的所有工艺
+        List<ScglLjgybz> ljgybzByLjidList = scglLjgybzService.getLjgybzByLjid(ljid);
+        //判断要入库多少
+        int rksl = 1000000;
+        for (ScglLjgybz s: ljgybzByLjidList) {
+            int a = s.getWrksl() - s.getSysl();
+            if (a<rksl){
+                rksl = a;
+            }
+        }
+
+        //依次减去数量未入库数量
+        for (ScglLjgybz s: ljgybzByLjidList) {
+            int newWrksl = s.getWrksl() - rksl;
+            s.setWrksl(newWrksl);
+            scglLjgybzService.updateById(s);
+        }
+
+        //还要减去零件数量
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
+        int wrksl = Integer.parseInt(scjhglLjgl.getWrksl()) - rksl;
+        scjhglLjgl.setWrksl(wrksl+"");
+        scjhglLjglService.updateById(scjhglLjgl);
+
+        //最后入仓库
+        //先判断是否要入库,如果rksl不为0就入仓库
+        if (rksl!=0){
+            Ckgl ckgl = new Ckgl();
+            String jhid = scjhglLjgl.getHtid();
+            String jhbh = scjhglJhglService.selectById(jhid).getHtbh();
+            String lbjid = scjhglLjgl.getId();
+            String lbjmc = scjhglLjgl.getLjmc();
+            String lbjth = scjhglLjgl.getLjth();
+            String kczl = "08";
+            String sfswwcbcp = "0";
+            ckgl.setJhid(jhid);
+            ckgl.setJhbh(jhbh);
+            ckgl.setLbjid(lbjid);
+            ckgl.setLbjmc(lbjmc);
+            ckgl.setLbjth(lbjth);
+            ckgl.setKczl(kczl);
+            ckgl.setSfswwcbcp(sfswwcbcp);
+            ckgl.setRksl(rksl+"");
+            //要查询有没有同样的图号
+            EntityWrapper<Ckgl> wrapper = new EntityWrapper<Ckgl>();
+            wrapper.eq("LBJTH" ,lbjth);
+            int count = ckglService.selectCount(wrapper);
+            //插入新记录
+            if (count == 0){
+                ckglService.insert(ckgl);
+            }
+            //更新入库数量
+            else{
+                Ckgl ckgl2 = ckglService.selectOne(wrapper);
+                int newRksl = Integer.parseInt(ckgl2.getRksl())+rksl;
+                ckgl2.setRksl(newRksl+"");
+                ckglService.updateById(ckgl2);
+            }
+        }
+
+
+
     }
 }

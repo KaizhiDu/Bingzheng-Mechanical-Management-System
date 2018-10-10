@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Description:    生产管理-零件工艺编制
  * @Author:         杜凯之
@@ -39,5 +41,16 @@ public class ScglLjgybzServiceImpl extends CommonServiceImpl<ScglLjgybzMapper, S
         page.setRecords(scglLjgybzMapper.ajaxGyxlbzList(page, scglLjgybz, gydlbzid));
         PageJson<ScglLjgybz> pagejson = new PageJson<ScglLjgybz>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 通过零件ID，得到所有下属工艺信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/10 12:20
+     */
+    @Override
+    public List<ScglLjgybz> getLjgybzByLjid(String ljid) {
+        return scglLjgybzMapper.getLjgybzByLjid(ljid);
     }
 }
