@@ -15,6 +15,7 @@ public class GybzglDTO {
     private int dpx;
     private int xpx;
     private int sl;
+    private int wrksl;
     private int sysl;
 
     public String getId() {
@@ -95,5 +96,13 @@ public class GybzglDTO {
 
     public void setSysl(int sysl) {
         this.sysl = sysl;
+    }
+
+    public int getWrksl() {
+        return wrksl;
+    }
+
+    public void setWrksl(int wrksl) {
+        this.wrksl = wrksl;
     }
 }

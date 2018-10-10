@@ -101,6 +101,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     @RequestMapping(value = "saveBj", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBj(ScjhglLjgl scjhglLjgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        scjhglLjgl.setWrksl(scjhglLjgl.getSl());
         scjhglLjgl.setSfsbj("1");
         scjhglLjglService.insert(scjhglLjgl);
     }
@@ -244,6 +245,12 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
         }
     }
 
+    /**
+     * Dscription: 查询部件组成
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/10 9:42
+     */
     @RequestMapping(value = "serachBjzc", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public List<ScjhglBjzc> serachBjzc(String bjid, HttpServletRequest request, HttpServletResponse response, Model model){
@@ -251,5 +258,47 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
         wrapper.eq("BJID", bjid);
         List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper);
         return scjhglBjzcs;
+    }
+
+    /**
+     * Dscription: 删除部件，并且加上相应的零件剩余数量
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/10 9:43
+     */
+    @RequestMapping(value = "deleteBj", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void addDelete(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+        String idsArray[] = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            String bjid = idsArray[i];
+            //得到部件数量
+            String bjslS = scjhglLjglService.selectById(bjid).getSl();
+            float bjsl = 0;
+            if (bjslS!=null&&!bjslS.equals("")){
+                bjsl = Float.parseFloat(bjslS);
+            }
+            EntityWrapper<ScjhglBjzc> wrapper = new EntityWrapper<ScjhglBjzc>();
+            wrapper.eq("BJID", bjid);
+            List<ScjhglBjzc> bjzcList = scjhglBjzcService.selectList(wrapper);
+            for (ScjhglBjzc s: bjzcList) {
+                String ljid = s.getLjid();
+                ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
+                String ljsyslS = scjhglLjgl.getSysl();
+                float ljsysl = 0;
+                if (ljsyslS!=null&&!ljsyslS.equals("")){
+                    ljsysl = Float.parseFloat(ljsyslS);
+                }
+                ljsysl = ljsysl + bjsl;
+                scjhglLjgl.setSysl(ljsysl+"");
+                scjhglLjglService.updateById(scjhglLjgl);
+            }
+
+            //删除所有相关的部件组成
+            scjhglBjzcService.delete(wrapper);
+
+            //删除部件
+            scjhglLjglService.deleteById(bjid);
+        }
     }
 }

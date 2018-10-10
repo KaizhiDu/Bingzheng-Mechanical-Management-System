@@ -69,7 +69,7 @@
     <grid:column label="数量" name="sl"/>
 
     <grid:toolbar function="createBj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加部件"/>
-    <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
+    <grid:toolbar function="deleteBj" icon="fa fa-trash" title="删除" btnclass="btn btn-sm btn-danger"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -82,6 +82,79 @@
     function createBj(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/scjhgl/bjgl/createBj";
         openDia("添加部件",url,gridId,"40%","50%");
+    }
+
+    //删除部件
+    function deleteBj(title, url, gridId, id, width, height, tipMsg){
+        //获取选中行的id数组
+        var idsArray = $("#BjglGrid").jqGrid("getGridParam", "selarrrow")
+        if (idsArray.length>0){
+            var ids = "";
+            for (var i=0;i<idsArray.length;i++){
+                if (i==0){
+                    ids = idsArray[i];
+                }
+                else{
+                    ids = ids + "," + idsArray[i];
+                }
+            }
+            //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
+            layer.confirm('确定要删除吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    $.ajax({
+                        type: "GET",
+                        url: "${adminPath}/scjhgl/bjgl/deleteBj?ids="+ids,
+                        success: function (data) {
+                            refreshTable(gridId);
+                        }
+                    });
+                    layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                    layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
+                }
+            );
+
+        }
+        else{
+            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+            return;
+        }
+        //获取选中行的id数组
+        var idsArray = $("#ljglGrid").jqGrid("getGridParam", "selarrrow")
+        if (idsArray.length>0){
+            var ids = "";
+            for (var i=0;i<idsArray.length;i++){
+                if (i==0){
+                    ids = idsArray[i];
+                }
+                else{
+                    ids = ids + "," + idsArray[i];
+                }
+            }
+            //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
+            layer.confirm('删除这个计划相关零件也会删除!  确定要删除吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    $.ajax({
+                        type: "GET",
+                        url: "${adminPath}/scjhgl/htgl/deleteHt?ids="+ids,
+                        success: function (data) {
+                            refreshTable(gridId);
+                        }
+                    });
+                    layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                    layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
+                }
+            );
+
+        }
+        else{
+            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+            return;
+        }
+
     }
 
     function bjzc(title, url, gridId, id, width, height, tipMsg){
