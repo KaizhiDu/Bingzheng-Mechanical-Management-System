@@ -68,6 +68,7 @@
     <grid:column label="零件图号" name="ljth"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
+    <grid:column label="未入库数量" name="wrksl"/>
 
     <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零件"/>
     <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>

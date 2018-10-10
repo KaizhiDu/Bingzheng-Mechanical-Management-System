@@ -9,6 +9,7 @@
         DYL,
         BJZC,
         SYSL,
+        WRKSL,
         SFSBJ,
         SL
         FROM T_SCJHGL_LJGL T

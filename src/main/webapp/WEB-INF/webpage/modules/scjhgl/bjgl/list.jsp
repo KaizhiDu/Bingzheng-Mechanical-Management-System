@@ -67,6 +67,7 @@
     <grid:column label="零件图号" name="ljth"/>
     <grid:column label="部件组成" name="bjzc"/>
     <grid:column label="数量" name="sl"/>
+    <grid:column label="未入库数量" name="wrksl"/>
 
     <grid:toolbar function="createBj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加部件"/>
     <grid:toolbar function="deleteBj" icon="fa fa-trash" title="删除" btnclass="btn btn-sm btn-danger"/>
