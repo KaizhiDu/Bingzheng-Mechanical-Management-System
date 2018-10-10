@@ -5,6 +5,8 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.ckgl.entity.Ckgl;
+import cn.jeeweb.modules.ckgl.service.ICkglService;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import cn.jeeweb.modules.jygl.dto.BgjyDTO;
@@ -16,10 +18,10 @@ import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.ScglBgmx;
 import cn.jeeweb.modules.scgl.entity.ScglBgrwfp;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
-import cn.jeeweb.modules.scgl.service.IScglBgmxService;
-import cn.jeeweb.modules.scgl.service.IScglBgrwfpService;
-import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
-import cn.jeeweb.modules.scgl.service.IScglRcrwfpService;
+import cn.jeeweb.modules.scgl.service.*;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
+import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
+import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,6 +69,22 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     /**生产管理-包工明细Service*/
     @Autowired
     private IScglBgmxService scglBgmxService;
+
+    /**生产管理-工艺大类编制Service*/
+    @Autowired
+    private IScglGydlbzService scglGydlbzService;
+
+    /**生产计划管理-零件管理Service*/
+    @Autowired
+    private IScjhglLjglService scjhglLjglService;
+
+    /**生产计划管理-计划管理Service*/
+    @Autowired
+    private IScjhglHtglService scjhglJhglService;
+
+    /**仓库管理Service*/
+    @Autowired
+    private ICkglService ckglService;
 
     /**
      * Dscription: 搜索项
@@ -151,6 +169,71 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             sysl = sysl - Integer.parseInt(ywcl);
             scglLjgybz.setSysl(sysl);
             scglLjgybzService.updateById(scglLjgybz);
+
+            //判断该零件工艺所在的零件下的所有工艺，是否有全完成了的。有就入仓库（判断sysl 和 wrksl）
+            //首先要拿到零件ID
+            String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
+            String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
+            //下一步要拿到零件下的所有工艺
+            List<ScglLjgybz> ljgybzByLjidList = scglLjgybzService.getLjgybzByLjid(ljid);
+            //判断要入库多少
+            int rksl = 1000000;
+            for (ScglLjgybz s: ljgybzByLjidList) {
+                int a = s.getWrksl() - s.getSysl();
+                if (a<rksl){
+                    rksl = a;
+                }
+            }
+
+            //依次减去数量未入库数量
+            for (ScglLjgybz s: ljgybzByLjidList) {
+                int newWrksl = s.getWrksl() - rksl;
+                s.setWrksl(newWrksl);
+                scglLjgybzService.updateById(s);
+            }
+
+            //还要减去零件数量
+            ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
+            int wrksl = Integer.parseInt(scjhglLjgl.getWrksl()) - rksl;
+            scjhglLjgl.setWrksl(wrksl+"");
+            scjhglLjglService.updateById(scjhglLjgl);
+
+            //最后入仓库
+            //先判断是否要入库,如果rksl不为0就入仓库
+            if (rksl!=0){
+                Ckgl ckgl = new Ckgl();
+                String jhid = scjhglLjgl.getHtid();
+                String jhbh = scjhglJhglService.selectById(jhid).getHtbh();
+                String lbjid = scjhglLjgl.getId();
+                String lbjmc = scjhglLjgl.getLjmc();
+                String lbjth = scjhglLjgl.getLjth();
+                String kczl = "08";
+                String sfswwcbcp = "0";
+                ckgl.setJhid(jhid);
+                ckgl.setJhbh(jhbh);
+                ckgl.setLbjid(lbjid);
+                ckgl.setLbjmc(lbjmc);
+                ckgl.setLbjth(lbjth);
+                ckgl.setKczl(kczl);
+                ckgl.setSfswwcbcp(sfswwcbcp);
+                ckgl.setRksl(rksl+"");
+                //要查询有没有同样的图号
+                EntityWrapper<Ckgl> wrapper = new EntityWrapper<Ckgl>();
+                wrapper.eq("LBJTH" ,lbjth);
+                int count = ckglService.selectCount(wrapper);
+                //插入新记录
+                if (count == 0){
+                    ckglService.insert(ckgl);
+                }
+                //更新入库数量
+                else{
+                    Ckgl ckgl2 = ckglService.selectOne(wrapper);
+                    int newRksl = Integer.parseInt(ckgl2.getRksl())+rksl;
+                    ckgl2.setRksl(newRksl+"");
+                    ckglService.updateById(ckgl2);
+                }
+            }
+
         }
         
         //设包工展示信息的是否完成为1
