@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.ckgl.mapper.CkglBcpMapper" >
+    <select id="ajaxBcpList" resultType="cn.jeeweb.modules.ckgl.entity.CkglBcp">
+        SELECT ID,
+       JHBH,
+			 LBJMC,
+			 LBJTH,
+			 RKSL
+FROM T_CKGL_BCP
+WHERE 1=1
+     AND SFSWWCBCP = '0'
+    </select>
+
+    <select id="ajaxBcpList2" resultType="cn.jeeweb.modules.ckgl.entity.CkglBcp">
+        SELECT ID,
+        JHBH,
+        LBJMC,
+        LBJTH,
+        RKSL
+        FROM T_CKGL_BCP
+        WHERE 1=1
+        AND SFSWWCBCP = '1'
+    </select>
+
+</mapper>
