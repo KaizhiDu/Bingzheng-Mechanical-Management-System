@@ -37,7 +37,7 @@
     <div id="ljglGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">计划编号：</label>
+                <label class="control-label">合同编号：</label>
                 <select name="htid" class="form-control" id="htid">
                     <option value="">请选择</option>
                     <c:forEach items="${htList}" var="ht">

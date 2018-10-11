@@ -34,22 +34,45 @@
     </style>
 </head>
 <body>
-
+<h4>未完成半成品</h4>
+<hr>
 <div class="row">
     <div id="CkglBcpGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-4" style="margin-bottom: 10px">
-
+                <label class="control-label">计划编号：</label>
+                <select name="jhbh" class="form-control" id="jhbh">
+                    <option value="">请选择</option>
+                    <c:forEach items="${htList}" var="ht">
+                        <option value="${ht.htbh}">${ht.htbh}</option>
+                    </c:forEach>
+                </select>
             </div>
             <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">零部件名称：</label>
+                <select name="lbjmc" class="form-control" id="lbjmc">
+                    <option value="">请选择</option>
+                    <c:forEach items="${bcpList}" var="lbj">
+                        <option value="${lbj.lbjmc}">${lbj.lbjmc}</option>
+                    </c:forEach>
+                </select>
+            </div>
 
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">零部件图号：</label>
+                <select name="lbjth" class="form-control" id="lbjth">
+                    <option value="">请选择</option>
+                    <c:forEach items="${bcpList}" var="lbj">
+                        <option value="${lbj.lbjth}">${lbj.lbjth}</option>
+                    </c:forEach>
+                </select>
             </div>
         </div>
     </div>
 </div>
 
 <grid:grid id="CkglBcp"
-           url="${adminPath}/ckgl/bcp/ajaxBcpList2" pageable="true">
+           url="${adminPath}/ckgl/bcp/ywcbcp/ajaxBcpList2" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 

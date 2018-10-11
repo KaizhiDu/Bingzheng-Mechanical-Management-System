@@ -10,6 +10,15 @@
 FROM T_CKGL_BCP
 WHERE 1=1
      AND SFSWWCBCP = '0'
+        <if test="entity.jhbh!=null and entity.jhbh!=''">
+            AND JHBH = #{entity.jhbh}
+        </if>
+        <if test="entity.lbjmc!=null and entity.lbjmc!=''">
+            AND LBJMC = #{entity.lbjmc}
+        </if>
+        <if test="entity.lbjth!=null and entity.lbjth!=''">
+            AND LBJTH = #{entity.lbjth}
+        </if>
     </select>
 
     <select id="ajaxBcpList2" resultType="cn.jeeweb.modules.ckgl.entity.CkglBcp">
@@ -21,6 +30,15 @@ WHERE 1=1
         FROM T_CKGL_BCP
         WHERE 1=1
         AND SFSWWCBCP = '1'
+        <if test="entity.jhbh!=null and entity.jhbh!=''">
+            AND JHBH = #{entity.jhbh}
+        </if>
+        <if test="entity.lbjmc!=null and entity.lbjmc!=''">
+            AND LBJMC = #{entity.lbjmc}
+        </if>
+        <if test="entity.lbjth!=null and entity.lbjth!=''">
+            AND LBJTH = #{entity.lbjth}
+        </if>
     </select>
 
 </mapper>
