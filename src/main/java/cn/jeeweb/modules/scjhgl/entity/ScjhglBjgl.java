@@ -50,6 +50,9 @@ public class ScjhglBjgl extends AbstractEntity<String> {
     /** 剩余数量 */
     @TableField(value = "SYSL")
     private String sysl;
+    /** 是否未完成入库 */
+    @TableField(value = "SFWWCRK")
+    private String sfwwcrk;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -177,5 +180,13 @@ public class ScjhglBjgl extends AbstractEntity<String> {
 
     public void setWrksl(String wrksl) {
         this.wrksl = wrksl;
+    }
+
+    public String getSfwwcrk() {
+        return sfwwcrk;
+    }
+
+    public void setSfwwcrk(String sfwwcrk) {
+        this.sfwwcrk = sfwwcrk;
     }
 }

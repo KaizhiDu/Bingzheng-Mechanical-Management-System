@@ -370,6 +370,8 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
         s.setSl(sl);
         s.setSysl(sl);
         s.setWrksl(sl);
+        s.setScsfxs("1");
+
         //可以插入了
         scglLjgybzService.insert(s);
     }

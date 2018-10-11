@@ -6,7 +6,6 @@ import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBjgl;
 import cn.jeeweb.modules.scjhgl.mapper.ScjhglBjglMapper;
-import cn.jeeweb.modules.scjhgl.mapper.ScjhglLjglMapper;
 import cn.jeeweb.modules.scjhgl.service.IScjhglBjglService;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,45 +7,37 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.FieldFill;
 import com.baomidou.mybatisplus.enums.IdType;
+
 import java.util.Date;
 
 /**
- * Dscription: 仓库管理
+ * Dscription: 仓库管理 - 未完成工序
  * @author : Kevin Du
  * @version : 1.0
- * @date : 2018/10/10 13:24
+ * @date : 2018/10/11 13:35
  */
-@TableName("T_CKGL")
+@TableName("T_CKGL_WWCGX")
 @SuppressWarnings("serial")
-public class Ckgl extends AbstractEntity<String> {
+public class CkglWwcgx extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 计划ID */
-    @TableField(value = "JHID")
-    private String jhid;
-    /** 计划编号 */
-    @TableField(value = "JHBH")
-    private String jhbh;
-    /** 零部件ID */
-    @TableField(value = "LBJID")
-    private String lbjid;
-    /** 零部件名称 */
-    @TableField(value = "LBJMC")
-    private String lbjmc;
-    /** 零部件图号 */
-    @TableField(value = "LBJTH")
-    private String lbjth;
-    /** 入库数量 */
-    @TableField(value = "RKSL")
-    private String rksl;
-    /** 库存种类 */
-    @TableField(value = "KCZL")
-    private String kczl;
-    /** 是否是未完成半成品 */
-    @TableField(value = "SFSWWCBCP")
-    private String sfswwcbcp;
+    /** 半成品ID */
+    @TableField(value = "BCPID")
+    private String bcpid;
+    /** 工艺小类名称 */
+    @TableField(value = "GYXLMC")
+    private String gyxlmc;
+    /** 数量 */
+    @TableField(value = "SL")
+    private String sl;
+    /** 未完成数量 */
+    @TableField(value = "WRKSL")
+    private String wrksl;
+    /** 剩余数量 */
+    @TableField(value = "SYSL")
+    private String sysl;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -68,68 +60,44 @@ public class Ckgl extends AbstractEntity<String> {
         this.id = id;
     }
 
-    public String getJhid() {
-        return jhid;
+    public String getBcpid() {
+        return bcpid;
     }
 
-    public void setJhid(String jhid) {
-        this.jhid = jhid;
+    public void setBcpid(String bcpid) {
+        this.bcpid = bcpid;
     }
 
-    public String getJhbh() {
-        return jhbh;
+    public String getGyxlmc() {
+        return gyxlmc;
     }
 
-    public void setJhbh(String jhbh) {
-        this.jhbh = jhbh;
+    public void setGyxlmc(String gyxlmc) {
+        this.gyxlmc = gyxlmc;
     }
 
-    public String getLbjid() {
-        return lbjid;
+    public String getSl() {
+        return sl;
     }
 
-    public void setLbjid(String lbjid) {
-        this.lbjid = lbjid;
+    public void setSl(String sl) {
+        this.sl = sl;
     }
 
-    public String getLbjmc() {
-        return lbjmc;
+    public String getWrksl() {
+        return wrksl;
     }
 
-    public void setLbjmc(String lbjmc) {
-        this.lbjmc = lbjmc;
+    public void setWrksl(String wrksl) {
+        this.wrksl = wrksl;
     }
 
-    public String getLbjth() {
-        return lbjth;
+    public String getSysl() {
+        return sysl;
     }
 
-    public void setLbjth(String lbjth) {
-        this.lbjth = lbjth;
-    }
-
-    public String getRksl() {
-        return rksl;
-    }
-
-    public void setRksl(String rksl) {
-        this.rksl = rksl;
-    }
-
-    public String getKczl() {
-        return kczl;
-    }
-
-    public void setKczl(String kczl) {
-        this.kczl = kczl;
-    }
-
-    public String getSfswwcbcp() {
-        return sfswwcbcp;
-    }
-
-    public void setSfswwcbcp(String sfswwcbcp) {
-        this.sfswwcbcp = sfswwcbcp;
+    public void setSysl(String sysl) {
+        this.sysl = sysl;
     }
 
     public User getUpdateBy() {

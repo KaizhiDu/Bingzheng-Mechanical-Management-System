@@ -1,4 +1,4 @@
-package cn.jeeweb.modules.scjhgl.entity;
+package cn.jeeweb.modules.jygl.entity;
 
 import cn.jeeweb.core.common.entity.AbstractEntity;
 import cn.jeeweb.modules.sys.entity.User;
@@ -11,14 +11,14 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * @Description:    生产计划管理-零件管理
- * @Author:         杜凯之
- * @CreateDate:     2018/9/4 17:07
- * @Version:        1.0
+ * Dscription: 检验管理 - 零部件入库
+ * @author : Kevin Du
+ * @version : 1.0
+ * @date : 2018/10/10 16:34
  */
 @TableName("T_SCJHGL_LJGL")
 @SuppressWarnings("serial")
-public class ScjhglLjgl extends AbstractEntity<String> {
+public class JyglLbjrk extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;

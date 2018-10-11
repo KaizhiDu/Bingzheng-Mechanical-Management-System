@@ -1,6 +1,6 @@
 package cn.jeeweb.modules.ckgl.mapper;
 
-import cn.jeeweb.modules.ckgl.entity.Ckgl;
+import cn.jeeweb.modules.ckgl.entity.CkglBcp;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -9,5 +9,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @version : 1.0
  * @date : 2018/10/10 13:24
  */
-public interface CkglMapper extends BaseMapper<Ckgl> {
+public interface CkglBcpMapper extends BaseMapper<CkglBcp> {
 }

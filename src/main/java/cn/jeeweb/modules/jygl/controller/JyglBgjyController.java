@@ -5,14 +5,13 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
-import cn.jeeweb.modules.ckgl.entity.Ckgl;
-import cn.jeeweb.modules.ckgl.service.ICkglService;
+import cn.jeeweb.modules.ckgl.entity.CkglBcp;
+import cn.jeeweb.modules.ckgl.service.ICkglBcpService;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import cn.jeeweb.modules.jygl.dto.BgjyDTO;
 import cn.jeeweb.modules.jygl.dto.BgjyxqDTO;
 import cn.jeeweb.modules.jygl.entity.JyglBgjy;
-import cn.jeeweb.modules.jygl.mapper.JyglBgjyMapper;
 import cn.jeeweb.modules.jygl.service.IJyglBgjyService;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.ScglBgmx;
@@ -84,7 +83,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
 
     /**仓库管理Service*/
     @Autowired
-    private ICkglService ckglService;
+    private ICkglBcpService ckglService;
 
     /**
      * Dscription: 搜索项
@@ -201,7 +200,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             //最后入仓库
             //先判断是否要入库,如果rksl不为0就入仓库
             if (rksl!=0){
-                Ckgl ckgl = new Ckgl();
+                CkglBcp ckgl = new CkglBcp();
                 String jhid = scjhglLjgl.getHtid();
                 String jhbh = scjhglJhglService.selectById(jhid).getHtbh();
                 String lbjid = scjhglLjgl.getId();
@@ -218,8 +217,9 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 ckgl.setSfswwcbcp(sfswwcbcp);
                 ckgl.setRksl(rksl+"");
                 //要查询有没有同样的图号
-                EntityWrapper<Ckgl> wrapper = new EntityWrapper<Ckgl>();
+                EntityWrapper<CkglBcp> wrapper = new EntityWrapper<CkglBcp>();
                 wrapper.eq("LBJTH" ,lbjth);
+                wrapper.eq("SFSWWCBCP", "0");
                 int count = ckglService.selectCount(wrapper);
                 //插入新记录
                 if (count == 0){
@@ -227,7 +227,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 }
                 //更新入库数量
                 else{
-                    Ckgl ckgl2 = ckglService.selectOne(wrapper);
+                    CkglBcp ckgl2 = ckglService.selectOne(wrapper);
                     int newRksl = Integer.parseInt(ckgl2.getRksl())+rksl;
                     ckgl2.setRksl(newRksl+"");
                     ckglService.updateById(ckgl2);

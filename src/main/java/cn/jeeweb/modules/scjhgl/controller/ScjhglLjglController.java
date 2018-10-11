@@ -83,6 +83,8 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
         scjhglLjgl.setSysl(zyl+"");
         scjhglLjgl.setWrksl(zyl+"");
         scjhglLjgl.setSfsbj("0");
+        scjhglLjgl.setSfwwcrk("0");
+
         scjhglLjglService.insert(scjhglLjgl);
     }
 

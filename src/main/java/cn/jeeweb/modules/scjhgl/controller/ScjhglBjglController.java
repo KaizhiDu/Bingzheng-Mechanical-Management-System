@@ -103,6 +103,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     public void saveBj(ScjhglLjgl scjhglLjgl, HttpServletRequest request, HttpServletResponse response, Model model){
         scjhglLjgl.setWrksl(scjhglLjgl.getSl());
         scjhglLjgl.setSfsbj("1");
+        scjhglLjgl.setSfwwcrk("0");
         scjhglLjglService.insert(scjhglLjgl);
     }
 

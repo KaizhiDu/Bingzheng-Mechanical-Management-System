@@ -47,6 +47,9 @@ public class ScglLjgybz extends AbstractEntity<String> {
     /** 剩余数量 */
     @TableField(value = "SYSL")
     private int sysl;
+    /** 生产是否显示 */
+    @TableField(value = "SCSFXS")
+    private String scsfxs;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -60,6 +63,7 @@ public class ScglLjgybz extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
 
     @Override
     public String getId() {
@@ -165,5 +169,13 @@ public class ScglLjgybz extends AbstractEntity<String> {
 
     public void setWrksl(int wrksl) {
         this.wrksl = wrksl;
+    }
+
+    public String getScsfxs() {
+        return scsfxs;
+    }
+
+    public void setScsfxs(String scsfxs) {
+        this.scsfxs = scsfxs;
     }
 }

@@ -33,6 +33,7 @@ WHERE 1=1
 		<if test="entity.gyxlmc!=null and entity.gyxlmc!=''">
 			AND T.ID = #{entity.gyxlmc}
 		</if>
+		AND T.SCSFXS = '1'
 ORDER BY JHBH,LJMC,DPX,XPX
 
     </select>

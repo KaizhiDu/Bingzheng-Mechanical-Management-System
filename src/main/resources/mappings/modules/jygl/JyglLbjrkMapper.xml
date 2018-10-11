@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.jygl.mapper.JyglLbjrkMapper" >
+
+    <select id="ajaxlbjglList" resultType="cn.jeeweb.modules.jygl.entity.JyglLbjrk">
+        SELECT ID,
+        (SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.HTID) HTID,
+        LJTH,
+        LJMC,
+        DYL,
+        SL,
+        WRKSL,
+        SYSL
+        FROM T_SCJHGL_LJGL T
+        WHERE 1=1
+        <if test="entity.htid!=null and entity.htid!=''">
+            AND T.HTID = #{entity.htid}
+        </if>
+        <if test="entity.ljth!=null and entity.ljth!=''">
+            AND T.LJTH = #{entity.ljth}
+        </if>
+        AND T.SFWWCRK = '0'
+        ORDER BY T.HTID
+    </select>
+</mapper>

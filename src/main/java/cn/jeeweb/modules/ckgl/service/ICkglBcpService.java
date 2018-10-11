@@ -1,7 +1,7 @@
 package cn.jeeweb.modules.ckgl.service;
 
 import cn.jeeweb.core.common.service.ICommonService;
-import cn.jeeweb.modules.ckgl.entity.Ckgl;
+import cn.jeeweb.modules.ckgl.entity.CkglBcp;
 
 /**
  * Dscription: 仓库管理
@@ -9,5 +9,5 @@ import cn.jeeweb.modules.ckgl.entity.Ckgl;
  * @version : 1.0
  * @date : 2018/10/10 13:24
  */
-public interface ICkglService extends ICommonService<Ckgl> {
+public interface ICkglBcpService extends ICommonService<CkglBcp> {
 }

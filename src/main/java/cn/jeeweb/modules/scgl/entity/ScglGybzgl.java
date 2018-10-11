@@ -41,6 +41,9 @@ public class ScglGybzgl extends AbstractEntity<String> {
     /** 数量 */
     @TableField(value = "SL")
     private int sl;
+    /** 生产是否显示 */
+    @TableField(value = "SCSFXS")
+    private String scsfxs;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -143,5 +146,13 @@ public class ScglGybzgl extends AbstractEntity<String> {
 
     public void setSl(int sl) {
         this.sl = sl;
+    }
+
+    public String getScsfxs() {
+        return scsfxs;
+    }
+
+    public void setScsfxs(String scsfxs) {
+        this.scsfxs = scsfxs;
     }
 }
