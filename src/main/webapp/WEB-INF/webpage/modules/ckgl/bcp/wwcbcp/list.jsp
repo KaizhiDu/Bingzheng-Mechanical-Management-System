@@ -77,10 +77,10 @@
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
-    <grid:button title="详情" groupname="opt" function="xq"
-                 outclass="btn-success" url="${adminPath}/ckgl/bcp/xq?id=\"+row.id+\"" />
+    <grid:button title="工艺详情" groupname="opt" function="xq"
+                 outclass="btn-success" url="${adminPath}/ckgl/bcp/wwcbcp/xq?id=\"+row.id+\"" />
     <grid:button title="加入生产" groupname="opt" function="jrsc"
-                 outclass="btn-primary" url="${adminPath}/ckgl/bcp/jrsc?id=\"+row.id+\"" />
+                 outclass="btn-primary" url="${adminPath}/ckgl/bcp/wwcbcp/jrsc?bcpid=\"+row.id+\"" />
 
     <grid:column label="计划编号" name="jhbh"/>
     <grid:column label="零部件名称" name="lbjmc"/>
@@ -91,6 +91,62 @@
     <grid:toolbar function="reset"/>
 </grid:grid>
 
+
+<script type="text/javascript">
+    //详情
+    function xq(title, url, gridId, id, width, height, tipMsg) {
+        openDia("零部件详情",url,gridId,"50%","70%");
+    }
+
+    //加入生产
+    function jrsc(title, url, gridId, id, width, height, tipMsg) {
+        layer.confirm('是否要加入生产吗!', {
+                btn: ['确定', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (data) {
+                        refreshTable(gridId);
+                    }
+                });
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                layer.msg("操作成功!",{ icon: 1, time: 1000 });
+
+            }
+        );
+    }
+
+    //打开一个窗口
+    function openDia(title,url,gridId,width,height){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: [width, height],
+            title: title,
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
+</script>
 
 </body>
 </html>
