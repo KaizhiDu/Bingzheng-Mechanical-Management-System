@@ -6,10 +6,14 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.grgl.dto.YgzxxDTO;
+import cn.jeeweb.modules.grgl.entity.Grgl;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.entity.Xzzwfp;
+import cn.jeeweb.modules.grgl.service.IGrglService;
 import cn.jeeweb.modules.grgl.service.IGrglXzzwfpService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
+import cn.jeeweb.modules.scgl.entity.ScglRcrwfp;
+import cn.jeeweb.modules.scgl.service.IScglRcrwfpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +44,14 @@ public class GrglXzzwfpController extends BaseCRUDController<Xzzwfp, String> {
     /** 员工薪水管理Service*/
     @Autowired
     private IGrglYgxzglService grglYgxzglService;
+
+    /**日共任务分配*/
+    @Autowired
+    private IScglRcrwfpService scglRcrwfpService;
+
+    /** 员工管理Service*/
+    @Autowired
+    private IGrglService grglService;
 
     /**
     * @Description:    查出所有员工的职位薪资分配
@@ -77,6 +89,32 @@ public class GrglXzzwfpController extends BaseCRUDController<Xzzwfp, String> {
     @RequestMapping(value = "saveXzzwfp", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveXzzwfp(HttpServletRequest request, HttpServletResponse response, Model model, Xzzwfp xzzwfp){
+        //拿到xzzwfpid 看看原来的表里有没有职位数据
+        String zw = grglXzzwfpService.selectById( xzzwfp.getId()).getZwid();
+        //如果xzzwfp的职位为空
+        if (zw==null||zw.equals("")){
+            //需要把该员工加入日工任务分配
+            //首先要先判断日工任务分配里有没有数据
+            EntityWrapper<ScglRcrwfp> wrapper1 = new EntityWrapper<ScglRcrwfp>();
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = new Date();
+            String currentTime = sdf1.format(date1);
+            wrapper1.eq("RQ", currentTime);
+            int count = scglRcrwfpService.selectCount(wrapper1);
+            //有数据啥也不干, 没数据就要添一条数据
+            if (count!=0){
+                ScglRcrwfp scglRcrwfp = new ScglRcrwfp();
+                scglRcrwfp.setRq(currentTime);
+                scglRcrwfp.setYgid(xzzwfp.getYgid());
+                Grgl grgl = grglService.selectById(xzzwfp.getYgid());
+                scglRcrwfp.setXm(grgl.getName());
+                scglRcrwfp.setZw(xzzwfp.getZwid());
+                scglRcrwfp.setXb(grgl.getGender());
+                scglRcrwfpService.insert(scglRcrwfp);
+            }
+        }
+
+
         //先更新本月的薪资表
         String ygid = xzzwfp.getYgid();
         //得到当前年月
@@ -166,5 +204,7 @@ public class GrglXzzwfpController extends BaseCRUDController<Xzzwfp, String> {
 
         //更新员工信息
         grglXzzwfpService.updateById(xzzwfp);
+
+
     }
 }

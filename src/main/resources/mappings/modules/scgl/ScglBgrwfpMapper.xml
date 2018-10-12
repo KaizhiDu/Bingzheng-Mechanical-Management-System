@@ -18,6 +18,7 @@
         SELECT *
         FROM T_SCGL_BGRWFP
         WHERE YGID = #{entity.ygid}
+               AND SFWC = '0'
         ORDER BY ZW DESC
     </select>
 

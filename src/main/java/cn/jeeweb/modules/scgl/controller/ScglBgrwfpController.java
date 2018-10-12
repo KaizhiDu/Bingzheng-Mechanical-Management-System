@@ -792,6 +792,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         scglBgrwfp.setXb(xb);
         scglBgrwfp.setZw(zw);
         scglBgrwfp.setRq(rq);
+        scglBgrwfp.setSfwc("0");
         scglBgrwfpService.insert(scglBgrwfp);
     }
 

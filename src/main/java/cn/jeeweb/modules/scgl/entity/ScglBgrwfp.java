@@ -38,6 +38,9 @@ public class ScglBgrwfp extends AbstractEntity<String> {
     /** 性别 */
     @TableField(value = "XB")
     private String xb;
+    /** 是否完成 */
+    @TableField(value = "SFWC")
+    private String sfwc;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -132,6 +135,14 @@ public class ScglBgrwfp extends AbstractEntity<String> {
 
     public void setYgid(String ygid) {
         this.ygid = ygid;
+    }
+
+    public String getSfwc() {
+        return sfwc;
+    }
+
+    public void setSfwc(String sfwc) {
+        this.sfwc = sfwc;
     }
 }
 

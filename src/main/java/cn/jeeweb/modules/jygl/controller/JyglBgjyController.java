@@ -144,10 +144,14 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     @RequestMapping(value = "sfhg", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void sfhg(String id, String bgrwfpid, HttpServletRequest request, HttpServletResponse response, Model model){
+
         BgjyxqDTO bgjyxqDTO = new BgjyxqDTO();
         
         //得到员工信息
         ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(bgrwfpid);
+        //把包工任务分配的sfwc设为1
+        scglBgrwfp.setSfwc("1");
+        scglBgrwfpService.updateById(scglBgrwfp);
         String ygid = scglBgrwfp.getYgid();
 
         //得到当前年月
