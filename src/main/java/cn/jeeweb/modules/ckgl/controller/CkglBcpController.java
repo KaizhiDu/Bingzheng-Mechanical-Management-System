@@ -6,7 +6,9 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglBcp;
+import cn.jeeweb.modules.ckgl.entity.CkglCp;
 import cn.jeeweb.modules.ckgl.service.ICkglBcpService;
+import cn.jeeweb.modules.ckgl.service.ICkglCpService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,13 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
     @Autowired
     private IScjhglHtglService scjhglHtglService;
 
+    /**仓库管理 - 半成品Service*/
     @Autowired
-    /**仓库管理 - 半成品*/
     private ICkglBcpService ckglBcpService;
+
+    /**仓库管理 - 成品Service*/
+    @Autowired
+    private ICkglCpService ckglCpService;
 
     /**
      * Dscription: 搜索项和前置内容
@@ -104,5 +110,43 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
     @RequestMapping(value = "wwcbcp", method={RequestMethod.GET, RequestMethod.POST})
     public String wwcbcp(HttpServletRequest request, HttpServletResponse response, Model model){
         return display("wwcbcp");
+    }
+
+    /**
+     * Dscription: 半成品入成品库
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/12 13:30
+     */
+    @RequestMapping(value = "rcpk", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void rcpk(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        //先得到半成品信息
+        CkglBcp ckglBcp = ckglBcpService.selectById(id);
+        //复制一份到成品里面
+        CkglCp ckglCp = new CkglCp();
+        ckglCp.setJhbh(ckglBcp.getJhbh());
+        ckglCp.setJhid(ckglBcp.getJhid());
+        ckglCp.setLbjid(ckglBcp.getLbjid());
+        ckglCp.setLbjmc(ckglBcp.getLbjmc());
+        ckglCp.setLbjth(ckglBcp.getLbjth());
+        ckglCp.setRksl(ckglBcp.getRksl());
+        //根据图号判断，成品库里面有没有该信息
+        EntityWrapper<CkglCp> wrapper = new EntityWrapper<CkglCp>();
+        wrapper.eq("LBJTH", ckglBcp.getLbjth());
+        int count = ckglCpService.selectCount(wrapper);
+        //插入
+        if (count == 0){
+            ckglCpService.insert(ckglCp);
+        }
+        //更新
+        else{
+            CkglCp ckglCp1 = ckglCpService.selectOne(wrapper);
+            int rksl = Integer.parseInt(ckglBcp.getRksl()) + Integer.parseInt(ckglCp1.getRksl());
+            ckglCp1.setRksl(rksl+"");
+            ckglCpService.updateById(ckglCp1);
+        }
+        //最后删除半成品里面的信息
+        ckglBcpService.deleteById(id);
     }
 }

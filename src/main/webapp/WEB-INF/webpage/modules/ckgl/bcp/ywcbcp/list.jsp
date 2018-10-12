@@ -78,7 +78,7 @@
 
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
     <grid:button title="入成品库" groupname="opt" function="rcpk"
-                 outclass="btn-success" url="${adminPath}/ckgl/bcp/rcpk?id=\"+row.id+\"" />
+                 outclass="btn-success" url="${adminPath}/ckgl/bcp/ywcbcp/rcpk?id=\"+row.id+\"" />
 
     <grid:column label="计划编号" name="jhbh"/>
     <grid:column label="零部件名称" name="lbjmc"/>
@@ -89,6 +89,30 @@
     <grid:toolbar function="reset"/>
 </grid:grid>
 
+<script type="text/javascript">
+
+    //入成品库
+    function rcpk(title, url, gridId, id, width, height, tipMsg) {
+
+        layer.confirm('此操作无法找回请谨慎操作！是否入成品库？', {
+                btn: ['确定', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (data) {
+                        refreshTable(gridId);
+                    }
+                });
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                layer.msg("入库成功!",{ icon: 1, time: 1000 });
+
+            }
+        );
+
+    }
+
+</script>
 
 </body>
 </html>
