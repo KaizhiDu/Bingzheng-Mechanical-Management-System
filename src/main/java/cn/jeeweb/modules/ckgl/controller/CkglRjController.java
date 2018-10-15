@@ -88,6 +88,7 @@ public class CkglRjController extends BaseCRUDController<CkglRj, String> {
         if (ckglRj.getFldl()!=null&&!ckglRj.getFldl().equals("")){
             ckglRj.setFldl(ckglDlService.selectById(ckglRj.getFldl()).getDlmc());
         }
+        ckglRj.setKc("0");
         ckglRjService.insert(ckglRj);
     }
 
@@ -195,7 +196,7 @@ public class CkglRjController extends BaseCRUDController<CkglRj, String> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDate = sdf.format(date);
-        String mx = "采购员 "+ly+" 于 "+currentDate+" 入库 "+cksl+" 件";
+        String mx = "采购员 "+ly+" 于 "+currentDate+" 领取 "+cksl+" 件";
         //插入明细表
         CkglRjMx ckglRjMx = new CkglRjMx();
         ckglRjMx.setRjid(rjid);

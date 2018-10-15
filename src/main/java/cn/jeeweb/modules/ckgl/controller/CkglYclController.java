@@ -96,6 +96,7 @@ public class CkglYclController extends BaseCRUDController<CkglYcl, String> {
         if (ckglYcl.getFldl()!=null&&!ckglYcl.getFldl().equals("")){
             ckglYcl.setFldl(ckglDlService.selectById(ckglYcl.getFldl()).getDlmc());
         }
+        ckglYcl.setKc("0");
         ckglYclService.insert(ckglYcl);
     }
 
@@ -203,7 +204,7 @@ public class CkglYclController extends BaseCRUDController<CkglYcl, String> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDate = sdf.format(date);
-        String mx = "采购员 "+ly+" 于 "+currentDate+" 入库 "+cksl+" 件";
+        String mx = "采购员 "+ly+" 于 "+currentDate+" 领取 "+cksl+" 件";
         //插入明细表
         CkglYclMx ckglYclMx = new CkglYclMx();
         ckglYclMx.setYclid(yclid);

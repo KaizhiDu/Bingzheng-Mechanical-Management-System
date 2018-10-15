@@ -95,6 +95,7 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
         if (ckglBzj.getFldl()!=null&&!ckglBzj.getFldl().equals("")){
             ckglBzj.setFldl(ckglDlService.selectById(ckglBzj.getFldl()).getDlmc());
         }
+        ckglBzj.setKc("0");
         ckglBzjService.insert(ckglBzj);
     }
 
