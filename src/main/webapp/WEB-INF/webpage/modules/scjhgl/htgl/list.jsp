@@ -40,6 +40,8 @@
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
     <grid:button title="修改" groupname="opt" function="updateHt"
     outclass="btn-success" url="${adminPath}/scjhgl/htgl/updateHt?id=\"+row.id+\"" />
+    <grid:button title="删除" groupname="opt" function="deleteHt"
+                 outclass="btn-danger" url="${adminPath}/scjhgl/htgl/deleteHt/?id=\"+row.id+\"" />
     <%--<grid:button title="复制" groupname="opt" function="copyHt"--%>
                  <%--outclass="btn-warning" url="${adminPath}/scjhgl/htgl/copyHt?id=\"+row.id+\"" />--%>
 
@@ -48,7 +50,7 @@
     <grid:column label="数量" name="sl"/>
 
     <grid:toolbar function="createHt" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
-    <grid:toolbar function="deleteHt" icon="fa fa-trash-o" title="删除" btnclass="btn-danger"/>
+
 </grid:grid>
 
 <script type="text/javascript">
@@ -64,42 +66,24 @@
     }
 
     function deleteHt(title, url, gridId, id, width, height, tipMsg) {
-        //获取选中行的id数组
-        var idsArray = $("#ljglGrid").jqGrid("getGridParam", "selarrrow")
-        if (idsArray.length>0){
-            var ids = "";
-            for (var i=0;i<idsArray.length;i++){
-                if (i==0){
-                    ids = idsArray[i];
-                }
-                else{
-                    ids = ids + "," + idsArray[i];
-                }
-            }
             //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
-            layer.confirm('删除这个计划相关零件也会删除!  确定要删除吗？', {
+            layer.confirm('确定要删除吗？', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     $.ajax({
                         type: "GET",
-                        url: "${adminPath}/scjhgl/htgl/deleteHt?ids="+ids,
+                        url: url,
                         success: function (data) {
+                            console.log(data.msg);
                             refreshTable(gridId);
+                            layer.msg(data.msg,{ icon: 1, time: 1000 });
                         }
                     });
                     layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                    layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
 
                 }
             );
-
-        }
-        else{
-            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
-            return;
-        }
-
-
 
     }
 

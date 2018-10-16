@@ -1,6 +1,8 @@
 package cn.jeeweb.modules.scjhgl.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.model.AjaxJson;
+import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
@@ -11,6 +13,7 @@ import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,18 +104,56 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     * @Version:        1.0
     */
     @RequestMapping(value = "deleteHt",method = {RequestMethod.GET,RequestMethod.POST})
-    public void deleteHt(String ids ,HttpServletRequest request, HttpServletResponse response, Model model){
-        String[] idsArray = ids.split(",");
-        //删除零件表里面相关的信息
-        for (int i=0;i<idsArray.length;i++){
-            EntityWrapper<ScjhglLjgl> wrapper = new EntityWrapper<ScjhglLjgl>();
-            wrapper.eq("HTID",idsArray[i]);
-            scjhglLjglService.delete(wrapper);
-        }
-        //删除计划表里面相关的信息
-        for (int i=0;i<idsArray.length;i++){
-            scjhglHtglService.deleteById(idsArray[i]);
-        }
+    @ResponseBody
+    public AjaxJson deleteHt(String id , HttpServletRequest request, HttpServletResponse response, Model model){
+        AjaxJson ajaxJson = new AjaxJson();
+            //计划ID
+            String jhid = id;
+            //首先要判断该计划ID下的所有工艺是否还有剩余
+            Boolean flag = false;
+            List<ScglLjgybz> ljgybzByJhid = scglLjgybzService.getLjgybzByJhid(jhid);
+            if (ljgybzByJhid!=null){
+                for (ScglLjgybz s: ljgybzByJhid) {
+                    int sysl = s.getSysl();
+                    if (sysl>0){
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            //如果flag为假，就可以删除
+            if (!flag){
+                //先删除零件工艺编制信息
+                if (ljgybzByJhid!=null){
+                    for (ScglLjgybz s: ljgybzByJhid) {
+                        scglLjgybzService.deleteById(s.getId());
+                    }
+                }
+
+                //然后删除工艺大类信息
+                List<ScglGydlbz> gydlbzByjhid = scglGydlbzService.getGydlbzByjhid(jhid);
+                if (gydlbzByjhid!=null){
+                    for (ScglGydlbz s: gydlbzByjhid) {
+                        scglGydlbzService.deleteById(s.getId());
+                    }
+                }
+
+                //再删除零件信息
+                EntityWrapper<ScjhglLjgl> wrapper = new EntityWrapper<ScjhglLjgl>();
+                wrapper.eq("HTID",jhid);
+                List<ScjhglLjgl> scjhglLjgls = scjhglLjglService.selectList(wrapper);
+                if (scjhglLjgls!=null){
+                    scjhglLjglService.delete(wrapper);
+                }
+
+                //最后删除计划信息
+                scjhglHtglService.deleteById(jhid);
+                ajaxJson.setMsg("删除成功");
+            }
+            else{
+                ajaxJson.setMsg("该计划未完成无法删除");
+            }
+        return ajaxJson;
     }
 
     /**
