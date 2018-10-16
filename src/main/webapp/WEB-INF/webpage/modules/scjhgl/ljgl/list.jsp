@@ -71,7 +71,7 @@
     <grid:column label="未入库数量" name="wrksl"/>
 
     <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零件"/>
-    <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
+    <grid:toolbar function="deleteLj" icon="fa fa-trash-o" title="删除" btnclass="btn-danger"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -79,34 +79,45 @@
 
 
 <script type="text/javascript">
-    //添加一个员工
+    //添加零件
     function createLj(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/scjhgl/ljgl/createLj";
         openDia("添加零件",url,gridId,"800px","500px");
     }
 
-    //修改一个员工信息
-    function modifyWorker(title, url, gridId, id, width, height, tipMsg) {
-        openDia("修改员工",url,gridId,"800px","500px");
-    }
-
-    //删除一个员工信息
-    function deleteWorker(title, url, gridId, id, width, height, tipMsg) {
-        layer.confirm('是否要删除信息!', {
-                btn: ['确定', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    success: function (data) {
-                        refreshTable(gridId);
-                    }
-                });
-                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                layer.msg("删除成功!",{ icon: 1, time: 1000 });
-
+    //删除零件
+    function deleteLj(title, url, gridId, id, width, height, tipMsg){
+        //获取选中行的id数组
+        var idsArray = $("#ljglGrid").jqGrid("getGridParam", "selarrrow")
+        if (idsArray.length>0){
+            var ids = "";
+            for (var i=0;i<idsArray.length;i++){
+                if (i==0){
+                    ids = idsArray[i];
+                }
+                else{
+                    ids = ids + "," + idsArray[i];
+                }
             }
-        );
+            layer.confirm('是否要删除该零件!', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    $.ajax({
+                        type: "GET",
+                        url: "${adminPath}/scjhgl/ljgl/deleteLj?ids="+ids,
+                        success: function (data) {
+                            refreshTable(gridId);
+                        }
+                    });
+                    layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                    layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
+                }
+            );
+        }
+        else {
+            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+        }
     }
 
     //打开一个窗口
