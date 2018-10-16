@@ -31,4 +31,12 @@ public interface ScglGydlbzMapper extends BaseMapper<ScglGydlbz> {
      * @date : 2018/9/20 13:13
      */
     public List<SsxDTO> cxGydl(@Param("ljid") String ljid);
+
+    /**
+     * @Description:    根据计划id得到所有大类信息
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/17 9:30
+     * @Version:        1.0
+     */
+    public List<ScglGydlbz> getGydlbzByjhid(@Param("jhid") String jhid);
 }

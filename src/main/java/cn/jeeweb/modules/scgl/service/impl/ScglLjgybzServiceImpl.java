@@ -53,4 +53,26 @@ public class ScglLjgybzServiceImpl extends CommonServiceImpl<ScglLjgybzMapper, S
     public List<ScglLjgybz> getLjgybzByLjid(String ljid) {
         return scglLjgybzMapper.getLjgybzByLjid(ljid);
     }
+
+    /**
+     * Dscription: 通过计划ID, 得到所有下属工艺信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/16 12:58
+     */
+    @Override
+    public List<ScglLjgybz> getLjgybzByJhid(String jhid) {
+        return scglLjgybzMapper.getLjgybzByJhid(jhid);
+    }
+
+    /**
+     * Dscription: 通过计划ID和工艺大类编制ID, 得到所有下属工艺信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/16 13:35
+     */
+    @Override
+    public List<ScglLjgybz> getLjgybzByJhidGydlid(String jhid, String gydlid) {
+        return scglLjgybzMapper.getLjgybzByJhidGydlid(jhid, gydlid);
+    }
 }

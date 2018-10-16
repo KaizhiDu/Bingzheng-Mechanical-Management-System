@@ -55,4 +55,15 @@ public class ScglGydlbzServiceImpl extends CommonServiceImpl<ScglGydlbzMapper, S
     public List<SsxDTO> cxGydl(String ljid) {
         return scglGydlbzMapper.cxGydl(ljid);
     }
+
+    /**
+     * @Description:    根据计划id得到所有大类信息
+     * @Author:         杜凯之
+     * @CreateDate:     2018/9/17 9:30
+     * @Version:        1.0
+     */
+    @Override
+    public List<ScglGydlbz> getGydlbzByjhid(String jhid) {
+        return scglGydlbzMapper.getGydlbzByjhid(jhid);
+    }
 }

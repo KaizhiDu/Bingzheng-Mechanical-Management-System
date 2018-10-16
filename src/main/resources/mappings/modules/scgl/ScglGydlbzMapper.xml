@@ -32,4 +32,17 @@ WHERE 1=1
 GROUP BY GYDLBZID
 	</select>
 
+	<select id="getGydlbzByjhid" resultType="cn.jeeweb.modules.scgl.entity.ScglGydlbz">
+		SELECT T1.*
+		FROM T_SCGL_GYDLBZ T1,
+		T_SCJHGL_LJGL T2,
+		T_SCJHGL_HTGL T3
+		WHERE 1=1
+		AND T1.LJID = T2.ID
+		AND T2.HTID = T3.ID
+		AND T3.ID = #{jhid}
+	</select>
+
+
+
 </mapper>

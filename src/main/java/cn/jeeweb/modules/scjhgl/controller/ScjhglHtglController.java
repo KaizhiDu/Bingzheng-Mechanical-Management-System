@@ -3,6 +3,10 @@ package cn.jeeweb.modules.scjhgl.controller;
 import cn.jeeweb.core.common.controller.BaseCRUDController;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
+import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
+import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
+import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.UUID;
 
 /**
 * @Description:    生产计划管理-合同管理
@@ -31,9 +37,18 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     /**合同管理Service*/
     @Autowired
     private IScjhglHtglService scjhglHtglService;
+
     /**零件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
+
+    /**零件工艺编制Service*/
+    @Autowired
+    private IScglLjgybzService scglLjgybzService;
+
+    /**工艺大类编制Service*/
+    @Autowired
+    private IScglGydlbzService scglGydlbzService;
 
     /**
     * @Description:    展示所有合同信息
@@ -97,6 +112,62 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
         //删除计划表里面相关的信息
         for (int i=0;i<idsArray.length;i++){
             scjhglHtglService.deleteById(idsArray[i]);
+        }
+    }
+
+    /**
+     * Dscription: 转到复制计划页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/16 11:49
+     */
+    @RequestMapping(value = "copyHt",method = {RequestMethod.GET,RequestMethod.POST})
+    public String copyHt(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(id);
+        model.addAttribute("scjhglHtgl",scjhglHtgl);
+        return display("copy");
+    }
+
+    /**
+     * Dscription: 创建复制内容
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/16 11:55
+     */
+    @RequestMapping(value = "saveCopy",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public void saveCopy(ScjhglHtgl scjhglHtgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        //得到原计划ID
+        String yjhid = scjhglHtgl.getId();
+        //先拿到零件工艺信息，进行复制
+        List<ScglLjgybz> ljgybzByJhidList = scglLjgybzService.getLjgybzByJhid(yjhid);
+        for (ScglLjgybz s: ljgybzByJhidList) {
+            ScglLjgybz ss = new ScglLjgybz();
+            ss.setGydlbzid("gydlbzid");
+            ss.setGyxlid(s.getGyxlid());
+            ss.setGyxlmc(s.getGyxlmc());
+            ss.setMs(s.getMs());
+            ss.setPx(s.getPx());
+            ss.setSl(s.getSl());
+            ss.setWrksl(s.getSl());
+            ss.setSysl(s.getSysl());
+            ss.setScsfxs("1");
+            scglLjgybzService.insert(ss);
+        }
+        //然后得到所有被复制的工艺大类编制信息，进行复制
+        List<ScglGydlbz> gydlbzByjhidList = scglGydlbzService.getGydlbzByjhid(yjhid);
+        for (ScglGydlbz s: gydlbzByjhidList) {
+            //新的工艺大类编制ID
+            String xgydlid  = UUID.randomUUID().toString().replaceAll("-","");
+            //拿到原工艺大类ID
+            String ygydlid = s.getId();
+            //找到原工艺大类ID下属所有的工艺信息
+            List<ScglLjgybz> ljgybzByJhidGydlidList = scglLjgybzService.getLjgybzByJhidGydlid(yjhid, ygydlid);
+            for (ScglLjgybz l: ljgybzByJhidGydlidList) {
+                //找到新添加的零件工艺信息，把工艺大类编制id，更新进去
+                EntityWrapper<ScglLjgybz> wrapper = new EntityWrapper<ScglLjgybz>();
+               //暂时无法进行，待续
+            }
         }
     }
 }

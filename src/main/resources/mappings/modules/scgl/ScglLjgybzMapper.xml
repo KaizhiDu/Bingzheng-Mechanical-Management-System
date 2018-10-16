@@ -20,4 +20,31 @@ WHERE 1=1
 		 AND T2.HTID = T3.ID
 		 AND T2.ID = #{ljid}
     </select>
+
+    <select id="getLjgybzByJhid" resultType="cn.jeeweb.modules.scgl.entity.ScglLjgybz">
+        SELECT T.*
+        FROM T_SCGL_LJGYBZ T,
+        T_SCGL_GYDLBZ T1,
+        T_SCJHGL_LJGL T2,
+        T_SCJHGL_HTGL T3
+        WHERE 1=1
+        AND T.GYDLBZID = T1.ID
+        AND T1.LJID = T2.ID
+        AND T2.HTID = T3.ID
+        AND T3.ID = #{jhid}
+    </select>
+
+    <select id="getLjgybzByJhidGydlid" resultType="cn.jeeweb.modules.scgl.entity.ScglLjgybz">
+        SELECT T.*
+        FROM T_SCGL_LJGYBZ T,
+        T_SCGL_GYDLBZ T1,
+        T_SCJHGL_LJGL T2,
+        T_SCJHGL_HTGL T3
+        WHERE 1=1
+        AND T.GYDLBZID = T1.ID
+        AND T1.LJID = T2.ID
+        AND T2.HTID = T3.ID
+        AND T3.ID = #{jhid}
+        AND T1.ID = #{gydlid}
+    </select>
 </mapper>

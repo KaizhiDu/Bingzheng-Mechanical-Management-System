@@ -40,6 +40,8 @@
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
     <grid:button title="修改" groupname="opt" function="updateHt"
     outclass="btn-success" url="${adminPath}/scjhgl/htgl/updateHt?id=\"+row.id+\"" />
+    <%--<grid:button title="复制" groupname="opt" function="copyHt"--%>
+                 <%--outclass="btn-warning" url="${adminPath}/scjhgl/htgl/copyHt?id=\"+row.id+\"" />--%>
 
     <grid:column label="计划编号" name="htbh" width="30"/>
     <grid:column label="描述" name="ms"/>
@@ -54,6 +56,11 @@
     function createHt(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/scjhgl/htgl/createHt";
         openDia("添加单项计划",url,gridId,"45%","40%");
+    }
+
+    //复制
+    function copyHt(title, url, gridId, id, width, height, tipMsg) {
+        openDia("复制计划",url,gridId,"45%","40%");
     }
 
     function deleteHt(title, url, gridId, id, width, height, tipMsg) {
