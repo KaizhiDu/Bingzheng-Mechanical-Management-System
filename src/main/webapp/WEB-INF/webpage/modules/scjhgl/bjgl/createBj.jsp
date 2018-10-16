@@ -71,7 +71,7 @@
                         <label>数量：</label>
                     </td>
                     <td>
-                        <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入部件数量"/>
+                        <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入部件数量" onchange="checkSl()"/>
                     </td>
                 </tr>
             </table>
@@ -83,6 +83,19 @@
 
 
 <script type="text/javascript">
+
+    //检查数量
+    function checkSl(){
+        var sl = $("#sl").val();
+        // var r = yjkc.match(/^[0-9]*$/);
+        var r = sl.match(/^\d+(\.\d+)?$/);
+        //先判断是不是数字
+        if(r == null){
+            top.layer.alert("请输入数字");
+            $("#sl").val("");
+        }
+    }
+
     //点击保存，保存数据
     function check() {
         var htid = $("#htid").val();

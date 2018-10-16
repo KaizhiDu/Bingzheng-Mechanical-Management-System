@@ -71,7 +71,7 @@
                         <label>单用量：</label>
                     </td>
                     <td>
-                        <input name="dyl" id="dyl" htmlEscape="false" class="form-control" placeholder="请输入零件单用量"/>
+                        <input name="dyl" id="dyl" htmlEscape="false" class="form-control" placeholder="请输入零件单用量" onchange="checkSl()"/>
                     </td>
                 </tr>
             </table>
@@ -83,6 +83,19 @@
 
 
 <script type="text/javascript">
+
+    //检查数量
+    function checkSl(){
+        var dyl = $("#dyl").val();
+        // var r = yjkc.match(/^[0-9]*$/);
+        var r = dyl.match(/^\d+(\.\d+)?$/);
+        //先判断是不是数字
+        if(r == null){
+            top.layer.alert("请输入数字");
+            $("#dyl").val("");
+        }
+    }
+
     //点击保存，保存数据
     function check() {
         var htid = $("#htid").val();

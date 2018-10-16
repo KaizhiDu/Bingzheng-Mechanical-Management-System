@@ -127,15 +127,19 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
             String ljid = idsArray[i];
             //先删除ljid下属的零件工艺编制信息
             List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(ljid);
-            for (ScglLjgybz s: ljgybzByLjid) {
-                scglLjgybzService.deleteById(s.getId());
+            if (ljgybzByLjid!=null){
+                for (ScglLjgybz s: ljgybzByLjid) {
+                    scglLjgybzService.deleteById(s.getId());
+                }
             }
             //再删除ljid下属的工艺大类编制信息
             EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
             wrapper.eq("LJID",ljid);
             List<ScglGydlbz> scglGydlbzs = scglGydlbzService.selectList(wrapper);
-            for (ScglGydlbz s: scglGydlbzs) {
-                scglGydlbzService.deleteById(s.getId());
+            if (scglGydlbzs!=null){
+                for (ScglGydlbz s: scglGydlbzs) {
+                    scglGydlbzService.deleteById(s.getId());
+                }
             }
             //最后删除零件
             scjhglLjglService.deleteById(ljid);

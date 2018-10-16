@@ -6,6 +6,10 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
+import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
+import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
+import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBjgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBjzc;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
@@ -51,6 +55,14 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     /**部件组成Service*/
     @Autowired
     private IScjhglBjzcService scjhglBjzcService;
+
+    /**零件工艺编制Service*/
+    @Autowired
+    private IScglLjgybzService scglLjgybzService;
+
+    /**工艺大类编制Service*/
+    @Autowired
+    private IScglGydlbzService scglGydlbzService;
 
     /**
      * @Description:    搜索项
@@ -297,7 +309,22 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
 
             //删除所有相关的部件组成
             scjhglBjzcService.delete(wrapper);
-
+            //先删除ljid下属的零件工艺编制信息
+            List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(bjid);
+            if (ljgybzByLjid!=null){
+                for (ScglLjgybz s: ljgybzByLjid) {
+                    scglLjgybzService.deleteById(s.getId());
+                }
+            }
+            //再删除ljid下属的工艺大类编制信息
+            EntityWrapper<ScglGydlbz> wrapper1 = new EntityWrapper<ScglGydlbz>();
+            wrapper1.eq("LJID",bjid);
+            List<ScglGydlbz> scglGydlbzs = scglGydlbzService.selectList(wrapper1);
+            if (scglGydlbzs!=null){
+                for (ScglGydlbz s: scglGydlbzs) {
+                    scglGydlbzService.deleteById(s.getId());
+                }
+            }
             //删除部件
             scjhglLjglService.deleteById(bjid);
         }
