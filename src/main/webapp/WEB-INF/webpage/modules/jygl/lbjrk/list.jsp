@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>零件管理</h4>
+<h4>零部件入库</h4>
 
 <div class="row">
     <div id="ljglGridQuery" class="col-md-12">

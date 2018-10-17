@@ -15,7 +15,9 @@ import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
 import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
 import cn.jeeweb.modules.scgl.service.IScglRcrwfpService;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglBjzc;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
+import cn.jeeweb.modules.scjhgl.service.IScjhglBjzcService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,10 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
     /**仓库管理Service*/
     @Autowired
     private ICkglBcpService ckglService;
+
+    /**部件组成Service*/
+    @Autowired
+    private IScjhglBjzcService scjhglBjzcService;
 
     /**
      * Dscription: 搜索项
@@ -157,6 +163,26 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
                 rksl = a;
             }
         }
+
+        //判断是不是部件
+        EntityWrapper<ScjhglBjzc> wrapper0 = new EntityWrapper<ScjhglBjzc>();
+        wrapper0.eq("BJID", ljid);
+        int count0 = scjhglBjzcService.selectCount(wrapper0);
+        //是的话要在入库之前要减去下属零件数量
+        if (count0>0){
+            List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper0);
+            for (ScjhglBjzc s: scjhglBjzcs) {
+                //需要得到零件图号，然后减去库存
+                String ljth = scjhglLjglService.selectById(s.getLjid()).getLjth();
+                EntityWrapper<CkglBcp> wrapper11 = new EntityWrapper<CkglBcp>();
+                wrapper11.eq("LBJTH", ljth);
+                CkglBcp ckglBcp = ckglService.selectOne(wrapper11);
+                int newsl = Integer.parseInt(ckglBcp.getRksl()) - rksl;
+                ckglBcp.setRksl(newsl+"");
+                ckglService.updateById(ckglBcp);
+            }
+        }
+
 
         //依次减去数量未入库数量
         for (ScglLjgybz s: ljgybzByLjidList) {
