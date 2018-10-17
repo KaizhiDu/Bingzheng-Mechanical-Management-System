@@ -352,6 +352,18 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
     public void deleteSb(String ids , HttpServletRequest request, HttpServletResponse response, Model model){
         String idsArray[] = ids.split(",");
         for (int i=0;i<idsArray.length;i++){
+            //同时也要加上零件工艺编制的剩余数量
+            ScglBgrw scglBgrw = scglBgrwService.selectById(idsArray[i]);
+            String ljgybzid = scglBgrw.getLjgybzid();
+            String ywcl = scglBgrw.getYwcl();
+            ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
+            int gzli = 0;
+            if (ywcl!=null&&!ywcl.equals("")){
+                gzli = Integer.parseInt(ywcl);
+            }
+            scglLjgybz.setSysl(scglLjgybz.getSysl()+gzli);
+            scglLjgybzService.updateById(scglLjgybz);
+
             scglBgsbService.deleteById(idsArray[i]);
         }
     }
@@ -481,6 +493,15 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         scglBgrw.setId(bgrwid);
         scglBgrw.setYwcl(gzl);
         scglBgrwService.updateById(scglBgrw);
+        //并且要减去工艺编制信息里面的数量
+        String ljgybzid = scglBgrwService.selectById(bgrwid).getLjgybzid();
+        ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
+        int gzli = 0;
+        if (gzl!=null&&!gzl.equals("")){
+            gzli = Integer.parseInt(gzl);
+        }
+        scglLjgybz.setSysl(scglLjgybz.getSysl()-gzli);
+        scglLjgybzService.updateById(scglLjgybz);
     }
 
     /**
