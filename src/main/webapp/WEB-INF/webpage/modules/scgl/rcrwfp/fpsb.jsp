@@ -80,10 +80,11 @@
                         url: "${adminPath}/scgl/rcrwfp/deleteSb?ids="+ids,
                         success: function (data) {
                             refreshTable(gridId);
+                            layer.msg(data.msg,{ icon: 1, time: 1000 });
                         }
                     });
                     layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                    layer.msg("删除成功!",{ icon: 1, time: 1000 });
+
 
                 }
             );

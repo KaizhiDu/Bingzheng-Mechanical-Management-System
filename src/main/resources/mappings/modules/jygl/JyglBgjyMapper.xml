@@ -64,6 +64,7 @@ ORDER BY T1.RQ,T1.XM DESC
         T4.GYXLMC,
         T3.SBMC,
         T.YWCL,
+        T6.SFSBJ,
         T.LJGYBZID
         FROM T_SCGL_BGRWFP_BG_RW T,
         T_SCGL_BGRWFP_BG_SB T1,
@@ -83,6 +84,6 @@ ORDER BY T1.RQ,T1.XM DESC
         AND T5.LJID = T6.ID
         AND T6.HTID = T7.ID
         AND T1.BGRWFPID = #{ID}
-        ORDER BY XM,LJMC,GYDLMC,GYXLMC,SBMC
+        ORDER BY SFSBJ,XM,LJMC,GYDLMC,GYXLMC,SBMC
     </select>
 </mapper>

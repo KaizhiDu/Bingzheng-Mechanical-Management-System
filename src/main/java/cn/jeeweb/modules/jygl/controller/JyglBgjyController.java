@@ -168,16 +168,21 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         int nd = Integer.parseInt(dateArray[0]);
         int yf = Integer.parseInt(dateArray[1]);
 
-        //减去剩余数量
+        //计划完成量减去应完成量
         List<BgjyxqDTO> bgjyxqList = jyglBgjyService.bgjyxqList(bgjyxqDTO, bgrwfpid);
         for (BgjyxqDTO b : bgjyxqList) {
+            //这里没有实际完成的情况，只有应完成量
             String ljgybzid = b.getLjgybzid();
             String ywcl = b.getYwcl();
-            ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
-            int sysl = scglLjgybz.getSysl();
-            sysl = sysl - Integer.parseInt(ywcl);
-            scglLjgybz.setSysl(sysl);
-            scglLjgybzService.updateById(scglLjgybz);
+            ScglLjgybz oldscglLjgybz = scglLjgybzService.selectById(ljgybzid);
+            int ywcli = 0;
+            if (ywcl!=null&&!ywcl.equals("")){
+                ywcli = Integer.parseInt(ywcl);
+            }
+            //把计划生产数量减去应完成量
+            oldscglLjgybz.setJhscsl(oldscglLjgybz.getJhscsl()-ywcli);
+            oldscglLjgybz.setSysl(oldscglLjgybz.getSysl()-ywcli);
+            scglLjgybzService.updateById(oldscglLjgybz);
 
             //判断该零件工艺所在的零件下的所有工艺，是否有全完成了的。有就入仓库（判断sysl 和 wrksl）
             //首先要拿到零件ID
@@ -193,25 +198,29 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                     rksl = a;
                 }
             }
-
-            //判断是不是部件
-            EntityWrapper<ScjhglBjzc> wrapper0 = new EntityWrapper<ScjhglBjzc>();
-            wrapper0.eq("BJID", ljid);
-            int count0 = scjhglBjzcService.selectCount(wrapper0);
-            //是的话要在入库之前要减去下属零件数量
-            if (count0>0){
-                List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper0);
-                for (ScjhglBjzc s: scjhglBjzcs) {
-                    //需要得到零件图号，然后减去库存
-                    String ljth = scjhglLjglService.selectById(s.getLjid()).getLjth();
-                    EntityWrapper<CkglBcp> wrapper11 = new EntityWrapper<CkglBcp>();
-                    wrapper11.eq("LBJTH", ljth);
-                    CkglBcp ckglBcp = ckglService.selectOne(wrapper11);
-                    int newsl = Integer.parseInt(ckglBcp.getRksl()) - rksl;
-                    ckglBcp.setRksl(newsl+"");
-                    ckglService.updateById(ckglBcp);
+            int a = 1;
+            //先看是否需要入库
+            if (rksl!=0){
+                //判断是不是部件
+                EntityWrapper<ScjhglBjzc> wrapper0 = new EntityWrapper<ScjhglBjzc>();
+                wrapper0.eq("BJID", ljid);
+                int count0 = scjhglBjzcService.selectCount(wrapper0);
+                //在入库之前要减去下属零件数量
+                if (count0>0){
+                    List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper0);
+                    for (ScjhglBjzc s: scjhglBjzcs) {
+                        //需要得到零件图号，然后减去库存
+                        String ljth = scjhglLjglService.selectById(s.getLjid()).getLjth();
+                        EntityWrapper<CkglBcp> wrapper11 = new EntityWrapper<CkglBcp>();
+                        wrapper11.eq("LBJTH", ljth);
+                        CkglBcp ckglBcp = ckglService.selectOne(wrapper11);
+                        int newsl = Integer.parseInt(ckglBcp.getRksl()) - rksl;
+                        ckglBcp.setRksl(newsl+"");
+                        ckglService.updateById(ckglBcp);
+                    }
                 }
             }
+
 
             //依次减去数量未入库数量
             for (ScglLjgybz s: ljgybzByLjidList) {
@@ -262,7 +271,6 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                     ckglService.updateById(ckgl2);
                 }
             }
-
         }
         
         //设包工展示信息的是否完成为1

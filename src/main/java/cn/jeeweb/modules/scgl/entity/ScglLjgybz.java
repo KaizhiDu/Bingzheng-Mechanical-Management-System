@@ -47,6 +47,9 @@ public class ScglLjgybz extends AbstractEntity<String> {
     /** 剩余数量 */
     @TableField(value = "SYSL")
     private int sysl;
+    /** 计划生产数量 */
+    @TableField(value = "JHSCSL")
+    private int jhscsl;
     /** 生产是否显示 */
     @TableField(value = "SCSFXS")
     private String scsfxs;
@@ -177,5 +180,13 @@ public class ScglLjgybz extends AbstractEntity<String> {
 
     public void setScsfxs(String scsfxs) {
         this.scsfxs = scsfxs;
+    }
+
+    public int getJhscsl() {
+        return jhscsl;
+    }
+
+    public void setJhscsl(int jhscsl) {
+        this.jhscsl = jhscsl;
     }
 }

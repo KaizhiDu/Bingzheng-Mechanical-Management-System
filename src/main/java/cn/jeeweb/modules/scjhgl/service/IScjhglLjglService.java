@@ -30,4 +30,6 @@ public interface IScjhglLjglService extends ICommonService<ScjhglLjgl> {
      * @date : 2018/9/20 12:55
      */
     public List<SsxDTO> cxLj(String jhid);
+
+    public PageJson<ScjhglLjgl> ajaxlbjglList(Queryable queryable, ScjhglLjgl scjhglLjgl);
 }

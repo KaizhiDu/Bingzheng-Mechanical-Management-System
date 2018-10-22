@@ -33,6 +33,7 @@
 <input type="hidden" id="ljgybzid" name="ljgybzid" value="${ljgybzid}">
 <input type="hidden" id="sysl" name="sysl" value="${sysl}">
 <input type="hidden" id="bgrwid" name="bgrwid" value="${bgrwid}">
+<input type="hidden" id="xygzl" name="xygzl" value="${xygzl}">
 <div class="row">
     <div class="col-md-3">
 
@@ -72,6 +73,7 @@
     function checkRwl(){
         var rwl = $("#rwl").val();
         var sysl = $("#sysl").val();
+        var xygzl = $("#xygzl").val();
         var r = rwl.match(/^[0-9]*$/);
         //先判断是不是数字
         if(r == null){
@@ -81,7 +83,8 @@
             //在判断输入的数字是否大于剩余数量
             var a = parseInt(rwl,10);
             var b = parseInt(sysl,10);
-            if (a>b){
+            var c = parseInt(xygzl,10);
+            if (a>(b+c)){
                 top.layer.alert("任务量不能大于剩余数量");
                 $("#rwl").val("");
             }
@@ -92,12 +95,14 @@
     function check() {
         var bgrwid = $("#bgrwid").val();
         var gzl = $("#rwl").val();
+        var xygzl = $("#xygzl").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scgl/bgrwfp/saveGzl",
             data: {
                 bgrwid: bgrwid,
-                gzl: gzl
+                gzl: gzl,
+                xygzl: xygzl
             },
             success: function (data) {
 

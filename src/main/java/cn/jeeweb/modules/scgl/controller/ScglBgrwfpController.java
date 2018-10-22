@@ -1,6 +1,7 @@
 package cn.jeeweb.modules.scgl.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.model.AjaxJson;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
@@ -349,23 +350,32 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @RequestMapping(value = "deleteSb", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void deleteSb(String ids , HttpServletRequest request, HttpServletResponse response, Model model){
+    public AjaxJson deleteSb(String ids , HttpServletRequest request, HttpServletResponse response, Model model){
+        AjaxJson ajaxJson = new AjaxJson();
         String idsArray[] = ids.split(",");
+        Boolean flag = true;
         for (int i=0;i<idsArray.length;i++){
-            //同时也要加上零件工艺编制的剩余数量
-            ScglBgrw scglBgrw = scglBgrwService.selectById(idsArray[i]);
-            String ljgybzid = scglBgrw.getLjgybzid();
-            String ywcl = scglBgrw.getYwcl();
-            ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
-            int gzli = 0;
-            if (ywcl!=null&&!ywcl.equals("")){
-                gzli = Integer.parseInt(ywcl);
+            //通过设备ID,找下属的任务。如果有任务则flag设为false
+            EntityWrapper<ScglBgrw> wrapper = new EntityWrapper<ScglBgrw>();
+            wrapper.eq("FPSBID", idsArray[i]);
+            int count = scglBgrwService.selectCount(wrapper);
+            if (count>0){
+                flag = false;
+                break;
             }
-            scglLjgybz.setSysl(scglLjgybz.getSysl()+gzli);
-            scglLjgybzService.updateById(scglLjgybz);
-
-            scglBgsbService.deleteById(idsArray[i]);
         }
+        //如果已经分配了任务则不允许删除
+        if (flag==true){
+            for (int i=0;i<idsArray.length;i++){
+                scglBgsbService.deleteById(idsArray[i]);
+            }
+            ajaxJson.setMsg("删除成功");
+        }
+        else{
+            ajaxJson.setMsg("设备已分配任务，请先删除任务");
+        }
+
+        return ajaxJson;
     }
 
     /**
@@ -452,11 +462,43 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @RequestMapping(value = "deleteRw", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void deleteRw(String ids , HttpServletRequest request, HttpServletResponse response, Model model){
+    public AjaxJson deleteRw(String ids , HttpServletRequest request, HttpServletResponse response, Model model){
+        AjaxJson ajaxJson = new AjaxJson();
         String idsArray[] = ids.split(",");
+        //0是删除成功，1是任务已经检验
+        int a = 0;
         for (int i=0;i<idsArray.length;i++){
-            scglBgrwService.deleteById(idsArray[i]);
+            //需要拿到每个任务的sjwcl，如果世界完成量为空，则提示 任务已经检验，不能删除
+            ScglBgrw scglBgrw = scglBgrwService.selectById(idsArray[i]);
+            if (scglBgrw.getSjwcl()!=null){
+                a = 1;
+                break;
+            }
         }
+
+        if (a==1){
+            ajaxJson.setMsg("任务已经检验，不能删除");
+        }
+        //可以删除
+        else{
+            ajaxJson.setMsg("删除成功");
+            for (int i=0;i<idsArray.length;i++){
+                ScglBgrw scglBgrw = scglBgrwService.selectById(idsArray[i]);
+                //零件工艺编制下的计划生产数量应该 减去 应完成量
+                String ljgybzid = scglBgrw.getLjgybzid();
+                ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
+                int ywcli = 0;
+                if (scglBgrw.getYwcl()!=null&&!scglBgrw.getYwcl().equals("")){
+                    ywcli = Integer.parseInt(scglBgrw.getYwcl());
+                }
+                int jhscsl = scglLjgybz.getJhscsl() - ywcli;
+                scglLjgybz.setJhscsl(jhscsl);
+                scglLjgybzService.updateById(scglLjgybz);
+                //删除该任务
+                scglBgrwService.deleteById(idsArray[i]);
+            }
+        }
+        return ajaxJson;
     }
 
     /**
@@ -471,8 +513,10 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         ScglBgrw scglBgrw = scglBgrwService.selectById(id);
         String ljgybzid = scglBgrw.getLjgybzid();
         String xygzl = scglBgrw.getYwcl();
-        int syslint = scglLjgybzService.selectById(ljgybzid).getSysl();
-        String sysl = syslint+"";
+        ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
+        int syslint = scglLjgybz.getSysl();
+        int jhscslint = scglLjgybz.getJhscsl();
+        String sysl = syslint-jhscslint+"";
         model.addAttribute("bgrwid", id);
         model.addAttribute("ljgybzid" ,ljgybzid);
         model.addAttribute("sysl", sysl);
@@ -488,19 +532,23 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @RequestMapping(value = "saveGzl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveGzl(String bgrwid, String gzl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveGzl(String bgrwid, String gzl, String xygzl, HttpServletRequest request, HttpServletResponse response, Model model){
         ScglBgrw scglBgrw = new ScglBgrw();
         scglBgrw.setId(bgrwid);
         scglBgrw.setYwcl(gzl);
         scglBgrwService.updateById(scglBgrw);
-        //并且要减去工艺编制信息里面的数量
+        //并且要加到ljgybz下的jhscsl
         String ljgybzid = scglBgrwService.selectById(bgrwid).getLjgybzid();
         ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
         int gzli = 0;
         if (gzl!=null&&!gzl.equals("")){
             gzli = Integer.parseInt(gzl);
         }
-        scglLjgybz.setSysl(scglLjgybz.getSysl()-gzli);
+        int xygzli = 0;
+        if (xygzl!=null&&!xygzl.equals("")){
+            xygzli = Integer.parseInt(xygzl);
+        }
+        scglLjgybz.setJhscsl(scglLjgybz.getJhscsl() + gzli -xygzli);
         scglLjgybzService.updateById(scglLjgybz);
     }
 

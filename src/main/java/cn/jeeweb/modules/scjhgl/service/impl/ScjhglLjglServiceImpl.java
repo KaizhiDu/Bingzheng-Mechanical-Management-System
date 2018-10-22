@@ -39,6 +39,15 @@ public class ScjhglLjglServiceImpl extends CommonServiceImpl<ScjhglLjglMapper, S
     public PageJson<ScjhglLjgl> ajaxljglList(Queryable queryable, ScjhglLjgl scjhglLjgl) {
         Pageable pageable = queryable.getPageable();
         Page<ScjhglLjgl> page = new Page<ScjhglLjgl>(pageable.getPageNumber(), pageable.getPageSize());
+        page.setRecords(scjhglLjglMapper.ajaxljglList(page, scjhglLjgl));
+        PageJson<ScjhglLjgl> pagejson = new PageJson<ScjhglLjgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
+        return pagejson;
+    }
+
+    @Override
+    public PageJson<ScjhglLjgl> ajaxlbjglList(Queryable queryable, ScjhglLjgl scjhglLjgl) {
+        Pageable pageable = queryable.getPageable();
+        Page<ScjhglLjgl> page = new Page<ScjhglLjgl>(pageable.getPageNumber(), pageable.getPageSize());
         page.setRecords(scjhglLjglMapper.ajaxlbjglList(page, scjhglLjgl));
         PageJson<ScjhglLjgl> pagejson = new PageJson<ScjhglLjgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;

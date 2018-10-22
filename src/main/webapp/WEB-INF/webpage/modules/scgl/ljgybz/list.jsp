@@ -48,7 +48,7 @@
     </div>
 </div>
 <grid:grid id="Ljgl"
-           url="${adminPath}/scgl/ljgybz/ajaxljglList" pageable="true">
+           url="${adminPath}/scgl/ljgybz/ajaxlbjglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>

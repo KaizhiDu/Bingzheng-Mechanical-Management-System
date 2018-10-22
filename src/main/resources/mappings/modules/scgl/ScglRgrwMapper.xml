@@ -10,7 +10,7 @@
 			 T.YWCL,
 			 T.SJWCL,
 			 T1.SL,
-			 T1.SYSL,
+			 T1.SYSL - T1.JHSCSL SYSL,
 			 T.PX
 FROM T_SCGL_RCRWFP_RG_RW T,
      T_SCGL_LJGYBZ T1,

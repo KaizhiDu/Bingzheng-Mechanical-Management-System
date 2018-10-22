@@ -138,7 +138,17 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         if (ss!=null){
             sss = Integer.parseInt(ss);
         }
-        //然后加到零件工艺编制下面的  剩余数量
+
+        //第一步是零件工艺编制下面的计划生产数量减去应完成量
+        String ywcl = jyglRgjy.getYwcl();
+        ScglLjgybz oldscglLjgybz = scglLjgybzService.selectById(ljgybzid);
+        int ywcli = 0;
+        if (ywcl!=null&&!ywcl.equals("")){
+            ywcli = Integer.parseInt(ywcl);
+        }
+        oldscglLjgybz.setJhscsl(oldscglLjgybz.getJhscsl()-ywcli);
+        scglLjgybzService.updateById(oldscglLjgybz);
+
         //再然后零件工艺编制下的剩余数量 - sjwcl 然后更新
         ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
         int sysl = scglLjgybz.getSysl()+sss-Integer.parseInt(sjwcl);
@@ -163,7 +173,6 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
                 rksl = a;
             }
         }
-
         //判断是不是部件
         EntityWrapper<ScjhglBjzc> wrapper0 = new EntityWrapper<ScjhglBjzc>();
         wrapper0.eq("BJID", ljid);
@@ -233,8 +242,26 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
                 ckglService.updateById(ckgl2);
             }
         }
+    }
 
-
-
+    /**
+     * Dscription: 是否大于剩余数量
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/17 21:00
+     */
+    @RequestMapping(value = "sfdysysl", method={RequestMethod.GET, RequestMethod.POST})
+    public int sfdysysl(String ljgybzid, String sjwcl, HttpServletRequest request, HttpServletResponse response, Model model){
+        int flag = 0;
+        ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
+        int sysl = scglLjgybz.getSysl();
+        int sjwcli = 0;
+        if (sjwcl!=null&&!sjwcl.equals("")){
+            sjwcli = Integer.parseInt(sjwcl);
+        }
+        if (sjwcli>sysl){
+            flag = 1;
+        }
+        return flag;
     }
 }

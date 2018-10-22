@@ -98,10 +98,10 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
      * @version : 1.0
      * @date : 2018/9/17 23:17
      */
-    @RequestMapping(value = "ajaxljglList", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "ajaxlbjglList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<ScjhglLjgl> ajaxljglList(Queryable queryable, ScjhglLjgl scjhglLjgl, HttpServletRequest request, HttpServletResponse response, Model model){
-        PageJson<ScjhglLjgl> pageJson = scjhglLjglService.ajaxljglList(queryable,scjhglLjgl);
+    public PageJson<ScjhglLjgl> ajaxlbjglList(Queryable queryable, ScjhglLjgl scjhglLjgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<ScjhglLjgl> pageJson = scjhglLjglService.ajaxlbjglList(queryable,scjhglLjgl);
         return pageJson;
     }
 
@@ -371,6 +371,7 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
         s.setSysl(sl);
         s.setWrksl(sl);
         s.setScsfxs("1");
+        s.setJhscsl(0);
 
         //可以插入了
         scglLjgybzService.insert(s);

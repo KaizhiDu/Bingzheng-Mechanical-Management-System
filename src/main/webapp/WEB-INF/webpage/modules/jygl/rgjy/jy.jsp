@@ -71,13 +71,28 @@
     //校验任务量
     function checkRwl(){
         var sjwcl = $("#sjwcl").val();
+        var ljgybzid = $("#ljgybzid").val();
         var r = sjwcl.match(/^[0-9]*$/);
         //先判断是不是数字
         if(r == null){
             top.layer.alert("请输入数字");
             $("#sjwcl").val("");
         }else{
-
+            //判断输入的数字是否大于剩余数量
+            $.ajax({
+                type: "GET",
+                url: "${adminPath}/jygl/rgjy/sfdysysl",
+                data: {
+                    sjwcl: sjwcl,
+                    ljgybzid: ljgybzid
+                },
+                success: function (data) {
+                    if (data==1){
+                        top.layer.alert("实际完成量大于剩余数量");
+                        $("#sjwcl").val("");
+                    }
+                }
+            });
         }
     }
 

@@ -297,14 +297,16 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
             for (ScjhglBjzc s: bjzcList) {
                 String ljid = s.getLjid();
                 ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
-                String ljsyslS = scjhglLjgl.getSysl();
-                float ljsysl = 0;
-                if (ljsyslS!=null&&!ljsyslS.equals("")){
-                    ljsysl = Float.parseFloat(ljsyslS);
+                if (scjhglLjgl!=null){
+                    String ljsyslS = scjhglLjgl.getSysl();
+                    float ljsysl = 0;
+                    if (ljsyslS!=null&&!ljsyslS.equals("")){
+                        ljsysl = Float.parseFloat(ljsyslS);
+                    }
+                    ljsysl = ljsysl + bjsl;
+                    scjhglLjgl.setSysl(ljsysl+"");
+                    scjhglLjglService.updateById(scjhglLjgl);
                 }
-                ljsysl = ljsysl + bjsl;
-                scjhglLjgl.setSysl(ljsysl+"");
-                scjhglLjglService.updateById(scjhglLjgl);
             }
 
             //删除所有相关的部件组成
