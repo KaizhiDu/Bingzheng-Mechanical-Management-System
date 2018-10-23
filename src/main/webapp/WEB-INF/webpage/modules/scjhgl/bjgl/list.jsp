@@ -66,6 +66,7 @@
     <grid:column label="部件名称" name="ljmc"/>
     <grid:column label="零件图号" name="ljth"/>
     <grid:column label="部件组成" name="bjzc"/>
+    <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
     <grid:column label="未入库数量" name="wrksl"/>
 

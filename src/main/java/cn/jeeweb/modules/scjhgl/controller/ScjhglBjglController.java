@@ -113,7 +113,20 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     @RequestMapping(value = "saveBj", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBj(ScjhglLjgl scjhglLjgl, HttpServletRequest request, HttpServletResponse response, Model model){
-        scjhglLjgl.setWrksl(scjhglLjgl.getSl());
+        String jhid = scjhglLjgl.getHtid();
+        ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(jhid);
+        int jhsl = 0;
+        if (scjhglHtgl.getSl()!=null&&!scjhglHtgl.getSl().equals("")){
+            jhsl = Integer.parseInt(scjhglHtgl.getSl());
+        }
+        int ljsl = 0;
+        if (scjhglLjgl.getDyl()!=null&&!scjhglLjgl.getDyl().equals("")){
+            ljsl = Integer.parseInt(scjhglLjgl.getDyl());
+        }
+        int zyl = jhsl*ljsl;
+        scjhglLjgl.setWrksl(zyl+"");
+        scjhglLjgl.setSl(zyl+"");
+        scjhglLjgl.setSysl(zyl+"");
         scjhglLjgl.setSfsbj("1");
         scjhglLjgl.setSfwwcrk("0");
         scjhglLjglService.insert(scjhglLjgl);

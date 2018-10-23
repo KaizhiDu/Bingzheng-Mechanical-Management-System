@@ -68,10 +68,10 @@
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>数量：</label>
+                        <label>单用量：</label>
                     </td>
                     <td>
-                        <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入部件数量" onchange="checkSl()"/>
+                        <input name="dyl" id="dyl" htmlEscape="false" class="form-control" placeholder="请输入部件数量" onchange="checkSl()"/>
                     </td>
                 </tr>
             </table>
@@ -101,7 +101,7 @@
         var htid = $("#htid").val();
         var ljth = $("#ljth").val();
         var ljmc = $("#ljmc").val();
-        var sl = $("#sl").val();
+        var dyl = $("#dyl").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/bjgl/saveBj",
@@ -109,7 +109,7 @@
                 id: null,
                 htid: htid,
                 ljmc: ljmc,
-                sl: sl,
+                dyl: dyl,
                 ljth: ljth
             },
             success: function (data) {

@@ -88,8 +88,14 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     public void saveLj(HttpServletRequest request, HttpServletResponse response, Model model, ScjhglLjgl scjhglLjgl){
         String jhid = scjhglLjgl.getHtid();
         ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(jhid);
-        int jhsl = Integer.parseInt(scjhglHtgl.getSl());
-        int ljsl = Integer.parseInt(scjhglLjgl.getDyl());
+        int jhsl = 0;
+        if (scjhglHtgl.getSl()!=null&&!scjhglHtgl.getSl().equals("")){
+            jhsl = Integer.parseInt(scjhglHtgl.getSl());
+        }
+        int ljsl = 0;
+        if (scjhglLjgl.getDyl()!=null&&!scjhglLjgl.getDyl().equals("")){
+            ljsl = Integer.parseInt(scjhglLjgl.getDyl());
+        }
         int zyl = jhsl*ljsl;
         scjhglLjgl.setSl(zyl+"");
         scjhglLjgl.setSysl(zyl+"");
