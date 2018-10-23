@@ -59,7 +59,7 @@
                         <label>数量：</label>
                     </td>
                     <td>
-                        <input name="sl" id="sl" htmlEscape="false" class="form-control" value="${scjhglHtgl.sl}" disabled="disabled"/>
+                        <input name="sl" id="sl" htmlEscape="false" class="form-control" value="${scjhglHtgl.sl}" />
                     </td>
                 </tr>
 

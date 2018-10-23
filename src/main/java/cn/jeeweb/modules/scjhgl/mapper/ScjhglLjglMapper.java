@@ -39,4 +39,6 @@ public interface ScjhglLjglMapper extends BaseMapper<ScjhglLjgl> {
      * @date : 2018/9/20 12:55
      */
     public List<SsxDTO> cxLj(@Param("jhid") String jhid);
+
+    public List<ScjhglLjgl> getLjByjhid(@Param("jhid") String jhid);
 }

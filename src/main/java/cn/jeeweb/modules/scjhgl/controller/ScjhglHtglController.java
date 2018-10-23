@@ -9,8 +9,12 @@ import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
 import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglBjzc;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglFzjs;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
+import cn.jeeweb.modules.scjhgl.service.IScjhglBjzcService;
+import cn.jeeweb.modules.scjhgl.service.IScjhglFzjsService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
@@ -52,6 +56,14 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     /**工艺大类编制Service*/
     @Autowired
     private IScglGydlbzService scglGydlbzService;
+
+    /**复制计数Service*/
+    @Autowired
+    private IScjhglFzjsService scjhglFzjsService;
+
+    /**部件组成Service*/
+    @Autowired
+    private IScjhglBjzcService scjhglBjzcService;
 
     /**
     * @Description:    展示所有合同信息
@@ -178,37 +190,134 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     @RequestMapping(value = "saveCopy",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public void saveCopy(ScjhglHtgl scjhglHtgl, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        String xjhsl = scjhglHtgl.getSl();
+        int xjhsli = 0;
+        if (xjhsl!=null&&!xjhsl.equals("")){
+            xjhsli = Integer.parseInt(xjhsl);
+        }
         //得到原计划ID
         String yjhid = scjhglHtgl.getId();
-        //先拿到零件工艺信息，进行复制
-        List<ScglLjgybz> ljgybzByJhidList = scglLjgybzService.getLjgybzByJhid(yjhid);
-        for (ScglLjgybz s: ljgybzByJhidList) {
-            ScglLjgybz ss = new ScglLjgybz();
-            ss.setGydlbzid("gydlbzid");
-            ss.setGyxlid(s.getGyxlid());
-            ss.setGyxlmc(s.getGyxlmc());
-            ss.setMs(s.getMs());
-            ss.setPx(s.getPx());
-            ss.setSl(s.getSl());
-            ss.setWrksl(s.getSl());
-            ss.setSysl(s.getSysl());
-            ss.setScsfxs("1");
-            scglLjgybzService.insert(ss);
+        //先找到原计划的计划编号
+        String jhbh = scjhglHtglService.selectById(yjhid).getHtbh();
+        //找复制计数里面有没有该计划编号的记录
+        EntityWrapper<ScjhglFzjs> wrapper = new EntityWrapper<ScjhglFzjs>();
+        wrapper.eq("JHBH", jhbh);
+        //这个count就是记录本次复制的计数器
+        int count = 0;
+        int c = scjhglFzjsService.selectCount(wrapper);
+        //得到count并且加一
+        if (c>0){
+            ScjhglFzjs scjhglFzjs = scjhglFzjsService.selectOne(wrapper);
+            count = scjhglFzjs.getCount()+1;
+            scjhglFzjs.setCount(count);
+            scjhglFzjsService.updateById(scjhglFzjs);
         }
-        //然后得到所有被复制的工艺大类编制信息，进行复制
-        List<ScglGydlbz> gydlbzByjhidList = scglGydlbzService.getGydlbzByjhid(yjhid);
-        for (ScglGydlbz s: gydlbzByjhidList) {
-            //新的工艺大类编制ID
-            String xgydlid  = UUID.randomUUID().toString().replaceAll("-","");
-            //拿到原工艺大类ID
-            String ygydlid = s.getId();
-            //找到原工艺大类ID下属所有的工艺信息
-            List<ScglLjgybz> ljgybzByJhidGydlidList = scglLjgybzService.getLjgybzByJhidGydlid(yjhid, ygydlid);
-            for (ScglLjgybz l: ljgybzByJhidGydlidList) {
-                //找到新添加的零件工艺信息，把工艺大类编制id，更新进去
-                EntityWrapper<ScglLjgybz> wrapper = new EntityWrapper<ScglLjgybz>();
-               //暂时无法进行，待续
+        //否则新建一条记录，count设置为1
+        else{
+            count = 1;
+            ScjhglFzjs scjhglFzjs = new ScjhglFzjs();
+            scjhglFzjs.setCount(count);
+            scjhglFzjs.setJhbh(jhbh);
+            scjhglFzjsService.insert(scjhglFzjs);
+        }
+        //现在需要把得到的count加到所有需要添加的ID后
+
+        //先创建新的计划数据
+        ScjhglHtgl newScjhglHtgl = new ScjhglHtgl();
+        newScjhglHtgl.setId(scjhglHtgl.getId()+"-"+count);
+        newScjhglHtgl.setHtbh(scjhglHtgl.getHtbh());
+        newScjhglHtgl.setMs(scjhglHtgl.getMs());
+        newScjhglHtgl.setSl(scjhglHtgl.getSl());
+        scjhglHtglService.insert(newScjhglHtgl);
+
+        //然后复制零件工艺编制的数据
+        List<ScglLjgybz> ljgybzByJhid = scglLjgybzService.getLjgybzByJhid(yjhid);
+        for (ScglLjgybz scglLjgybz : ljgybzByJhid) {
+            ScglLjgybz s = new ScglLjgybz();
+           String xid = scglLjgybz.getId()+"-"+count;
+           String xGydlbzid = scglLjgybz.getGydlbzid()+"-"+count;
+           s.setId(xid);
+           s.setGydlbzid(xGydlbzid);
+           s.setGyxlid(scglLjgybz.getGyxlid());
+           s.setGyxlmc(scglLjgybz.getGyxlmc());
+           s.setMs(scglLjgybz.getMs());
+           s.setPx(scglLjgybz.getPx());
+           s.setSl(scglLjgybz.getSl());
+           s.setWrksl(scglLjgybz.getSl());
+           s.setSysl(scglLjgybz.getSl());
+           s.setJhscsl(0);
+           s.setScsfxs("1");
+           scglLjgybzService.insert(s);
+        }
+
+        //然后复制工艺大类编制的数据
+        List<ScglGydlbz> gydlbzByjhid = scglGydlbzService.getGydlbzByjhid(yjhid);
+        for (ScglGydlbz scglGydlbz : gydlbzByjhid) {
+            ScglGydlbz s = new ScglGydlbz();
+            String xid = scglGydlbz.getId()+"-"+count;
+            String xLjid = scglGydlbz.getLjid()+"-"+count;
+            s.setId(xid);
+            s.setLjid(xLjid);
+            s.setGydlid(scglGydlbz.getGydlid());
+            s.setGydlmc(scglGydlbz.getGydlmc());
+            s.setPx(scglGydlbz.getPx());
+            scglGydlbzService.insert(s);
+        }
+
+        //再复制零件的数据
+        List<ScjhglLjgl> ljByjhid = scjhglLjglService.getLjByjhid(yjhid);
+        for (ScjhglLjgl scjhglLjgl : ljByjhid) {
+            //如果是部件的话，需要复制部件组成里面的信息
+            if (scjhglLjgl.getSfsbj().equals("1")){
+                String ybjid = scjhglLjgl.getId();
+                EntityWrapper<ScjhglBjzc> wrapper1 = new EntityWrapper<ScjhglBjzc>();
+                wrapper1.eq("BJID", ybjid);
+                List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper1);
+                for (ScjhglBjzc scjhglBjzc : scjhglBjzcs) {
+                    ScjhglBjzc s = new ScjhglBjzc();
+                    String xxid = scjhglBjzc.getId()+"-"+count;
+                    String xxbjid = scjhglBjzc.getBjid()+"-"+count;
+                    String xxljid = scjhglBjzc.getLjid()+"-"+count;
+                    s.setId(xxid);
+                    s.setBjid(xxbjid);
+                    s.setLjid(xxljid);
+                    scjhglBjzcService.insert(s);
+                }
             }
+            ScjhglLjgl scjhglLjgl1 = new ScjhglLjgl();
+            String xid = scjhglLjgl.getId()+"-"+count;
+            String xjhid = scjhglLjgl.getHtid()+"-"+count;
+            scjhglLjgl1.setId(xid);
+            scjhglLjgl1.setHtid(xjhid);
+            scjhglLjgl1.setLjth(scjhglLjgl.getLjth());
+            scjhglLjgl1.setLjmc(scjhglLjgl.getLjmc());
+            scjhglLjgl1.setDyl(scjhglLjgl.getDyl());
+            scjhglLjgl1.setSfsbj(scjhglLjgl.getSfsbj());
+            scjhglLjgl1.setBjzc(scjhglLjgl.getBjzc());
+            //这里的为完成量和数量需要用单用量x新计划的数量
+            int xljdyl = 0;
+            if (scjhglLjgl.getDyl()!=null&&!scjhglLjgl.getDyl().equals("")){
+                xljdyl = Integer.parseInt(scjhglLjgl.getDyl());
+            }
+            int xsl = xjhsli * xljdyl;
+            scjhglLjgl1.setSl(xsl+"");
+            scjhglLjgl1.setWrksl(xsl+"");
+            scjhglLjgl1.setSysl(scjhglLjgl.getSysl());
+            scjhglLjgl1.setSfwwcrk("0");
+            scjhglLjglService.insert(scjhglLjgl1);
+            //现在要更新所有零件工艺编制下下面的数量，未入库数量，和剩余数量
+            List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(xid);
+            for (ScglLjgybz scglLjgybz : ljgybzByLjid) {
+                scglLjgybz.setWrksl(xsl);
+                scglLjgybz.setSl(xsl);
+                scglLjgybz.setSysl(xsl);
+                scglLjgybzService.updateById(scglLjgybz);
+            }
+
         }
+
+
+
     }
 }

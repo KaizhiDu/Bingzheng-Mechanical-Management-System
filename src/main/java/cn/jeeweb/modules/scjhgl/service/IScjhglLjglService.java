@@ -32,4 +32,12 @@ public interface IScjhglLjglService extends ICommonService<ScjhglLjgl> {
     public List<SsxDTO> cxLj(String jhid);
 
     public PageJson<ScjhglLjgl> ajaxlbjglList(Queryable queryable, ScjhglLjgl scjhglLjgl);
+
+    /**
+     * Dscription: 根据计划ID获取所有的零件信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/23 15:21
+     */
+    public List<ScjhglLjgl> getLjByjhid(String jhid);
 }

@@ -57,6 +57,17 @@ public class ScjhglLjglServiceImpl extends CommonServiceImpl<ScjhglLjglMapper, S
      * Dscription: 根据计划ID获取所有的零件信息
      * @author : Kevin Du
      * @version : 1.0
+     * @date : 2018/10/23 15:21
+     */
+    @Override
+    public List<ScjhglLjgl> getLjByjhid(String jhid) {
+        return scjhglLjglMapper.getLjByjhid(jhid);
+    }
+
+    /**
+     * Dscription: 根据计划ID获取所有的零件信息
+     * @author : Kevin Du
+     * @version : 1.0
      * @date : 2018/9/20 12:55
      */
     @Override

@@ -61,4 +61,16 @@ ORDER BY T.HTID
 
 	</select>
 
+	<select id="getLjByjhid" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
+		SELECT T1.*
+		FROM T_SCJHGL_HTGL T,
+		T_SCJHGL_LJGL T1
+		WHERE 1=1
+		AND T1.HTID = T.ID
+		<if test="jhid!=null and jhid!=''">
+		AND T1.HTID = #{jhid}
+		</if>
+
+	</select>
+
 </mapper>

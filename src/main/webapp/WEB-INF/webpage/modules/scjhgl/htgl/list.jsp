@@ -42,8 +42,8 @@
     outclass="btn-success" url="${adminPath}/scjhgl/htgl/updateHt?id=\"+row.id+\"" />
     <grid:button title="删除" groupname="opt" function="deleteHt"
                  outclass="btn-danger" url="${adminPath}/scjhgl/htgl/deleteHt/?id=\"+row.id+\"" />
-    <%--<grid:button title="复制" groupname="opt" function="copyHt"--%>
-                 <%--outclass="btn-warning" url="${adminPath}/scjhgl/htgl/copyHt?id=\"+row.id+\"" />--%>
+    <grid:button title="复制" groupname="opt" function="copyHt"
+                 outclass="btn-warning" url="${adminPath}/scjhgl/htgl/copyHt?id=\"+row.id+\"" />
 
     <grid:column label="计划编号" name="htbh" width="30"/>
     <grid:column label="描述" name="ms"/>
