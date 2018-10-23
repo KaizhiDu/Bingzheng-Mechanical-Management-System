@@ -84,7 +84,10 @@
             //在判断输入的数字是否大于剩余数量
             var a = parseInt(rwl,10);
             var b = parseInt(sysl,10);
-            var c = parseInt(xygzl,10);
+            var c = 0;
+            if (xygzl!=""){
+                c = parseInt(xygzl,10);
+            }
             if (a>(b+c)){
                 top.layer.alert("任务量不能大于剩余数量");
                 $("#rwl").val("");
