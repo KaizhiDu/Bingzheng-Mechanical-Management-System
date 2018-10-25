@@ -1,14 +1,22 @@
 package cn.jeeweb.modules.sjfx.dto;
 /**
- * Dscription: 数据分析 - 总计划图
+ * Dscription: 数据分析 - 零部件图
  * @author : Kevin Du
  * @version : 1.0
  * @date : 2018/10/24 13:51
  */
-public class ZjhDTO {
+public class LbjDTO {
+    private String lbjmc;
     private String wcsl;
     private String wwcsl;
-    private String jhbh;
+
+    public String getLbjmc() {
+        return lbjmc;
+    }
+
+    public void setLbjmc(String lbjmc) {
+        this.lbjmc = lbjmc;
+    }
 
     public String getWcsl() {
         return wcsl;
@@ -24,13 +32,5 @@ public class ZjhDTO {
 
     public void setWwcsl(String wwcsl) {
         this.wwcsl = wwcsl;
-    }
-
-    public String getJhbh() {
-        return jhbh;
-    }
-
-    public void setJhbh(String jhbh) {
-        this.jhbh = jhbh;
     }
 }

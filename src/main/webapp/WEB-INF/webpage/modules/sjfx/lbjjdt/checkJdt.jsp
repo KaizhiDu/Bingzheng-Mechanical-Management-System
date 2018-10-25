@@ -31,36 +31,33 @@
 </head>
 <body>
 
-<h4>计划总进度</h4>
-<hr>
-<input type="hidden" id="jhid" name="jhid" value="${jhid}">
+<input type="hidden" id="lbjid" name="lbjid" value="${lbjid}">
 
 <div class="row">
     <div id="JhjdtQuery" class="col-md-12">
 
-    <div id="dataBody" style="width: 600px;height:400px;">
+        <div id="dataBody" style="width: 600px;height:400px;">
 
+        </div>
     </div>
-</div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    window.onload=function(){
-
-        //拿到了第一个计划的ID
-        var jhid = $("#jhid").val();
-        var url = "${adminPath}/sjfx/jhjdt/searchZjhData?jhid="+jhid;
-        $.ajax({
-            type: "GET",
-            url: url,
-            success: function (data) {
-                console.log(data);
-                // 基于准备好的dom，初始化echarts实例
+        window.onload=function(){
+            //拿到了第一个计划的ID
+            var lbjid = $("#lbjid").val();
+            var url = "${adminPath}/sjfx/lbjjdt/searchLbjData?lbjid="+lbjid;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    console.log(data);
+                    // 基于准备好的dom，初始化echarts实例
                     var myChart = echarts.init(document.getElementById("dataBody"));
 
                     var option = {
                         title: {
-                            text: data.jhbh,
+                            text: data.lbjmc,
                             left: 'center'
                         },
                         tooltip : {//提示图
@@ -105,10 +102,10 @@
                     myChart.setOption(option);
 
 
-            }
-        });
+                }
+            });
 
-    };
-</script>
+        };
+    </script>
 </body>
 </html>

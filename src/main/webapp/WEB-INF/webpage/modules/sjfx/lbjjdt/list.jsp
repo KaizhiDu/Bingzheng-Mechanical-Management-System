@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>零部件入库</h4>
+<h4>零部件进度图</h4>
 
 <div class="row">
     <div id="ljglGridQuery" class="col-md-12">
@@ -60,15 +60,20 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
-    <grid:button title="入半成品库" groupname="opt" function="rbcpk"
-    outclass="btn-success" url="${adminPath}/jygl/lbjrk/rbcpk?ljid=\"+row.id+\"" />
 
+    <%--<grid:button title="修改" groupname="opt" function="modifyWorker"--%>
+    <%--outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />--%>
+    <grid:button title="查看进度图" groupname="opt" function="checkJdt"
+    outclass="btn-primary" url="${adminPath}/sjfx/lbjjdt/checkJdt?lbjid=\"+row.id+\"" />
     <grid:column label="计划编号" name="htid"/>
     <grid:column label="零件名称" name="ljmc"/>
     <grid:column label="零件图号" name="ljth"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
     <grid:column label="未入库数量" name="wrksl"/>
+
+    <%--<grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零件"/>--%>
+    <%--<grid:toolbar function="deleteLj" icon="fa fa-trash-o" title="删除" btnclass="btn-danger"/>--%>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -99,25 +104,40 @@
         });
     }
 
-    //删除一个员工信息
-    function rbcpk(title, url, gridId, id, width, height, tipMsg) {
-        layer.confirm('是否要入半成品库信息!', {
-                btn: ['确定', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    success: function (data) {
-                        refreshTable(gridId);
-                    }
-                });
-                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                layer.msg("入库成功!",{ icon: 1, time: 1000 });
-
-            }
-        );
+    //查看进度图
+    function checkJdt(title, url, gridId, id, width, height, tipMsg) {
+        openDia("查看进度图",url,gridId,"50%","60%");
     }
 
+    //打开一个窗口
+    function openDia(title,url,gridId,width,height){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: [width, height],
+            title: title,
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
 </script>
 </body>
 </html>

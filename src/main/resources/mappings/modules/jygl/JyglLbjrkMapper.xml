@@ -16,9 +16,12 @@
         <if test="entity.htid!=null and entity.htid!=''">
             AND T.HTID = #{entity.htid}
         </if>
-        <if test="entity.ljth!=null and entity.ljth!=''">
-            AND T.LJTH = #{entity.ljth}
+        <if test="entity.id!=null and entity.id!=''">
+            AND T.ID = #{entity.id}
         </if>
+        <!--<if test="entity.lith!=null and entity.lith!=''">-->
+            <!--AND T.LJTH = #{entity.lith}-->
+        <!--</if>-->
         AND T.SFWWCRK = '0'
         ORDER BY T.HTID
     </select>
