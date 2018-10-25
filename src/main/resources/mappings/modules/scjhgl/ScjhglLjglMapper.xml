@@ -70,6 +70,7 @@ ORDER BY T.HTID
 		<if test="jhid!=null and jhid!=''">
 		AND T1.HTID = #{jhid}
 		</if>
+		ORDER BY T1.LJMC
 
 	</select>
 
