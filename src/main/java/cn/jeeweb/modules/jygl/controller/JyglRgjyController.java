@@ -74,6 +74,10 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
     @Autowired
     private IScjhglBjzcService scjhglBjzcService;
 
+    /**计划管理*/
+    @Autowired
+    private IScjhglHtglService scjhglHtglService;
+
     /**
      * Dscription: 搜索项
      * @author : Kevin Du
@@ -182,13 +186,24 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
             List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper0);
             for (ScjhglBjzc s: scjhglBjzcs) {
                 //需要得到零件图号，然后减去库存
-                String ljth = scjhglLjglService.selectById(s.getLjid()).getLjth();
+                ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(s.getLjid());
+                String ljth = scjhglLjgl.getLjth();
+                //通过ljid找到jhbh
+                String jhbh = scjhglHtglService.selectById(scjhglLjgl.getHtid()).getHtbh();
                 EntityWrapper<CkglBcp> wrapper11 = new EntityWrapper<CkglBcp>();
                 wrapper11.eq("LBJTH", ljth);
+                wrapper11.eq("JHBH", jhbh);
                 CkglBcp ckglBcp = ckglService.selectOne(wrapper11);
                 int newsl = Integer.parseInt(ckglBcp.getRksl()) - rksl;
-                ckglBcp.setRksl(newsl+"");
-                ckglService.updateById(ckglBcp);
+                //如果新的数量等于0，则删除
+                if (newsl==0){
+                    ckglService.deleteById(ckglBcp.getId());
+                }
+                else{
+                    ckglBcp.setRksl(newsl+"");
+                    ckglService.updateById(ckglBcp);
+                }
+
             }
         }
 

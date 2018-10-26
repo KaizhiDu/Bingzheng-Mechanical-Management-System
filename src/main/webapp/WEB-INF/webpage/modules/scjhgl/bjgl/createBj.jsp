@@ -71,7 +71,7 @@
                         <label>单用量：</label>
                     </td>
                     <td>
-                        <input name="dyl" id="dyl" htmlEscape="false" class="form-control" placeholder="请输入部件数量" onchange="checkSl()"/>
+                        <input name="dyl" id="dyl" htmlEscape="false" class="form-control" placeholder="请输入单用量" onchange="checkSl()"/>
                     </td>
                 </tr>
             </table>
