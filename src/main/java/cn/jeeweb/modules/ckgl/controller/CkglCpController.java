@@ -11,6 +11,9 @@ import cn.jeeweb.modules.ckgl.service.ICkglCpCkjlService;
 import cn.jeeweb.modules.ckgl.service.ICkglCpService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -146,7 +151,95 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
             ckglCp.setRksl(xsl+"");
             ckglCpService.updateById(ckglCp);
         }
+    }
 
+    /**
+     * Dscription: 导出送货单
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/26 15:16
+     */
+    @RequestMapping(value = "exportShd", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void exportShd(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String currentTime = sdf.format(date);
+        //得到数据
+        EntityWrapper<CkglCpCkjl> wrapper = new EntityWrapper<CkglCpCkjl>();
+        wrapper.eq("RQ", currentTime);
+        wrapper.orderBy("JHBH");
+        List<CkglCpCkjl> ckglCpCkjls = ckglCpCkjlService.selectList(wrapper);
+
+        //新建一个工作簿
+        Workbook wb = new XSSFWorkbook();
+        //新建工作表
+        Sheet sheet1 = wb.createSheet("补货清单");
+        //设置单元格宽度
+        sheet1.setColumnWidth(0, 3700);
+        sheet1.setColumnWidth(1, 3700);
+        sheet1.setColumnWidth(2, 3700);
+        sheet1.setColumnWidth(3, 3700);
+        sheet1.setColumnWidth(4, 3700);
+        //设置边框
+        CellStyle style = wb.createCellStyle();
+        style.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+
+        //表头
+        Row row0 = sheet1.createRow(0);
+        row0.setHeightInPoints(35);
+        Cell cell00 = row0.createCell(0);
+        Cell cell01 = row0.createCell(1);
+        Cell cell02 = row0.createCell(2);
+        Cell cell03 = row0.createCell(3);
+        Cell cell04 = row0.createCell(4);
+        cell00.setCellValue("日期");
+        cell01.setCellValue("计划编号");
+        cell02.setCellValue("零部件名称");
+        cell03.setCellValue("零部件图号");
+        cell04.setCellValue("送货数量");
+        cell00.setCellStyle(style);
+        cell01.setCellStyle(style);
+        cell02.setCellStyle(style);
+        cell03.setCellStyle(style);
+        cell04.setCellStyle(style);
+
+        if (ckglCpCkjls!=null){
+            for (int i=0;i<ckglCpCkjls.size();i++){
+                CkglCpCkjl c = ckglCpCkjls.get(i);
+                //创建一行
+                Row row = sheet1.createRow(i+1);
+                row.setHeightInPoints(35);
+
+                //创建单元格
+                Cell cell0 = row.createCell(0);
+                Cell cell1 = row.createCell(1);
+                Cell cell2 = row.createCell(2);
+                Cell cell3 = row.createCell(3);
+                Cell cell4 = row.createCell(4);
+
+                //给单元格设值
+                cell0.setCellValue(c.getRq());
+                cell1.setCellValue(c.getJhbh());
+                cell2.setCellValue(c.getLbjmc());
+                cell3.setCellValue(c.getLbjth());
+                cell4.setCellValue(c.getRksl());
+                cell0.setCellStyle(style);
+                cell1.setCellStyle(style);
+                cell2.setCellStyle(style);
+                cell3.setCellStyle(style);
+                cell4.setCellStyle(style);
+            }
+        }
+
+        //创建流
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+currentTime+"送货清单.xlsx");
+        //输出流
+        wb.write(fileOut);
+        fileOut.close();
 
     }
 
