@@ -257,6 +257,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 //要查询有没有同样的图号
                 EntityWrapper<CkglBcp> wrapper = new EntityWrapper<CkglBcp>();
                 wrapper.eq("LBJTH" ,lbjth);
+                wrapper.eq("JHBH", jhbh);
                 wrapper.eq("SFSWWCBCP", "0");
                 int count = ckglService.selectCount(wrapper);
                 //插入新记录
