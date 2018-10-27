@@ -57,7 +57,9 @@
                             <option ${xzzwfp.zwid eq '司机采购' ? 'selected' : ''} value="司机采购">司机采购</option>
                             <option ${xzzwfp.zwid eq '技术' ? 'selected' : ''} value="技术">技术</option>
                             <option ${xzzwfp.zwid eq '生产' ? 'selected' : ''} value="生产">生产</option>
-                            <option ${xzzwfp.zwid eq '质检外协' ? 'selected' : ''} value="质检外协">质检外协</option>
+                            <option ${xzzwfp.zwid eq '质检仓库' ? 'selected' : ''} value="质检仓库">质检仓库</option>
+                            <option ${xzzwfp.zwid eq '外协采购' ? 'selected' : ''} value="外协采购">外协采购</option>
+                            <option ${xzzwfp.zwid eq '外协勤务' ? 'selected' : ''} value="外协勤务">外协勤务</option>
 
                         </select>
                     </td>

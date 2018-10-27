@@ -14,6 +14,6 @@
 FROM T_GRGL T,
      t_grgl_xzzwfp T1
 WHERE T.ID = T1.YGID
-      AND T1.ZWID IN('数控','数控领班','钳工','钳工领班','车工','铣工')
+      AND T1.ZWID IN('数控','数控领班','钳工','钳工领班','车工','铣工','外协勤务')
     </select>
 </mapper>

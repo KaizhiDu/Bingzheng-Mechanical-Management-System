@@ -50,7 +50,9 @@
                     <option value="司机采购">司机采购</option>
                     <option value="技术">技术</option>
                     <option value="生产">生产</option>
-                    <option value="质检外协">质检外协</option>
+                    <option value="质检仓库">质检仓库</option>
+                    <option value="外协采购">外协采购</option>
+                    <option value="外协勤务">外协勤务</option>
                 </select>
             </div>
             <div class="form-group col-md-4" style="margin-bottom: 10px">
