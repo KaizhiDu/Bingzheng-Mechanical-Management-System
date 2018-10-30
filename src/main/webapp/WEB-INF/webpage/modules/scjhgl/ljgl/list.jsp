@@ -37,7 +37,7 @@
     <div id="ljglGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">计划编号：</label>
+                <label class="control-label">计划名称：</label>
                 <select name="htid" class="form-control" id="htid">
                     <option value="">请选择</option>
                     <c:forEach items="${htList}" var="ht">
@@ -63,7 +63,7 @@
                  <%--outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />--%>
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
                  <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
-    <grid:column label="计划编号" name="htid"/>
+    <grid:column label="计划名称" name="htid"/>
     <grid:column label="零件名称" name="ljmc"/>
     <grid:column label="零件图号" name="ljth"/>
     <grid:column label="单用量" name="dyl"/>

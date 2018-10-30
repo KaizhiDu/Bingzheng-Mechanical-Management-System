@@ -40,7 +40,7 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>计划编号：</label>
+                        <label>计划名称：</label>
                     </td>
                     <td>
                         <input name="htbh" id="htbh" htmlEscape="false" class="form-control" placeholder="请输入合同编号" value="${scjhglHtgl.htbh}"/>

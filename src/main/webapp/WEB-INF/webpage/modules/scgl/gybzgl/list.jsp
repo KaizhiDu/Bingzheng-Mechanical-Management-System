@@ -37,7 +37,7 @@
     <div id="GybzglGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">计划编号：</label>
+                <label class="control-label">计划名称：</label>
                 <select name="jhbh" class="form-control" id="jhbh" onchange="cxlj()">
                     <option value="">请选择</option>
                     <c:forEach items="${jhglList}" var="jh">
@@ -72,7 +72,7 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
-    <grid:column label="计划编号" name="jhbh"/>
+    <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="ljmc"/>
     <grid:column label="工艺大类" name="gydlmc"/>
     <grid:column label="工艺小类" name="gyxlmc"/>

@@ -198,9 +198,9 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
         }
         //得到原计划ID
         String yjhid = scjhglHtgl.getId();
-        //先找到原计划的计划编号
+        //先找到原计划的计划名称
         String jhbh = scjhglHtglService.selectById(yjhid).getHtbh();
-        //找复制计数里面有没有该计划编号的记录
+        //找复制计数里面有没有该计划名称的记录
         EntityWrapper<ScjhglFzjs> wrapper = new EntityWrapper<ScjhglFzjs>();
         wrapper.eq("JHBH", jhbh);
         //这个count就是记录本次复制的计数器

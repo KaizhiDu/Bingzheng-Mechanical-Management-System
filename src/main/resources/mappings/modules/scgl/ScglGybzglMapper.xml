@@ -24,14 +24,17 @@ WHERE 1=1
 		<if test="entity.jhbh!=null and entity.jhbh!=''">
 		AND T3.ID = #{entity.jhbh}
 		</if>
+		<if test="entity.ljth!=null and entity.ljth!=''">
+			AND T2.LJTH LIKE "%"#{entity.ljth}"%"
+		</if>
 		<if test="entity.ljmc!=null and entity.ljmc!=''">
-			AND T2.ID = #{entity.ljmc}
+			AND T2.LJMC LIKE "%"#{entity.ljmc}"%"
+		</if>
+		<if test="entity.gyxlmc!=null and entity.gyxlmc!=''">
+			AND T.GYXLMC LIKE "%"#{entity.gyxlmc}"%"
 		</if>
 		<if test="entity.gydlmc!=null and entity.gydlmc!=''">
 			AND T1.ID = #{entity.gydlmc}
-		</if>
-		<if test="entity.gyxlmc!=null and entity.gyxlmc!=''">
-			AND T.ID = #{entity.gyxlmc}
 		</if>
 		AND T.SCSFXS = '1'
 ORDER BY JHBH,LJMC,DPX,XPX

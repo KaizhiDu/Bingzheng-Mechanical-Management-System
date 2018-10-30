@@ -44,7 +44,7 @@
     <grid:button title="分配工作量" groupname="opt" function="fpgzl"
                  outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fpgzl?id=\"+row.id+\"" />
 
-    <grid:column label="计划编号" name="jhbh"/>
+    <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="ljmc"/>
     <grid:column label="工艺大类名称" name="gydlmc"/>
     <grid:column label="工艺小类名称" name="gyxlmc"/>

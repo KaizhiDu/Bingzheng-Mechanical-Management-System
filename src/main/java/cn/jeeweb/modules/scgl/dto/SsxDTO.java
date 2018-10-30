@@ -9,7 +9,7 @@ package cn.jeeweb.modules.scgl.dto;
 public class SsxDTO {
     /**计划ID*/
     private String jhid;
-    /**计划编号*/
+    /**计划名称*/
     private String jhbh;
     /**零件ID*/
     private String ljid;

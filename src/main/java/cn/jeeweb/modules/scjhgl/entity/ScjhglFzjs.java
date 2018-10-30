@@ -23,7 +23,7 @@ public class ScjhglFzjs extends AbstractEntity<String> {
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 计划编号 */
+    /** 计划名称 */
     @TableField(value = "JHBH")
     private String jhbh;
     /** 计数 */

@@ -45,7 +45,7 @@
     <grid:button title="复制" groupname="opt" function="copyHt"
                  outclass="btn-warning" url="${adminPath}/scjhgl/htgl/copyHt?id=\"+row.id+\"" />
 
-    <grid:column label="计划编号" name="htbh" width="30"/>
+    <grid:column label="计划名称" name="htbh" width="30"/>
     <grid:column label="描述" name="ms"/>
     <grid:column label="数量" name="sl"/>
 

@@ -14,7 +14,7 @@ public class BgjyxqDTO {
     private String zw;
     /**日期*/
     private String rq;
-    /**计划编号*/
+    /**计划名称*/
     private String jhbh;
     /**零件名称*/
     private String ljmc;

@@ -50,7 +50,7 @@
     <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="xm"/>
     <grid:column label="职位" name="zw"/>
-    <grid:column label="计划编号" name="jhbh"/>
+    <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零件名称" name="ljmc"/>
     <grid:column label="工艺大类名称" name="gydlmc"/>
     <grid:column label="工艺小类名称" name="gyxlmc"/>

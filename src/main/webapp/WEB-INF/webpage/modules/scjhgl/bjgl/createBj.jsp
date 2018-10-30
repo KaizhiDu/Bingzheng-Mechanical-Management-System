@@ -40,7 +40,7 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>计划编号：</label>
+                        <label>计划名称：</label>
                     </td>
                     <td>
                         <select id="htid" name="htid" class="form-control">

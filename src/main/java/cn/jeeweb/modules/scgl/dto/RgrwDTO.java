@@ -3,7 +3,7 @@ package cn.jeeweb.modules.scgl.dto;
 public class RgrwDTO {
     /**日工任务ID*/
     private String id;
-    /**计划编号*/
+    /**计划名称*/
     private String jhbh;
     /**零件名称*/
     private String ljmc;

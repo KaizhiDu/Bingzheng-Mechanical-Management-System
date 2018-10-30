@@ -40,7 +40,7 @@
     <div id="CkglCpGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">计划编号：</label>
+                <label class="control-label">计划名称：</label>
                 <select name="jhbh" class="form-control" id="jhbh">
                     <option value="">请选择</option>
                     <c:forEach items="${htList}" var="ht">
@@ -80,7 +80,7 @@
     <grid:button title="出库" groupname="opt" function="ck"
                  outclass="btn-success" url="${adminPath}/ckgl/cp/ck?id=\"+row.id+\"" />
 
-    <grid:column label="计划编号" name="jhbh"/>
+    <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="lbjmc"/>
     <grid:column label="零部件图号" name="lbjth"/>
     <grid:column label="库存数量" name="rksl"/>

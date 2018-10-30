@@ -36,13 +36,23 @@
     <div id="LjglGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">计划编号：</label>
+                <label class="control-label">计划名称：</label>
                 <select id="htid" name="htid" class="form-control">
                     <option value="">请选择</option>
                     <c:forEach items="${jhList}" var="each">
                         <option value="${each.id}">${each.htbh}</option>
                     </c:forEach>
                 </select>
+            </div>
+
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">零部件名：</label>
+                <input htmlEscape="false" class="form-control" placeholder="模糊搜索零部件名"  maxlength="20" id="ljmc" name="ljmc"/>
+            </div>
+
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">图号：</label>
+                <input htmlEscape="false" class="form-control" placeholder="模糊搜索图号"  maxlength="20" id="ljth" name="ljth"/>
             </div>
         </div>
     </div>
@@ -55,7 +65,7 @@
     <grid:button title="编制工艺大类" groupname="opt" function="bzgydl"
                  outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgydl?id=\"+row.id+\"" />
 
-    <grid:column label="计划编号" name="htid" width="30"/>
+    <grid:column label="计划名称" name="htid" width="30"/>
     <grid:column label="名称" name="ljmc" width="30"/>
     <grid:column label="图号" name="ljth" width="30"/>
     <grid:column label="数量" name="sl" width="30"/>

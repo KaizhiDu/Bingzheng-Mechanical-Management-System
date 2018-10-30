@@ -25,7 +25,7 @@ public class CkglBcp extends AbstractEntity<String> {
     /** 计划ID */
     @TableField(value = "JHID")
     private String jhid;
-    /** 计划编号 */
+    /** 计划名称 */
     @TableField(value = "JHBH")
     private String jhbh;
     /** 零部件ID */

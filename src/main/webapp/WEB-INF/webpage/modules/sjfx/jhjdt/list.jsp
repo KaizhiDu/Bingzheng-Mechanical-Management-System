@@ -39,7 +39,7 @@
     <div id="JhjdtQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">计划编号：</label>
+                <label class="control-label">计划名称：</label>
                 <select name="jhid" class="form-control" id="jhid" onchange="changeJh()">
                     <c:forEach items="${htList}" var="each">
                         <option value="${each.id}">${each.htbh}</option>

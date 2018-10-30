@@ -197,7 +197,7 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         Cell cell03 = row0.createCell(3);
         Cell cell04 = row0.createCell(4);
         cell00.setCellValue("日期");
-        cell01.setCellValue("计划编号");
+        cell01.setCellValue("计划名称");
         cell02.setCellValue("零部件名称");
         cell03.setCellValue("零部件图号");
         cell04.setCellValue("送货数量");
