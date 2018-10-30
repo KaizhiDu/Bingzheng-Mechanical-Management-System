@@ -169,6 +169,59 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
                 }
             }
 
+            //判断是不是部件
+            EntityWrapper<ScjhglBjzc> wrapper0 = new EntityWrapper<ScjhglBjzc>();
+            wrapper0.eq("BJID", ljid);
+            int count0 = scjhglBjzcService.selectCount(wrapper0);
+            //如果是部件的话，要在半成品完成品库里面加上对应零件的信息
+            if (count0>0){
+                List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper0);
+                for (ScjhglBjzc s: scjhglBjzcs) {
+                    //需要得到零件图号，然后减去库存
+                    ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(s.getLjid());
+                    String ljth = scjhglLjgl.getLjth();
+                    //通过ljid找到jhbh
+                    String jhbh = scjhglHtglService.selectById(scjhglLjgl.getHtid()).getHtbh();
+                    EntityWrapper<CkglBcp> wrapper11 = new EntityWrapper<CkglBcp>();
+                    wrapper11.eq("LBJTH", ljth);
+                    wrapper11.eq("JHBH", jhbh);
+                    //看半成品完成品库里面有没有该零件
+                    int count2 = ckglService.selectCount(wrapper11);
+                    //有就更新数量
+                    if (count2>0){
+                        CkglBcp ckglBcp = ckglService.selectOne(wrapper11);
+                        int rksl = 0;
+                        if (ckglBcp.getRksl()!=null&&!ckglBcp.getRksl().equals("")){
+                            rksl = Integer.parseInt(ckglBcp.getRksl());
+                        }
+                        rksl = rksl + abc;
+                        ckglBcp.setRksl(rksl+"");
+                        ckglService.updateById(ckglBcp);
+                    }
+                    //没有就插入一条记录
+                    else{
+                        CkglBcp ckgl = new CkglBcp();
+                        String jhid = scjhglLjgl.getHtid();
+                        String jhbh1 = scjhglJhglService.selectById(jhid).getHtbh();
+                        String lbjid = scjhglLjgl.getId();
+                        String lbjmc = scjhglLjgl.getLjmc();
+                        String lbjth = scjhglLjgl.getLjth();
+                        String kczl = "08";
+                        String sfswwcbcp = "0";
+                        ckgl.setJhid(jhid);
+                        ckgl.setJhbh(jhbh1);
+                        ckgl.setLbjid(lbjid);
+                        ckgl.setLbjmc(lbjmc);
+                        ckgl.setLbjth(lbjth);
+                        ckgl.setKczl(kczl);
+                        ckgl.setSfswwcbcp(sfswwcbcp);
+                        ckgl.setRksl(abc+"");
+                        ckglService.insert(ckgl);
+                    }
+                }
+            }
+
+
             for (ScglLjgybz s: ljgybzByLjidList) {
                int wrksl = s.getSl() - abc;
                s.setWrksl(wrksl);
