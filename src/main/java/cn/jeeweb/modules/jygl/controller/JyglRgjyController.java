@@ -135,11 +135,119 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
     @RequestMapping(value = "saveWcl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveWcl(String rgrwid, String ljgybzid, String sjwcl, HttpServletRequest request, HttpServletResponse response, Model model){
+        //首先要判断之前是否已经设置过了实际完成量
+        JyglRgjy preJyglRgjy = jyglRgjyService.selectById(rgrwid);
+        //如果之前已经设置了实际完成量，则需要先恢复数据
+        if (preJyglRgjy.getSjwcl()!=null&&!preJyglRgjy.getSjwcl().equals("")){
+            //之前的实际完成量
+            int preSjwcl = Integer.parseInt(preJyglRgjy.getSjwcl());
+            ScglLjgybz preScglLjgybz = scglLjgybzService.selectById(ljgybzid);
+            //把ljgybz的sysl加上preSjwcl
+            int preSysl = preScglLjgybz.getSysl();
+            int sysl = preSysl + preSjwcl;
+            int preYwcl =  0;
+            if (preJyglRgjy.getYwcl()!=null&&!preJyglRgjy.getYwcl().equals("")){
+                preYwcl = Integer.parseInt(preJyglRgjy.getYwcl());
+            }
+
+            //同时也要改变jhscsl
+            preScglLjgybz.setSysl(sysl);
+            preScglLjgybz.setJhscsl(preYwcl);
+            scglLjgybzService.updateById(preScglLjgybz);
+
+            //下一步要拿到零件下的所有工艺
+            String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
+            String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
+            List<ScglLjgybz> ljgybzByLjidList = scglLjgybzService.getLjgybzByLjid(ljid);
+            //判断要入库多少
+            int abc = 1000000;
+            //现在得出的abc是应该入库的数量
+            for (ScglLjgybz s: ljgybzByLjidList) {
+                int a = s.getSl() - s.getSysl();
+                if (a<abc){
+                    abc = a;
+                }
+            }
+
+            for (ScglLjgybz s: ljgybzByLjidList) {
+               int wrksl = s.getSl() - abc;
+               s.setWrksl(wrksl);
+                scglLjgybzService.updateById(s);
+            }
+
+            //改变零件里面的wrksl
+            ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
+            int sl = 0;
+            if (scjhglLjgl.getSl()!=null&&!scjhglLjgl.getSl().equals("")){
+                sl = Integer.parseInt(scjhglLjgl.getSl());
+            }
+            int wrkl = sl - abc;
+            scjhglLjgl.setWrksl(wrkl+"");
+            scjhglLjglService.updateById(scjhglLjgl);
+
+            //把日工任务里面的sjwcl设为空
+            preJyglRgjy.setSjwcl("");
+            jyglRgjyService.updateById(preJyglRgjy);
+
+            //得到零件图号
+            String lbjth = scjhglLjgl.getLjth();
+            EntityWrapper<CkglBcp> wrapper = new EntityWrapper<CkglBcp>();
+            wrapper.eq("LBJTH", lbjth);
+            //先判断半成品库里有没有该零件
+            int count = ckglService.selectCount(wrapper);
+            //没有该零件
+            if (count==0 ){
+                //先判断abc是否为0
+                //为0的话要删除半成品已完成库里面相关的数量
+                if (abc==0){
+
+                }
+                //更新半成品已完成库里面相关数量
+                else{
+                    CkglBcp ckgl = new CkglBcp();
+                    String jhid = scjhglLjgl.getHtid();
+                    String jhbh = scjhglJhglService.selectById(jhid).getHtbh();
+                    String lbjid = scjhglLjgl.getId();
+                    String lbjmc = scjhglLjgl.getLjmc();
+                    String kczl = "08";
+                    String sfswwcbcp = "0";
+                    ckgl.setJhid(jhid);
+                    ckgl.setJhbh(jhbh);
+                    ckgl.setLbjid(lbjid);
+                    ckgl.setLbjmc(lbjmc);
+                    ckgl.setLbjth(scjhglLjgl.getLjth());
+                    ckgl.setKczl(kczl);
+                    ckgl.setSfswwcbcp(sfswwcbcp);
+                    ckgl.setRksl(abc+"");
+                    ckglService.insert(ckgl);
+                }
+            }
+            //有该零件
+            else{
+                //先判断abc是否为0
+                //为0的话要删除半成品已完成库里面相关的数量
+                if (abc==0){
+                    ckglService.delete(wrapper);
+                }
+                //更新半成品已完成库里面相关数量
+                else{
+                    CkglBcp ckglBcp111 = ckglService.selectOne(wrapper);
+                    ckglBcp111.setRksl(abc+"");
+                    ckglService.updateById(ckglBcp111);
+                }
+            }
+
+        }
+
+
+
+
+
         //逻辑是先找到日工任务下面的  实际完成量
         JyglRgjy jyglRgjy = jyglRgjyService.selectById(rgrwid);
         String ss = jyglRgjy.getSjwcl();
         int sss = 0;
-        if (ss!=null){
+        if (ss!=null&&!ss.equals("")){
             sss = Integer.parseInt(ss);
         }
 
