@@ -428,7 +428,8 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
      * @date : 2018/10/17 21:00
      */
     @RequestMapping(value = "sfdysysl", method={RequestMethod.GET, RequestMethod.POST})
-    public int sfdysysl(String ljgybzid, String sjwcl, HttpServletRequest request, HttpServletResponse response, Model model){
+    @ResponseBody
+    public int sfdysysl(String rgrwid, String ljgybzid, String sjwcl, HttpServletRequest request, HttpServletResponse response, Model model){
         int flag = 0;
         ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
         int sysl = scglLjgybz.getSysl();
@@ -436,9 +437,17 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         if (sjwcl!=null&&!sjwcl.equals("")){
             sjwcli = Integer.parseInt(sjwcl);
         }
-        if (sjwcli>sysl){
+        JyglRgjy jyglRgjy = jyglRgjyService.selectById(rgrwid);
+        int oldSjwcl = 0;
+        if (jyglRgjy.getSjwcl()!=null&&!jyglRgjy.getSjwcl().equals("")){
+            oldSjwcl = Integer.parseInt(jyglRgjy.getSjwcl());
+        }
+
+        if (sjwcli>(sysl+oldSjwcl)){
             flag = 1;
         }
         return flag;
     }
+
+
 }
