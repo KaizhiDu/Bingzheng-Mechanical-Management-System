@@ -77,7 +77,7 @@
     <grid:column label="工艺大类" name="gydlmc"/>
     <grid:column label="工艺小类" name="gyxlmc"/>
     <grid:column label="数量" name="sl"/>
-    <grid:column label="未入库数量" name="wrksl"/>
+    <%--<grid:column label="未入库数量" name="wrksl"/>--%>
     <grid:column label="剩余数量" name="sysl"/>
 
     <grid:toolbar function="search"/>

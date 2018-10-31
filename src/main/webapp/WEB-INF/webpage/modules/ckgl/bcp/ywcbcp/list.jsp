@@ -85,11 +85,86 @@
     <grid:column label="零部件图号" name="lbjth"/>
     <grid:column label="库存数量" name="rksl"/>
 
+    <grid:toolbar function="createBcp" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="手动添加"/>
+    <grid:toolbar function="checkRcpkxq" icon="fa fa-edit" btnclass="btn btn-sm btn-warning" title="查看入成品详情"/>
+
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
+
+    //查看入成品详情
+    function checkRcpkxq(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["40%", "80%"],
+            title: "入成品库详情",
+            maxmin: true, //开启最大化最小化按钮
+            content: "${adminPath}/ckgl/bcp/ywcbcp/checkRcpkxq" ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
+
+    //手动入库
+    function createBcp(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["50%", "50%"],
+            title: "手动添加",
+            maxmin: true, //开启最大化最小化按钮
+            content: "${adminPath}/ckgl/bcp/ywcbcp/createBcp" ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['添加', '关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 300);//延时0.1秒，对应360 7.1版本bug
+                layer.alert("添加成功！！", {icon: 0, title: '提示'});
+                refreshTable(gridId);
+            },
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+
+    }
 
     //入成品库
     function rcpk(title, url, gridId, id, width, height, tipMsg) {

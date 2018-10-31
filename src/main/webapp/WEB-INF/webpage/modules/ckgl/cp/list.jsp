@@ -85,6 +85,7 @@
     <grid:column label="零部件图号" name="lbjth"/>
     <grid:column label="库存数量" name="rksl"/>
 
+    <grid:toolbar function="createCp" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="手动添加"/>
     <grid:toolbar function="exportShd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="导出送货单"/>
 
     <grid:toolbar function="search"/>
@@ -92,6 +93,47 @@
 </grid:grid>
 
 <script type="text/javascript">
+
+    //手动添加
+    function createCp(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["50%", "50%"],
+            title: "手动添加",
+            maxmin: true, //开启最大化最小化按钮
+            content: "${adminPath}/ckgl/cp/createCp" ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['添加', '关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 300);//延时0.1秒，对应360 7.1版本bug
+                layer.alert("添加成功！！", {icon: 0, title: '提示'});
+                refreshTable(gridId);
+            },
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
 
     //导出送货单
     function exportShd(title, url, gridId, id, width, height, tipMsg){

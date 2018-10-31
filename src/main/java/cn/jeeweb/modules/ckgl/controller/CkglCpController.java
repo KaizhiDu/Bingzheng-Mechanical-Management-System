@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
@@ -241,6 +240,62 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         wb.write(fileOut);
         fileOut.close();
 
+    }
+
+    /**
+     * Dscription: 转到添加成品页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/31 13:45
+     */
+    @RequestMapping(value = "createCp", method={RequestMethod.GET, RequestMethod.POST})
+    public String createCp(HttpServletRequest request, HttpServletResponse response, Model model){
+        //计划
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
+        model.addAttribute("htList", list);
+        return display("createCp");
+    }
+
+    /**
+     * Dscription: 保存成品信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/31 13:51
+     */
+    @RequestMapping(value = "saveCp", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveCp(CkglCp ckglCp, HttpServletRequest request, HttpServletResponse response, Model model){
+        //先判断半成品库里有没有该图号的零件存在
+        EntityWrapper<CkglCp> wrapper = new EntityWrapper<CkglCp>();
+        wrapper.eq("LBJTH", ckglCp.getLbjth());
+        wrapper.eq("JHBH", ckglCp.getJhbh());
+        int count = ckglCpService.selectCount(wrapper);
+        if (count>0){
+            CkglCp ckglCp1 = ckglCpService.selectOne(wrapper);
+            int rksl = 0;
+            if (ckglCp1.getRksl()!=null&&!ckglCp1.getRksl().equals("")){
+                rksl = Integer.parseInt(ckglCp1.getRksl());
+            }
+            int newRksl = 0;
+            if (ckglCp.getRksl()!=null&&!ckglCp.getRksl().equals("")){
+                newRksl = Integer.parseInt(ckglCp.getRksl());
+            }
+            rksl = rksl + newRksl;
+            ckglCp1.setRksl(rksl+"");
+            ckglCpService.updateById(ckglCp1);
+        }
+        else{
+            CkglCp ckgl = new CkglCp();
+            ckgl.setJhid("");
+            ckgl.setJhbh(ckglCp.getJhbh());
+            ckgl.setLbjid("");
+            ckgl.setLbjmc(ckglCp.getLbjmc());
+            ckgl.setLbjth(ckglCp.getLbjth());
+            ckgl.setRksl(ckglCp.getRksl());
+            ckglCpService.insert(ckgl);
+
+        }
     }
 
 }
