@@ -31,16 +31,20 @@
 </head>
 <body>
 
-<h2>${currentTime} 日工分配</h2>
+
 <div class="row">
     <div id="RcrwfpGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-
+                <select id="rq" name="rq" class="form-control">
+                    <option value="mt">明日日工分配</option>
+                    <option value="jt">今日任务补录</option>
+                </select>
             </div>
         </div>
     </div>
 </div>
+<h2>日工分配</h2>
 <grid:grid id="Rcrwfp"
            url="${adminPath}/scgl/rcrwfp/ajaxRcrwfpList" pageable="true">
 
@@ -51,6 +55,7 @@
     <grid:button title="分配任务" groupname="opt" function="fpsb"
                  outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fpsb?id=\"+row.id+\"" />
 
+    <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="xm"/>
     <grid:column label="职位" name="zw"/>
     <grid:column label="性别" name="xb" dict="sex" dateformat=""/>

@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -52,13 +54,32 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
      */
     @Override
     public PageJson<ScglRcrwfp> ajaxRcrwfpList(Queryable queryable, ScglRcrwfp scglRcrwfp) {
-        //得到当前时间
+        String selectDate = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
+        if (scglRcrwfp.getRq()!=null){
+            if (scglRcrwfp.getRq().equals("mt")){
+                //得到明天的时间
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(new Date());
+                calendar.add(calendar.DATE,1);
+                selectDate = sdf.format(calendar.getTime());
+            }
+            else{
+                //得到今天时间
+                Date date = new Date();
+                selectDate = sdf.format(date);
+            }
+        }
+        else{
+            //得到明天的时间
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date());
+            calendar.add(calendar.DATE,1);
+            selectDate = sdf.format(calendar.getTime());
+        }
         Pageable pageable = queryable.getPageable();
         Page<ScglRcrwfp> page = new Page<ScglRcrwfp>(pageable.getPageNumber(), pageable.getPageSize());
-        page.setRecords(scglRcrwfpMapper.ajaxRcrwfpList(page, scglRcrwfp, currentTime));
+        page.setRecords(scglRcrwfpMapper.ajaxRcrwfpList(page, scglRcrwfp, selectDate));
         PageJson<ScglRcrwfp> pagejson = new PageJson<ScglRcrwfp>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }

@@ -690,8 +690,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 Cell cell12 = row1.createCell(2);
                 Cell cell13 = row1.createCell(3);
                 //给单元格设值
-                cell10.setCellValue("承包金额");
-                cell11.setCellValue(bgpgd.getCbje());
+                cell10.setCellValue("");
+                cell11.setCellValue("");
                 cell12.setCellValue("注释");
                 cell13.setCellValue(bgpgd.getZs());
                 cell10.setCellStyle(style);

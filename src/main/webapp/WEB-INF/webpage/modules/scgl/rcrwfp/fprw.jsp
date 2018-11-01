@@ -50,7 +50,7 @@
     <grid:column label="工艺小类名称" name="gyxlmc"/>
     <grid:column label="任务量" name="ywcl"/>
     <grid:column label="总数量" name="sl"/>
-    <grid:column label="剩余数量" name="sysl"/>
+    <grid:column label="可分配数量" name="sysl"/>
 
     <grid:toolbar function="addRw" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加任务"/>
     <grid:toolbar function="deleteRw" icon="fa fa-trash" title="删除任务" btnclass="btn-danger"/>

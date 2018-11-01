@@ -34,6 +34,7 @@
 <input type="hidden" id="rcrwfpid" name="rcrwfpid" value="${rcrwfp.id}">
 <input type="hidden" id="rggsid" name="rggsid" value="${RggsId}">
 <input type="hidden" id="gsmc" name="gsmc" value="${rggs.gsmc}">
+<input type="hidden" id="rq" name="rq" value="${rcrwfp.rq}">
 <div class="row">
     <div class="col-md-3">
 
@@ -46,7 +47,7 @@
                         <label>常白班：</label>
                     </td>
                     <td>
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="cbb"0>（8小时）
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="cbb" onclick="cbb()">（8小时）
                     </td>
                 </tr>
                 <tr class3201="form-group">
@@ -54,7 +55,7 @@
                         <label>白班：</label>
                     </td>
                     <td>
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="bb">（12小时）
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="bb" onclick="bb()">（12小时）
                     </td>
                 </tr>
                 <tr class="form-group">
@@ -62,7 +63,15 @@
                         <label>夜班：</label>
                     </td>
                     <td>
-                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="yb">（12小时）
+                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="yb" onclick="yb()">（12小时）
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>缺勤：</label>
+                    </td>
+                    <td>
+                        <input type="radio" name="optionsRadios" id="optionsRadios4" value="qq" onclick="qq()">
                     </td>
                 </tr>
                 <tr class="form-group">
@@ -83,6 +92,24 @@
 
 
 <script type="text/javascript">
+
+    function cbb(){
+        $("#jb").attr("disabled",false);
+    }
+
+    function bb(){
+        $("#jb").attr("disabled",false);
+    }
+
+    function yb() {
+        $("#jb").attr("disabled",false);
+    }
+
+    function qq(){
+        $("#jb").val("0");
+        $("#jb").attr("disabled",true);
+    }
+
     window.onload=function(){
         var gsmc = $("#gsmc").val();
         if (gsmc=='常白班'){
@@ -93,6 +120,10 @@
         }
         if (gsmc=='夜班'){
             $("#optionsRadios3").attr("checked","checked");
+        }
+        if (gsmc=='缺勤'){
+            $("#optionsRadios4").attr("checked","checked");
+            $("#jb").attr("disabled",true);
         }
     }
 </script>
@@ -118,6 +149,7 @@ function checkJb() {
         var gsmc = $('input:radio:checked').val();
         var rcrwfpid = $("#rcrwfpid").val();
         var id = $("#rggsid").val();
+        var rq = $("#rq").val();
         var gs = "";
         if(gsmc=='bb'){
             gsmc = '白班';
@@ -131,6 +163,10 @@ function checkJb() {
             gsmc = '常白班';
             gs = '8';
         }
+        if(gsmc=='qq'){
+            gsmc = '缺勤';
+            gs = '0';
+        }
         $.ajax({
             type: "GET",
             url: "${adminPath}/scgl/rcrwfp/saveGs",
@@ -139,6 +175,7 @@ function checkJb() {
                 jb: jb,
                 gsmc: gsmc,
                 gs: gs,
+                rq: rq,
                 rcrwfpid: rcrwfpid
             },
             success: function (data) {

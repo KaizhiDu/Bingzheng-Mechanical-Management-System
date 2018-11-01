@@ -37,9 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Dscription: 生产管理-日常任务分配
@@ -104,13 +102,16 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
      */
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
-        //得到当前年月
-        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM");
-        Date date0 = new Date();
-        String currentDate = sdf0.format(date0);
-        String[] dateArray = currentDate.split("-");
+        SimpleDateFormat sss = new SimpleDateFormat("yyyy-MM-dd");
+        //得到明天的时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        calendar.add(calendar.DATE,1);
+        String tomorrowDate = sss.format(calendar.getTime());
+        String[] dateArray = tomorrowDate.split("-");
         int nd = Integer.parseInt(dateArray[0]);
         int yf = Integer.parseInt(dateArray[1]);
+
         //查一下有没有当前年度和月份的信息，如果没有的话，插入
         EntityWrapper<GrglYgxzgl> wrapper0 = new EntityWrapper<GrglYgxzgl>();
         wrapper0.eq("ND", nd);
@@ -207,18 +208,11 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
 
         }
 
-
-
-
-        //得到当前时间
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
-        model.addAttribute("currentTime",currentTime);
+        model.addAttribute("tomorrowDate",tomorrowDate);
 
         //判断表里面有没有该数据
         EntityWrapper<ScglRcrwfp> wrapper = new EntityWrapper<ScglRcrwfp>();
-        wrapper.eq("RQ",currentTime);
+        wrapper.eq("RQ",tomorrowDate);
         List<ScglRcrwfp> scglRcrwfps = scglRcrwfpService.selectList(wrapper);
         //如果表里面没有就插入数据
         if (scglRcrwfps.size()==0){
@@ -227,7 +221,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
             for (YgsjDTO ygsjDTO: ygsjList) {
                 ScglRcrwfp s = new ScglRcrwfp();
                 s.setXb(ygsjDTO.getXb());
-                s.setRq(currentTime);
+                s.setRq(tomorrowDate);
                 s.setXm(ygsjDTO.getXm());
                 s.setZw(ygsjDTO.getZw());
                 s.setYgid(ygsjDTO.getYgid());
@@ -321,15 +315,12 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
      */
     @RequestMapping(value = "saveGs", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveGs(ScglRggs scglRggs, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveGs(String rq, ScglRggs scglRggs, HttpServletRequest request, HttpServletResponse response, Model model){
         //拿到原始数据
         String gsid = scglRggs.getId();
         ScglRggs ysRggs1 = scglRggsService.selectById(gsid);
-        //得到当前年月
-        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM");
-        Date date0 = new Date();
-        String currentDate = sdf0.format(date0);
-        String[] dateArray = currentDate.split("-");
+        //得到年月
+        String[] dateArray = rq.split("-");
         int nd = Integer.parseInt(dateArray[0]);
         int yf = Integer.parseInt(dateArray[1]);
 

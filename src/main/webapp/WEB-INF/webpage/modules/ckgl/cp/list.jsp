@@ -87,6 +87,7 @@
 
     <grid:toolbar function="createCp" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="手动添加"/>
     <grid:toolbar function="exportShd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="导出送货单"/>
+    <grid:toolbar function="delete"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>

@@ -17,6 +17,8 @@ public class GybzglDTO {
     private int sl;
     private int wrksl;
     private int sysl;
+    private int yfpsl;
+    private int kfpsl;
 
     public String getId() {
         return id;
@@ -104,5 +106,21 @@ public class GybzglDTO {
 
     public void setWrksl(int wrksl) {
         this.wrksl = wrksl;
+    }
+
+    public int getYfpsl() {
+        return yfpsl;
+    }
+
+    public void setYfpsl(int yfpsl) {
+        this.yfpsl = yfpsl;
+    }
+
+    public int getKfpsl() {
+        return kfpsl;
+    }
+
+    public void setKfpsl(int kfpsl) {
+        this.kfpsl = kfpsl;
     }
 }

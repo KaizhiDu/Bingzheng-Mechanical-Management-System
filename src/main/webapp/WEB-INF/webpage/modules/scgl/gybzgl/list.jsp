@@ -38,7 +38,7 @@
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">计划名称：</label>
-                <select name="jhbh" class="form-control" id="jhbh" onchange="cxlj()">
+                <select name="jhbh" class="form-control" id="jhbh">
                     <option value="">请选择</option>
                     <c:forEach items="${jhglList}" var="jh">
                         <option value="${jh.jhid}">${jh.jhbh}</option>
@@ -47,21 +47,11 @@
             </div>
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">零部件名称：</label>
-                <select name="ljmc" class="form-control" id="ljmc" onchange="cxgydl()">
-                    <option value="">请选择</option>
-                </select>
+                <input name="ljmc" id="ljmc" htmlEscape="false" class="form-control" placeholder="模糊搜索零部件名称"/>
             </div>
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">工艺大类：</label>
-                <select name="gydlmc" class="form-control" id="gydlmc" onchange="cxgyxl()">
-                    <option value="">请选择</option>
-                </select>
-            </div>
-            <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">工艺小类：</label>
-                <select name="gyxlmc" class="form-control" id="gyxlmc">
-                    <option value="">请选择</option>
-                </select>
+                <label class="control-label">零部件图号：</label>
+                <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="模糊搜索零部件图号"/>
             </div>
         </div>
     </div>
@@ -74,10 +64,12 @@
 
     <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="ljmc"/>
+    <grid:column label="零部件图号" name="ljth"/>
     <grid:column label="工艺大类" name="gydlmc"/>
     <grid:column label="工艺小类" name="gyxlmc"/>
     <grid:column label="数量" name="sl"/>
-    <%--<grid:column label="未入库数量" name="wrksl"/>--%>
+    <grid:column label="已分配数量" name="yfpsl"/>
+    <grid:column label="可分配数量" name="kfpsl"/>
     <grid:column label="剩余数量" name="sysl"/>
 
     <grid:toolbar function="search"/>
