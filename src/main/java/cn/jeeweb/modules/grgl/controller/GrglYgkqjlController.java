@@ -113,7 +113,7 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
      * @date : 2018/10/2 14:58
      */
     @RequestMapping(value = "jlkq", method={RequestMethod.GET, RequestMethod.POST})
-    public String jlkq(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+    public String jlkq(String rq, String id, HttpServletRequest request, HttpServletResponse response, Model model){
         //得到当前时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -124,6 +124,7 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
         //得到员工数据
         Grgl grgl = grglService.selectById(ygkqjl.getYgid());
         model.addAttribute("grgl" ,grgl);
+        model.addAttribute("rq" ,rq);
         return display("jlkq");
     }
 
@@ -135,7 +136,7 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
      */
     @RequestMapping(value = "saveKq", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saceKq(String id, String ygid, String checked, String qqyy, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saceKq(String rq, String id, String ygid, String checked, String qqyy, HttpServletRequest request, HttpServletResponse response, Model model){
         //先拿到原始数据
         GrglYgkqjl ysYgkqjl = grglYgkqjlService.selectById(id);
         //得到当前时间
@@ -200,11 +201,8 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
         if (grglYgkqjl.getJb().equals("1")){
             cb = cb + 7;
         }
-        //得到当前年月
-        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM");
-        Date date0 = new Date();
-        String currentDate = sdf0.format(date0);
-        String[] dateArray = currentDate.split("-");
+        //得到年月
+        String[] dateArray = rq.split("-");
         int nd = Integer.parseInt(dateArray[0]);
         int yf = Integer.parseInt(dateArray[1]);
         EntityWrapper<GrglYgxzgl> wrapper = new EntityWrapper<GrglYgxzgl>();

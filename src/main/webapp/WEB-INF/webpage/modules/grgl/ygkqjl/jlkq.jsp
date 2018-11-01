@@ -37,6 +37,7 @@
 <input type="hidden" id="sww" name="sww" value="${ygkqjl.sw}">
 <input type="hidden" id="xww" name="xww" value="${ygkqjl.xw}">
 <input type="hidden" id="jbb" name="jbb" value="${ygkqjl.jb}">
+<input type="hidden" id="rq" name="rq" value="${rq}">
 <div class="row">
     <div class="col-md-3">
 
@@ -110,6 +111,7 @@
         var ygkqjlid = $("#ygkqjlid").val();
         var ygid = $("#ygid").val();
         var qqyy = $("#qqyy").val();
+        var rq = $("#rq").val();
         var checked = "";
         $('input:checkbox:checked').each(function() {
             //checked.push($(this).val());
@@ -122,7 +124,8 @@
                 id: ygkqjlid,
                 ygid: ygid,
                 checked: checked,
-                qqyy: qqyy
+                qqyy: qqyy,
+                rq: rq
             },
             success: function (data) {
 

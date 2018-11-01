@@ -60,7 +60,7 @@
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
 
     <grid:button title="记录考勤" groupname="opt" function="jlkq"
-                 outclass="btn-success" url="${adminPath}/grgl/ygkqjl/jlkq?id=\"+row.id+\"" />
+                 outclass="btn-success" url="${adminPath}/grgl/ygkqjl/jlkq?id=\"+row.id+\"&rq=\"+row.rq+\"" />
 
     <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="name"/>
