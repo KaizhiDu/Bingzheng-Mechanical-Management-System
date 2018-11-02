@@ -276,10 +276,6 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                 List<Sbgl> sbgls = sbglService.selectList(wrapper2);
 
                 for (Sbgl s : sbgls) {
-//                    //如果有还未完成的包工信息，则吧sbzy设为0
-//                    Boolean flag = false;
-//                    EntityWrapper<SbglBgsbzy> wrapper3 = new EntityWrapper<SbglBgsbzy>();
-//                    sbglBgsbzyService
                     SbglSbzy sbglSbzy = new SbglSbzy();
                     sbglSbzy.setSbid(s.getId());
                     sbglSbzy.setSbbh(s.getSbbh());
