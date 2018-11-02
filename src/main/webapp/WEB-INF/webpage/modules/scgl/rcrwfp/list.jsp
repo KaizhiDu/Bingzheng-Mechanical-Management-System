@@ -54,7 +54,7 @@
     <grid:button title="分配工时" groupname="opt" function="fpgs"
                  outclass="btn-primary" url="${adminPath}/scgl/rcrwfp/fpgs?id=\"+row.id+\"" />
     <grid:button title="分配任务" groupname="opt" function="fpsb"
-                 outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fpsb?id=\"+row.id+\"" />
+                 outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fpsb?id=\"+row.id+\"&rq=\"+row.rq+\"" />
 
     <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="xm"/>

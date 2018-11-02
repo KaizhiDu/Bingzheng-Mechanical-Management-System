@@ -35,6 +35,7 @@
 <hr>
 
 <input type="hidden" id="rcrwfpid" name="rcrwfpid" value="${rcrwfp.id}">
+<input type="hidden" id="rq" name="rq" value="${rq}">
 
 <grid:grid id="RcrwfpSb"
            url="${adminPath}/scgl/rcrwfp/ajaxRcrwfpSbList?rcrwfpid=${rcrwfp.id}" pageable="true">
@@ -59,6 +60,7 @@
 
     //删除设备
     function deleteSb(title, url, gridId, id, width, height, tipMsg){
+        var rq = $("#rq").val();
         //获取选中行的id数组
         var idsArray = $("#RcrwfpSbGrid").jqGrid("getGridParam", "selarrrow")
         if (idsArray.length>0){
@@ -77,7 +79,7 @@
                 }, function (index, layero) {
                     $.ajax({
                         type: "GET",
-                        url: "${adminPath}/scgl/rcrwfp/deleteSb?ids="+ids,
+                        url: "${adminPath}/scgl/rcrwfp/deleteSb?ids="+ids+"&rq="+rq,
                         success: function (data) {
                             refreshTable(gridId);
                             layer.msg(data.msg,{ icon: 1, time: 1000 });
@@ -98,7 +100,8 @@
 
     //添加设备
     function addSb(title, url, gridId, id, width, height, tipMsg){
-        url = "${adminPath}/scgl/rcrwfp/addSb?rcrwfpid=${rcrwfp.id}";
+        var rq = $("#rq").val();
+        url = "${adminPath}/scgl/rcrwfp/addSb?rcrwfpid=${rcrwfp.id}&rq="+rq;
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';

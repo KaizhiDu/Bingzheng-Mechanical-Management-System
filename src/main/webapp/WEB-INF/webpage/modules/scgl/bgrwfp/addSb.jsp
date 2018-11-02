@@ -60,10 +60,11 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
+    <grid:column label="日期" name="rq"/>
     <grid:column label="设备编号" name="sbbh"/>
     <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="设备类型" name="ssdl"/>
-
+    <grid:column label="是否占用" name="sfzy"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>

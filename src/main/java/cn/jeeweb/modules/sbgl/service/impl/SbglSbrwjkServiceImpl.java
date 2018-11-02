@@ -6,6 +6,7 @@ import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.sbgl.entity.Sbgl;
 import cn.jeeweb.modules.sbgl.entity.SbglSbrwjk;
+import cn.jeeweb.modules.sbgl.entity.SbglSbzy;
 import cn.jeeweb.modules.sbgl.mapper.SbglSbrwjkMapper;
 import cn.jeeweb.modules.sbgl.service.ISbglSbrwjkService;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -34,11 +35,11 @@ public class SbglSbrwjkServiceImpl extends CommonServiceImpl<SbglSbrwjkMapper, S
      * @Version:        1.0
      */
     @Override
-    public PageJson<SbglSbrwjk> ajaxListSbrwjk(Queryable queryable, SbglSbrwjk sbglSbrwjk) {
+    public PageJson<SbglSbzy> ajaxListSbrwjk(Queryable queryable, SbglSbzy sbglSbzy) {
         Pageable pageable = queryable.getPageable();
-        Page<SbglSbrwjk> page = new Page<SbglSbrwjk>(pageable.getPageNumber(), pageable.getPageSize());
-        page.setRecords(sbglSbrwjkMapper.ajaxListSbrwjk(page, sbglSbrwjk));
-        PageJson<SbglSbrwjk> pagejson = new PageJson<SbglSbrwjk>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
+        Page<SbglSbzy> page = new Page<SbglSbzy>(pageable.getPageNumber(), pageable.getPageSize());
+        page.setRecords(sbglSbrwjkMapper.ajaxListSbrwjk(page, sbglSbzy));
+        PageJson<SbglSbzy> pagejson = new PageJson<SbglSbzy>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }
 }

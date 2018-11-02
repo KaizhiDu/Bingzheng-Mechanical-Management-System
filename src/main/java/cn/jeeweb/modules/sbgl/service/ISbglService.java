@@ -5,6 +5,7 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.sbgl.entity.Sbgl;
 import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
+import cn.jeeweb.modules.sbgl.entity.SbglSbzy;
 
 /**
  * @Description:    设备管理
@@ -19,5 +20,5 @@ public interface ISbglService extends ICommonService<Sbgl>{
      * @CreateDate:     2018/8/30 17:58
      * @Version:        1.0
      */
-    public PageJson<Sbgl> ajaxListSbgl(Queryable queryable, Sbgl sbgl, String addSb);
+    public PageJson<SbglSbzy> ajaxListSbgl(Queryable queryable, SbglSbzy sbglSbzy, String addSb);
 }

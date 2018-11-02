@@ -31,10 +31,18 @@
 </head>
 <body>
 
-<h4>设备任务监控<font color="red">（还未完成）</font></h4>
+<h4>设备任务监控</h4>
 <div class="row">
     <div id="SbrwjkGridQuery" class="col-md-12">
         <div class="form-inline">
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">日期：</label>
+                <select name="rq" class="form-control" id="rq">
+                    <c:forEach items="${dates}" var="each">
+                        <option value="${each}">${each}</option>
+                    </c:forEach>
+                </select>
+            </div>
             <div class="form-group col-md-4" style="margin-bottom: 10px">
                 <label class="control-label">设备类型：</label>
                 <select name="ssdl" class="form-control" id="ssdl">
@@ -43,18 +51,6 @@
                         <option value="${each.id}">${each.flmc}</option>
                     </c:forEach>
                 </select>
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">是否占用：</label>
-                <select name="sfky" class="form-control" id="sfky">
-                    <option value="">请选择</option>
-                    <option value="1">可用</option>
-                    <option value="0">不可用</option>
-                </select>
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">设备编号：</label>
-                <input htmlEscape="false" class="form-control" placeholder="请输入设备编号"  maxlength="20" id="sbbh" name="sbbh"/>
             </div>
             <div class="form-group col-md-4" style="margin-bottom: 10px">
                 <label class="control-label">设备名称：</label>
@@ -68,14 +64,13 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
+    <grid:column label="日期" name="rq"/>
     <grid:column label="设备编号" name="sbbh"/>
     <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="所属类别" name="ssdl"/>
-    <grid:column label="操作人" name="czr"/>
-    <grid:column label="是否占用" name="sfky" dict="SFKY" formatterValue=""/>
+    <grid:column label="是否占用" name="sfky"/>
 
     <grid:toolbar function="search"/>
-    <grid:toolbar function="reset"/>
 </grid:grid>
 
 </body>

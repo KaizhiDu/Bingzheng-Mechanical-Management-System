@@ -1,6 +1,7 @@
 package cn.jeeweb.modules.sbgl.mapper;
 import cn.jeeweb.modules.sbgl.entity.Sbgl;
 import cn.jeeweb.modules.sbgl.entity.SbglSbrwjk;
+import cn.jeeweb.modules.sbgl.entity.SbglSbzy;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import org.apache.ibatis.annotations.Param;
@@ -20,5 +21,5 @@ public interface SbglSbrwjkMapper extends BaseMapper<SbglSbrwjk> {
      * @CreateDate:     2018/8/30 17:58
      * @Version:        1.0
      */
-    public List<SbglSbrwjk> ajaxListSbrwjk(Pagination page, @Param("entity") SbglSbrwjk entity);
+    public List<SbglSbzy> ajaxListSbrwjk(Pagination page, @Param("entity") SbglSbzy entity);
 }

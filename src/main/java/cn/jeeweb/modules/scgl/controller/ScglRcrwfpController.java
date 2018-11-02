@@ -12,9 +12,8 @@ import cn.jeeweb.modules.grgl.entity.Xzzwfp;
 import cn.jeeweb.modules.grgl.service.IGrglService;
 import cn.jeeweb.modules.grgl.service.IGrglXzzwfpService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
-import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
-import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
-import cn.jeeweb.modules.sbgl.service.ISbglService;
+import cn.jeeweb.modules.sbgl.entity.*;
+import cn.jeeweb.modules.sbgl.service.*;
 import cn.jeeweb.modules.scgl.dto.*;
 import cn.jeeweb.modules.scgl.entity.*;
 import cn.jeeweb.modules.scgl.service.*;
@@ -93,6 +92,19 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     /**生产管理-零件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
+
+    /**设备管理 - 日工设备占用Service*/
+    @Autowired
+    private ISbglRgsbzyService sbglRgsbzyService;
+
+    /**设备管理 - 包工设备占用Service*/
+    @Autowired
+    private ISbglBgsbzyService sbglBgsbzyService;
+
+    /**设备管理 - 设备占用Service*/
+    @Autowired
+    private ISbglSbzyService sbglSbzyService;
+
 
     /**
      * Dscription: 添加日子和搜索项
@@ -233,7 +245,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
 
             }
 
-            //判断表里面有没有该数据
+            //判断表里面有没有该日期数据
             EntityWrapper<ScglRcrwfp> wrapper = new EntityWrapper<ScglRcrwfp>();
             wrapper.eq("RQ",thisDay);
             List<ScglRcrwfp> scglRcrwfps = scglRcrwfpService.selectList(wrapper);
@@ -251,6 +263,32 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     list.add(s);
                 }
                 scglRcrwfpService.insertBatch(list);
+            }
+
+            //判断sbzy表里面有没有该日期数据
+            EntityWrapper<SbglSbzy> wrapper1 = new EntityWrapper<SbglSbzy>();
+            wrapper1.eq("RQ",thisDay);
+            int count2 = sbglSbzyService.selectCount(wrapper1);
+            //如果sbzy表里面没有数据的话，就生成数据
+            if (count2==0){
+                EntityWrapper<Sbgl> wrapper2 = new EntityWrapper<Sbgl>();
+                wrapper2.eq("ZT","1");
+                List<Sbgl> sbgls = sbglService.selectList(wrapper2);
+
+                for (Sbgl s : sbgls) {
+//                    //如果有还未完成的包工信息，则吧sbzy设为0
+//                    Boolean flag = false;
+//                    EntityWrapper<SbglBgsbzy> wrapper3 = new EntityWrapper<SbglBgsbzy>();
+//                    sbglBgsbzyService
+                    SbglSbzy sbglSbzy = new SbglSbzy();
+                    sbglSbzy.setSbid(s.getId());
+                    sbglSbzy.setSbbh(s.getSbbh());
+                    sbglSbzy.setSbmc(s.getSbmc());
+                    sbglSbzy.setSsdl(s.getSsdl());
+                    sbglSbzy.setRq(thisDay);
+                    sbglSbzy.setSfky("1");
+                    sbglSbzyService.insert(sbglSbzy);
+                }
             }
         }
 
@@ -303,9 +341,10 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
      * @date : 2018/9/25 11:07
      */
     @RequestMapping(value = "fpsb", method={RequestMethod.GET, RequestMethod.POST})
-    public String fpsb(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
+    public String fpsb(String id, String rq, HttpServletRequest request, HttpServletResponse response, Model model){
         ScglRcrwfp scglRcrwfp = scglRcrwfpService.selectById(id);
         model.addAttribute("rcrwfp",scglRcrwfp);
+        model.addAttribute("rq", rq);
         return display("fpsb");
     }
 
@@ -482,13 +521,14 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
      * @date : 2018/9/26 14:38
      */
     @RequestMapping(value = "addSb", method={RequestMethod.GET, RequestMethod.POST})
-    public String addSb(String rcrwfpid ,HttpServletRequest request, HttpServletResponse response, Model model){
+    public String addSb(String rcrwfpid, String rq, HttpServletRequest request, HttpServletResponse response, Model model){
         //设备分类
         EntityWrapper<SbglSbflgl> wrapper = new EntityWrapper();
         wrapper.orderBy("fldm");
         List<SbglSbflgl> sbflglList = sbglSbflglService.selectList(wrapper);
         model.addAttribute("list",sbflglList);
         model.addAttribute("rcrwfpid", rcrwfpid);
+        model.addAttribute("rq", rq);
         //日常任务分配
         return display("addSb");
     }
@@ -500,29 +540,49 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
      * @date : 2018/9/27 9:55
      */
     @RequestMapping(value = "saveSb", method={RequestMethod.GET, RequestMethod.POST})
-    public void saveSb(String ids ,String rcrwfpid, HttpServletRequest request, HttpServletResponse response, Model model){
+    @ResponseBody
+    public void saveSb(String ids ,String rcrwfpid, String rq, HttpServletRequest request, HttpServletResponse response, Model model){
         String idsArray[] = ids.split(",");
         for (int i=0;i<idsArray.length;i++){
+            String sbid = sbglSbzyService.selectById(idsArray[i]).getSbid();
             EntityWrapper<ScglRgsb> wrapper = new EntityWrapper<ScglRgsb>();
             wrapper.orderBy("PX");
             int index = scglRgsbService.selectList(wrapper).size();
+            String uuid  = UUID.randomUUID().toString().replaceAll("-","");
             if (index == 0){
                 int px = 1;
                 ScglRgsb s = new ScglRgsb();
+                s.setId(uuid);
                 s.setPx(px);
                 s.setRcrwfpid(rcrwfpid);
-                s.setSbid(idsArray[i]);
+                s.setSbid(sbid);
                 scglRgsbService.insert(s);
+
             }
             else{
                 int px = scglRgsbService.selectList(wrapper).get(index-1).getPx()+1;
                 ScglRgsb s = new ScglRgsb();
+                s.setId(uuid);
                 s.setPx(px);
                 s.setRcrwfpid(rcrwfpid);
-                s.setSbid(idsArray[i]);
+                s.setSbid(sbid);
                 scglRgsbService.insert(s);
             }
 
+            //每次分配设备的时候，把sbzy表 里日期为rq的对应信息的 sfky设为 0
+           EntityWrapper<SbglSbzy> wrapper01 = new EntityWrapper<SbglSbzy>();
+            wrapper01.eq("RQ", rq);
+            wrapper01.eq("SBID", sbid);
+            SbglSbzy sbglSbzy = sbglSbzyService.selectOne(wrapper01);
+            sbglSbzy.setSfky("0");
+            sbglSbzyService.updateById(sbglSbzy);
+
+            //把设备信息和今天的日期放到rgsbzy里面
+            SbglRgsbzy sbglRgsbzy = new SbglRgsbzy();
+            sbglRgsbzy.setRgsbid(uuid);
+            sbglRgsbzy.setRq(rq);
+            sbglRgsbzy.setSbid(sbid);
+            sbglRgsbzyService.insert(sbglRgsbzy);
         }
     }
 
@@ -534,7 +594,8 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
      */
     @RequestMapping(value = "deleteSb", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public AjaxJson deleteSb(String ids , HttpServletRequest request, HttpServletResponse response, Model model){
+    public AjaxJson deleteSb(String rq, String ids , HttpServletRequest request, HttpServletResponse response, Model model){
+
         AjaxJson ajaxJson = new AjaxJson();
         String idsArray[] = ids.split(",");
         Boolean flag = true;
@@ -551,7 +612,37 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         //如果已经分配了任务则不允许删除
         if (flag==true){
             for (int i=0;i<idsArray.length;i++){
+                //下面一步操作是为了通过删除，来判断设备的使用情况。
+                    //但是删除之前要先判断库里有几个该设备
+                    String sbid = scglRgsbService.selectById(idsArray[i]).getSbid();
+                    EntityWrapper<SbglRgsbzy> wrapper0 = new EntityWrapper<SbglRgsbzy>();
+                    wrapper0.eq("SBID" ,sbid);
+                    wrapper0.eq("RQ", rq);
+                    int count = sbglRgsbzyService.selectCount(wrapper0);
+                    //如果等于1的话，再判断包工里面有没有该sb的数据
+                    if (count==1){
+                        EntityWrapper<SbglBgsbzy> wrapper2 = new EntityWrapper<SbglBgsbzy>();
+                        wrapper2.eq("SBID", sbid);
+                        int count2 = sbglBgsbzyService.selectCount(wrapper2);
+                        //如果包工里面没有该设备数据，那么该设备的sfzy可以设为1
+                        if (count2==0){
+                            EntityWrapper<SbglSbzy> wrapper = new EntityWrapper<SbglSbzy>();
+                            wrapper.eq("SBID" ,sbid);
+                            wrapper.eq("RQ", rq);
+                            SbglSbzy sbglSbzy = sbglSbzyService.selectOne(wrapper);
+                            sbglSbzy.setSfky("1");
+                            sbglSbzyService.updateById(sbglSbzy);
+                        }
+                    }
+
+
+                //删除rgsbzy里面的数据
+                EntityWrapper<SbglRgsbzy> wrapper = new EntityWrapper<SbglRgsbzy>();
+                wrapper.eq("RGSBID", idsArray[i]);
+                sbglRgsbzyService.delete(wrapper);
+                //然后删除rgsb数据
                 scglRgsbService.deleteById(idsArray[i]);
+
             }
             ajaxJson.setMsg("删除成功");
         }

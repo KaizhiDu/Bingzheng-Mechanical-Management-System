@@ -8,6 +8,7 @@ import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.sbgl.entity.Sbgl;
 import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
+import cn.jeeweb.modules.sbgl.entity.SbglSbzy;
 import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
 import cn.jeeweb.modules.sbgl.service.ISbglService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,9 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
 */
     @RequestMapping(value = "ajaxListSbgl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<Sbgl> ajaxListSbgl(String addSb ,Queryable queryable, Sbgl sbgl, HttpServletRequest request, HttpServletResponse response, Model model){
-        PageJson<Sbgl> pageJson = sbglSbflgl.ajaxListSbgl(queryable,sbgl,addSb);
+    public PageJson<SbglSbzy> ajaxListSbgl(String rq, String addSb , Queryable queryable, SbglSbzy sbglSbzy, HttpServletRequest request, HttpServletResponse response, Model model){
+        sbglSbzy.setRq(rq);
+        PageJson<SbglSbzy> pageJson = sbglSbflgl.ajaxListSbgl(queryable,sbglSbzy,addSb);
         return pageJson;
     }
 

@@ -8,6 +8,7 @@ import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.sbgl.entity.Sbgl;
 import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
 import cn.jeeweb.modules.sbgl.entity.SbglSbrwjk;
+import cn.jeeweb.modules.sbgl.entity.SbglSbzy;
 import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
 import cn.jeeweb.modules.sbgl.service.ISbglSbrwjkService;
 import cn.jeeweb.modules.sbgl.service.ISbglService;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -56,6 +61,35 @@ public class SbglSbrwjkController extends BaseCRUDController<SbglSbrwjk, String>
         wrapper.orderBy("fldm");
         List<SbglSbflgl> sbflglList = sbglSbflglService.selectList(wrapper);
         model.addAttribute("list",sbflglList);
+
+        SimpleDateFormat sss = new SimpleDateFormat("yyyy-MM-dd");
+        //得到今天的时间
+        Calendar calendar0 = new GregorianCalendar();
+        calendar0.setTime(new Date());
+        calendar0.add(calendar0.DATE,0);
+        String day = sss.format(calendar0.getTime());
+
+        //得到明天的时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        calendar.add(calendar.DATE,1);
+        String day1 = sss.format(calendar.getTime());
+
+        //得到后天的时间
+        Calendar calendar2 = new GregorianCalendar();
+        calendar2.setTime(new Date());
+        calendar2.add(calendar.DATE,2);
+        String day2 = sss.format(calendar2.getTime());
+
+        //得到大后天的时间
+        Calendar calendar3 = new GregorianCalendar();
+        calendar3.setTime(new Date());
+        calendar3.add(calendar.DATE,3);
+        String day3 = sss.format(calendar3.getTime());
+
+        String dates[] = {day1,day,day2,day3};
+
+        model.addAttribute("dates", dates);
     }
 
     /**
@@ -66,8 +100,17 @@ public class SbglSbrwjkController extends BaseCRUDController<SbglSbrwjk, String>
      */
     @RequestMapping(value = "ajaxListSbrwjk", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<SbglSbrwjk> ajaxListSbrwjk(Queryable queryable, SbglSbrwjk sbglSbrwjk, HttpServletRequest request, HttpServletResponse response, Model model){
-        PageJson<SbglSbrwjk> pageJson = sbglSbrwjkService.ajaxListSbrwjk(queryable,sbglSbrwjk);
+    public PageJson<SbglSbzy> ajaxListSbrwjk(Queryable queryable, SbglSbzy sbglSbzy, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (sbglSbzy.getRq()==null){
+            //得到明天的时间
+            SimpleDateFormat sss = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date());
+            calendar.add(calendar.DATE,1);
+            String day1 = sss.format(calendar.getTime());
+            sbglSbzy.setRq(day1);
+        }
+        PageJson<SbglSbzy> pageJson = sbglSbrwjkService.ajaxListSbrwjk(queryable,sbglSbzy);
         return pageJson;
     }
 }
