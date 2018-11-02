@@ -40,7 +40,7 @@ public interface IScglRcrwfpService extends ICommonService<ScglRcrwfp> {
      * @version : 1.0
      * @date : 2018/9/29 14:00
      */
-    public List<RgpgJcxxDTO> getRgpgJcxx(String rq);
+    public List<RgpgJcxxDTO> getRgpgJcxx(String id, String rq);
 
     /**
      * Dscription: 获取最终派工信息
@@ -48,5 +48,5 @@ public interface IScglRcrwfpService extends ICommonService<ScglRcrwfp> {
      * @version : 1.0
      * @date : 2018/9/29 14:00
      */
-    public List<RgpgdDTO> getRgpgd(String rq);
+    public List<RgpgdDTO> getRgpgd(String id, String rq);
 }

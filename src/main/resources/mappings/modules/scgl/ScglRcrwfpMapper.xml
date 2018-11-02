@@ -45,6 +45,9 @@ FROM T_SCGL_RCRWFP T,
 		 T_SCJHGL_LJGL T7,
 		 T_SCJHGL_HTGL T8
 WHERE 1=1
+		<if test="ID!=null and ID!=''">
+			AND T.ID = #{ID}
+		</if>
       AND T.ID = T1.RCRWFPID
 			AND T.ID = T2.RCRWFPID
       AND T2.SBID = T3.ID
@@ -68,6 +71,9 @@ ORDER BY T.ZW,T.XM,T3.SBMC,T8.HTBH,T7.LJMC,T6.GYDLMC,T5.GYXLMC
 FROM T_SCGL_RCRWFP T,
 		 T_SCGL_RCRWFP_RG_GS T1
 WHERE 1=1
+		<if test="ID!=null and ID!=''">
+			AND T.ID = #{ID}
+		</if>
       AND T.ID = T1.RCRWFPID
       AND T.RQ = #{RQ}
 ORDER BY T.ZW,T.XM

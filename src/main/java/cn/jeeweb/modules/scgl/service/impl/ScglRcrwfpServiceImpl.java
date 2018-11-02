@@ -80,8 +80,8 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
      * @date : 2018/9/29 14:00
      */
     @Override
-    public List<RgpgJcxxDTO> getRgpgJcxx(String rq) {
-        return scglRcrwfpMapper.getRgpgJcxx(rq);
+    public List<RgpgJcxxDTO> getRgpgJcxx(String id, String rq) {
+        return scglRcrwfpMapper.getRgpgJcxx(id, rq);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
      * @date : 2018/9/29 14:00
      */
     @Override
-    public List<RgpgdDTO> getRgpgd(String rq) {
-        return scglRcrwfpMapper.getRgpgd(rq);
+    public List<RgpgdDTO> getRgpgd(String id, String rq) {
+        return scglRcrwfpMapper.getRgpgd(id, rq);
     }
 }

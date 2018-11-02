@@ -63,7 +63,7 @@
 
     <grid:column label="sys.common.opt" name="opt1" formatter="button" width="50"/>
     <grid:button title="导出派工单" groupname="opt1" function="exportGrpgd"
-                 outclass="btn-warning" url="${adminPath}/scgl/rcrwfp/exportGrpgd?id=\"+row.id+\"" />
+                 outclass="btn-warning" url="${adminPath}/scgl/rcrwfp/exportGrpgd?id=\"+row.id+\"&rq=\"+row.rq+\"" />
 
     <grid:toolbar function="createPgd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="生成派工单"/>
 
@@ -141,6 +141,26 @@
                 refreshTable(gridId);
             }
         });
+    }
+
+    function exportGrpgd(title, url, gridId, id, width, height, tipMsg){
+        var rq = $("#rq").val();
+        //需要提示
+        layer.confirm('确定要导出'+rq+"该员工的派工单吗？", {
+                btn: ['确定', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function (data) {
+
+                    }
+                });
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+
+            }
+        );
     }
 
     function createPgd(){
