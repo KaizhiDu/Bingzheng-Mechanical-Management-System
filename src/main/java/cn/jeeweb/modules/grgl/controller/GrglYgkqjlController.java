@@ -9,8 +9,10 @@ import cn.jeeweb.modules.grgl.dto.YgkqjlDTO;
 import cn.jeeweb.modules.grgl.entity.Grgl;
 import cn.jeeweb.modules.grgl.entity.GrglYgkqjl;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
+import cn.jeeweb.modules.grgl.entity.Xzzwfp;
 import cn.jeeweb.modules.grgl.mapper.GrglYgxzglMapper;
 import cn.jeeweb.modules.grgl.service.IGrglService;
+import cn.jeeweb.modules.grgl.service.IGrglXzzwfpService;
 import cn.jeeweb.modules.grgl.service.IGrglYgkqjlService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
@@ -55,6 +57,10 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
     @Autowired
     private IGrglYgxzglService grglYgxzglService;
 
+    /**新资职位分配Service*/
+    @Autowired
+    private IGrglXzzwfpService grglXzzwfpService;
+
     /**
      * Dscription: 搜索项和前置内容
      * @author : Kevin Du
@@ -71,6 +77,106 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
         Date date = new Date();
         String currentTime = sdf.format(date);
         model.addAttribute("currentTime", currentTime);
+
+        String[] dateArray = currentTime.split("-");
+        int nd = Integer.parseInt(dateArray[0]);
+        int yf = Integer.parseInt(dateArray[1]);
+        //查一下有没有当前年度和月份的信息，如果没有的话，插入
+        EntityWrapper<GrglYgxzgl> wrapper01 = new EntityWrapper<GrglYgxzgl>();
+        wrapper01.eq("ND", nd);
+        wrapper01.eq("YF", yf);
+        int count0 = grglYgxzglService.selectCount(wrapper01);
+        if (count0 == 0){
+            //得到所有员工信息
+            EntityWrapper<Grgl> wrapper1 = new EntityWrapper<Grgl>();
+            List<Grgl> grgls = grglService.selectList(wrapper1);
+            //循环插入当前月的信息
+            for (Grgl g : grgls) {
+                GrglYgxzgl grglYgxzgl = new GrglYgxzgl();
+                grglYgxzgl.setNd(nd);
+                grglYgxzgl.setYf(yf);
+                grglYgxzgl.setYgid(g.getId());
+                grglYgxzgl.setXm(g.getName());
+                EntityWrapper<Xzzwfp> wrapper2 = new EntityWrapper<Xzzwfp>();
+                wrapper2.eq("YGID", g.getId());
+                Xzzwfp xzzwfp = grglXzzwfpService.selectOne(wrapper2);
+                grglYgxzgl.setZw(xzzwfp.getZwid());
+                grglYgxzgl.setZwgz(xzzwfp.getZwgz());
+                grglYgxzgl.setDx(xzzwfp.getDx());
+                grglYgxzgl.setFb(xzzwfp.getFb());
+                grglYgxzgl.setJtf(xzzwfp.getJtf());
+                grglYgxzgl.setBt(xzzwfp.getBt());
+                grglYgxzgl.setBx(xzzwfp.getBx());
+                grglYgxzgl.setSx(xzzwfp.getSx());
+
+                //注意判断null和""的情况
+                //合计
+                float hj = 0;
+                //日工工资
+                float rggz = 0;
+
+                float zwgz = 0;
+                float dx = 0;
+                float fb = 0;
+                float jtf = 0;
+                float bt = 0;
+                float bx = 0;
+                float cq = 0;
+                float sx = 0;
+                float gs = 0;
+                float cbje = 0;
+                float jl = 0;
+                float kk = 0;
+                if (grglYgxzgl.getZwgz()!=null&&!grglYgxzgl.getZwgz().equals("")){
+                    zwgz = Float.parseFloat(grglYgxzgl.getZwgz());
+                }
+                if (grglYgxzgl.getDx()!=null&&!grglYgxzgl.getDx().equals("")){
+                    dx = Float.parseFloat(grglYgxzgl.getDx());
+                }
+                if (grglYgxzgl.getFb()!=null&&!grglYgxzgl.getFb().equals("")){
+                    fb = Float.parseFloat(grglYgxzgl.getFb());
+                }
+                if (grglYgxzgl.getJtf()!=null&&!grglYgxzgl.getJtf().equals("")){
+                    jtf = Float.parseFloat(grglYgxzgl.getJtf());
+                }
+                if (grglYgxzgl.getBt()!=null&&!grglYgxzgl.getBt().equals("")){
+                    bt = Float.parseFloat(grglYgxzgl.getBt());
+                }
+                if (grglYgxzgl.getBx()!=null&&!grglYgxzgl.getBx().equals("")){
+                    bx = Float.parseFloat(grglYgxzgl.getBx());
+                }
+                if (grglYgxzgl.getCq()!=null&&!grglYgxzgl.getCq().equals("")){
+                    cq = Float.parseFloat(grglYgxzgl.getCq());
+                }
+                if (grglYgxzgl.getSx()!=null&&!grglYgxzgl.getSx().equals("")){
+                    sx = Float.parseFloat(grglYgxzgl.getSx());
+                }
+                if (grglYgxzgl.getGs()!=null&&!grglYgxzgl.getGs().equals("")){
+                    gs = Float.parseFloat(grglYgxzgl.getGs());
+                }
+                if (grglYgxzgl.getCbje()!=null&&!grglYgxzgl.getCbje().equals("")){
+                    cbje = Float.parseFloat(grglYgxzgl.getCbje());
+                }
+                if (grglYgxzgl.getJl()!=null&&!grglYgxzgl.getJl().equals("")){
+                    jl = Float.parseFloat(grglYgxzgl.getJl());
+                }
+                if (grglYgxzgl.getKk()!=null&&!grglYgxzgl.getKk().equals("")){
+                    kk = Float.parseFloat(grglYgxzgl.getKk());
+                }
+
+                rggz = gs * sx;
+                hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk;
+
+                grglYgxzgl.setRggz(rggz+"");
+                grglYgxzgl.setHj(hj+"");
+
+                grglYgxzglService.insert(grglYgxzgl);
+                //计算日工工资和总工资
+                //grglYgxzglService.countGz(grglYgxzgl);
+            }
+
+        }
+
         //查看表里有没有今天的员工考勤信息
         EntityWrapper<GrglYgkqjl> wrapper = new EntityWrapper<GrglYgkqjl>();
         wrapper.eq("RQ", currentTime);

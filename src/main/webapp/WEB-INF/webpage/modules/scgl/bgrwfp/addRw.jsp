@@ -75,7 +75,7 @@
     <grid:column label="工艺大类" name="gydlmc"/>
     <grid:column label="工艺小类" name="gyxlmc"/>
     <grid:column label="数量" name="sl"/>
-    <grid:column label="剩余数量" name="sysl"/>
+    <grid:column label="可分配数量" name="kfpsl"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>

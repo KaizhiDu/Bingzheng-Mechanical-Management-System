@@ -57,18 +57,7 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
         String selectDate = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if (scglRcrwfp.getRq()!=null){
-            if (scglRcrwfp.getRq().equals("mt")){
-                //得到明天的时间
-                Calendar calendar = new GregorianCalendar();
-                calendar.setTime(new Date());
-                calendar.add(calendar.DATE,1);
-                selectDate = sdf.format(calendar.getTime());
-            }
-            else{
-                //得到今天时间
-                Date date = new Date();
-                selectDate = sdf.format(date);
-            }
+            selectDate = scglRcrwfp.getRq();
         }
         else{
             //得到明天的时间
@@ -91,11 +80,8 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
      * @date : 2018/9/29 14:00
      */
     @Override
-    public List<RgpgJcxxDTO> getRgpgJcxx() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
-        return scglRcrwfpMapper.getRgpgJcxx(currentTime);
+    public List<RgpgJcxxDTO> getRgpgJcxx(String rq) {
+        return scglRcrwfpMapper.getRgpgJcxx(rq);
     }
 
     /**
@@ -105,10 +91,7 @@ public class ScglRcrwfpServiceImpl extends CommonServiceImpl<ScglRcrwfpMapper, S
      * @date : 2018/9/29 14:00
      */
     @Override
-    public List<RgpgdDTO> getRgpgd() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
-        return scglRcrwfpMapper.getRgpgd(currentTime);
+    public List<RgpgdDTO> getRgpgd(String rq) {
+        return scglRcrwfpMapper.getRgpgd(rq);
     }
 }

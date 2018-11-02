@@ -37,8 +37,9 @@
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <select id="rq" name="rq" class="form-control">
-                    <option value="mt">明日日工分配</option>
-                    <option value="jt">今日任务补录</option>
+                    <c:forEach items="${dates}" var="each">
+                        <option value="${each}">${each}</option>
+                    </c:forEach>
                 </select>
             </div>
         </div>
@@ -49,7 +50,7 @@
            url="${adminPath}/scgl/rcrwfp/ajaxRcrwfpList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="50"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="70"/>
     <grid:button title="分配工时" groupname="opt" function="fpgs"
                  outclass="btn-primary" url="${adminPath}/scgl/rcrwfp/fpgs?id=\"+row.id+\"" />
     <grid:button title="分配任务" groupname="opt" function="fpsb"
@@ -60,10 +61,13 @@
     <grid:column label="职位" name="zw"/>
     <grid:column label="性别" name="xb" dict="sex" dateformat=""/>
 
+    <grid:column label="sys.common.opt" name="opt1" formatter="button" width="50"/>
+    <grid:button title="导出派工单" groupname="opt1" function="exportGrpgd"
+                 outclass="btn-warning" url="${adminPath}/scgl/rcrwfp/exportGrpgd?id=\"+row.id+\"" />
+
     <grid:toolbar function="createPgd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="生成派工单"/>
 
     <grid:toolbar function="search"/>
-    <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
@@ -140,13 +144,25 @@
     }
 
     function createPgd(){
-        $.ajax({
-            type: "get",
-            url: "${adminPath}/scgl/rcrwfp/createPgd",
-            success: function (data) {
+        var rq = $("#rq").val();
+        //需要提示
+        layer.confirm('确定要导出'+rq+"的派工信息吗？", {
+                btn: ['确定', '取消']
+            }, function (index, layero) {
+            $.ajax({
+                type: "get",
+                url: "${adminPath}/scgl/rcrwfp/createPgd?rq="+rq,
+                success: function (data) {
+
+                }
+            });
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
                 top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+
             }
-        });
+        );
+
+
     }
 </script>
 
