@@ -11,9 +11,9 @@ public class SsxDTO {
     private String jhid;
     /**计划名称*/
     private String jhbh;
-    /**零件ID*/
+    /**零部件ID*/
     private String ljid;
-    /**零件名称*/
+    /**零部件名称*/
     private String ljmc;
     /**工艺大类编制ID*/
     private String gydlbzid;

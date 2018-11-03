@@ -64,8 +64,8 @@
     outclass="btn-success" url="${adminPath}/jygl/lbjrk/rbcpk?ljid=\"+row.id+\"" />
 
     <grid:column label="计划名称" name="htid"/>
-    <grid:column label="零件名称" name="ljmc"/>
-    <grid:column label="零件图号" name="ljth"/>
+    <grid:column label="零部件名称" name="ljmc"/>
+    <grid:column label="零部件图号" name="ljth"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
     <grid:column label="未入库数量" name="wrksl"/>
@@ -77,7 +77,7 @@
 
 <script type="text/javascript">
 
-    //根据计划ID查询零件信息
+    //根据计划ID查询零部件信息
     function cxlj() {
         var htid = $("#htid").val();
         $.ajax({

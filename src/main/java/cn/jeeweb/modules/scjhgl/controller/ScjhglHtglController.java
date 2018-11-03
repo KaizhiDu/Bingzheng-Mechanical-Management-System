@@ -45,11 +45,11 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     @Autowired
     private IScjhglHtglService scjhglHtglService;
 
-    /**零件管理Service*/
+    /**零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 
-    /**零件工艺编制Service*/
+    /**零部件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
 
@@ -135,7 +135,7 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
             }
             //如果flag为假，就可以删除
             if (!flag){
-                //先删除零件工艺编制信息
+                //先删除零部件工艺编制信息
                 if (ljgybzByJhid!=null){
                     for (ScglLjgybz s: ljgybzByJhid) {
                         scglLjgybzService.deleteById(s.getId());
@@ -150,7 +150,7 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
                     }
                 }
 
-                //再删除零件信息
+                //再删除零部件信息
                 EntityWrapper<ScjhglLjgl> wrapper = new EntityWrapper<ScjhglLjgl>();
                 wrapper.eq("HTID",jhid);
                 List<ScjhglLjgl> scjhglLjgls = scjhglLjglService.selectList(wrapper);
@@ -231,7 +231,7 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
         newScjhglHtgl.setSl(scjhglHtgl.getSl());
         scjhglHtglService.insert(newScjhglHtgl);
 
-        //然后复制零件工艺编制的数据
+        //然后复制零部件工艺编制的数据
         List<ScglLjgybz> ljgybzByJhid = scglLjgybzService.getLjgybzByJhid(yjhid);
         for (ScglLjgybz scglLjgybz : ljgybzByJhid) {
             ScglLjgybz s = new ScglLjgybz();
@@ -265,7 +265,7 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
             scglGydlbzService.insert(s);
         }
 
-        //再复制零件的数据
+        //再复制零部件的数据
         List<ScjhglLjgl> ljByjhid = scjhglLjglService.getLjByjhid(yjhid);
         for (ScjhglLjgl scjhglLjgl : ljByjhid) {
             //如果是部件的话，需要复制部件组成里面的信息
@@ -306,7 +306,7 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
             scjhglLjgl1.setSysl(scjhglLjgl.getSysl());
             scjhglLjgl1.setSfwwcrk("0");
             scjhglLjglService.insert(scjhglLjgl1);
-            //现在要更新所有零件工艺编制下下面的数量，未入库数量，和剩余数量
+            //现在要更新所有零部件工艺编制下下面的数量，未入库数量，和剩余数量
             List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(xid);
             for (ScglLjgybz scglLjgybz : ljgybzByLjid) {
                 scglLjgybz.setWrksl(xsl);

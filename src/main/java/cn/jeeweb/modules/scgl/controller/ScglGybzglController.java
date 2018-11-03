@@ -49,7 +49,7 @@ public class ScglGybzglController extends BaseCRUDController<ScglGybzgl, String>
     @Autowired
     private IScjhglHtglService scjhglHtglService;
 
-    /**生产计划管理-零件管理Service*/
+    /**生产计划管理-零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 
@@ -88,7 +88,7 @@ public class ScglGybzglController extends BaseCRUDController<ScglGybzgl, String>
     }
 
     /**
-     * Dscription: 根据计划ID查所有下属零件
+     * Dscription: 根据计划ID查所有下属零部件
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/9/20 11:02
@@ -101,7 +101,7 @@ public class ScglGybzglController extends BaseCRUDController<ScglGybzgl, String>
     }
 
     /**
-     * Dscription: 根据零件ID查到所有下属工艺大类
+     * Dscription: 根据零部件ID查到所有下属工艺大类
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/9/20 11:19

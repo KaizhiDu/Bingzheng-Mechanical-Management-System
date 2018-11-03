@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @Description:    生产管理-零件工艺编制
+ * @Description:    生产管理-零部件工艺编制
  * @Author:         杜凯之
  * @CreateDate:     2018/9/14 15:58
  * @Version:        1.0
@@ -24,7 +24,7 @@ public interface ScglLjgybzMapper extends BaseMapper<ScglLjgybz> {
     public List<ScglLjgybz> ajaxGyxlbzList(Pagination page, @Param("entity") ScglLjgybz entity, @Param("gydlbzid") String gydlbzid);
 
     /**
-     * Dscription: 通过零件ID，得到所有下属工艺信息
+     * Dscription: 通过零部件ID，得到所有下属工艺信息
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/10 12:20

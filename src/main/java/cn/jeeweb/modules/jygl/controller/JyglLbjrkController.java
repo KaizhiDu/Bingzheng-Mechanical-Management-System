@@ -43,11 +43,11 @@ public class JyglLbjrkController extends BaseCRUDController<JyglLbjrk, String> {
     @Autowired
     private IJyglLbjrkService jyglLbjrkService;
 
-    /**生产管理-零件工艺编制Service*/
+    /**生产管理-零部件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
 
-    /**生产计划管理-零件管理Service*/
+    /**生产计划管理-零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 
@@ -110,7 +110,7 @@ public class JyglLbjrkController extends BaseCRUDController<JyglLbjrk, String> {
         String lbjth = ljgl.getLjth();
         String rksl = ljgl.getWrksl();
 
-        //之后要把零件工艺编制的 生产是否显示 设为0
+        //之后要把零部件工艺编制的 生产是否显示 设为0
         //在最后一步一起完成
 
         //下一步要插入bcp表
@@ -145,7 +145,7 @@ public class JyglLbjrkController extends BaseCRUDController<JyglLbjrk, String> {
         //最后要把工序插入wwcgx表
         //拿到半成品ID
        String bcpid = ckglBcpService.selectOne(wrapper).getId();
-        //拿到零件下的所有工艺
+        //拿到零部件下的所有工艺
         List<ScglLjgybz> ljgybzByLjidList = scglLjgybzService.getLjgybzByLjid(ljid);
         //循环插入wwcgx表里
         for (ScglLjgybz s:ljgybzByLjidList) {

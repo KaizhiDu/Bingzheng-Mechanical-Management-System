@@ -84,7 +84,7 @@
 
 <script type="text/javascript">
 
-    //根据计划ID查询零件信息
+    //根据计划ID查询零部件信息
     function cxlj() {
         var jhbh = $("#jhbh").val();
         $.ajax({
@@ -106,7 +106,7 @@
         });
     }
 
-    //根据零件ID查到所有下属工艺大类
+    //根据零部件ID查到所有下属工艺大类
     function cxgydl() {
         var ljmc = $("#ljmc").val();
         $.ajax({

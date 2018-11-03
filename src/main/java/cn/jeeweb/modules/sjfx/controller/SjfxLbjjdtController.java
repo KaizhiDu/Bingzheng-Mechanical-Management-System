@@ -35,7 +35,7 @@ public class SjfxLbjjdtController extends BaseCRUDController<ScjhglLjgl, String>
     @Autowired
     private IScjhglHtglService scjhglHtglService;
 
-    /**零件管理*/
+    /**零部件管理*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 

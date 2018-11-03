@@ -26,10 +26,10 @@ public class JyglLbjrk extends AbstractEntity<String> {
     /** 合同ID */
     @TableField(value = "HTID")
     private String htid;
-    /** 零件图号 */
+    /** 零部件图号 */
     @TableField(value = "LJTH")
     private String ljth;
-    /** 零件名称 */
+    /** 零部件名称 */
     @TableField(value = "LJMC")
     private String ljmc;
     /** 单用量 */

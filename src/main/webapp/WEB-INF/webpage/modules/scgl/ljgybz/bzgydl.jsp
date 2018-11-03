@@ -48,7 +48,7 @@
     <grid:button title="编制工艺小类" groupname="opt" function="bzgyxl"
                  outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgyxl?ljid=${scjhglLjgl.id}&id=\"+row.id+\"" />
 
-    <grid:column label="零件名称" name="ljmc" width="100"/>
+    <grid:column label="零部件名称" name="ljmc" width="100"/>
     <grid:column label="工艺大类" name="gydlmc"  width="100"/>
     <grid:column label="排序" name="px"  width="30"/>
 
@@ -124,7 +124,7 @@
                     ids = ids + "," + idsArray[i];
                 }
             }
-            //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
+            //需要提示，确定要删除吗？删除这个计划，相关零部件也会删除
             layer.confirm('删除这个大类相关小类也会删除!  确定要删除吗？', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {

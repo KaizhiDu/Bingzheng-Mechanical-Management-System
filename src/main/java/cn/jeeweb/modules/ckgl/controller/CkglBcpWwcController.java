@@ -49,11 +49,11 @@ public class CkglBcpWwcController extends BaseCRUDController<CkglBcpWwc, String>
     @Autowired
     private ICkglWwcgxService ckglWwcgxService;
 
-    /**生产计划管理 - 零件管理Service*/
+    /**生产计划管理 - 零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 
-    /**生产管理 - 零件工艺编制Service*/
+    /**生产管理 - 零部件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
 

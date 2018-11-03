@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @Description:    生产管理-零件工艺编制
+* @Description:    生产管理-零部件工艺编制
 * @Author:         杜凯之
 * @CreateDate:     2018/9/14 15:58
 * @Version:        1.0
@@ -58,11 +58,11 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     private IScglSzgyxlService scglSzgyxlService;
 
     @Autowired
-    /**零件管理*/
+    /**零部件管理*/
     private IScjhglLjglService scjhglLjglService;
 
     @Autowired
-    /**零件工艺编制*/
+    /**零部件工艺编制*/
     private IScglLjgybzService scglLjgybzService;
 
     /**
@@ -93,7 +93,7 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     }
 
     /**
-     * Dscription: 展示所有零件信息
+     * Dscription: 展示所有零部件信息
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/9/17 23:17
@@ -113,12 +113,12 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     */
     @RequestMapping(value = "bzgydl", method={RequestMethod.GET, RequestMethod.POST})
     public String bzgydl(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
-        //这个id为零件id
+        //这个id为零部件id
 
         ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
         String mc = "";
         if (scjhglLjgl.getSfsbj().equals("0")){
-            mc = "零件";
+            mc = "零部件";
         }
         if (scjhglLjgl.getSfsbj().equals("1")){
             mc = "部件";
@@ -215,7 +215,7 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
      */
      @RequestMapping(value = "szdlpx", method={RequestMethod.GET, RequestMethod.POST})
      public String szdlpx(String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
-         //得到所有改零件的大类信息
+         //得到所有改零部件的大类信息
          EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
          wrapper.eq("LJID", ljid);
          wrapper.orderBy("PX");
@@ -232,7 +232,7 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
      */
      @RequestMapping(value = "szxlpx", method={RequestMethod.GET, RequestMethod.POST})
      public String szxlpx(String gydlbzid, HttpServletRequest request, HttpServletResponse response, Model model){
-         //得到所有改零件的大类信息
+         //得到所有改零部件的大类信息
          EntityWrapper<ScglLjgybz> wrapper = new EntityWrapper<ScglLjgybz>();
          wrapper.eq("GYDLBZID", gydlbzid);
          wrapper.orderBy("PX");
@@ -258,14 +258,14 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     }
 
     /**
-    * @Description:    转到零件工艺编制页面
+    * @Description:    转到零部件工艺编制页面
     * @Author:         杜凯之
     * @CreateDate:     2018/9/17 15:26
     * @Version:        1.0
     */
     @RequestMapping(value = "bzgyxl", method={RequestMethod.GET, RequestMethod.POST})
     public String bzgyxl(String id ,String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
-        //零件名称
+        //零部件名称
         ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
         model.addAttribute("jhxx",scjhglLjgl);
         //计划大类编制信息
@@ -275,7 +275,7 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     }
 
     /**
-    * @Description:    转到添加零件工艺编制页面
+    * @Description:    转到添加零部件工艺编制页面
     * @Author:         杜凯之
     * @CreateDate:     2018/9/17 16:21
     * @Version:        1.0
@@ -330,7 +330,7 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     }
 
     /**
-    * @Description:    保存零件工艺小类
+    * @Description:    保存零部件工艺小类
     * @Author:         杜凯之
     * @CreateDate:     2018/9/18 15:25
     * @Version:        1.0

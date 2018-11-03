@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>零件管理</h4>
+<h4>零部件管理</h4>
 
 <div class="row">
     <div id="ljglGridQuery" class="col-md-12">
@@ -46,8 +46,8 @@
                 </select>
             </div>
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">零件图号：</label>
-                <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零件图号"/>
+                <label class="control-label">零部件图号：</label>
+                <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
             </div>
         </div>
     </div>
@@ -64,13 +64,13 @@
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
                  <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
     <grid:column label="计划名称" name="htid"/>
-    <grid:column label="零件名称" name="ljmc"/>
-    <grid:column label="零件图号" name="ljth"/>
+    <grid:column label="零部件名称" name="ljmc"/>
+    <grid:column label="零部件图号" name="ljth"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
     <grid:column label="未入库数量" name="wrksl"/>
 
-    <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零件"/>
+    <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零部件"/>
     <grid:toolbar function="deleteLj" icon="fa fa-trash-o" title="删除" btnclass="btn-danger"/>
 
     <grid:toolbar function="search"/>
@@ -79,13 +79,13 @@
 
 
 <script type="text/javascript">
-    //添加零件
+    //添加零部件
     function createLj(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/scjhgl/ljgl/createLj";
-        openDia("添加零件",url,gridId,"800px","500px");
+        openDia("添加零部件",url,gridId,"800px","500px");
     }
 
-    //删除零件
+    //删除零部件
     function deleteLj(title, url, gridId, id, width, height, tipMsg){
         //获取选中行的id数组
         var idsArray = $("#ljglGrid").jqGrid("getGridParam", "selarrrow")
@@ -99,7 +99,7 @@
                     ids = ids + "," + idsArray[i];
                 }
             }
-            layer.confirm('是否要删除该零件!', {
+            layer.confirm('是否要删除该零部件!', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     $.ajax({

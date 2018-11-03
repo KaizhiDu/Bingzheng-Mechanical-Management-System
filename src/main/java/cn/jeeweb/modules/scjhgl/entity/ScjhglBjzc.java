@@ -26,7 +26,7 @@ public class ScjhglBjzc extends AbstractEntity<String> {
     /** 部件ID */
     @TableField(value = "BJID")
     private String bjid;
-    /** 零件ID */
+    /** 零部件ID */
     @TableField(value = "LJID")
     private String ljid;
 

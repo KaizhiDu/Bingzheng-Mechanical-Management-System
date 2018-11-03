@@ -23,7 +23,7 @@ public class ScglRgrw extends AbstractEntity<String> {
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 零件工艺编制ID */
+    /** 零部件工艺编制ID */
     @TableField(value = "LJGYBZID")
     private String ljgybzid;
     /** 分配设备ID */

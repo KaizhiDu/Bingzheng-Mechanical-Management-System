@@ -66,7 +66,7 @@
     }
 
     function deleteHt(title, url, gridId, id, width, height, tipMsg) {
-            //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
+            //需要提示，确定要删除吗？删除这个计划，相关零部件也会删除
             layer.confirm('确定要删除吗？', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {

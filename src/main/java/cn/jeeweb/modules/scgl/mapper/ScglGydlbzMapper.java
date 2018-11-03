@@ -25,7 +25,7 @@ public interface ScglGydlbzMapper extends BaseMapper<ScglGydlbz> {
     public List<GydlbzDTO> ajaxGydlbzList(Pagination page, @Param("entity") GydlbzDTO gydlbzDTO);
 
     /**
-     * Dscription: 根据根据零件id得到所有大类信息
+     * Dscription: 根据根据零部件id得到所有大类信息
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/9/20 13:13

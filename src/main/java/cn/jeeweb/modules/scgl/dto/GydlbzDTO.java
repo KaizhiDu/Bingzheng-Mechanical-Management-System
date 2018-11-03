@@ -3,9 +3,9 @@ package cn.jeeweb.modules.scgl.dto;
 public class GydlbzDTO {
     /**主键ID*/
     private String id;
-    /**零件ID*/
+    /**零部件ID*/
     private String ljid;
-    /**零件名称*/
+    /**零部件名称*/
     private String ljmc;
     /**工艺大类ID*/
     private String gydlid;

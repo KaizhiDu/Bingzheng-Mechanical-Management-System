@@ -55,7 +55,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     @Autowired
     private IJyglBgjyService jyglBgjyService;
 
-    /**生产管理-零件工艺编制Service*/
+    /**生产管理-零部件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
 
@@ -75,7 +75,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     @Autowired
     private IScglGydlbzService scglGydlbzService;
 
-    /**生产计划管理-零件管理Service*/
+    /**生产计划管理-零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 
@@ -188,11 +188,11 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             oldscglLjgybz.setSysl(oldscglLjgybz.getSysl()-ywcli);
             scglLjgybzService.updateById(oldscglLjgybz);
 
-            //判断该零件工艺所在的零件下的所有工艺，是否有全完成了的。有就入仓库（判断sysl 和 wrksl）
-            //首先要拿到零件ID
+            //判断该零部件工艺所在的零部件下的所有工艺，是否有全完成了的。有就入仓库（判断sysl 和 wrksl）
+            //首先要拿到零部件ID
             String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
             String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
-            //下一步要拿到零件下的所有工艺
+            //下一步要拿到零部件下的所有工艺
             List<ScglLjgybz> ljgybzByLjidList = scglLjgybzService.getLjgybzByLjid(ljid);
             //判断要入库多少
             int rksl = 1000000;
@@ -209,11 +209,11 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 EntityWrapper<ScjhglBjzc> wrapper0 = new EntityWrapper<ScjhglBjzc>();
                 wrapper0.eq("BJID", ljid);
                 int count0 = scjhglBjzcService.selectCount(wrapper0);
-                //在入库之前要减去下属零件数量
+                //在入库之前要减去下属零部件数量
                 if (count0>0){
                     List<ScjhglBjzc> scjhglBjzcs = scjhglBjzcService.selectList(wrapper0);
                     for (ScjhglBjzc s: scjhglBjzcs) {
-                        //需要得到零件图号，然后减去库存
+                        //需要得到零部件图号，然后减去库存
                         ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(s.getLjid());
                         String ljth = scjhglLjgl.getLjth();
                         //通过ljid找到jhbh
@@ -243,7 +243,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 scglLjgybzService.updateById(s);
             }
 
-            //还要减去零件数量
+            //还要减去零部件数量
             ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
             int wrksl = Integer.parseInt(scjhglLjgl.getWrksl()) - rksl;
             scjhglLjgl.setWrksl(wrksl+"");

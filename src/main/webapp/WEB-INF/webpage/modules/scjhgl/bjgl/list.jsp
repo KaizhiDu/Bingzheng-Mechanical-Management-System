@@ -47,7 +47,7 @@
             </div>
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">部件图号：</label>
-                <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零件图号"/>
+                <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@
     <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
     <grid:column label="计划名称" name="htid"/>
     <grid:column label="部件名称" name="ljmc"/>
-    <grid:column label="零件图号" name="ljth"/>
+    <grid:column label="零部件图号" name="ljth"/>
     <grid:column label="部件组成" name="bjzc"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
@@ -100,7 +100,7 @@
                     ids = ids + "," + idsArray[i];
                 }
             }
-            //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
+            //需要提示，确定要删除吗？删除这个计划，相关零部件也会删除
             layer.confirm('确定要删除吗？', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {
@@ -134,8 +134,8 @@
                     ids = ids + "," + idsArray[i];
                 }
             }
-            //需要提示，确定要删除吗？删除这个计划，相关零件也会删除
-            layer.confirm('删除这个计划相关零件也会删除!  确定要删除吗？', {
+            //需要提示，确定要删除吗？删除这个计划，相关零部件也会删除
+            layer.confirm('删除这个计划相关零部件也会删除!  确定要删除吗？', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     $.ajax({

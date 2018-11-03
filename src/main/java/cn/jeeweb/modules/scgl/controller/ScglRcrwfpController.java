@@ -89,7 +89,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @Autowired
     private IScglRgrwService scglRgrwService;
 
-    /**生产管理-零件工艺编制Service*/
+    /**生产管理-零部件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
 
@@ -679,7 +679,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
             ajaxJson.setMsg("删除成功");
             for (int i=0;i<idsArray.length;i++){
                 ScglRgrw scglRgrw = scglRgrwService.selectById(idsArray[i]);
-                //零件工艺编制下的计划生产数量应该 减去 应完成量
+                //零部件工艺编制下的计划生产数量应该 减去 应完成量
                 String ljgybzid = scglRgrw.getLjgybzid();
                 ScglLjgybz scglLjgybz = scglLjgybzService.selectById(ljgybzid);
                 int ywcli = 0;

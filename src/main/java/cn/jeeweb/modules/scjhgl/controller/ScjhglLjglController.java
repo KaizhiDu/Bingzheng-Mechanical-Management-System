@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
-* @Description:    生产计划管理-零件管理
+* @Description:    生产计划管理-零部件管理
 * @Author:         杜凯之
 * @CreateDate:     2018/9/4 17:07
 * @Version:        1.0
@@ -35,7 +35,7 @@ import java.util.List;
 @RequiresPathPermission("scjhgl:ljgl")
 public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String> {
 
-    /**零件管理Service*/
+    /**零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 
@@ -43,7 +43,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     @Autowired
     private IScjhglHtglService scjhglHtglService;
 
-    /**零件工艺编制Service*/
+    /**零部件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
 
@@ -64,7 +64,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     }
 
     /**
-    * @Description:    转到创建零件页面
+    * @Description:    转到创建零部件页面
     * @Author:         杜凯之
     * @CreateDate:     2018/9/4 17:32
     * @Version:        1.0
@@ -78,7 +78,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     }
 
     /**
-    * @Description:    添加一条零件信息
+    * @Description:    添加一条零部件信息
     * @Author:         杜凯之
     * @CreateDate:     2018/9/4 17:49
     * @Version:        1.0
@@ -107,7 +107,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     }
 
     /**
-    * @Description:    展示所有零件信息
+    * @Description:    展示所有零部件信息
     * @Author:         杜凯之
     * @CreateDate:     2018/9/12 16:53
     * @Version:        1.0
@@ -120,7 +120,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     }
 
     /**
-     * Dscription: 删除零件
+     * Dscription: 删除零部件
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/16 14:35
@@ -131,7 +131,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
         String idsArray[] = ids.split(",");
         for (int i=0;i<idsArray.length;i++){
             String ljid = idsArray[i];
-            //先删除ljid下属的零件工艺编制信息
+            //先删除ljid下属的零部件工艺编制信息
             List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(ljid);
             if (ljgybzByLjid!=null){
                 for (ScglLjgybz s: ljgybzByLjid) {
@@ -147,7 +147,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
                     scglGydlbzService.deleteById(s.getId());
                 }
             }
-            //最后删除零件
+            //最后删除零部件
             scjhglLjglService.deleteById(ljid);
         }
     }

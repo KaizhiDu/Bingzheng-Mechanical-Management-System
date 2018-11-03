@@ -35,7 +35,7 @@ public class SjfxJhjdtController extends BaseCRUDController<ScjhglHtgl, String> 
     @Autowired
     private IScjhglHtglService scjhglHtglService;
 
-    /**零件管理Service*/
+    /**零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 
@@ -63,7 +63,7 @@ public class SjfxJhjdtController extends BaseCRUDController<ScjhglHtgl, String> 
     @RequestMapping(value = "searchData",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public List<JhjdtDTO> searchData(String jhid, Model model, HttpServletRequest request, HttpServletResponse response){
-        //用计划ID得到下属所有零件信息
+        //用计划ID得到下属所有零部件信息
         List<ScjhglLjgl> ljByjhid = scjhglLjglService.getLjByjhid(jhid);
         List<JhjdtDTO> dataList = new ArrayList<JhjdtDTO>();
         for (ScjhglLjgl scjhglLjgl : ljByjhid) {
@@ -110,7 +110,7 @@ public class SjfxJhjdtController extends BaseCRUDController<ScjhglHtgl, String> 
     @RequestMapping(value = "searchZjhData",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public ZjhDTO searchZjhData(String jhid, Model model, HttpServletRequest request, HttpServletResponse response){
-        //用计划ID得到下属所有零件信息
+        //用计划ID得到下属所有零部件信息
         List<ScjhglLjgl> ljByjhid = scjhglLjglService.getLjByjhid(jhid);
         ZjhDTO zjhDTO = new ZjhDTO();
         int zwcsl = 0;

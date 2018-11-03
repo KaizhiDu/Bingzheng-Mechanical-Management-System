@@ -30,7 +30,8 @@
     </style>
 </head>
 <body class="container">
-
+<input type="hidden" id="bcpid" name="bcpid" value="${ckglBcp.id}">
+<input type="hidden" id="kc" name="kc" value="${ckglBcp.rksl}">
 <div class="row">
     <div class="col-md-3">
 
@@ -40,14 +41,10 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>计划名称：</label>
+                        <label>零部件名称：</label>
                     </td>
                     <td>
-                        <select id="htid" name="htid" class="form-control">
-                            <c:forEach var="ht" items="${htList}">
-                                <option value="${ht.id}">${ht.htbh}</option>
-                            </c:forEach>
-                        </select>
+                        ${ckglBcp.lbjmc}
                     </td>
                 </tr>
                 <tr class="form-group">
@@ -55,23 +52,24 @@
                         <label>零部件图号：</label>
                     </td>
                     <td>
-                        <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
+                        ${ckglBcp.lbjth}
                     </td>
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>零部件名称：</label>
+                        <label>库存数量：</label>
                     </td>
                     <td>
-                        <input name="ljmc" id="ljmc" htmlEscape="false" class="form-control" placeholder="请输入零部件名称"/>
+                        ${ckglBcp.rksl}
+                    </td>
                     </td>
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>单用量：</label>
+                        <label>出库数量：</label>
                     </td>
                     <td>
-                        <input name="dyl" id="dyl" htmlEscape="false" class="form-control" placeholder="请输入零部件单用量" onchange="checkSl()"/>
+                        <input name="cksl" id="cksl" htmlEscape="false" class="form-control" placeholder="请输入出库数量" onchange="checkSl()"/>
                     </td>
                 </tr>
             </table>
@@ -86,31 +84,33 @@
 
     //检查数量
     function checkSl(){
-        var dyl = $("#dyl").val();
-        // var r = yjkc.match(/^[0-9]*$/);
-        var r = dyl.match(/^\d+(\.\d+)?$/);
+        var cksl = $("#cksl").val();
+        var kc = $("#kc").val();
+        var r = cksl.match(/^[0-9]*$/);
         //先判断是不是数字
         if(r == null){
             top.layer.alert("请输入数字");
-            $("#dyl").val("");
+            $("#cksl").val("");
+        }
+        else{
+            if (parseFloat(cksl)>parseFloat(kc)){
+                top.layer.alert("出库数量大于库存");
+                $("#cksl").val("");
+            }
+
         }
     }
 
     //点击保存，保存数据
     function check() {
-        var htid = $("#htid").val();
-        var ljth = $("#ljth").val();
-        var ljmc = $("#ljmc").val();
-        var dyl = $("#dyl").val();
+        var bcpid = $("#bcpid").val();
+        var cksl = $("#cksl").val();
         $.ajax({
             type: "GET",
-            url: "${adminPath}/scjhgl/ljgl/saveLj",
+            url: "${adminPath}/ckgl/bcp/ywcbcp/saveCk",
             data: {
-                id: null,
-                htid: htid,
-                ljmc: ljmc,
-                dyl: dyl,
-                ljth: ljth
+                id: bcpid,
+                cksl: cksl
             },
             success: function (data) {
 

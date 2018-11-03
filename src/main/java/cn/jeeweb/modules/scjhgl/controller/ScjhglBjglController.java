@@ -40,11 +40,11 @@ import java.util.List;
 @RequiresPathPermission("scjhgl:bjgl")
 public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String> {
 
-    /**零件管理Service*/
+    /**零部件管理Service*/
     @Autowired
     private IScjhglBjglService scjhglBjglService;
 
-    /**零件管理Service*/
+    /**零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
 
@@ -56,7 +56,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     @Autowired
     private IScjhglBjzcService scjhglBjzcService;
 
-    /**零件工艺编制Service*/
+    /**零部件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
 
@@ -143,7 +143,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
         //得到计划ID
         ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
         String jhid = scjhglLjgl.getHtid();
-        //拿到所有该计划下的零件
+        //拿到所有该计划下的零部件
         EntityWrapper<ScjhglLjgl> wrapper = new EntityWrapper<ScjhglLjgl>();
         wrapper.eq("HTID", jhid);
         wrapper.eq("SFSBJ", "0");
@@ -191,7 +191,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     public int checkSl(String ljid, String bjid, HttpServletRequest request, HttpServletResponse response, Model model){
         int check = 0;
         AjaxJson ajaxJson = new AjaxJson();
-        //得到零件的剩余数量
+        //得到零部件的剩余数量
         String ljsyslS = scjhglLjglService.selectById(ljid).getSysl();
         //得到部件的数量
         String bjslS = scjhglLjglService.selectById(bjid).getSl();
@@ -223,7 +223,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     public void addDelete(String flag, String ljid, String bjid, HttpServletRequest request, HttpServletResponse response, Model model){
         //添加
         if (flag.equals("add")){
-            //零件减去部件数量
+            //零部件减去部件数量
             //首先要拿到部件数量
             ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(bjid);
             float bjsl = 0;
@@ -247,7 +247,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
             scjhglBjzcService.insert(scjhglBjzc);
         }
         if (flag.equals("delete")){
-            //零件加上部件数量
+            //零部件加上部件数量
             ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(bjid);
             float bjsl = 0;
             if (scjhglLjgl.getSl()!=null&&!scjhglLjgl.getSl().equals("")){
@@ -287,7 +287,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
     }
 
     /**
-     * Dscription: 删除部件，并且加上相应的零件剩余数量
+     * Dscription: 删除部件，并且加上相应的零部件剩余数量
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/10 9:43
@@ -324,7 +324,7 @@ public class ScjhglBjglController extends BaseCRUDController<ScjhglBjgl, String>
 
             //删除所有相关的部件组成
             scjhglBjzcService.delete(wrapper);
-            //先删除ljid下属的零件工艺编制信息
+            //先删除ljid下属的零部件工艺编制信息
             List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(bjid);
             if (ljgybzByLjid!=null){
                 for (ScglLjgybz s: ljgybzByLjid) {

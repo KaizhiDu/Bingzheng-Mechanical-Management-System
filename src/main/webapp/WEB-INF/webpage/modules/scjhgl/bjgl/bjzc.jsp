@@ -40,10 +40,10 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>零件图号</label>
+                        <label>零部件图号</label>
                     </td>
                     <td>
-                        <label>零件名称</label>
+                        <label>零部件名称</label>
                     </td>
                     <td>
                         <label>操作</label>
@@ -122,7 +122,7 @@
                         });
                     }
                     else{
-                        top.layer.alert('零件数量超出限制!', {icon: 0, title:'警告'});
+                        top.layer.alert('零部件数量超出限制!', {icon: 0, title:'警告'});
                         $('#'+ljid).removeAttr('checked');
                     }
                 }

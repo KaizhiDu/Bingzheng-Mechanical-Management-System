@@ -10,7 +10,7 @@ public class BgrwDTO {
     private String id;
     /**计划名称*/
     private String jhbh;
-    /**零件名称*/
+    /**零部件名称*/
     private String ljmc;
     /**工艺大类名称*/
     private String gydlmc;

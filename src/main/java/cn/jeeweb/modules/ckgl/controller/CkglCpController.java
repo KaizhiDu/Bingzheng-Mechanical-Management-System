@@ -266,7 +266,7 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
     @RequestMapping(value = "saveCp", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveCp(CkglCp ckglCp, HttpServletRequest request, HttpServletResponse response, Model model){
-        //先判断半成品库里有没有该图号的零件存在
+        //先判断半成品库里有没有该图号的零部件存在
         EntityWrapper<CkglCp> wrapper = new EntityWrapper<CkglCp>();
         wrapper.eq("LBJTH", ckglCp.getLbjth());
         wrapper.eq("JHBH", ckglCp.getJhbh());

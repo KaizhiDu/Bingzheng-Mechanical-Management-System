@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * @Description:    生产计划管理-零件管理
+ * @Description:    生产计划管理-零部件管理
  * @Author:         杜凯之
  * @CreateDate:     2018/9/4 17:07
  * @Version:        1.0
@@ -26,10 +26,10 @@ public class ScjhglLjgl extends AbstractEntity<String> {
     /** 合同ID */
     @TableField(value = "HTID")
     private String htid;
-    /** 零件图号 */
+    /** 零部件图号 */
     @TableField(value = "LJTH")
     private String ljth;
-    /** 零件名称 */
+    /** 零部件名称 */
     @TableField(value = "LJMC")
     private String ljmc;
     /** 单用量 */

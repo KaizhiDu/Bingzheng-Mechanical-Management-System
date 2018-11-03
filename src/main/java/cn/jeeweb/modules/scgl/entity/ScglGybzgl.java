@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * @Description:    生产管理-零件工艺编制
+ * @Description:    生产管理-零部件工艺编制
  * @Author:         杜凯之
  * @CreateDate:     2018/9/14 15:58
  * @Version:        1.0

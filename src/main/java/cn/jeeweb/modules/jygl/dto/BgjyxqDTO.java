@@ -16,7 +16,7 @@ public class BgjyxqDTO {
     private String rq;
     /**计划名称*/
     private String jhbh;
-    /**零件名称*/
+    /**零部件名称*/
     private String ljmc;
     /**工艺大类名称*/
     private String gydlmc;
@@ -26,7 +26,7 @@ public class BgjyxqDTO {
     private String sbmc;
     /**应完成量*/
     private String ywcl;
-    /**零件工艺编制ID*/
+    /**零部件工艺编制ID*/
     private String ljgybzid;
 
     public String getLjgybzid() {

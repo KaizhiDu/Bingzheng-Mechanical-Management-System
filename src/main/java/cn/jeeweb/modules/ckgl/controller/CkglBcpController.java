@@ -194,7 +194,7 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
     @RequestMapping(value = "saveBcp", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBcp(CkglBcp ckglBcp, HttpServletRequest request, HttpServletResponse response, Model model){
-        //先判断半成品库里有没有该图号的零件存在
+        //先判断半成品库里有没有该图号的零部件存在
         EntityWrapper<CkglBcp> wrapper = new EntityWrapper<CkglBcp>();
         wrapper.eq("LBJTH", ckglBcp.getLbjth());
         wrapper.eq("JHBH", ckglBcp.getJhbh());
@@ -241,5 +241,44 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
         List<CkglBcpMx> ckglBcpMxes = ckglBcpMxService.selectList(wrapper);
         model.addAttribute("bcpMx", ckglBcpMxes);
         return display("checkRcpkxq");
+    }
+
+    /**
+     * Dscription: 转到出库页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/3 20:14
+     */
+    @RequestMapping(value = "ck", method={RequestMethod.GET, RequestMethod.POST})
+    public String ck(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        CkglBcp ckglBcp = ckglBcpService.selectById(id);
+        model.addAttribute("ckglBcp", ckglBcp);
+        return display("ck");
+    }
+
+    /**
+     * Dscription: 保存出库信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/3 20:29
+     */
+    @RequestMapping(value = "saveCk", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveCk(String id, String cksl, HttpServletRequest request, HttpServletResponse response, Model model){
+        int cksli = 0;
+        if (cksl!=null&&!cksl.equals("")){
+            cksli = Integer.parseInt(cksl);
+        }
+        CkglBcp ckglBcp = ckglBcpService.selectById(id);
+        int kc = Integer.parseInt(ckglBcp.getRksl());
+        kc = kc - cksli;
+        //如果kc为0，就删除；否则更新
+        if (kc==0){
+            ckglBcpService.deleteById(id);
+        }
+        else{
+            ckglBcp.setRksl(kc+"");
+            ckglBcpService.updateById(ckglBcp);
+        }
     }
 }
