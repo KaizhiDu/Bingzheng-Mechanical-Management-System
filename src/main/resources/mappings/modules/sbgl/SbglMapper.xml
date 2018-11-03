@@ -27,8 +27,30 @@
 			AND SS.RQ = #{entity.rq}
 		</if>
 
-
 		ORDER BY SS.SBBH
     </select>
+
+	<select id="ajaxListSbgl2" resultType="cn.jeeweb.modules.sbgl.entity.Sbgl">
+		SELECT SS.ID,SS.SBBH,SS.SBMC,SS.SSDL FROM(
+		SELECT T.ID,
+		T.SBBH,
+		T.SBMC,
+		T.SSDL SSDLDM,
+		(SELECT FLMC FROM T_SBGL_SBFLGL T1 WHERE T.SSDL = T1.ID) SSDL,
+		T.SFKY
+		FROM T_SBGL_SBGL T
+
+		)SS
+		WHERE 1=1
+		<if test="entity.ssdl!=null and entity.ssdl!=''">
+			AND SS.SSDLDM = #{entity.ssdl}
+		</if>
+		<if test="entity.sbmc!=null and entity.sbmc!=''">
+			AND SS.SBMC = #{entity.sbmc}
+		</if>
+
+
+		ORDER BY SS.SBBH
+	</select>
 
 </mapper>

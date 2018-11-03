@@ -29,7 +29,7 @@ public class SbglServiceImpl  extends CommonServiceImpl<SbglMapper, Sbgl> implem
     private SbglMapper sbglMapper;
 
     /**
-     * @Description:    展示所有设备
+     * @Description:    展示所有设备（日工）
      * @Author:         杜凯之
      * @CreateDate:     2018/8/30 17:58
      * @Version:        1.0
@@ -40,6 +40,21 @@ public class SbglServiceImpl  extends CommonServiceImpl<SbglMapper, Sbgl> implem
         Page<SbglSbzy> page = new Page<SbglSbzy>(pageable.getPageNumber(), pageable.getPageSize());
         page.setRecords(sbglMapper.ajaxListSbgl(page, sbglSbzy, addSb));
         PageJson<SbglSbzy> pagejson = new PageJson<SbglSbzy>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
+        return pagejson;
+    }
+
+    /**
+     * Dscription: 展示所有设备（包工）
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/3 14:05
+     */
+    @Override
+    public PageJson<Sbgl> ajaxListSbgl2(Queryable queryable, Sbgl sbgl, String addSb) {
+        Pageable pageable = queryable.getPageable();
+        Page<Sbgl> page = new Page<Sbgl>(pageable.getPageNumber(), pageable.getPageSize());
+        page.setRecords(sbglMapper.ajaxListSbgl2(page, sbgl, addSb));
+        PageJson<Sbgl> pagejson = new PageJson<Sbgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }
 }

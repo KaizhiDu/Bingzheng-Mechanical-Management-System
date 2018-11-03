@@ -17,10 +17,18 @@ import java.util.List;
  */
 public interface SbglMapper extends BaseMapper<Sbgl> {
     /**
-     * @Description:    展示所有设备
+     * @Description:    展示所有设备（日工）
      * @Author:         杜凯之
      * @CreateDate:     2018/8/30 17:58
      * @Version:        1.0
      */
     public List<SbglSbzy> ajaxListSbgl(Pagination page, @Param("entity") SbglSbzy entity, @Param("addSb") String addSb);
+
+    /**
+     * @Description:    展示所有设备（包工）
+     * @Author:         杜凯之
+     * @CreateDate:     2018/8/30 17:58
+     * @Version:        1.0
+     */
+    public List<Sbgl> ajaxListSbgl2(Pagination page, @Param("entity") Sbgl entity, @Param("addSb") String addSb);
 }

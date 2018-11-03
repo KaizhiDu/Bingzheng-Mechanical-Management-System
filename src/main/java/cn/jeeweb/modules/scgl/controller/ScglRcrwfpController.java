@@ -1163,11 +1163,52 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
             return null;
         }
         else{
-            RgpgJcxxDTO r0 = rgpgJcxx.get(0);
-            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getGydlmc()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
+
+            //现在把所有单独一个的都加上一个""值
+            List<RgpgJcxxDTO> rgpgJcxx2 = new ArrayList<RgpgJcxxDTO>();
             for (int i=1;i<rgpgJcxx.size();i++){
                 RgpgJcxxDTO r1 = rgpgJcxx.get(i);
                 RgpgJcxxDTO r2 = rgpgJcxx.get(i-1);
+                if (!r1.getId().equals(r2.getId())){
+                        //入r2，然后入""
+                        rgpgJcxx2.add(r2);
+                        //复制
+                        RgpgJcxxDTO bb = new RgpgJcxxDTO();
+                        bb.setId(r2.getId());
+                        bb.setSbmc("");
+                        bb.setJhbh("");
+                        bb.setLjmc("");
+                        bb.setGydlmc("");
+                        bb.setGyxlmc("");
+                        bb.setYwcl("");
+                        rgpgJcxx2.add(bb);
+
+                        //最后一个的话，入r1，然后入""
+                        if (i==rgpgJcxx.size()-1){
+                            rgpgJcxx2.add(r1);
+                            RgpgJcxxDTO bbb = new RgpgJcxxDTO();
+                            bbb.setId(r1.getId());
+                            bbb.setSbmc("");
+                            bbb.setJhbh("");
+                            bbb.setLjmc("");
+                            bbb.setGydlmc("");
+                            bbb.setGyxlmc("");
+                            bbb.setYwcl("");
+                            rgpgJcxx2.add(bbb);
+                        }
+                }
+                else{
+                    rgpgJcxx2.add(r2);
+                    if (i==rgpgJcxx.size()-1){
+                        rgpgJcxx2.add(r1);
+                    }
+                }
+            }
+            RgpgJcxxDTO r0 = rgpgJcxx2.get(0);
+            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getGydlmc()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
+            for (int i=1;i<rgpgJcxx2.size();i++){
+                RgpgJcxxDTO r1 = rgpgJcxx2.get(i);
+                RgpgJcxxDTO r2 = rgpgJcxx2.get(i-1);
 
                 //id相同，r1继续插入
                 if (r1.getId().equals(r2.getId())){
@@ -1185,7 +1226,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     rw = r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
                 }
 
-                if (i==rgpgJcxx.size()-1){
+                if (i==rgpgJcxx2.size()-1){
                     //rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件";
                     for (RgpgdDTO r : rgpgdDTOList) {
                         if (r.getId().equals(r2.getId())){
@@ -1196,7 +1237,13 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
 
 
             }
-
+            for (RgpgdDTO b : rgpgdDTOList) {
+                String nr = b.getNr().substring(b.getNr().length()-5,b.getNr().length());
+                if (nr.equals("----件")){
+                    nr = b.getNr().substring(0,b.getNr().length()-14);
+                    b.setNr(nr);
+                }
+            }
             return rgpgdDTOList;
         }
 

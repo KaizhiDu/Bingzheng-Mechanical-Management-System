@@ -56,7 +56,7 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
     }
 
     /**
-* @Description:    展示所有设备
+* @Description:    展示所有设备（日工）
 * @Author:         杜凯之
 * @CreateDate:     2018/8/30 17:58
 * @Version:        1.0
@@ -66,6 +66,19 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
     public PageJson<SbglSbzy> ajaxListSbgl(String rq, String addSb , Queryable queryable, SbglSbzy sbglSbzy, HttpServletRequest request, HttpServletResponse response, Model model){
         sbglSbzy.setRq(rq);
         PageJson<SbglSbzy> pageJson = sbglSbflgl.ajaxListSbgl(queryable,sbglSbzy,addSb);
+        return pageJson;
+    }
+
+    /**
+     * Dscription: 展示所有设备（包工）
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/3 14:02
+     */
+    @RequestMapping(value = "ajaxListSbgl2", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<Sbgl> ajaxListSbgl2(String addSb , Queryable queryable, Sbgl sbgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<Sbgl> pageJson = sbglSbflgl.ajaxListSbgl2(queryable,sbgl,addSb);
         return pageJson;
     }
 

@@ -787,37 +787,92 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
             return null;
         }
         else{
-            BgpgJcxxDTO r0 = bgpgJcxxList.get(0);
-            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getGydlmc()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
+
+            //现在把所有单独一个的都加上一个""值
+            List<BgpgJcxxDTO> bgpgJcxxList2 = new ArrayList<BgpgJcxxDTO>();
             for (int i=1;i<bgpgJcxxList.size();i++){
                 BgpgJcxxDTO r1 = bgpgJcxxList.get(i);
                 BgpgJcxxDTO r2 = bgpgJcxxList.get(i-1);
+                if (!r1.getId().equals(r2.getId())){
+                    //需要复制""
+                        //入r2，然后入""
+                        bgpgJcxxList2.add(r2);
+                        //复制
+                                BgpgJcxxDTO bb = new BgpgJcxxDTO();
+                                bb.setId(r2.getId());
+                                bb.setSbmc("");
+                                bb.setJhbh("");
+                                bb.setLjmc("");
+                                bb.setGydlmc("");
+                                bb.setGyxlmc("");
+                                bb.setYwcl("");
+                                bgpgJcxxList2.add(bb);
 
-                //id相同，r1继续插入
-                if (r1.getId().equals(r2.getId())){
-                    rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                        //最后一个的话，入r1，然后入""
+                        if (i==bgpgJcxxList.size()-1){
+                            bgpgJcxxList2.add(r1);
+                            BgpgJcxxDTO bbb = new BgpgJcxxDTO();
+                            bbb.setId(r1.getId());
+                            bbb.setSbmc("");
+                            bbb.setJhbh("");
+                            bbb.setLjmc("");
+                            bbb.setGydlmc("");
+                            bbb.setGyxlmc("");
+                            bbb.setYwcl("");
+                            bgpgJcxxList2.add(bbb);
+                        }
+
+
                 }
-                //id不相同
                 else{
-                    for (BgpgdDTO r : bgpgdDTOList) {
-                        if (r.getId().equals(r2.getId())){
-                            rw = rw.substring(0,rw.length()-7);
-                            r.setNr(rw);
-                        }
-                    }
-                    //重设rw
-                    rw = r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
-                }
-
-                if (i==bgpgJcxxList.size()-1){
-                    //rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件";
-                    for (BgpgdDTO r : bgpgdDTOList) {
-                        if (r.getId().equals(r2.getId())){
-                            r.setNr(rw);
-                        }
+                    bgpgJcxxList2.add(r2);
+                    if (i==bgpgJcxxList.size()-1){
+                        bgpgJcxxList2.add(r1);
                     }
                 }
+            }
 
+
+
+            BgpgJcxxDTO r0 = bgpgJcxxList2.get(0);
+            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getGydlmc()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
+                for (int i=1;i<bgpgJcxxList2.size();i++){
+                    BgpgJcxxDTO r1 = bgpgJcxxList2.get(i);
+                    BgpgJcxxDTO r2 = bgpgJcxxList2.get(i-1);
+
+                    //id相同，r1继续插入
+                    if (r1.getId().equals(r2.getId())){
+                        rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                    }
+                    //id不相同
+                    else{
+                        for (BgpgdDTO r : bgpgdDTOList) {
+                            if (r.getId().equals(r2.getId())){
+                                rw = rw.substring(0,rw.length()-7);
+                                r.setNr(rw);
+                            }
+                        }
+                        //重设rw
+                        rw = r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                    }
+
+                    if (i==bgpgJcxxList2.size()-1){
+                        //rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件";
+                        for (BgpgdDTO r : bgpgdDTOList) {
+                            if (r.getId().equals(r2.getId())){
+                                r.setNr(rw);
+                            }
+                        }
+                    }
+
+                }
+        }
+
+        for (BgpgdDTO b : bgpgdDTOList) {
+            String nr = b.getNr().substring(b.getNr().length()-5,b.getNr().length());
+            if (nr.equals("----件")){
+                nr = b.getNr().substring(0,b.getNr().length()-14);
+                b.setNr(nr);
             }
         }
         return bgpgdDTOList;
