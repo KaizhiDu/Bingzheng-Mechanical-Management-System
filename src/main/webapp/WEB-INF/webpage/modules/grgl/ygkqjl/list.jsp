@@ -70,6 +70,8 @@
     <grid:column label="加班" name="jb" dict="sf" dateformat=""/>
     <grid:column label="缺勤原因" name="qqyy"/>
 
+    <grid:toolbar function="Szkqjcsj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="设置考勤基础数据"/>
+
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 
@@ -77,6 +79,38 @@
 
 
 <script type="text/javascript">
+
+    //设置考勤基础数据
+    function Szkqjcsj(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["50%", "50%"],
+            title: "设置考勤基础",
+            maxmin: true, //开启最大化最小化按钮
+            content: "${adminPath}/grgl/ygkqjl/Szkqjcsj" ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+
+    }
+
     //记录考勤
     function jlkq(title, url, gridId, id, width, height, tipMsg) {
         openDia("记录考勤",url,gridId,"40%","40%");

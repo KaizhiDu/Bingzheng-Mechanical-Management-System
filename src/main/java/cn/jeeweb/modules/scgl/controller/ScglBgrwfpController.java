@@ -160,7 +160,9 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 float hj = 0;
                 //日工工资
                 float rggz = 0;
-
+                float cqgz = 0;
+                float cqgz2 = 0;
+                float zcqgz = 0;
                 float zwgz = 0;
                 float dx = 0;
                 float fb = 0;
@@ -173,6 +175,12 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 float cbje = 0;
                 float jl = 0;
                 float kk = 0;
+                if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
+                    cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
+                }
+                if (grglYgxzgl.getCqgz2()!=null&&!grglYgxzgl.getCqgz2().equals("")){
+                    cqgz2 = Float.parseFloat(grglYgxzgl.getCqgz2());
+                }
                 if (grglYgxzgl.getZwgz()!=null&&!grglYgxzgl.getZwgz().equals("")){
                     zwgz = Float.parseFloat(grglYgxzgl.getZwgz());
                 }
@@ -210,9 +218,11 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                     kk = Float.parseFloat(grglYgxzgl.getKk());
                 }
 
+                zcqgz = cqgz + cqgz2;
                 rggz = gs * sx;
-                hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk;
+                hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk + zcqgz;
 
+                grglYgxzgl.setZcqgz(zcqgz+"");
                 grglYgxzgl.setRggz(rggz+"");
                 grglYgxzgl.setHj(hj+"");
 

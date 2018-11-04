@@ -6,15 +6,9 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.grgl.dto.YgkqjlDTO;
-import cn.jeeweb.modules.grgl.entity.Grgl;
-import cn.jeeweb.modules.grgl.entity.GrglYgkqjl;
-import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
-import cn.jeeweb.modules.grgl.entity.Xzzwfp;
+import cn.jeeweb.modules.grgl.entity.*;
 import cn.jeeweb.modules.grgl.mapper.GrglYgxzglMapper;
-import cn.jeeweb.modules.grgl.service.IGrglService;
-import cn.jeeweb.modules.grgl.service.IGrglXzzwfpService;
-import cn.jeeweb.modules.grgl.service.IGrglYgkqjlService;
-import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
+import cn.jeeweb.modules.grgl.service.*;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.service.IScglRcrwfpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +54,10 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
     /**新资职位分配Service*/
     @Autowired
     private IGrglXzzwfpService grglXzzwfpService;
+
+    /**员工考勤记录 - 基础数据*/
+    @Autowired
+    private IGrglYgkqjlJcsjService grglYgkqjlJcsjService;
 
     /**
      * Dscription: 搜索项和前置内容
@@ -114,7 +112,9 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
                 float hj = 0;
                 //日工工资
                 float rggz = 0;
-
+                float cqgz = 0;
+                float cqgz2 = 0;
+                float zcqgz = 0;
                 float zwgz = 0;
                 float dx = 0;
                 float fb = 0;
@@ -127,6 +127,12 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
                 float cbje = 0;
                 float jl = 0;
                 float kk = 0;
+                if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
+                    cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
+                }
+                if (grglYgxzgl.getCqgz2()!=null&&!grglYgxzgl.getCqgz2().equals("")){
+                    cqgz2 = Float.parseFloat(grglYgxzgl.getCqgz2());
+                }
                 if (grglYgxzgl.getZwgz()!=null&&!grglYgxzgl.getZwgz().equals("")){
                     zwgz = Float.parseFloat(grglYgxzgl.getZwgz());
                 }
@@ -164,11 +170,13 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
                     kk = Float.parseFloat(grglYgxzgl.getKk());
                 }
 
+                zcqgz = cqgz + cqgz2;
                 rggz = gs * sx;
-                hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk;
+                hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk + zcqgz;
 
                 grglYgxzgl.setRggz(rggz+"");
                 grglYgxzgl.setHj(hj+"");
+                grglYgxzgl.setZcqgz(zcqgz+"");
 
                 grglYgxzglService.insert(grglYgxzgl);
                 //计算日工工资和总工资
@@ -289,23 +297,52 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
         }
 
 
-        //需要根据上午和加班的出勤情况，决定餐补（上午8块，加班7块）
+        //先拿到考勤基础数据
+        EntityWrapper<GrglYgkqjlJcsj> wrapper0 = new EntityWrapper<GrglYgkqjlJcsj>();
+        List<GrglYgkqjlJcsj> grglYgkqjlJcsjs = grglYgkqjlJcsjService.selectList(wrapper0);
+        float swcf = 0;
+        float jbcf = 0;
+        float cqxsgz = 0;
+        for (GrglYgkqjlJcsj g : grglYgkqjlJcsjs) {
+            if (g.getMc().equals("上午餐费")){
+                swcf = Float.parseFloat(g.getSz());
+            }
+            if (g.getMc().equals("加班餐费")){
+                jbcf = Float.parseFloat(g.getSz());
+            }
+            if (g.getMc().equals("出勤工资(每小时)")){
+                cqxsgz = Float.parseFloat(g.getSz());
+            }
+        }
+
+        //需要根据上午和加班的出勤情况，决定餐补; 上午和下午决定出勤工资
         float cb = 0;
+        float cqgzf = 0;
         if (ysYgkqjl.getSw()!=null){
             if (ysYgkqjl.getSw().equals("1")){
-                cb = cb - 8;
+                cb = cb - swcf;
+                cqgzf = cqgzf - 4*cqxsgz;
+            }
+        }
+        if (ysYgkqjl.getXw()!=null){
+            if (ysYgkqjl.getXw().equals("1")){
+                cqgzf = cqgzf - 4*cqxsgz;
             }
         }
         if (ysYgkqjl.getJb()!=null){
             if (ysYgkqjl.getJb().equals("1")){
-                cb = cb - 7;
+                cb = cb - jbcf;
             }
         }
         if (grglYgkqjl.getSw().equals("1")){
-            cb = cb + 8;
+            cb = cb + swcf;
+            cqgzf = cqgzf + 4*cqxsgz;
+        }
+        if (grglYgkqjl.getXw().equals("1")){
+            cqgzf = cqgzf + 4*cqxsgz;
         }
         if (grglYgkqjl.getJb().equals("1")){
-            cb = cb + 7;
+            cb = cb + jbcf;
         }
         //得到年月
         String[] dateArray = rq.split("-");
@@ -321,11 +358,19 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
             String cq = cb+"";
             grglYgxzgl.setCq(cq);
         }
-            else{
-                cb = cb + Float.parseFloat(grglYgxzgl.getCq());
-                String cq = cb+"";
-                grglYgxzgl.setCq(cq);
-            }
+        else{
+            cb = cb + Float.parseFloat(grglYgxzgl.getCq());
+            String cq = cb+"";
+            grglYgxzgl.setCq(cq);
+        }
+
+         if (grglYgxzgl.getCqgz()==null){
+             grglYgxzgl.setCqgz(cqgzf+"");
+         }
+         else{
+             cqgzf = cqgzf + Float.parseFloat(grglYgxzgl.getCqgz());
+             grglYgxzgl.setCqgz(cqgzf+"");
+         }
 
         //注意判断null和""的情况
         //合计
@@ -340,11 +385,20 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
         float bt = 0;
         float bx = 0;
         float cq = 0;
+        float cqgz = 0;
+        float cqgz2 = 0;
+        float zcqgz = 0;
         float sx = 0;
         float gs = 0;
         float cbje2 = 0;
         float jl = 0;
         float kk = 0;
+        if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
+            cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
+        }
+        if (grglYgxzgl.getCqgz2()!=null&&!grglYgxzgl.getCqgz2().equals("")){
+            cqgz2 = Float.parseFloat(grglYgxzgl.getCqgz2());
+        }
         if (grglYgxzgl.getZwgz()!=null&&!grglYgxzgl.getZwgz().equals("")){
             zwgz = Float.parseFloat(grglYgxzgl.getZwgz());
         }
@@ -382,16 +436,45 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
             kk = Float.parseFloat(grglYgxzgl.getKk());
         }
 
+        zcqgz = cqgz + cqgz2;
         rggz = gs * sx;
-        hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje2 + jl - kk;
+        hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje2 + jl - kk + zcqgz;
 
+        grglYgxzgl.setZcqgz(zcqgz+"");
         grglYgxzgl.setRggz(rggz+"");
         grglYgxzgl.setHj(hj+"");
 
         grglYgxzglService.updateById(grglYgxzgl);
         //计算日工工资和总工资
         //grglYgxzglService.countGz(grglYgxzgl);
-
-
     }
+
+    /**
+     * Dscription: 设置考勤基础数据
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/4 13:32
+     */
+    @RequestMapping(value = "Szkqjcsj", method={RequestMethod.GET, RequestMethod.POST})
+    public String Szkqjcsj(HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<GrglYgkqjlJcsj> wrapper = new EntityWrapper<GrglYgkqjlJcsj>();
+        List<GrglYgkqjlJcsj> list = grglYgkqjlJcsjService.selectList(wrapper);
+        model.addAttribute("list", list);
+        return display("Szkqjcsj");
+    }
+
+    /**
+     * Dscription: 保存基础数据信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/4 14:06
+     */
+    @RequestMapping(value = "saveJcsj", method={RequestMethod.GET, RequestMethod.POST})
+    public void saveJcsj(GrglYgkqjlJcsj grglYgkqjlJcsj, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (grglYgkqjlJcsj.getSz()==null||grglYgkqjlJcsj.getSz().equals("")){
+            grglYgkqjlJcsj.setSz("0");
+        }
+        grglYgkqjlJcsjService.updateById(grglYgkqjlJcsj);
+    }
+
 }

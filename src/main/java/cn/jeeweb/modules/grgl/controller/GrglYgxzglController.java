@@ -154,12 +154,20 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
         //新建工作表
         Sheet sheet1 = wb.createSheet("工资单");
         //设置单元格宽度
-//        sheet1.setColumnWidth(1, 3700);
-//        sheet1.setColumnWidth(2, 3700);
-//        sheet1.setColumnWidth(3, 3700);
-//        sheet1.setColumnWidth(4, 3700);
-//        sheet1.setColumnWidth(5, 3700);
+        sheet1.setColumnWidth(1, 1800);
+        sheet1.setColumnWidth(2, 2200);
+        sheet1.setColumnWidth(3, 1800);
+        sheet1.setColumnWidth(4, 1800);
+        sheet1.setColumnWidth(6, 1800);
+        sheet1.setColumnWidth(7, 2000);
+        sheet1.setColumnWidth(8, 2200);
+        sheet1.setColumnWidth(9, 2200);
+        sheet1.setColumnWidth(10, 2000);
+        sheet1.setColumnWidth(11, 2200);
+        sheet1.setColumnWidth(12, 2000);
+        sheet1.setColumnWidth(13, 2000);
         sheet1.setColumnWidth(14, 3000);
+        sheet1.setColumnWidth(15, 2000);
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
@@ -189,6 +197,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 Cell cell012 = row0.createCell(12);
                 Cell cell013 = row0.createCell(13);
                 Cell cell014 = row0.createCell(14);
+                Cell cell015 = row0.createCell(15);
                 //给单元格设值
                 cell00.setCellValue("年月");
                 cell01.setCellValue("姓名");
@@ -201,10 +210,11 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 cell08.setCellValue("日工工资");
                 cell09.setCellValue("承包金额");
                 cell010.setCellValue("餐补");
-                cell011.setCellValue("奖励");
-                cell012.setCellValue("扣款");
-                cell013.setCellValue("合计");
-                cell014.setCellValue("签字");
+                cell011.setCellValue("出勤工资");
+                cell012.setCellValue("奖励");
+                cell013.setCellValue("扣款");
+                cell014.setCellValue("合计");
+                cell015.setCellValue("签字");
                 cell00.setCellStyle(style);
                 cell01.setCellStyle(style);
                 cell02.setCellStyle(style);
@@ -220,6 +230,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 cell012.setCellStyle(style);
                 cell013.setCellStyle(style);
                 cell014.setCellStyle(style);
+                cell015.setCellStyle(style);
 
                 //创建二行
                 Row row1 = sheet1.createRow(i*3+1);
@@ -240,6 +251,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 Cell cell112 = row1.createCell(12);
                 Cell cell113 = row1.createCell(13);
                 Cell cell114 = row1.createCell(14);
+                Cell cell115 = row1.createCell(15);
 
                 //给单元格设值
                 cell10.setCellValue(g.getNd()+"-"+g.getYf());
@@ -253,10 +265,11 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 cell18.setCellValue(g.getRggz());
                 cell19.setCellValue(g.getCbje());
                 cell110.setCellValue(g.getCq());
-                cell111.setCellValue(g.getJl());
-                cell112.setCellValue(g.getKk());
-                cell113.setCellValue(g.getHj());
-                cell114.setCellValue("");
+                cell111.setCellValue(g.getZcqgz());
+                cell112.setCellValue(g.getJl());
+                cell113.setCellValue(g.getKk());
+                cell114.setCellValue(g.getHj());
+                cell115.setCellValue("");
                 cell10.setCellStyle(style);
                 cell11.setCellStyle(style);
                 cell12.setCellStyle(style);
@@ -272,6 +285,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
                 cell112.setCellStyle(style);
                 cell113.setCellStyle(style);
                 cell114.setCellStyle(style);
+                cell115.setCellStyle(style);
 
             }
         }

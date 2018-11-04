@@ -60,6 +60,15 @@ public class GrglYgxzgl extends AbstractEntity<String> {
     /** 出勤 */
     @TableField(value = "CQ")
     private String cq;
+    /** 出勤工资 */
+    @TableField(value = "CQGZ")
+    private String cqgz;
+    /** 出勤工资2 */
+    @TableField(value = "CQGZ2")
+    private String cqgz2;
+    /** 总出勤工资 */
+    @TableField(value = "ZCQGZ")
+    private String zcqgz;
     /** 时薪 */
     @TableField(value = "SX")
     private String sx;
@@ -296,5 +305,29 @@ public class GrglYgxzgl extends AbstractEntity<String> {
 
     public void setHj(String hj) {
         this.hj = hj;
+    }
+
+    public String getCqgz() {
+        return cqgz;
+    }
+
+    public void setCqgz(String cqgz) {
+        this.cqgz = cqgz;
+    }
+
+    public String getCqgz2() {
+        return cqgz2;
+    }
+
+    public void setCqgz2(String cqgz2) {
+        this.cqgz2 = cqgz2;
+    }
+
+    public String getZcqgz() {
+        return zcqgz;
+    }
+
+    public void setZcqgz(String zcqgz) {
+        this.zcqgz = zcqgz;
     }
 }

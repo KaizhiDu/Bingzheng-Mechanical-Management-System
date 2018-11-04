@@ -7,10 +7,12 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.grgl.entity.Grgl;
+import cn.jeeweb.modules.grgl.entity.GrglYgkqjlJcsj;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.entity.Xzzwfp;
 import cn.jeeweb.modules.grgl.service.IGrglService;
 import cn.jeeweb.modules.grgl.service.IGrglXzzwfpService;
+import cn.jeeweb.modules.grgl.service.IGrglYgkqjlJcsjService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import cn.jeeweb.modules.sbgl.entity.*;
 import cn.jeeweb.modules.sbgl.service.*;
@@ -105,6 +107,10 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @Autowired
     private ISbglSbzyService sbglSbzyService;
 
+    /**考勤基础数据Service*/
+    @Autowired
+    private IGrglYgkqjlJcsjService grglYgkqjlJcsjService;
+
 
     /**
      * Dscription: 添加日子和搜索项
@@ -182,7 +188,9 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     float hj = 0;
                     //日工工资
                     float rggz = 0;
-
+                    float cqgz = 0;
+                    float cqgz2 = 0;
+                    float zcqgz = 0;
                     float zwgz = 0;
                     float dx = 0;
                     float fb = 0;
@@ -195,6 +203,12 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     float cbje = 0;
                     float jl = 0;
                     float kk = 0;
+                    if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
+                        cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
+                    }
+                    if (grglYgxzgl.getCqgz2()!=null&&!grglYgxzgl.getCqgz2().equals("")){
+                        cqgz2 = Float.parseFloat(grglYgxzgl.getCqgz2());
+                    }
                     if (grglYgxzgl.getZwgz()!=null&&!grglYgxzgl.getZwgz().equals("")){
                         zwgz = Float.parseFloat(grglYgxzgl.getZwgz());
                     }
@@ -232,9 +246,11 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                         kk = Float.parseFloat(grglYgxzgl.getKk());
                     }
 
+                    zcqgz = cqgz + cqgz2;
                     rggz = gs * sx;
-                    hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk;
+                    hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk +zcqgz;
 
+                    grglYgxzgl.setZcqgz(zcqgz+"");
                     grglYgxzgl.setRggz(rggz+"");
                     grglYgxzgl.setHj(hj+"");
 
@@ -401,8 +417,19 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
             scglRggsService.updateById(scglRggs);
         }
 
+        //先拿到考勤基础数据
+        EntityWrapper<GrglYgkqjlJcsj> wrapper0 = new EntityWrapper<GrglYgkqjlJcsj>();
+        List<GrglYgkqjlJcsj> grglYgkqjlJcsjs = grglYgkqjlJcsjService.selectList(wrapper0);
+        float cqxsgz = 0;
+        for (GrglYgkqjlJcsj g : grglYgkqjlJcsjs) {
+            if (g.getMc().equals("出勤工资(每小时)")){
+                cqxsgz = Float.parseFloat(g.getSz());
+            }
+        }
+
         //同步插入工资表里
         float zgs = 0;
+        float cqgzf = 0;
         if (ysRggs1!=null){
             if (ysRggs1.getGs()!=null){
                 if (!ysRggs1.getGs().equals("")){
@@ -412,6 +439,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
             if (ysRggs1.getJb()!=null){
                 if (!ysRggs1.getJb().equals("")){
                     zgs = zgs - Float.parseFloat(ysRggs1.getJb());
+                    cqgzf = cqgzf - Float.parseFloat(ysRggs1.getJb())*cqxsgz;
                 }
             }
         }
@@ -425,9 +453,10 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         if (scglRggs.getJb()!=null){
             if (!scglRggs.getJb().equals("")){
                 jb = Float.parseFloat(scglRggs.getJb());
+                cqgzf = cqgzf + Float.parseFloat(scglRggs.getJb())*cqxsgz;
             }
-
         }
+
             zgs = zgs + gs + jb;
             EntityWrapper<GrglYgxzgl> wrapper = new EntityWrapper<GrglYgxzgl>();
             wrapper.eq("ND", nd);
@@ -442,13 +471,22 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
 
                 grglYgxzgl.setGs(zgs+"");
             }
+            if (grglYgxzgl.getCqgz2()==null){
+                grglYgxzgl.setCqgz2(cqgzf+"");
+            }
+            else{
+                cqgzf = cqgzf + Float.parseFloat(grglYgxzgl.getCqgz2());
+                grglYgxzgl.setCqgz2(cqgzf+"");
+            }
 
         //注意判断null和""的情况
         //合计
         float hj = 0;
         //日工工资
         float rggz = 0;
-
+        float cqgz = 0;
+        float cqgz2 = 0;
+        float zcqgz = 0;
         float zwgz = 0;
         float dx = 0;
         float fb = 0;
@@ -461,6 +499,12 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         float cbje = 0;
         float jl = 0;
         float kk = 0;
+        if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
+            cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
+        }
+        if (grglYgxzgl.getCqgz2()!=null&&!grglYgxzgl.getCqgz2().equals("")){
+            cqgz2 = Float.parseFloat(grglYgxzgl.getCqgz2());
+        }
         if (grglYgxzgl.getZwgz()!=null&&!grglYgxzgl.getZwgz().equals("")){
             zwgz = Float.parseFloat(grglYgxzgl.getZwgz());
         }
@@ -498,9 +542,11 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
             kk = Float.parseFloat(grglYgxzgl.getKk());
         }
 
+        zcqgz = cqgz + cqgz2;
         rggz = gs2 * sx;
-        hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk;
+        hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk + zcqgz;
 
+        grglYgxzgl.setZcqgz(zcqgz+"");
         grglYgxzgl.setRggz(rggz+"");
         grglYgxzgl.setHj(hj+"");
 
