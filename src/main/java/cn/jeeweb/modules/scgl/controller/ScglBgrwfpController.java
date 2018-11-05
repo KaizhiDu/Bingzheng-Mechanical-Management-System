@@ -588,7 +588,12 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @RequestMapping(value = "saveBgmx",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public void saveBgmx(ScglBgmx scglBgmx, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveBgmx(String rq, ScglBgmx scglBgmx, HttpServletRequest request, HttpServletResponse response, Model model){
+        //更新包工任务分配日期
+        String bgrwfpid = scglBgmx.getBgrwfpid();
+        ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(bgrwfpid);
+        scglBgrwfp.setRq(rq);
+        scglBgrwfpService.updateById(scglBgrwfp);
         //插入
         if (scglBgmx.getId().equals("")||scglBgmx.getId()==null){
             scglBgmx.setId(null);
@@ -599,6 +604,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         else {
             scglBgmxService.updateById(scglBgmx);
         }
+
     }
 
     /**
@@ -910,9 +916,9 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
     @RequestMapping(value = "createBgrw",method = {RequestMethod.GET,RequestMethod.POST})
     public void createBgrw(String ygid, HttpServletRequest request, HttpServletResponse response, Model model){
         //得到当前时间
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String rq = sdf.format(date);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date = new Date();
+//        String rq = sdf.format(date);
         Grgl grgl = grglService.selectById(ygid);
         String xm = grgl.getName();
         String xb = grgl.getGender();
@@ -925,7 +931,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         scglBgrwfp.setXm(xm);
         scglBgrwfp.setXb(xb);
         scglBgrwfp.setZw(zw);
-        scglBgrwfp.setRq(rq);
+//        scglBgrwfp.setRq(rq);
         scglBgrwfp.setSfwc("0");
         scglBgrwfpService.insert(scglBgrwfp);
     }

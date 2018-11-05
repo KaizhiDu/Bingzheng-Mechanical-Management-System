@@ -68,6 +68,14 @@
                 </tr>
                 <tr class="form-group">
                     <td>
+                        <label>半天班：</label>
+                    </td>
+                    <td>
+                        <input type="radio" name="optionsRadios" id="optionsRadios5" value="btb" onclick="btb()">（4小时）
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>缺勤：</label>
                     </td>
                     <td>
@@ -105,6 +113,10 @@
         $("#jb").attr("disabled",false);
     }
 
+    function btb() {
+        $("#btb").attr("disabled",false);
+    }
+
     function qq(){
         $("#jb").val("0");
         $("#jb").attr("disabled",true);
@@ -120,6 +132,9 @@
         }
         if (gsmc=='夜班'){
             $("#optionsRadios3").attr("checked","checked");
+        }
+        if (gsmc=='半天班'){
+            $("#optionsRadios5").attr("checked","checked");
         }
         if (gsmc=='缺勤'){
             $("#optionsRadios4").attr("checked","checked");
@@ -166,6 +181,10 @@ function checkJb() {
         if(gsmc=='qq'){
             gsmc = '缺勤';
             gs = '0';
+        }
+        if(gsmc=='btb'){
+            gsmc = '半天班';
+            gs = '4';
         }
         $.ajax({
             type: "GET",

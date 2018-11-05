@@ -57,10 +57,10 @@
            url="${adminPath}/scjhgl/ljgl/ajaxljglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <%--<grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>--%>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
 
-    <%--<grid:button title="修改" groupname="opt" function="modifyWorker"--%>
-                 <%--outclass="btn-success" url="${adminPath}/grgl/grgl/updateWorker?id=\"+row.id+\"" />--%>
+    <grid:button title="修改数量" groupname="opt" function="modifySl"
+                 outclass="btn-success" url="${adminPath}/scjhgl/ljgl/modifySl?id=\"+row.id+\"" />
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
                  <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
     <grid:column label="计划名称" name="htid"/>
@@ -79,6 +79,12 @@
 
 
 <script type="text/javascript">
+
+    //修改数量
+    function modifySl(title, url, gridId, id, width, height, tipMsg){
+        openDia("修改零部件数量",url,gridId,"30%","30%");
+    }
+
     //添加零部件
     function createLj(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/scjhgl/ljgl/createLj";

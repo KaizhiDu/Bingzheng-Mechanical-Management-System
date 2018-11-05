@@ -151,4 +151,50 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
             scjhglLjglService.deleteById(ljid);
         }
     }
+
+    /**
+     * Dscription: 转到修改数量页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/5 17:58
+     */
+    @RequestMapping(value = "modifySl", method={RequestMethod.GET, RequestMethod.POST})
+    public String modifySl(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
+        model.addAttribute("scjhglLjgl" ,scjhglLjgl);
+        return display("modifySl");
+    }
+
+    /**
+     * Dscription: 保存数量
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/5 18:08
+     */
+    @RequestMapping(value = "saveSl", method={RequestMethod.GET, RequestMethod.POST})
+    public void saveSl(String id, String lbjsl, HttpServletRequest request, HttpServletResponse response, Model model){
+        int lbjsli = 0;
+        if (lbjsl!=null&&!lbjsl.equals("")){
+            lbjsli = Integer.parseInt(lbjsl);
+        }
+        //先改变零件的信息
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
+        scjhglLjgl.setWrksl(lbjsl);
+        scjhglLjgl.setSysl(lbjsl);
+        scjhglLjgl.setSl(lbjsl);
+        scjhglLjglService.updateById(scjhglLjgl);
+
+        //再更新下属零件工艺编制信息
+        List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(id);
+        if (ljgybzByLjid.size()>0){
+            for (ScglLjgybz s : ljgybzByLjid) {
+                s.setWrksl(lbjsli);
+                s.setSysl(lbjsli);
+                s.setSl(lbjsli);
+                scglLjgybzService.updateById(s);
+            }
+        }
+
+    }
+
 }

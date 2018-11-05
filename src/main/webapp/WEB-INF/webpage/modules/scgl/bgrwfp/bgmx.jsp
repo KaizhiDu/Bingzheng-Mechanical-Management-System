@@ -42,6 +42,14 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
+                        <label>包工日期：</label>
+                    </td>
+                    <td>
+                        <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>承包金额：</label>
                     </td>
                     <td>
@@ -84,6 +92,7 @@
         var zs = $("#zs").val();
         var cbje = $("#cbje").val();
         var id = $("#bgmxid").val();
+        var rq = $("#rq").val();
         var bgrwfpid = $("#bgrwfpid").val();
         $.ajax({
             type: "GET",
@@ -91,6 +100,7 @@
             data: {
                 id: id,
                 zs: zs,
+                rq: rq,
                 cbje: cbje,
                 bgrwfpid: bgrwfpid
             },
