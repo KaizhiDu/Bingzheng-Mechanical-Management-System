@@ -16,24 +16,27 @@ import java.util.Date;
  * @version : 1.0
  * @date : 2018/10/1 10:54
  */
-@TableName("T_SCGL_BGRWFP_BG_MX")
+@TableName("T_SCGL_BGRWFP_BG_RW")
 @SuppressWarnings("serial")
 public class JyglBgjy extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
-    /** 包工任务分配ID */
-    @TableField(value = "BGRWFPID")
-    private String bgrwfpid;
-    /** 承包金额 */
-    @TableField(value = "CBJE")
-    private String cbje;
-    /** 注释 */
-    @TableField(value = "ZS")
-    private String zs;
-    /** 是否完成 */
-    @TableField(value = "SFWC")
-    private String sfwc;
+    /** 零部件工艺编制ID */
+    @TableField(value = "LJGYBZID")
+    private String ljgybzid;
+    /** 分配设备ID */
+    @TableField(value = "FPSBID")
+    private String fpsbid;
+    /** 应完成量 */
+    @TableField(value = "YWCL")
+    private String ywcl;
+    /** 实际完成量 */
+    @TableField(value = "SJWCL")
+    private String sjwcl;
+    /** 排序 */
+    @TableField(value = "PX")
+    private int px;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -48,44 +51,54 @@ public class JyglBgjy extends AbstractEntity<String> {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getBgrwfpid() {
-        return bgrwfpid;
+    public String getLjgybzid() {
+        return ljgybzid;
     }
 
-    public void setBgrwfpid(String bgrwfpid) {
-        this.bgrwfpid = bgrwfpid;
+    public void setLjgybzid(String ljgybzid) {
+        this.ljgybzid = ljgybzid;
     }
 
-    public String getCbje() {
-        return cbje;
+    public String getFpsbid() {
+        return fpsbid;
     }
 
-    public void setCbje(String cbje) {
-        this.cbje = cbje;
+    public void setFpsbid(String fpsbid) {
+        this.fpsbid = fpsbid;
     }
 
-    public String getZs() {
-        return zs;
+    public String getYwcl() {
+        return ywcl;
     }
 
-    public void setZs(String zs) {
-        this.zs = zs;
+    public void setYwcl(String ywcl) {
+        this.ywcl = ywcl;
     }
 
-    public String getSfwc() {
-        return sfwc;
+    public String getSjwcl() {
+        return sjwcl;
     }
 
-    public void setSfwc(String sfwc) {
-        this.sfwc = sfwc;
+    public void setSjwcl(String sjwcl) {
+        this.sjwcl = sjwcl;
+    }
+
+    public int getPx() {
+        return px;
+    }
+
+    public void setPx(int px) {
+        this.px = px;
     }
 
     public User getUpdateBy() {

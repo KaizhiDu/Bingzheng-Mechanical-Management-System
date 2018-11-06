@@ -13,7 +13,7 @@
     <html:css
             name="bootstrap-fileinput,font-awesome,animate,iCheck,datepicker,jqgrid,sweetalert,Validform,jqgrid"/>
     <html:js
-            name="layer,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
+            name="layer,laydate,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
     <script>
         $(function () {
             $(".ibox-title").hide();
@@ -29,37 +29,95 @@
         }
     </style>
 </head>
-<body>
-
-<h4>包工明细</h4>
-
+<body class="container">
+<input type="hidden" id="ljgybzid" name="ljgybzid" value="${ljgybzid}">
+<input type="hidden" id="ywcl" name="ywcl" value="${ywcl}">
+<input type="hidden" id="bgrwid" name="bgrwid" value="${bgrwid}">
 <div class="row">
-    <div id="BgjyxqGridQuery" class="col-md-12">
-        <div class="form-inline">
-            <div class="form-group col-md-3" style="margin-bottom: 10px">
+    <div class="col-md-3">
 
-            </div>
-        </div>
+    </div>
+    <div class="col-md-6">
+        <form>
+            <table class="table">
+                <tr class="form-group">
+                    <td>
+                        <label>应完成量：</label>
+                    </td>
+                    <td>
+                        ${ywcl}
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>实际完成量：</label>
+                    </td>
+                    <td>
+                        <input name="sjwcl" id="sjwcl" htmlEscape="false" class="form-control" value="${sjwcl}" placeholder="请输入实际完成数量" onchange="checkRwl()"/>
+                    </td>
+                </tr>
+
+
+            </table>
+        </form>
+    </div>
+    <div class="col-md-3">
     </div>
 </div>
-<grid:grid id="Bgjyxq"
-           url="${adminPath}/jygl/bgjy/ajaxBgjyxqList?id=${id}" pageable="true">
 
-    <grid:column label="sys.common.key" hidden="true" name="id"/>
 
-    <grid:column label="日期" name="rq"/>
-    <grid:column label="姓名" name="xm"/>
-    <grid:column label="职位" name="zw"/>
-    <grid:column label="计划名称" name="jhbh"/>
-    <grid:column label="零部件名称" name="ljmc"/>
-    <grid:column label="工艺大类名称" name="gydlmc"/>
-    <grid:column label="工艺小类名称" name="gyxlmc"/>
-    <grid:column label="设备名称" name="sbmc"/>
-    <grid:column label="应完成量" name="ywcl"/>
+<script type="text/javascript">
 
-    <grid:toolbar function="search"/>
-    <grid:toolbar function="reset"/>
-</grid:grid>
+    //校验任务量
+    function checkRwl(){
+        var sjwcl = $("#sjwcl").val();
+        var ljgybzid = $("#ljgybzid").val();
+        var bgrwid = $("#bgrwid").val();
+        var r = sjwcl.match(/^[0-9]*$/);
+        //先判断是不是数字
+        if(r == null){
+            top.layer.alert("请输入数字");
+            $("#sjwcl").val("");
+        }else{
+            //判断输入的数字是否大于剩余数量
+            $.ajax({
+                type: "GET",
+                url: "${adminPath}/jygl/bgjy/sfdysysl",
+                data: {
+                    sjwcl: sjwcl,
+                    ljgybzid: ljgybzid,
+                    bgrwid: bgrwid
+                },
+                success: function (data) {
+                    if (data==1){
+                        top.layer.alert("实际完成量大于剩余数量");
+                        $("#sjwcl").val("");
+                    }
+
+                }
+            });
+        }
+    }
+
+    //点击保存，保存数据
+    function check() {
+        var sjwcl = $("#sjwcl").val();
+        var ljgybzid = $("#ljgybzid").val();
+        var bgrwid = $("#bgrwid").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/jygl/bgjy/saveWcl",
+            data: {
+                sjwcl: sjwcl,
+                ljgybzid: ljgybzid,
+                bgrwid: bgrwid
+            },
+            success: function (data) {
+
+            }
+        });
+    }
+</script>
 
 </body>
 </html>
