@@ -50,12 +50,15 @@
            url="${adminPath}/scgl/rcrwfp/ajaxRcrwfpList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="70"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
     <grid:button title="分配工时" groupname="opt" function="fpgs"
                  outclass="btn-primary" url="${adminPath}/scgl/rcrwfp/fpgs?id=\"+row.id+\"" />
     <grid:button title="分配任务" groupname="opt" function="fpsb"
                  outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fpsb?id=\"+row.id+\"&rq=\"+row.rq+\"" />
+    <grid:button title="任务详情" groupname="opt" function="rwxq"
+                 outclass="btn-info" url="${adminPath}/scgl/rcrwfp/rwxq?id=\"+row.id+\"&rq=\"+row.rq+\"&xm=\"+row.xm+\"" />
 
+    <grid:column label="工时" name="gs" width="30"/>
     <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="xm"/>
     <grid:column label="职位" name="zw"/>
@@ -71,6 +74,36 @@
 </grid:grid>
 
 <script type="text/javascript">
+
+    //任务详情
+    function rwxq(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["30%", "60%"],
+            title: "任务详情",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
 
     //分配工时
     function fpgs(title, url, gridId, id, width, height, tipMsg) {

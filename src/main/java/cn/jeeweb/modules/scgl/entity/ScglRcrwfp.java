@@ -38,6 +38,9 @@ public class ScglRcrwfp extends AbstractEntity<String> {
     /** 性别 */
     @TableField(value = "XB")
     private String xb;
+    /** 总工时 */
+    @TableField(value = "GS")
+    private String gs;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -132,5 +135,13 @@ public class ScglRcrwfp extends AbstractEntity<String> {
 
     public void setYgid(String ygid) {
         this.ygid = ygid;
+    }
+
+    public String getGs() {
+        return gs;
+    }
+
+    public void setGs(String gs) {
+        this.gs = gs;
     }
 }

@@ -14,6 +14,7 @@ import cn.jeeweb.modules.grgl.service.IGrglService;
 import cn.jeeweb.modules.grgl.service.IGrglXzzwfpService;
 import cn.jeeweb.modules.grgl.service.IGrglYgkqjlJcsjService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
+import cn.jeeweb.modules.jygl.dto.RgjyDTO;
 import cn.jeeweb.modules.sbgl.entity.*;
 import cn.jeeweb.modules.sbgl.service.*;
 import cn.jeeweb.modules.scgl.dto.*;
@@ -392,6 +393,21 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @RequestMapping(value = "saveGs", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveGs(String rq, ScglRggs scglRggs, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        //首先得到工时和加班，把他们两个相加放到rcrwfp表里
+        float gss = 0;
+        float jbb = 0;
+        if (scglRggs.getJb()!=null&&!scglRggs.getJb().equals("")){
+            jbb = Float.parseFloat(scglRggs.getJb());
+        }
+        if (scglRggs.getGs()!=null&&!scglRggs.getGs().equals("")){
+            gss = Float.parseFloat(scglRggs.getGs());
+        }
+        float zgss = gss + jbb;
+        ScglRcrwfp scglRcrwfp01 = scglRcrwfpService.selectById(scglRggs.getRcrwfpid());
+        scglRcrwfp01.setGs(zgss+"");
+        scglRcrwfpService.updateById(scglRcrwfp01);
+
         //拿到原始数据
         String gsid = scglRggs.getId();
         ScglRggs ysRggs1 = scglRggsService.selectById(gsid);
@@ -1293,6 +1309,25 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
             return rgpgdDTOList;
         }
 
+    }
+
+    /**
+     * Dscription: 任务详情
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/7 13:41
+     */
+    @RequestMapping(value = "rwxq", method={RequestMethod.GET, RequestMethod.POST})
+    public String rwxq(String rq, String id, String xm, HttpServletRequest request, HttpServletResponse response, Model model){
+        List<RgpgJcxxDTO> rgpgJcxx = scglRcrwfpService.getRgpgJcxx(id, rq);
+        model.addAttribute("xm", xm);
+        List<String> getData = new ArrayList<String>();
+        for (RgpgJcxxDTO r : rgpgJcxx) {
+            String nr = r.getSbmc()+" - "+r.getLjmc()+" - "+r.getGydlmc()+" - "+r.getGyxlmc()+" - "+r.getYwcl()+"件";
+            getData.add(nr);
+        }
+        model.addAttribute("getData" , getData);
+        return display("rwxq");
     }
 
 }
