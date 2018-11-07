@@ -35,6 +35,9 @@ public class ScglBgrw extends AbstractEntity<String> {
     /** 实际完成量 */
     @TableField(value = "SJWCL")
     private String sjwcl;
+    /** 报废量 */
+    @TableField(value = "BFL")
+    private String bfl;
     /** 排序 */
     @TableField(value = "PX")
     private int px;
@@ -130,5 +133,13 @@ public class ScglBgrw extends AbstractEntity<String> {
 
     public void setFpsbid(String fpsbid) {
         this.fpsbid = fpsbid;
+    }
+
+    public String getBfl() {
+        return bfl;
+    }
+
+    public void setBfl(String bfl) {
+        this.bfl = bfl;
     }
 }

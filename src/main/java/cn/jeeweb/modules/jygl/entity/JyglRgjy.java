@@ -34,6 +34,9 @@ public class JyglRgjy extends AbstractEntity<String> {
     /** 实际完成量 */
     @TableField(value = "SJWCL")
     private String sjwcl;
+    /** 报废量 */
+    @TableField(value = "BFL")
+    private String bfl;
     /** 排序 */
     @TableField(value = "PX")
     private int px;
@@ -131,5 +134,13 @@ public class JyglRgjy extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getBfl() {
+        return bfl;
+    }
+
+    public void setBfl(String bfl) {
+        this.bfl = bfl;
     }
 }

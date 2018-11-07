@@ -17,6 +17,7 @@ public class RgjyDTO {
     private String sbmc;
     private String ywcl;
     private String sjwcl;
+    private String bfl;
 
     public String getId() {
         return id;
@@ -104,5 +105,13 @@ public class RgjyDTO {
 
     public void setSjwcl(String sjwcl) {
         this.sjwcl = sjwcl;
+    }
+
+    public String getBfl() {
+        return bfl;
+    }
+
+    public void setBfl(String bfl) {
+        this.bfl = bfl;
     }
 }

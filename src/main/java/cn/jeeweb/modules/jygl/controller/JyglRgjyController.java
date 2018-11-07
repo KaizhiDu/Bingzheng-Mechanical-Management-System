@@ -121,6 +121,8 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         //零部件工艺编制ID
         String ljgybzid = jyglRgjy.getLjgybzid();
         model.addAttribute("ljgybzid", ljgybzid);
+        //报废量
+        model.addAttribute("bfl", jyglRgjy.getBfl());
         //日工任务ID
         model.addAttribute("rgrwid", id);
         return display("jy");
@@ -134,9 +136,15 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
      */
     @RequestMapping(value = "saveWcl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveWcl(String rgrwid, String ljgybzid, String sjwcl, HttpServletRequest request, HttpServletResponse response, Model model){
-        //首先要判断之前是否已经设置过了实际完成量
+    public void saveWcl(String rgrwid, String ljgybzid, String sjwcl, String bfl, HttpServletRequest request, HttpServletResponse response, Model model){
+
+
         JyglRgjy preJyglRgjy = jyglRgjyService.selectById(rgrwid);
+        String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
+        String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
+
+
+        //首先要判断之前是否已经设置过了实际完成量
         //如果之前已经设置了实际完成量，则需要先恢复数据
         if (preJyglRgjy.getSjwcl()!=null&&!preJyglRgjy.getSjwcl().equals("")){
             //之前的实际完成量
@@ -156,8 +164,6 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
             scglLjgybzService.updateById(preScglLjgybz);
 
             //下一步要拿到零部件下的所有工艺
-            String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
-            String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
             List<ScglLjgybz> ljgybzByLjidList = scglLjgybzService.getLjgybzByLjid(ljid);
             //判断要入库多少
             int abc = 1000000;
@@ -326,8 +332,6 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
 
         //判断该零部件工艺所在的零部件下的所有工艺，是否有全完成了的。有就入仓库（判断sysl 和 wrksl）
         //首先要拿到零部件ID
-        String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
-        String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
         //下一步要拿到零部件下的所有工艺
         List<ScglLjgybz> ljgybzByLjidList = scglLjgybzService.getLjgybzByLjid(ljid);
         //判断要入库多少
@@ -419,6 +423,56 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
                 ckglService.updateById(ckgl2);
             }
         }
+
+        //拿到之前的报废量
+        int preBfli = 0;
+        int bfli = 0;
+        String preBfl = preJyglRgjy.getBfl();
+        if (preBfl!=null&&!preBfl.equals("")){
+            preBfli = Integer.parseInt(preBfl);
+        }
+        if (bfl!=null&&!bfl.equals("")){
+            bfli = Integer.parseInt(bfl);
+        }
+        //工艺和零件减去这个realbfl
+        int realbfl = bfli - preBfli;
+
+        ScjhglLjgl scjhglLjgl0 = scjhglLjglService.selectById(ljid);
+        scjhglLjgl0.getSl();
+        int zsl = 0;
+        int zsysl = 0;
+        int zwrksl = 0;
+        if (scjhglLjgl0.getSl()!=null&&!scjhglLjgl0.getSl().equals("")){
+            zsl = Integer.parseInt(scjhglLjgl0.getSl());
+        }
+        if (scjhglLjgl0.getSysl()!=null&&!scjhglLjgl0.getSysl().equals("")){
+            zsysl = Integer.parseInt(scjhglLjgl0.getSysl());
+        }
+        if (scjhglLjgl0.getWrksl()!=null&&!scjhglLjgl0.getWrksl().equals("")){
+            zwrksl = Integer.parseInt(scjhglLjgl0.getWrksl());
+        }
+        zsl = zsl - realbfl;
+        zsysl = zsysl - realbfl;
+        zwrksl = zwrksl - realbfl;
+        scjhglLjgl0.setSl(zsl+"");
+        scjhglLjgl0.setSysl(zsysl+"");
+        scjhglLjgl0.setWrksl(zwrksl+"");
+        scjhglLjglService.updateById(scjhglLjgl0);
+        List<ScglLjgybz> getLjgybzList = scglLjgybzService.getLjgybzByLjid(ljid);
+        for (ScglLjgybz s : getLjgybzList) {
+            int zsl2 = s.getSl();
+            int zsysl2 = s.getSysl();
+            int zwrksl2 = s.getWrksl();
+            zsl2 = zsl2 - realbfl;
+            zsysl2 = zsysl2 - realbfl;
+            zwrksl2 = zwrksl2 - realbfl;
+            s.setSl(zsl2);
+            s.setSysl(zsysl2);
+            s.setWrksl(zwrksl2);
+            scglLjgybzService.updateById(s);
+        }
+        preJyglRgjy.setBfl(bfl);
+        jyglRgjyService.updateById(preJyglRgjy);
     }
 
     /**

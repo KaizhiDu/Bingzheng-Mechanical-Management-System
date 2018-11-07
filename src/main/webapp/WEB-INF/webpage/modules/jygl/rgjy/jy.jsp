@@ -56,6 +56,14 @@
                         <input name="sjwcl" id="sjwcl" htmlEscape="false" class="form-control" value="${sjwcl}" placeholder="请输入实际完成数量" onchange="checkRwl()"/>
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>报废量：</label>
+                    </td>
+                    <td>
+                        <input name="bfl" id="bfl" htmlEscape="false" class="form-control" value="${bfl}" placeholder="请输入报废量" onchange="checkBfl()"/>
+                    </td>
+                </tr>
 
 
             </table>
@@ -67,6 +75,16 @@
 
 
 <script type="text/javascript">
+
+    //校验报废量
+    function checkBfl(){
+        var bfl = $("#bfl").val();
+        var r = bfl.match(/^[0-9]*$/);
+        if(r == null){
+            top.layer.alert("请输入数字");
+            $("#bfl").val("");
+        }
+    }
 
     //校验任务量
     function checkRwl(){
@@ -104,13 +122,15 @@
         var sjwcl = $("#sjwcl").val();
         var ljgybzid = $("#ljgybzid").val();
         var rgrwid = $("#rgrwid").val();
+        var bfl = $("#bfl").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/jygl/rgjy/saveWcl",
             data: {
                 sjwcl: sjwcl,
                 ljgybzid: ljgybzid,
-                rgrwid: rgrwid
+                rgrwid: rgrwid,
+                bfl: bfl
             },
             success: function (data) {
 

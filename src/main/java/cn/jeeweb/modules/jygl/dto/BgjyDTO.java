@@ -17,6 +17,15 @@ public class BgjyDTO {
     private String sbmc;
     private String ywcl;
     private String sjwcl;
+    private String bfl;
+
+    public String getBfl() {
+        return bfl;
+    }
+
+    public void setBfl(String bfl) {
+        this.bfl = bfl;
+    }
 
     public String getId() {
         return id;
