@@ -1300,10 +1300,12 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
 
             }
             for (RgpgdDTO b : rgpgdDTOList) {
-                String nr = b.getNr().substring(b.getNr().length()-5,b.getNr().length());
-                if (nr.equals("----件")){
-                    nr = b.getNr().substring(0,b.getNr().length()-14);
-                    b.setNr(nr);
+                if (b.getNr()!=null&&!b.getNr().equals("")){
+                    String nr = b.getNr().substring(b.getNr().length()-5,b.getNr().length());
+                    if (nr.equals("----件")){
+                        nr = b.getNr().substring(0,b.getNr().length()-14);
+                        b.setNr(nr);
+                    }
                 }
             }
             return rgpgdDTOList;

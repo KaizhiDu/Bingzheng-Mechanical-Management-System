@@ -41,6 +41,9 @@ public class ScglBgrwfp extends AbstractEntity<String> {
     /** 是否完成 */
     @TableField(value = "SFWC")
     private String sfwc;
+    /** 是否分配任务 */
+    @TableField(value = "SFFPRW")
+    private String sffprw;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)

@@ -70,11 +70,8 @@ public class ScglBgrwfpServiceImpl extends CommonServiceImpl<ScglBgrwfpMapper, S
      * @date : 2018/9/30 10:49
      */
     @Override
-    public List<BgpgdDTO> getBgpgd(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
-        return scglBgrwfpMapper.getBgpgd(currentTime);
+    public List<BgpgdDTO> getBgpgd(String rq){
+        return scglBgrwfpMapper.getBgpgd(rq);
     }
 
     /**
@@ -84,10 +81,7 @@ public class ScglBgrwfpServiceImpl extends CommonServiceImpl<ScglBgrwfpMapper, S
      * @date : 2018/9/30 10:55
      */
     @Override
-    public List<BgpgJcxxDTO> getBgpgJcxx() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
-        return scglBgrwfpMapper.getBgpgJcxx(currentTime);
+    public List<BgpgJcxxDTO> getBgpgJcxx(String rq) {
+        return scglBgrwfpMapper.getBgpgJcxx(rq);
     }
 }

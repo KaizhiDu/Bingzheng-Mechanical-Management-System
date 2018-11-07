@@ -31,16 +31,20 @@
 </head>
 <body>
 
-<h2>${currentTime} 包工分配</h2>
 <div class="row">
     <div id="RcrwfpGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-
+                <select id="rq" name="rq" class="form-control">
+                    <c:forEach items="${dates}" var="each">
+                        <option value="${each}">${each}</option>
+                    </c:forEach>
+                </select>
             </div>
         </div>
     </div>
 </div>
+<h2>${currentTime} 包工分配</h2>
 <grid:grid id="Yggl"
            url="${adminPath}/grgl/grgl/ajaxGrglList" pageable="true">
 
@@ -55,8 +59,6 @@
 
     <grid:toolbar function="createPgd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="生成派工单"/>
 
-    <grid:toolbar function="search"/>
-    <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
@@ -93,9 +95,10 @@
 
     //生成派工单
     function createPgd(){
+        var rq = $("#rq").val();
         $.ajax({
             type: "get",
-            url: "${adminPath}/scgl/bgrwfp/createPgd",
+            url: "${adminPath}/scgl/bgrwfp/createPgd?rq="+rq,
             success: function (data) {
                 top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
             }

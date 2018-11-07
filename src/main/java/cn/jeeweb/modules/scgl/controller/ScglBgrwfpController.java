@@ -36,9 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Dscription: 生产管理-包工任务分配
@@ -119,6 +117,35 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
+
+        SimpleDateFormat sss = new SimpleDateFormat("yyyy-MM-dd");
+        //得到今天的时间
+        Calendar calendar0 = new GregorianCalendar();
+        calendar0.setTime(new Date());
+        calendar0.add(calendar0.DATE,0);
+        String day = sss.format(calendar0.getTime());
+
+        //得到明天的时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        calendar.add(calendar.DATE,1);
+        String day1 = sss.format(calendar.getTime());
+
+        //得到后天的时间
+        Calendar calendar2 = new GregorianCalendar();
+        calendar2.setTime(new Date());
+        calendar2.add(calendar.DATE,2);
+        String day2 = sss.format(calendar2.getTime());
+
+        //得到大后天的时间
+        Calendar calendar3 = new GregorianCalendar();
+        calendar3.setTime(new Date());
+        calendar3.add(calendar.DATE,3);
+        String day3 = sss.format(calendar3.getTime());
+
+        String dates[] = {day1,day,day2,day3};
+
+        model.addAttribute("dates", dates);
 
         //得到当前年月
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM");
@@ -615,10 +642,17 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @RequestMapping(value = "createPgd", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void createPgd(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-
+    public void createPgd(String rq, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+        if (rq==null){
+            SimpleDateFormat sss = new SimpleDateFormat("yyyy-MM-dd");
+            //得到明天的时间
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date());
+            calendar.add(calendar.DATE,1);
+            rq = sss.format(calendar.getTime());
+        }
         //获得派工数据
-        List<BgpgdDTO> list = getBgpgxx();
+        List<BgpgdDTO> list = getBgpgxx(rq);
 
         //新建一个工作簿
         Workbook wb = new XSSFWorkbook();
@@ -764,11 +798,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 }
             }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+currentTime+"包工派工单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+"包工派工单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();
@@ -794,10 +825,10 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      * @version : 1.0
      * @date : 2018/9/30 10:24
      */
-    public List<BgpgdDTO> getBgpgxx(){
-        List<BgpgdDTO> bgpgdDTOList = scglBgrwfpService.getBgpgd();
+    public List<BgpgdDTO> getBgpgxx(String rq){
+        List<BgpgdDTO> bgpgdDTOList = scglBgrwfpService.getBgpgd(rq);
         //从数据库里面得到原始数据
-        List<BgpgJcxxDTO> bgpgJcxxList = scglBgrwfpService.getBgpgJcxx();
+        List<BgpgJcxxDTO> bgpgJcxxList = scglBgrwfpService.getBgpgJcxx(rq);
         //如果没有任何数据的话，直接返回null
         if (bgpgJcxxList.size()==0){
             return null;
@@ -885,10 +916,12 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         }
 
         for (BgpgdDTO b : bgpgdDTOList) {
-            String nr = b.getNr().substring(b.getNr().length()-5,b.getNr().length());
-            if (nr.equals("----件")){
-                nr = b.getNr().substring(0,b.getNr().length()-14);
-                b.setNr(nr);
+            if (b.getNr()!=null&&!b.getNr().equals("")){
+                String nr = b.getNr().substring(b.getNr().length()-5,b.getNr().length());
+                if (nr.equals("----件")){
+                    nr = b.getNr().substring(0,b.getNr().length()-14);
+                    b.setNr(nr);
+                }
             }
         }
         return bgpgdDTOList;

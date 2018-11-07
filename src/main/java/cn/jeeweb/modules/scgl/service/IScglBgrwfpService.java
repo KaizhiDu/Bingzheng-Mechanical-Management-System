@@ -39,7 +39,7 @@ public interface IScglBgrwfpService extends ICommonService<ScglBgrwfp> {
      * @version : 1.0
      * @date : 2018/9/30 10:50
      */
-    public List<BgpgdDTO> getBgpgd();
+    public List<BgpgdDTO> getBgpgd(String rq);
 
     /**
      * Dscription: 得到包工派工基础数据
@@ -47,5 +47,5 @@ public interface IScglBgrwfpService extends ICommonService<ScglBgrwfp> {
      * @version : 1.0
      * @date : 2018/9/30 10:55
      */
-    public List<BgpgJcxxDTO> getBgpgJcxx();
+    public List<BgpgJcxxDTO> getBgpgJcxx(String rq);
 }
