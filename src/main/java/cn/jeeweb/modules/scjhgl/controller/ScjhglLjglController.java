@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -86,6 +88,9 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     @RequestMapping(value = "saveLj",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public void saveLj(HttpServletRequest request, HttpServletResponse response, Model model, ScjhglLjgl scjhglLjgl){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
         String jhid = scjhglLjgl.getHtid();
         ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(jhid);
         int jhsl = 0;
@@ -102,6 +107,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
         scjhglLjgl.setWrksl(zyl+"");
         scjhglLjgl.setSfsbj("0");
         scjhglLjgl.setSfwwcrk("0");
+        scjhglLjgl.setRq(currentDate);
 
         scjhglLjglService.insert(scjhglLjgl);
     }
@@ -114,8 +120,11 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     */
     @RequestMapping(value = "ajaxljglList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<ScjhglLjgl> ajaxljglList(String dlid, Queryable queryable, ScjhglLjgl scglSzgyxl, HttpServletRequest request, HttpServletResponse response, Model model){
-        PageJson<ScjhglLjgl> pageJson = scjhglLjglService.ajaxljglList(queryable,scglSzgyxl);
+    public PageJson<ScjhglLjgl> ajaxljglList(String pxfs, String dlid, Queryable queryable, ScjhglLjgl scglSzgyxl, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (pxfs==null){
+            pxfs = "1";
+        }
+        PageJson<ScjhglLjgl> pageJson = scjhglLjglService.ajaxljglList(pxfs, queryable,scglSzgyxl);
         return pageJson;
     }
 
@@ -160,6 +169,9 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
      */
     @RequestMapping(value = "modifySl", method={RequestMethod.GET, RequestMethod.POST})
     public String modifySl(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
+        model.addAttribute("htList", list);
         ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
         model.addAttribute("scjhglLjgl" ,scjhglLjgl);
         return display("modifySl");
@@ -172,7 +184,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
      * @date : 2018/11/5 18:08
      */
     @RequestMapping(value = "saveSl", method={RequestMethod.GET, RequestMethod.POST})
-    public void saveSl(String id, String lbjsl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveSl(String id, String lbjsl, String htid, String ljmc, String ljth, HttpServletRequest request, HttpServletResponse response, Model model){
         int lbjsli = 0;
         if (lbjsl!=null&&!lbjsl.equals("")){
             lbjsli = Integer.parseInt(lbjsl);
@@ -182,6 +194,9 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
         scjhglLjgl.setWrksl(lbjsl);
         scjhglLjgl.setSysl(lbjsl);
         scjhglLjgl.setSl(lbjsl);
+        scjhglLjgl.setLjmc(ljmc);
+        scjhglLjgl.setLjth(ljth);
+        scjhglLjgl.setHtid(htid);
         scjhglLjglService.updateById(scjhglLjgl);
 
         //再更新下属零件工艺编制信息

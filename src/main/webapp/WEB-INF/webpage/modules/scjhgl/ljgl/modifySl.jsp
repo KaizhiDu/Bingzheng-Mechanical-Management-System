@@ -41,6 +41,35 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
+                        <label>计划名称：</label>
+                    </td>
+                    <td>
+                        <select id="htid" name="htid" class="form-control">
+                            <c:forEach var="ht" items="${htList}">
+                                <c:if test="${scjhglLjgl.htid==ht.id}"><option value="${ht.id}" selected="selected">${ht.htbh}</option></c:if>
+                                <c:if test="${scjhglLjgl.htid!=ht.id}"><option value="${ht.id}">${ht.htbh}</option></c:if>
+                            </c:forEach>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>零部件图号：</label>
+                    </td>
+                    <td>
+                        <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号" value="${scjhglLjgl.ljth}"/>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>零部件名称：</label>
+                    </td>
+                    <td>
+                        <input name="ljmc" id="ljmc" htmlEscape="false" class="form-control" placeholder="请输入零部件名称" value="${scjhglLjgl.ljmc}"/>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>零部件数量：</label>
                     </td>
                     <td>
@@ -73,12 +102,18 @@
     function check() {
         var lbjid = $("#lbjid").val();
         var lbjsl = $("#lbjsl").val();
+        var htid = $("#htid").val();
+        var ljth = $("#ljth").val();
+        var ljmc = $("#ljmc").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/ljgl/saveSl",
             data: {
                 id: lbjid,
-                lbjsl: lbjsl
+                lbjsl: lbjsl,
+                htid: htid,
+                ljth: ljth,
+                ljmc: ljmc
             },
             success: function (data) {
 

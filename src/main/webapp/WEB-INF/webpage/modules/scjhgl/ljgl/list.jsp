@@ -49,6 +49,14 @@
                 <label class="control-label">零部件图号：</label>
                 <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
             </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">排序方式：</label>
+                <select name="pxfs" class="form-control" id="pxfs">
+                    <option value="">请选择</option>
+                    <option value="1">根据计划图号</option>
+                    <option value="2">根据添加时间</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>

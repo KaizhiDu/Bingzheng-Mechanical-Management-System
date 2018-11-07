@@ -22,7 +22,7 @@ public interface ScjhglLjglMapper extends BaseMapper<ScjhglLjgl> {
      * @CreateDate:     2018/9/12 16:53
      * @Version:        1.0
      */
-    public List<ScjhglLjgl> ajaxljglList(Pagination page, @Param("entity") ScjhglLjgl entity);
+    public List<ScjhglLjgl> ajaxljglList(@Param("pxfs") String pxfs, Pagination page, @Param("entity") ScjhglLjgl entity);
 
     /**
      * @Description:    展示所有零部件信息

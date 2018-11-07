@@ -53,6 +53,9 @@ public class ScjhglLjgl extends AbstractEntity<String> {
     /** 是否未完成入库 */
     @TableField(value = "SFWWCRK")
     private String sfwwcrk;
+    /** 日期 */
+    @TableField(value = "RQ")
+    private String rq;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -66,6 +69,14 @@ public class ScjhglLjgl extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getRq() {
+        return rq;
+    }
+
+    public void setRq(String rq) {
+        this.rq = rq;
+    }
 
     @Override
     public String getId() {

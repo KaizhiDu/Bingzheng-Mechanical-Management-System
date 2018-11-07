@@ -16,10 +16,16 @@ WHERE 1=1
 			AND T.HTID = #{entity.htid}
 		</if>
 		<if test="entity.ljth!=null and entity.ljth!=''">
-			AND T.LJTH = #{entity.ljth}
+			AND T.LJTH LIKE "%"#{entity.ljth}"%"
 		</if>
 		AND T.SFSBJ = '0'
-ORDER BY T.HTID
+		<if test="pxfs==1">
+			ORDER BY T.HTID,T.LJTH
+		</if>
+		<if test="pxfs==2">
+			ORDER BY T.RQ DESC
+		</if>
+
     </select>
 
 	<select id="ajaxlbjglList" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
