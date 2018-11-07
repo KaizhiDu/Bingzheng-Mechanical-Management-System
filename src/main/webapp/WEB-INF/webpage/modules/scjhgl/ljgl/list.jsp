@@ -67,7 +67,7 @@
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
 
-    <grid:button title="修改数量" groupname="opt" function="modifySl"
+    <grid:button title="修改零部件" groupname="opt" function="modifySl"
                  outclass="btn-success" url="${adminPath}/scjhgl/ljgl/modifySl?id=\"+row.id+\"" />
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
                  <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>

@@ -500,8 +500,9 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             s.setWrksl(zwrksl2);
             scglLjgybzService.updateById(s);
         }
-        preJyglBgjy.setBfl(bfl);
-        jyglBgjyService.updateById(preJyglBgjy);
+        JyglBgjy finalBgjy = jyglBgjyService.selectById(bgrwid);
+        finalBgjy.setBfl(bfl);
+        jyglBgjyService.updateById(finalBgjy);
 
     }
 

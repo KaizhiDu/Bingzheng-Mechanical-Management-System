@@ -471,8 +471,9 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
             s.setWrksl(zwrksl2);
             scglLjgybzService.updateById(s);
         }
-        preJyglRgjy.setBfl(bfl);
-        jyglRgjyService.updateById(preJyglRgjy);
+        JyglRgjy finalJyglRgjy = jyglRgjyService.selectById(rgrwid);
+        finalJyglRgjy.setBfl(bfl);
+        jyglRgjyService.updateById(finalJyglRgjy);
     }
 
     /**

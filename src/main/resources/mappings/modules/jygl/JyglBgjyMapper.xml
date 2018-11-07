@@ -35,7 +35,7 @@
         AND T4.GYDLBZID = T5.ID
         AND T5.LJID = T6.ID
         AND T6.HTID = T7.ID
-        ORDER BY XM,LJMC,GYDLMC,GYXLMC,SBMC
+        ORDER BY SJWCL,XM,LJMC,GYDLMC,GYXLMC,SBMC
     </select>
 
     <select id="ajaxBgjyxqList" resultType="cn.jeeweb.modules.jygl.dto.BgjyxqDTO">
