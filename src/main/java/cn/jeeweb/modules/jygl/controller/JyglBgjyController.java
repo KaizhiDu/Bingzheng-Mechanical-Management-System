@@ -11,6 +11,7 @@ import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import cn.jeeweb.modules.jygl.dto.BgjyDTO;
 import cn.jeeweb.modules.jygl.dto.BgjyxqDTO;
+import cn.jeeweb.modules.jygl.dto.RgjyDTO;
 import cn.jeeweb.modules.jygl.entity.JyglBgjy;
 import cn.jeeweb.modules.jygl.service.IJyglBgjyService;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
@@ -23,6 +24,9 @@ import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglBjzcService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +36,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -532,5 +538,117 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             flag = 1;
         }
         return flag;
+    }
+
+    /**
+     * Dscription: 导出包工检验单
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/8 12:49
+     */
+    @RequestMapping(value = "exportBgjyd", method={RequestMethod.GET, RequestMethod.POST})
+    public void exportBgjyd(String xm, String rq, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+
+        List<BgjyDTO> bgjyDTOS = jyglBgjyService.exportBgjyd(xm, rq);
+
+        //新建一个工作簿
+        Workbook wb = new XSSFWorkbook();
+        //新建工作表
+        Sheet sheet1 = wb.createSheet("包工检验单");
+        //设置单元格宽度
+        sheet1.setColumnWidth(0, 3700);
+        sheet1.setColumnWidth(1, 2000);
+        sheet1.setColumnWidth(2, 4700);
+        sheet1.setColumnWidth(3, 3700);
+        sheet1.setColumnWidth(4, 3700);
+        sheet1.setColumnWidth(5, 3700);
+        sheet1.setColumnWidth(6, 3700);
+        //设置边框
+        CellStyle style = wb.createCellStyle();
+        style.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+
+        //表头
+        Row row0 = sheet1.createRow(0);
+        row0.setHeightInPoints(35);
+        Cell cell00 = row0.createCell(0);
+        Cell cell01 = row0.createCell(1);
+        Cell cell02 = row0.createCell(2);
+        Cell cell03 = row0.createCell(3);
+        Cell cell04 = row0.createCell(4);
+        Cell cell05 = row0.createCell(5);
+        Cell cell06 = row0.createCell(6);
+        Cell cell07 = row0.createCell(7);
+        Cell cell08 = row0.createCell(8);
+        Cell cell09 = row0.createCell(9);
+        cell00.setCellValue("日期");
+        cell01.setCellValue("姓名");
+        cell02.setCellValue("计划编号");
+        cell03.setCellValue("零部件名称");
+        cell04.setCellValue("设备名称");
+        cell05.setCellValue("工艺大类名称");
+        cell06.setCellValue("工艺小类名称");
+        cell07.setCellValue("应完成量");
+        cell08.setCellValue("实完成量");
+        cell09.setCellValue("报废量");
+        cell00.setCellStyle(style);
+        cell01.setCellStyle(style);
+        cell02.setCellStyle(style);
+        cell03.setCellStyle(style);
+        cell04.setCellStyle(style);
+        cell05.setCellStyle(style);
+        cell06.setCellStyle(style);
+        cell07.setCellStyle(style);
+        cell08.setCellStyle(style);
+        cell09.setCellStyle(style);
+
+        if (bgjyDTOS!=null){
+            for (int i = 0; i < bgjyDTOS.size(); i++) {
+                BgjyDTO c = bgjyDTOS.get(i);
+                //创建一行
+                Row row = sheet1.createRow(i+1);
+                row.setHeightInPoints(35);
+                //创建单元格
+                Cell cell0 = row.createCell(0);
+                Cell cell1 = row.createCell(1);
+                Cell cell2 = row.createCell(2);
+                Cell cell3 = row.createCell(3);
+                Cell cell4 = row.createCell(4);
+                Cell cell5 = row.createCell(5);
+                Cell cell6 = row.createCell(6);
+                Cell cell7 = row.createCell(7);
+                Cell cell8 = row.createCell(8);
+                Cell cell9 = row.createCell(9);
+                //给单元格设值
+                cell0.setCellValue(c.getRq());
+                cell1.setCellValue(c.getXm());
+                cell2.setCellValue(c.getJhbh());
+                cell3.setCellValue(c.getLjmc());
+                cell4.setCellValue(c.getSbmc());
+                cell5.setCellValue(c.getGydlmc());
+                cell6.setCellValue(c.getGyxlmc());
+                cell7.setCellValue(c.getYwcl());
+                cell8.setCellValue("");
+                cell9.setCellValue("");
+                cell0.setCellStyle(style);
+                cell1.setCellStyle(style);
+                cell2.setCellStyle(style);
+                cell3.setCellStyle(style);
+                cell4.setCellStyle(style);
+                cell5.setCellStyle(style);
+                cell6.setCellStyle(style);
+                cell7.setCellStyle(style);
+                cell8.setCellStyle(style);
+                cell9.setCellStyle(style);
+
+            }
+        }
+        //创建流
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+"-"+xm+"包工检验单.xlsx");
+        //输出流
+        wb.write(fileOut);
+        fileOut.close();
     }
 }

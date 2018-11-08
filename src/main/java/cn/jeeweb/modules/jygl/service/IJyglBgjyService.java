@@ -25,6 +25,8 @@ public interface IJyglBgjyService extends ICommonService<JyglBgjy> {
      */
     public PageJson<BgjyDTO> ajaxBgjyList(Queryable queryable, BgjyDTO bgjyDTO);
 
+    public List<BgjyDTO> exportBgjyd(String xm, String rq);
+
     /**
      * Dscription: 展示所有包工详情信息（展示）
      * @author : Kevin Du

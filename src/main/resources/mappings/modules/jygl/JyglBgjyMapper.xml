@@ -29,6 +29,48 @@
         <if test="entity.xm!=null and entity.xm!=''">
             AND T2.XM = #{entity.xm}
         </if>
+        <if test="entity.rq!=null and entity.rq!=''">
+            AND T2.RQ = #{entity.rq}
+        </if>
+        AND T.YWCL IS NOT NULL
+        AND T1.SBID = T3.ID
+        AND T.LJGYBZID = T4.ID
+        AND T4.GYDLBZID = T5.ID
+        AND T5.LJID = T6.ID
+        AND T6.HTID = T7.ID
+        ORDER BY SJWCL,XM,LJMC,GYDLMC,GYXLMC,SBMC
+    </select>
+
+    <select id="exportBgjyd" resultType="cn.jeeweb.modules.jygl.dto.BgjyDTO">
+        SELECT T.ID,
+        T2.XM,
+        T2.ZW,
+        T2.RQ,
+        T7.HTBH JHBH,
+        T6.LJMC,
+        T5.GYDLMC,
+        T4.GYXLMC,
+        T3.SBMC,
+        T.YWCL,
+        T.SJWCL,
+        T.BFL
+        FROM T_SCGL_BGRWFP_BG_RW T,
+        T_SCGL_BGRWFP_BG_SB T1,
+        T_SCGL_BGRWFP T2,
+        T_SBGL_SBGL T3,
+        T_SCGL_LJGYBZ T4,
+        T_SCGL_GYDLBZ T5,
+        T_SCJHGL_LJGL T6,
+        T_SCJHGL_HTGL T7
+        WHERE 1=1
+        AND T.FPSBID = T1.ID
+        AND T1.BGRWFPID = T2.ID
+        <if test="xm!=null and xm!=''">
+            AND T2.XM = #{xm}
+        </if>
+        <if test="rq!=null and rq!=''">
+            AND T2.RQ = #{rq}
+        </if>
         AND T.YWCL IS NOT NULL
         AND T1.SBID = T3.ID
         AND T.LJGYBZID = T4.ID

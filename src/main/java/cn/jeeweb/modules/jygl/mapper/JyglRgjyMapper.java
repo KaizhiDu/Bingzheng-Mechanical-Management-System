@@ -23,4 +23,12 @@ public interface JyglRgjyMapper extends BaseMapper<JyglRgjy> {
      * @date : 2018/9/30 17:13
      */
     public List<JyglRgjy> ajaxRgjyList(Pagination page, @Param("entity") RgjyDTO entity, @Param("RQ") String currentTime);
+
+    /**
+     * Dscription: 导出日工检验派工单
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/8 10:49
+     */
+    public List<RgjyDTO> exportJypgd(@Param("xm") String xm, @Param("rq") String rq);
 }

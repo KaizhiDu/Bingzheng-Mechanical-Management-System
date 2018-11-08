@@ -72,11 +72,31 @@
     <grid:column label="实际完成量" name="sjwcl"/>
     <grid:column label="报废量" name="bfl"/>
 
+    <grid:toolbar function="exportRgjyd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="导出日工检验单"/>
+
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
+
+    //导出日工检验单
+    function exportRgjyd(){
+        var xm = $("#xm").val();
+        var rq = $("#rq").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/jygl/rgjy/exportRgjyd",
+            data: {
+                xm: xm,
+                rq: rq
+            },
+            success: function (data) {
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+            }
+        });
+    }
+
     //检验
     function jy(title, url, gridId, id, width, height, tipMsg){
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗

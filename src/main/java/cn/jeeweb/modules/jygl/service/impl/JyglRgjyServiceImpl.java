@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Dscription: 检验管理 - 日工检验
@@ -46,5 +47,16 @@ public class JyglRgjyServiceImpl extends CommonServiceImpl<JyglRgjyMapper, JyglR
         page.setRecords(jyglRgjyMapper.ajaxRgjyList(page, rgjyDTO,currentTime));
         PageJson<JyglRgjy> pagejson = new PageJson<JyglRgjy>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 导出日工检验单
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/8 10:49
+     */
+    @Override
+    public List<RgjyDTO> exportJypgd(String xm, String rq) {
+        return jyglRgjyMapper.exportJypgd(xm, rq);
     }
 }

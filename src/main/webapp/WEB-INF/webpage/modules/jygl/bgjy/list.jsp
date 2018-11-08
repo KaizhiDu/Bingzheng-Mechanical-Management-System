@@ -13,7 +13,7 @@
     <html:css
             name="bootstrap-fileinput,font-awesome,animate,iCheck,datepicker,jqgrid,sweetalert,Validform,jqgrid"/>
     <html:js
-            name="layer,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
+            name="layer,laydate,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
     <script>
         $(function () {
             $(".ibox-title").hide();
@@ -44,6 +44,10 @@
                     </c:forEach>
                 </select>
             </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">日期：</label>
+                <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
+            </div>
         </div>
     </div>
 </div>
@@ -68,11 +72,31 @@
     <grid:column label="实际完成量" name="sjwcl"/>
     <grid:column label="报废量" name="bfl"/>
 
+    <grid:toolbar function="exportBgjyd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="导出包工检验单"/>
+
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
+
+    //导出包工检验单
+    function exportBgjyd(){
+        var xm = $("#xm").val();
+        var rq = $("#rq").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/jygl/bgjy/exportBgjyd",
+            data: {
+                xm: xm,
+                rq: rq
+            },
+            success: function (data) {
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+            }
+        });
+    }
+
     //查看包工明细
     function jy(title, url, gridId, id, width, height, tipMsg){
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗

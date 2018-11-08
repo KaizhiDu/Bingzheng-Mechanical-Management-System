@@ -24,6 +24,8 @@ public interface JyglBgjyMapper extends BaseMapper<JyglBgjy> {
      */
     public List<BgjyDTO> ajaxBgjyList(Pagination page, @Param("entity") BgjyDTO entity);
 
+    public List<BgjyDTO> exportBgjyd(@Param("xm") String xm, @Param("rq") String rq);
+
     /**
      * Dscription: 展示所有包工详情信息（展示）
      * @author : Kevin Du

@@ -47,6 +47,17 @@ public class JyglBgjyServiceImpl extends CommonServiceImpl<JyglBgjyMapper, JyglB
     }
 
     /**
+     * Dscription: 导出检验单
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/8 12:53
+     */
+    @Override
+    public List<BgjyDTO> exportBgjyd(String xm, String rq) {
+        return jyglBgjyMapper.exportBgjyd(xm, rq);
+    }
+
+    /**
      * Dscription: 展示所有包工详情信息（展示）
      * @author : Kevin Du
      * @version : 1.0
