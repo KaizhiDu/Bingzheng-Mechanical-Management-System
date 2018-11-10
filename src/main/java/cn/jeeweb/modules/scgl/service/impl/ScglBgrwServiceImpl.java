@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Dscription: 包工 - 任务
  * @author : Kevin Du
@@ -40,5 +42,16 @@ public class ScglBgrwServiceImpl extends CommonServiceImpl<ScglBgrwMapper, ScglB
         page.setRecords(scglBgrwMapper.ajaxBgrwfpRwList(page, bgrwDTO));
         PageJson<BgrwDTO> pagejson = new PageJson<BgrwDTO>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 根据包工任务ID，获取所有包工任务
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/10 11:21
+     */
+    @Override
+    public List<ScglBgrw> getBgrwByBgrwfpid(String bgrwfpid) {
+        return scglBgrwMapper.getBgrwByBgrwfpid(bgrwfpid);
     }
 }

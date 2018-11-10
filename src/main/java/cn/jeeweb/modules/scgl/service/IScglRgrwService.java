@@ -4,7 +4,10 @@ import cn.jeeweb.core.common.service.ICommonService;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.scgl.dto.RgrwDTO;
+import cn.jeeweb.modules.scgl.entity.ScglBgrw;
 import cn.jeeweb.modules.scgl.entity.ScglRgrw;
+
+import java.util.List;
 
 /**
  * Dscription: 日工 - 任务
@@ -21,4 +24,6 @@ public interface IScglRgrwService extends ICommonService<ScglRgrw> {
      * @date : 2018/9/27 14:33
      */
     public PageJson<RgrwDTO> ajaxRcrwfpRwList(Queryable queryable, RgrwDTO rgrwDTO);
+
+
 }

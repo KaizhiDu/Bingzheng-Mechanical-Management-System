@@ -17,16 +17,20 @@
     <select id="ajaxBgrwfpList" resultType="cn.jeeweb.modules.scgl.entity.ScglBgrwfp">
         SELECT *
         FROM T_SCGL_BGRWFP
-        WHERE YGID = #{entity.ygid}
-               AND SFWC = '0'
-        ORDER BY ZW DESC
+        WHERE 1=1
+            AND YGID = #{entity.ygid}
+        <if test="entity.rq!=null and entity.rq!=''">
+            AND RQ = #{entity.rq}
+        </if>
+        ORDER BY RQ DESC
+
     </select>
 
     <select id="getBgpgJcxx" resultType="cn.jeeweb.modules.scgl.dto.BgpgJcxxDTO">
         SELECT T.ID,
 			 T.ZW,
 			 T.XM,
-       T.RQ,
+             T.RQ,
 			 T1.CBJE,
 			 T1.ZS,
 			 T3.SBMC,
@@ -71,5 +75,7 @@ WHERE 1=1
       AND T.RQ = #{RQ}
 ORDER BY T.ZW,T.XM
     </select>
+
+
 
 </mapper>

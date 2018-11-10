@@ -969,4 +969,40 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         scglBgrwfpService.insert(scglBgrwfp);
     }
 
+    /**
+     * Dscription: 删除包工任务
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/10 10:53
+     */
+    @RequestMapping(value = "deleteBgrw",method = {RequestMethod.GET,RequestMethod.POST})
+    public void deleteBgrw(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        //删除所有该包工信息下的分配设备信息，和设备下属的任务，再把任务下的数据还原
+        ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(id);
+        List<ScglBgrw> bgrwByBgrwfpid = scglBgrwService.getBgrwByBgrwfpid(id);
+        //循环返回和删除
+        for (ScglBgrw s : bgrwByBgrwfpid) {
+            int ywcl = 0;
+            if (s.getYwcl()!=null&&!s.getYwcl().equals("")){
+                ywcl = Integer.parseInt(s.getYwcl());
+            }
+            ScglLjgybz scglLjgybz = scglLjgybzService.selectById(s.getLjgybzid());
+            int newJhscsl = scglLjgybz.getJhscsl() - ywcl;
+            scglLjgybz.setJhscsl(newJhscsl);
+            scglLjgybzService.updateById(scglLjgybz);
+            scglBgrwService.deleteById(s.getId());
+        }
+        //然后删除设备信息
+        EntityWrapper<ScglBgsb> wrapper = new EntityWrapper<ScglBgsb>();
+        wrapper.eq("BGRWFPID", id);
+        scglBgsbService.delete(wrapper);
+        //再删除明细信息
+        EntityWrapper<ScglBgmx> wrapper1 = new EntityWrapper<ScglBgmx>();
+        wrapper1.eq("BGRWFPID", id);
+        scglBgmxService.delete(wrapper1);
+        //最后删除该包工信息
+        scglBgrwfpService.deleteById(id);
+    }
+
 }

@@ -26,4 +26,15 @@
         ORDER BY T.PX
     </select>
 
+    <select id="getBgrwByBgrwfpid" resultType="cn.jeeweb.modules.scgl.entity.ScglBgrw">
+        select t.*
+        from t_scgl_bgrwfp_bg_rw t,
+        t_scgl_bgrwfp_bg_sb t1,
+        t_scgl_bgrwfp t2
+        where 1=1
+        and t2.id = t1.bgrwfpid
+        and t1.id = t.fpsbid
+        and t2.id=#{bgrwfpid}
+    </select>
+
 </mapper>

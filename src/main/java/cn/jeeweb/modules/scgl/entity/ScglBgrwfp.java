@@ -147,5 +147,13 @@ public class ScglBgrwfp extends AbstractEntity<String> {
     public void setSfwc(String sfwc) {
         this.sfwc = sfwc;
     }
+
+    public String getSffprw() {
+        return sffprw;
+    }
+
+    public void setSffprw(String sffprw) {
+        this.sffprw = sffprw;
+    }
 }
 

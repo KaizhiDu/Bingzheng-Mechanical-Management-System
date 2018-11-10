@@ -57,7 +57,11 @@
             </div>
 
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">工艺：</label>
+                <label class="control-label">工艺大类：</label>
+                <input htmlEscape="false" class="form-control" placeholder="模糊搜索工艺"  maxlength="20" id="gydlmc" name="gydlmc"/>
+            </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">工艺小类：</label>
                 <input htmlEscape="false" class="form-control" placeholder="模糊搜索工艺"  maxlength="20" id="gyxlmc" name="gyxlmc"/>
             </div>
 

@@ -32,11 +32,11 @@ WHERE 1=1
 		<if test="entity.ljmc!=null and entity.ljmc!=''">
 			AND T2.LJMC LIKE "%"#{entity.ljmc}"%"
 		</if>
+		<if test="entity.gydlmc!=null and entity.gydlmc!=''">
+			AND T1.GYDLMC LIKE "%"#{entity.gydlmc}"%"
+		</if>
 		<if test="entity.gyxlmc!=null and entity.gyxlmc!=''">
 			AND T.GYXLMC LIKE "%"#{entity.gyxlmc}"%"
-		</if>
-		<if test="entity.gydlmc!=null and entity.gydlmc!=''">
-			AND T1.ID = #{entity.gydlmc}
 		</if>
 		AND T.SCSFXS = '1'
 ORDER BY JHBH,LJMC,DPX,XPX

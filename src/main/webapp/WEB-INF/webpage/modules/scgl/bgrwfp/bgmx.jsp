@@ -45,7 +45,7 @@
                         <label>包工日期：</label>
                     </td>
                     <td>
-                        <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
+                        <input name="rq" id="rq" value="${bgrwfp.rq}" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
                     </td>
                 </tr>
                 <tr class="form-group">

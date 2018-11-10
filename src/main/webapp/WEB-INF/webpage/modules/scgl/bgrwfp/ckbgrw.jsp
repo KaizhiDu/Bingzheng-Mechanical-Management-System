@@ -13,7 +13,7 @@
     <html:css
             name="bootstrap-fileinput,font-awesome,animate,iCheck,datepicker,jqgrid,sweetalert,Validform,jqgrid"/>
     <html:js
-            name="layer,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
+            name="layer,laydate,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
     <script>
         $(function () {
             $(".ibox-title").hide();
@@ -37,7 +37,8 @@
     <div id="BgrwfpGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-
+                <label>日期：</label>
+                <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
             </div>
         </div>
     </div>
@@ -46,11 +47,13 @@
            url="${adminPath}/scgl/bgrwfp/ajaxBgrwfpList?ygid=${grgl.id}" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="50"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="150"/>
     <grid:button title="包工明细" groupname="opt" function="bgmx"
                  outclass="btn-primary" url="${adminPath}/scgl/bgrwfp/bgmx?id=\"+row.id+\"" />
     <grid:button title="分配任务" groupname="opt" function="fpsb"
                  outclass="btn-success" url="${adminPath}/scgl/bgrwfp/fpsb?id=\"+row.id+\"" />
+    <grid:button title="删除" groupname="opt" function="deleteBgrw"
+                 outclass="btn-danger" url="${adminPath}/scgl/bgrwfp/deleteBgrw?id=\"+row.id+\"" />
 
     <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="xm"/>
@@ -64,6 +67,26 @@
 </grid:grid>
 
 <script type="text/javascript">
+
+    //删除包工任务
+    function deleteBgrw(title, url, gridId, id, width, height, tipMsg){
+        layer.confirm('确定要删除吗？', {
+                btn: ['确定', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (data) {
+                        refreshTable(gridId);
+                        layer.msg(data.msg,{ icon: 1, time: 1000 });
+                    }
+                });
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+
+
+            }
+        );
+    }
 
     //包工明细
     function bgmx(title, url, gridId, id, width, height, tipMsg) {

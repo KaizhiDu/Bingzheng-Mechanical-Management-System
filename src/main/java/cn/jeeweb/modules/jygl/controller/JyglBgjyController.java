@@ -15,9 +15,7 @@ import cn.jeeweb.modules.jygl.dto.RgjyDTO;
 import cn.jeeweb.modules.jygl.entity.JyglBgjy;
 import cn.jeeweb.modules.jygl.service.IJyglBgjyService;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
-import cn.jeeweb.modules.scgl.entity.ScglBgmx;
-import cn.jeeweb.modules.scgl.entity.ScglBgrwfp;
-import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
+import cn.jeeweb.modules.scgl.entity.*;
 import cn.jeeweb.modules.scgl.service.*;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBjzc;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
@@ -97,9 +95,17 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     @Autowired
     private IScjhglBjzcService scjhglBjzcService;
 
-    /**计划管理*/
+    /**计划管理Service*/
     @Autowired
     private IScjhglHtglService scjhglHtglService;
+
+    /**分配设备管理Service*/
+    @Autowired
+    private IScglBgsbService scglBgsbService;
+
+    /**包工任务Service*/
+    @Autowired
+    private IScglBgrwService scglBgrwService;
 
     /**
      * Dscription: 搜索项
@@ -177,7 +183,6 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         JyglBgjy preJyglBgjy = jyglBgjyService.selectById(bgrwid);
         String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
         String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
-
 
         //首先要判断之前是否已经设置过了实际完成量
         //如果之前已经设置了实际完成量，则需要先恢复数据
@@ -510,6 +515,146 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         finalBgjy.setBfl(bfl);
         jyglBgjyService.updateById(finalBgjy);
 
+        //得到与该任务平齐的所有任务
+        String fpsbid = finalBgjy.getFpsbid();
+        ScglBgsb scglBgsb = scglBgsbService.selectById(fpsbid);
+        String bgrwfpid = scglBgsb.getBgrwfpid();
+        List<ScglBgrw> bgrwByBgrwfpid = scglBgrwService.getBgrwByBgrwfpid(bgrwfpid);
+        if (bgrwByBgrwfpid.size()>0){
+            int bfll = 0;
+            for (ScglBgrw s : bgrwByBgrwfpid) {
+                if (s.getBfl()!=null&&!s.getBfl().equals("")){
+                    bfll = bfll + Integer.parseInt(s.getBfl());
+                }
+            }
+            //现在得到的bfll就是总的报废量
+            //0为未满足检验完成条件；1未满足检验完成条件
+            int flag = 1;
+            for (ScglBgrw s : bgrwByBgrwfpid) {
+                int ywcll = 0;
+                if (s.getYwcl()!=null&&!s.getYwcl().equals("")){
+                    ywcll = Integer.parseInt(s.getYwcl());
+                }
+                int sjwcll = 0;
+                if (s.getSjwcl()!=null&&!s.getSjwcl().equals("")){
+                    sjwcll = Integer.parseInt(s.getSjwcl());
+                }
+                if (sjwcll < (ywcll-bfll)){
+                    flag = 0;
+                    break;
+                }
+            }
+            //flag是1的话
+           if (flag == 1){
+                //首先判断bgrwfp里面sfwc是否为1
+               ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(bgrwfpid);
+               //为0的话就可以把钱算上
+               if (scglBgrwfp.getSfwc().equals("0")){
+                   //先更新包工任务分配里面的sfwc
+                   scglBgrwfp.setSfwc("1");
+                   scglBgrwfpService.updateById(scglBgrwfp);
+                   EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<ScglBgmx>();
+                   ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper);
+                   float cbjee = 0;
+                   if (scglBgmx.getCbje()!=null&&!scglBgmx.getCbje().equals("")){
+                       cbjee = Float.parseFloat(scglBgmx.getCbje());
+                   }
+                   SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM");
+                   Date date0 = new Date();
+                   String currentDate = sdf0.format(date0);
+                   String[] dateArray = currentDate.split("-");
+                   int nd = Integer.parseInt(dateArray[0]);
+                   int yf = Integer.parseInt(dateArray[1]);
+                   EntityWrapper<GrglYgxzgl> wrapper1 = new EntityWrapper<GrglYgxzgl>();
+                   wrapper1.eq("ND", nd);
+                   wrapper1.eq("YF", yf);
+                   wrapper1.eq("YGID",scglBgrwfp.getYgid());
+                   GrglYgxzgl grglYgxzgl = grglYgxzglService.selectOne(wrapper1);
+                   float oldCbjee = 0;
+                   if (grglYgxzgl.getCbje()!=null&&!grglYgxzgl.getCbje().equals("")){
+                           oldCbjee = Float.parseFloat(grglYgxzgl.getCbje());
+                   }
+                   oldCbjee = oldCbjee + cbjee;
+                   grglYgxzgl.setCbje(oldCbjee+"");
+
+                   //注意判断null和""的情况
+                   //合计
+                   float hj = 0;
+                   //日工工资
+                   float rggz = 0;
+                   float cqgz = 0;
+                   float cqgz2 = 0;
+                   float zcqgz = 0;
+                   float zwgz = 0;
+                   float dx = 0;
+                   float fb = 0;
+                   float jtf = 0;
+                   float bt = 0;
+                   float bx = 0;
+                   float cq = 0;
+                   float sx = 0;
+                   float gs = 0;
+                   float cbje = 0;
+                   float jl = 0;
+                   float kk = 0;
+                   if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
+                       cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
+                   }
+                   if (grglYgxzgl.getCqgz2()!=null&&!grglYgxzgl.getCqgz2().equals("")){
+                       cqgz2 = Float.parseFloat(grglYgxzgl.getCqgz2());
+                   }
+                   if (grglYgxzgl.getZwgz()!=null&&!grglYgxzgl.getZwgz().equals("")){
+                       zwgz = Float.parseFloat(grglYgxzgl.getZwgz());
+                   }
+                   if (grglYgxzgl.getDx()!=null&&!grglYgxzgl.getDx().equals("")){
+                       dx = Float.parseFloat(grglYgxzgl.getDx());
+                   }
+                   if (grglYgxzgl.getFb()!=null&&!grglYgxzgl.getFb().equals("")){
+                       fb = Float.parseFloat(grglYgxzgl.getFb());
+                   }
+                   if (grglYgxzgl.getJtf()!=null&&!grglYgxzgl.getJtf().equals("")){
+                       jtf = Float.parseFloat(grglYgxzgl.getJtf());
+                   }
+                   if (grglYgxzgl.getBt()!=null&&!grglYgxzgl.getBt().equals("")){
+                       bt = Float.parseFloat(grglYgxzgl.getBt());
+                   }
+                   if (grglYgxzgl.getBx()!=null&&!grglYgxzgl.getBx().equals("")){
+                       bx = Float.parseFloat(grglYgxzgl.getBx());
+                   }
+                   if (grglYgxzgl.getCq()!=null&&!grglYgxzgl.getCq().equals("")){
+                       cq = Float.parseFloat(grglYgxzgl.getCq());
+                   }
+                   if (grglYgxzgl.getSx()!=null&&!grglYgxzgl.getSx().equals("")){
+                       sx = Float.parseFloat(grglYgxzgl.getSx());
+                   }
+                   if (grglYgxzgl.getGs()!=null&&!grglYgxzgl.getGs().equals("")){
+                       gs = Float.parseFloat(grglYgxzgl.getGs());
+                   }
+                   if (grglYgxzgl.getCbje()!=null&&!grglYgxzgl.getCbje().equals("")){
+                       cbje = Float.parseFloat(grglYgxzgl.getCbje());
+                   }
+                   if (grglYgxzgl.getJl()!=null&&!grglYgxzgl.getJl().equals("")){
+                       jl = Float.parseFloat(grglYgxzgl.getJl());
+                   }
+                   if (grglYgxzgl.getKk()!=null&&!grglYgxzgl.getKk().equals("")){
+                       kk = Float.parseFloat(grglYgxzgl.getKk());
+                   }
+
+                   zcqgz = cqgz + cqgz2;
+                   rggz = gs * sx;
+                   hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk + zcqgz;
+
+                   grglYgxzgl.setZcqgz(zcqgz+"");
+                   grglYgxzgl.setRggz(rggz+"");
+                   grglYgxzgl.setHj(hj+"");
+
+                   grglYgxzglService.updateById(grglYgxzgl);
+
+                   //更新
+               }
+           }
+
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Pageable;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.scgl.dto.RgrwDTO;
+import cn.jeeweb.modules.scgl.entity.ScglBgrw;
 import cn.jeeweb.modules.scgl.entity.ScglRgrw;
 import cn.jeeweb.modules.scgl.mapper.ScglRgrwMapper;
 import cn.jeeweb.modules.scgl.mapper.ScglRgsbMapper;
@@ -13,6 +14,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Dscription: 日工 - 任务
@@ -42,4 +45,5 @@ public class ScglRgrwServiceImpl extends CommonServiceImpl<ScglRgrwMapper, ScglR
         PageJson<RgrwDTO> pagejson = new PageJson<RgrwDTO>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }
+
 }

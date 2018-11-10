@@ -123,4 +123,6 @@ public class GybzglDTO {
     public void setKfpsl(int kfpsl) {
         this.kfpsl = kfpsl;
     }
+
+
 }
