@@ -553,6 +553,27 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                    //先更新包工任务分配里面的sfwc
                    scglBgrwfp.setSfwc("1");
                    scglBgrwfpService.updateById(scglBgrwfp);
+
+                   EntityWrapper<ScglBgrwfp> wrapper111 = new EntityWrapper<ScglBgrwfp>();
+                   wrapper111.eq("YGID", scglBgrwfp.getYgid());
+                   wrapper111.eq("SFWC", "0");
+                   int count111 = scglBgrwfpService.selectCount(wrapper111);
+                   //如果count1为0，那么要更改所有rcrwfp里面的bgzy
+                   String content = "";
+                   if (count111 == 0){
+                       content = "";
+                   }
+                   else{
+                       content = "已分配包工";
+                   }
+                       EntityWrapper<ScglRcrwfp> wrapper222 = new EntityWrapper<ScglRcrwfp>();
+                       wrapper222.eq("YGID", scglBgrwfp.getYgid());
+                       List<ScglRcrwfp> scglRcrwfps = scglRcrwfpService.selectList(wrapper222);
+                       for (ScglRcrwfp s : scglRcrwfps) {
+                           s.setBgzy(content);
+                           scglRcrwfpService.updateById(s);
+                       }
+
                    EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<ScglBgmx>();
                    ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper);
                    float cbjee = 0;
@@ -648,9 +669,10 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                    grglYgxzgl.setRggz(rggz+"");
                    grglYgxzgl.setHj(hj+"");
 
+                   //更新
                    grglYgxzglService.updateById(grglYgxzgl);
 
-                   //更新
+
                }
            }
 

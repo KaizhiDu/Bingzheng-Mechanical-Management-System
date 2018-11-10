@@ -41,6 +41,9 @@ public class ScglRcrwfp extends AbstractEntity<String> {
     /** 总工时 */
     @TableField(value = "GS")
     private String gs;
+    /** 包工占用 */
+    @TableField(value = "BGZY")
+    private String bgzy;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -54,6 +57,14 @@ public class ScglRcrwfp extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getBgzy() {
+        return bgzy;
+    }
+
+    public void setBgzy(String bgzy) {
+        this.bgzy = bgzy;
+    }
 
     @Override
     public String getId() {

@@ -112,6 +112,10 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @Autowired
     private IGrglYgkqjlJcsjService grglYgkqjlJcsjService;
 
+    /**包工任务分配Service*/
+    @Autowired
+    private IScglBgrwfpService scglBgrwfpService;
+
 
     /**
      * Dscription: 添加日子和搜索项
@@ -259,7 +263,6 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     //计算日工工资和总工资
                     //grglYgxzglService.countGz(grglYgxzgl);
                 }
-
             }
 
             //判断表里面有没有该日期数据
@@ -277,6 +280,17 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     s.setXm(ygsjDTO.getXm());
                     s.setZw(ygsjDTO.getZw());
                     s.setYgid(ygsjDTO.getYgid());
+                    //如果有未完成的包工信息，则设置bgzy为已分配包工
+                    EntityWrapper<ScglBgrwfp> wrapper1 = new EntityWrapper<ScglBgrwfp>();
+                    wrapper1.eq("YGID", ygsjDTO.getYgid());
+                    wrapper1.eq("SFWC", "0");
+                    int count1 = scglBgrwfpService.selectCount(wrapper1);
+                    if (count1>0){
+                        s.setBgzy("已分配包工");
+                    }
+                    else{
+                        s.setBgzy("");
+                    }
                     list.add(s);
                 }
                 scglRcrwfpService.insertBatch(list);

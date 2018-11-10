@@ -967,6 +967,26 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 //        scglBgrwfp.setRq(rq);
         scglBgrwfp.setSfwc("0");
         scglBgrwfpService.insert(scglBgrwfp);
+
+        EntityWrapper<ScglBgrwfp> wrapper111 = new EntityWrapper<ScglBgrwfp>();
+        wrapper111.eq("YGID", scglBgrwfp.getYgid());
+        wrapper111.eq("SFWC", "0");
+        int count111 = scglBgrwfpService.selectCount(wrapper111);
+        //如果count1为0，那么要更改所有rcrwfp里面的bgzy
+        String content = "";
+        if (count111 == 0){
+            content = "";
+        }
+        else{
+            content = "已分配包工";
+        }
+        EntityWrapper<ScglRcrwfp> wrapper222 = new EntityWrapper<ScglRcrwfp>();
+        wrapper222.eq("YGID", scglBgrwfp.getYgid());
+        List<ScglRcrwfp> scglRcrwfps = scglRcrwfpService.selectList(wrapper222);
+        for (ScglRcrwfp s : scglRcrwfps) {
+            s.setBgzy(content);
+            scglRcrwfpService.updateById(s);
+        }
     }
 
     /**
@@ -1003,6 +1023,26 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         scglBgmxService.delete(wrapper1);
         //最后删除该包工信息
         scglBgrwfpService.deleteById(id);
+
+        EntityWrapper<ScglBgrwfp> wrapper111 = new EntityWrapper<ScglBgrwfp>();
+        wrapper111.eq("YGID", scglBgrwfp.getYgid());
+        wrapper111.eq("SFWC", "0");
+        int count111 = scglBgrwfpService.selectCount(wrapper111);
+        //如果count1为0，那么要更改所有rcrwfp里面的bgzy
+        String content = "";
+        if (count111 == 0){
+            content = "";
+        }
+        else{
+            content = "已分配包工";
+        }
+        EntityWrapper<ScglRcrwfp> wrapper222 = new EntityWrapper<ScglRcrwfp>();
+        wrapper222.eq("YGID", scglBgrwfp.getYgid());
+        List<ScglRcrwfp> scglRcrwfps = scglRcrwfpService.selectList(wrapper222);
+        for (ScglRcrwfp s : scglRcrwfps) {
+            s.setBgzy(content);
+            scglRcrwfpService.updateById(s);
+        }
     }
 
 }

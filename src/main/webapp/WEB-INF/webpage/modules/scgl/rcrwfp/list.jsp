@@ -59,6 +59,7 @@
                  outclass="btn-info" url="${adminPath}/scgl/rcrwfp/rwxq?id=\"+row.id+\"&rq=\"+row.rq+\"&xm=\"+row.xm+\"" />
 
     <grid:column label="工时" name="gs" width="30"/>
+    <grid:column label="包工占用" name="bgzy" width="50"/>
     <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="xm"/>
     <grid:column label="职位" name="zw"/>
