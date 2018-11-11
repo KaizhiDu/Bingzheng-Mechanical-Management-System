@@ -80,6 +80,7 @@
 
     <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零部件"/>
     <grid:toolbar function="deleteLj" icon="fa fa-trash-o" title="删除" btnclass="btn-danger"/>
+    <grid:toolbar function="exportLj" icon="fa fa-file-excel-o" title="导出" btnclass="btn-warning"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -87,6 +88,21 @@
 
 
 <script type="text/javascript">
+
+    //导出
+    function exportLj(){
+        var jhid = $("#htid").val();
+        var pxfs = $("#pxfs").val();
+        $.ajax({
+            type: "get",
+            url: "${adminPath}/scjhgl/ljgl/exportLj?jhid="+jhid+"&pxfs="+pxfs,
+            success: function (data) {
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+            }
+        });
+
+    }
 
     //修改数量
     function modifySl(title, url, gridId, id, width, height, tipMsg){

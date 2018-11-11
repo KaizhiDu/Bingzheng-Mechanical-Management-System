@@ -53,6 +53,10 @@
                 <label class="control-label">零部件图号：</label>
                 <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="模糊搜索零部件图号"/>
             </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">工艺大类名称：</label>
+                <input name="gydlmc" id="gydlmc" htmlEscape="false" class="form-control" placeholder="模糊搜索工艺大类名称"/>
+            </div>
         </div>
     </div>
 </div>
@@ -72,11 +76,35 @@
     <grid:column label="可分配数量" name="kfpsl"/>
     <grid:column label="剩余数量" name="sysl"/>
 
+    <grid:toolbar function="exportGy" icon="fa fa-file-excel-o" title="导出" btnclass="btn-warning"/>
+
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
+
+    function exportGy(){
+        var jhbh = $("#jhbh").val();
+        var ljmc = $("#ljmc").val();
+        var ljth = $("#ljth").val();
+        var gydlmc = $("#gydlmc").val();
+        $.ajax({
+            type: "get",
+            url: "${adminPath}/scgl/gybzgl/exportGy",
+            data: {
+                jhbh: jhbh,
+                ljmc: ljmc,
+                ljth: ljth,
+                gydlmc: gydlmc
+            },
+            success: function (data) {
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+            }
+        });
+
+    }
 
     //根据计划ID查询零部件信息
     function cxlj() {

@@ -24,6 +24,14 @@ public interface IScjhglLjglService extends ICommonService<ScjhglLjgl> {
     public PageJson<ScjhglLjgl> ajaxljglList(String pxfs, Queryable queryable, ScjhglLjgl scjhglLjgl);
 
     /**
+     * Dscription: 导出零件信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/11 22:39
+     */
+    public List<ScjhglLjgl> exportLj(String pxfs, ScjhglLjgl scjhglLjgl);
+
+    /**
      * Dscription: 根据计划ID获取所有的零部件信息
      * @author : Kevin Du
      * @version : 1.0

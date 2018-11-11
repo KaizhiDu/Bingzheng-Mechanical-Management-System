@@ -13,6 +13,9 @@ import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -211,5 +216,103 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
         }
 
     }
+
+    /**
+     * Dscription: 导出零件
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/11 22:28
+     */
+    @RequestMapping(value = "exportLj", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void exportLj(String jhid, String pxfs, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+        String htmc = "";
+        ScjhglLjgl scjhglLjgl1 = new ScjhglLjgl();
+        scjhglLjgl1.setHtid(jhid);
+        List<ScjhglLjgl> getData = scjhglLjglService.exportLj(pxfs, scjhglLjgl1);
+        htmc = getData.get(0).getHtid();
+        for (ScjhglLjgl s : getData) {
+            if (!s.getHtid().equals(htmc)){
+                htmc = "";
+            }
+        }
+        //新建一个工作簿
+        Workbook wb = new XSSFWorkbook();
+        //新建工作表
+        Sheet sheet1 = wb.createSheet("零部件详情");
+        //设置单元格宽度
+        sheet1.setColumnWidth(0, 3700);
+        sheet1.setColumnWidth(1, 3700);
+        sheet1.setColumnWidth(2, 3700);
+        sheet1.setColumnWidth(3, 3700);
+        sheet1.setColumnWidth(4, 3700);
+        sheet1.setColumnWidth(5, 3700);
+        //设置边框
+        CellStyle style = wb.createCellStyle();
+        style.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+
+        //表头
+        Row row0 = sheet1.createRow(0);
+        row0.setHeightInPoints(35);
+        Cell cell00 = row0.createCell(0);
+        Cell cell01 = row0.createCell(1);
+        Cell cell02 = row0.createCell(2);
+        Cell cell03 = row0.createCell(3);
+        Cell cell04 = row0.createCell(4);
+        Cell cell05 = row0.createCell(5);
+        cell00.setCellValue("计划名称");
+        cell01.setCellValue("零部件名称");
+        cell02.setCellValue("零部件图号");
+        cell03.setCellValue("单用量");
+        cell04.setCellValue("数量");
+        cell05.setCellValue("未入库数量");
+        cell00.setCellStyle(style);
+        cell01.setCellStyle(style);
+        cell02.setCellStyle(style);
+        cell03.setCellStyle(style);
+        cell04.setCellStyle(style);
+        cell05.setCellStyle(style);
+
+        if (getData!=null){
+            for (int i=0;i<getData.size();i++){
+                ScjhglLjgl c = getData.get(i);
+                //创建一行
+                Row row = sheet1.createRow(i+1);
+                row.setHeightInPoints(35);
+
+                //创建单元格
+                Cell cell0 = row.createCell(0);
+                Cell cell1 = row.createCell(1);
+                Cell cell2 = row.createCell(2);
+                Cell cell3 = row.createCell(3);
+                Cell cell4 = row.createCell(4);
+                Cell cell5 = row.createCell(5);
+
+                //给单元格设值
+                cell0.setCellValue(c.getHtid());
+                cell1.setCellValue(c.getLjmc());
+                cell2.setCellValue(c.getLjth());
+                cell3.setCellValue(c.getDyl());
+                cell4.setCellValue(c.getSl());
+                cell5.setCellValue(c.getWrksl());
+                cell0.setCellStyle(style);
+                cell1.setCellStyle(style);
+                cell2.setCellStyle(style);
+                cell3.setCellStyle(style);
+                cell4.setCellStyle(style);
+                cell5.setCellStyle(style);
+            }
+        }
+        //创建流
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+htmc+" 零部件详情.xlsx");
+        //输出流
+        wb.write(fileOut);
+        fileOut.close();
+
+    }
+
 
 }

@@ -28,6 +28,30 @@ WHERE 1=1
 
     </select>
 
+	<select id="exportLj" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
+		SELECT ID,
+		(SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.HTID) HTID,
+		LJTH,
+		LJMC,
+		DYL,
+		WRKSL,
+		SL,
+		SYSL
+		FROM T_SCJHGL_LJGL T
+		WHERE 1=1
+		<if test="entity.htid!=null and entity.htid!=''">
+			AND T.HTID = #{entity.htid}
+		</if>
+		AND T.SFSBJ = '0'
+		<if test="pxfs==1">
+			ORDER BY T.HTID,T.LJTH
+		</if>
+		<if test="pxfs==2">
+			ORDER BY T.RQ DESC
+		</if>
+
+	</select>
+
 	<select id="ajaxlbjglList" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
 		SELECT ID,
 		(SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.HTID) HTID,

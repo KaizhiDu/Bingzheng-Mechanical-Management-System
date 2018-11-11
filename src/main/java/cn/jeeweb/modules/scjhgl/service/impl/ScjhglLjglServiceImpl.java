@@ -44,6 +44,17 @@ public class ScjhglLjglServiceImpl extends CommonServiceImpl<ScjhglLjglMapper, S
         return pagejson;
     }
 
+    /**
+     * Dscription: 导出零件信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/11 22:39
+     */
+    @Override
+    public List<ScjhglLjgl> exportLj(String pxfs, ScjhglLjgl scjhglLjgl) {
+        return scjhglLjglMapper.exportLj(pxfs, scjhglLjgl);
+    }
+
     @Override
     public PageJson<ScjhglLjgl> ajaxlbjglList(Queryable queryable, ScjhglLjgl scjhglLjgl) {
         Pageable pageable = queryable.getPageable();

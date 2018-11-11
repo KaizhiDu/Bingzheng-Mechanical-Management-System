@@ -59,6 +59,8 @@
 
     <grid:button title="检验" groupname="opt" function="jy"
                  outclass="btn-success" url="${adminPath}/jygl/rgjy/jy?id=\"+row.id+\"" />
+    <grid:button title="注释" groupname="opt" function="zs"
+                 outclass="btn-primary" url="${adminPath}/jygl/rgjy/zs?id=\"+row.id+\"" />
 
     <grid:column label="姓名" name="xm"/>
     <grid:column label="职位" name="zw"/>
@@ -79,6 +81,47 @@
 </grid:grid>
 
 <script type="text/javascript">
+
+    //注释
+    function zs(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["40%", "40%"],
+            title: "注释",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['确定','关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
+                layer.alert("保存成功！！", {icon: 0, title: '提示'});
+                refreshTable(gridId);
+            },
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
 
     //导出日工检验单
     function exportRgjyd(){

@@ -714,6 +714,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
      * @date : 2018/11/8 12:49
      */
     @RequestMapping(value = "exportBgjyd", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
     public void exportBgjyd(String xm, String rq, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 
         List<BgjyDTO> bgjyDTOS = jyglBgjyService.exportBgjyd(xm, rq);
@@ -818,4 +819,32 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         wb.write(fileOut);
         fileOut.close();
     }
+
+    /**
+     * Dscription: 转到注释页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/11 11:23
+     */
+    @RequestMapping(value = "zs", method={RequestMethod.GET, RequestMethod.POST})
+    public String zs(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        JyglBgjy jyglBgjy = jyglBgjyService.selectById(id);
+        model.addAttribute("jyglBgjy", jyglBgjy);
+        return display("zs");
+    }
+
+    /**
+     * Dscription: 保存注释
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/11 11:33
+     */
+    @RequestMapping(value = "saveZs", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveZs(String id, String zs, HttpServletRequest request, HttpServletResponse response, Model model){
+        JyglBgjy jyglBgjy = jyglBgjyService.selectById(id);
+        jyglBgjy.setZs(zs);
+        jyglBgjyService.updateById(jyglBgjy);
+    }
+
 }

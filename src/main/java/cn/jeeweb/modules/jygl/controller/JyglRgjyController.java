@@ -622,4 +622,31 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         fileOut.close();
 
     }
+
+    /**
+     * Dscription: 转到注释页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/11 11:23
+     */
+    @RequestMapping(value = "zs", method={RequestMethod.GET, RequestMethod.POST})
+    public String zs(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        JyglRgjy jyglRgjy = jyglRgjyService.selectById(id);
+        model.addAttribute("jyglRgjy", jyglRgjy);
+        return display("zs");
+    }
+
+    /**
+     * Dscription: 保存注释
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/11 11:33
+     */
+    @RequestMapping(value = "saveZs", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveZs(String id, String zs, HttpServletRequest request, HttpServletResponse response, Model model){
+        JyglRgjy jyglRgjy = jyglRgjyService.selectById(id);
+        jyglRgjy.setZs(zs);
+        jyglRgjyService.updateById(jyglRgjy);
+    }
 }
