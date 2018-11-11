@@ -128,7 +128,7 @@
                 iframeWin.contentWindow.check();
                 //判断逻辑并关闭
                 setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
-                layer.alert("保存成功！！", {icon: 0, title: '提示'});
+                layer.msg("保存成功!",{ icon: 1, time: 1000 });
                 refreshTable(gridId);
             },
             cancel: function(index){
