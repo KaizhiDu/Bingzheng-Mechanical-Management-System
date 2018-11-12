@@ -57,6 +57,13 @@
                 <label class="control-label">工艺大类名称：</label>
                 <input name="gydlmc" id="gydlmc" htmlEscape="false" class="form-control" placeholder="模糊搜索工艺大类名称"/>
             </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">正在加工：</label>
+                <select name="zzjg" class="form-control" id="zzjg">
+                    <option value="">请选择</option>
+                    <option value="1">正在加工</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>

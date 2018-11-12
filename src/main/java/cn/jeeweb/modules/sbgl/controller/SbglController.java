@@ -10,6 +10,7 @@ import cn.jeeweb.modules.sbgl.entity.Sbgl;
 import cn.jeeweb.modules.sbgl.entity.SbglSbflgl;
 import cn.jeeweb.modules.sbgl.entity.SbglSbzy;
 import cn.jeeweb.modules.sbgl.service.ISbglSbflglService;
+import cn.jeeweb.modules.sbgl.service.ISbglSbzyService;
 import cn.jeeweb.modules.sbgl.service.ISbglService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -39,6 +44,9 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
     /**设备分类管理Service*/
     @Autowired
     private ISbglSbflglService sbglSbflglService;
+    /**设备占用Service*/
+    @Autowired
+    private ISbglSbzyService sbglSbzyService;
 
     /**
     * @Description:    搜索项
@@ -111,6 +119,45 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
         if (sbgl.getId()==null||sbgl.getId().equals("")){
             sbgl.setSfky("1");
             sbglSbflgl.insert(sbgl);
+            //还要添加所有近4天的设备信息
+            SimpleDateFormat sss = new SimpleDateFormat("yyyy-MM-dd");
+            //得到今天的时间
+            Calendar calendar0 = new GregorianCalendar();
+            calendar0.setTime(new Date());
+            calendar0.add(calendar0.DATE,0);
+            String day = sss.format(calendar0.getTime());
+
+            //得到明天的时间
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date());
+            calendar.add(calendar.DATE,1);
+            String day1 = sss.format(calendar.getTime());
+
+            //得到后天的时间
+            Calendar calendar2 = new GregorianCalendar();
+            calendar2.setTime(new Date());
+            calendar2.add(calendar.DATE,2);
+            String day2 = sss.format(calendar2.getTime());
+
+            //得到大后天的时间
+            Calendar calendar3 = new GregorianCalendar();
+            calendar3.setTime(new Date());
+            calendar3.add(calendar.DATE,3);
+            String day3 = sss.format(calendar3.getTime());
+
+            String dates[] = {day1,day,day2,day3};
+
+            for (int i=0;i<dates.length;i++){
+                SbglSbzy sbglSbzy = new SbglSbzy();
+                sbglSbzy.setSfky("1");
+                sbglSbzy.setRq(dates[i]);
+                sbglSbzy.setSbid(sbgl.getId());
+                sbglSbzy.setSsdl(sbgl.getSsdl());
+                sbglSbzy.setSbmc(sbgl.getSbmc());
+                sbglSbzy.setSbbh(sbgl.getSbbh());
+                sbglSbzyService.insert(sbglSbzy);
+            }
+
         }
         //更新这条记录
         else {

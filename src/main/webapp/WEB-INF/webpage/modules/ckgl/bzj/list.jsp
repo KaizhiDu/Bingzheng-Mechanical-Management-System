@@ -68,13 +68,15 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="140"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="200"/>
     <grid:button title="入库" groupname="opt" function="rk"
                  outclass="btn-success" url="${adminPath}/ckgl/bzj/rk?id=\"+row.id+\"" />
     <grid:button title="出库" groupname="opt" function="ck"
                  outclass="btn-primary" url="${adminPath}/ckgl/bzj/ck?id=\"+row.id+\"" />
     <grid:button title="查看进销详情" groupname="opt" function="ckxq"
                  outclass="btn-warning" url="${adminPath}/ckgl/bzj/ckxq?id=\"+row.id+\"" />
+    <grid:button title="修改" groupname="opt" function="xg"
+                 outclass="btn-info" url="${adminPath}/ckgl/bzj/xg?id=\"+row.id+\"" />
 
     <grid:column label="大类" name="fldl"/>
     <grid:column label="小类" name="flxl"/>
@@ -94,6 +96,11 @@
 
 <script type="text/javascript">
 
+    //修改
+    function xg(title, url, gridId, id, width, height, tipMsg){
+        openDia("修改",url,gridId,"40%","40%");
+    }
+
     //查看整体进销详情
     function jxxq(title, url, gridId, id, width, height, tipMsg){
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
@@ -104,7 +111,7 @@
         }
         top.layer.open({
             type: 2,
-            area: ["30%", "80%"],
+            area: ["85%", "80%"],
             title: "查看进销详情",
             maxmin: true, //开启最大化最小化按钮
             content: "${adminPath}/ckgl/bzj/jxxq",

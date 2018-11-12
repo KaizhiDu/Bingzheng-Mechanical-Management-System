@@ -19,6 +19,15 @@ public class GybzglDTO {
     private int sysl;
     private int yfpsl;
     private int kfpsl;
+    private String zzjg;
+
+    public String getZzjg() {
+        return zzjg;
+    }
+
+    public void setZzjg(String zzjg) {
+        this.zzjg = zzjg;
+    }
 
     public String getId() {
         return id;

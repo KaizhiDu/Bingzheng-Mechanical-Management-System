@@ -5,14 +5,8 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
-import cn.jeeweb.modules.ckgl.entity.CkglBzj;
-import cn.jeeweb.modules.ckgl.entity.CkglBzjMx;
-import cn.jeeweb.modules.ckgl.entity.CkglDl;
-import cn.jeeweb.modules.ckgl.entity.CkglXl;
-import cn.jeeweb.modules.ckgl.service.ICkglBzjMxSevice;
-import cn.jeeweb.modules.ckgl.service.ICkglBzjService;
-import cn.jeeweb.modules.ckgl.service.ICkglDlService;
-import cn.jeeweb.modules.ckgl.service.ICkglXlService;
+import cn.jeeweb.modules.ckgl.entity.*;
+import cn.jeeweb.modules.ckgl.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,6 +47,10 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
     @Autowired
     private ICkglBzjMxSevice ckglBzjxMxService;
 
+    /**仓库管理 - 进货商*/
+    @Autowired
+    private ICkglJhsService ckglJhsService;
+
     /**
      * Dscription: 搜索项和前置内容
      * @author : Kevin Du
@@ -92,11 +90,17 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
     @RequestMapping(value = "saveBzj", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBzj(CkglBzj ckglBzj, HttpServletRequest request, HttpServletResponse response, Model model){
-        if (ckglBzj.getFldl()!=null&&!ckglBzj.getFldl().equals("")){
-            ckglBzj.setFldl(ckglDlService.selectById(ckglBzj.getFldl()).getDlmc());
+        if (ckglBzj.getId()!=null&&!ckglBzj.getId().equals("")){
+            ckglBzjService.updateById(ckglBzj);
         }
-        ckglBzj.setKc("0");
-        ckglBzjService.insert(ckglBzj);
+        else{
+            if (ckglBzj.getFldl()!=null&&!ckglBzj.getFldl().equals("")){
+                ckglBzj.setFldl(ckglDlService.selectById(ckglBzj.getFldl()).getDlmc());
+            }
+            ckglBzj.setKc("0");
+            ckglBzjService.insert(ckglBzj);
+        }
+
     }
 
     /**
@@ -140,6 +144,9 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
     public String rk(String id, HttpServletRequest request, HttpServletResponse response, Model model){
         CkglBzj ckglBzj = ckglBzjService.selectById(id);
         model.addAttribute("ckglBzj", ckglBzj);
+        EntityWrapper<CkglJhs> wrapper = new EntityWrapper<CkglJhs>();
+        List<CkglJhs> ckglJhs = ckglJhsService.selectList(wrapper);
+        model.addAttribute("ckglJhs", ckglJhs);
         return display("rk");
     }
 
@@ -151,7 +158,14 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
      */
     @RequestMapping(value = "saveBzjkc", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveBzjkc(String bzjid, String cg, String rksl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveBzjkc(String jhs, String bzjid, String cg, String rksl, HttpServletRequest request, HttpServletResponse response, Model model){
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String datee = sdf0.format(date0);
+        String dateArray[] = datee.split("-");
+        String n = dateArray[0];
+        String y = dateArray[1];
+        String r = dateArray[2];
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDate = sdf.format(date);
@@ -161,6 +175,11 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
         ckglBzjMx.setBzjid(bzjid);
         ckglBzjMx.setMx(mx);
         ckglBzjMx.setSj(date);
+        ckglBzjMx.setN(n);
+        ckglBzjMx.setY(y);
+        ckglBzjMx.setR(r);
+        ckglBzjMx.setJhs(jhs);
+        ckglBzjMx.setJx("0");
         ckglBzjxMxService.insert(ckglBzjMx);
         //更改标准件表
         CkglBzj ckglBzj = ckglBzjService.selectById(bzjid);
@@ -217,6 +236,10 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
         ckglBzjMx.setBzjid(bzjid);
         ckglBzjMx.setMx(mx);
         ckglBzjMx.setSj(date);
+        ckglBzjMx.setN(n);
+        ckglBzjMx.setY(y);
+        ckglBzjMx.setR(r);
+        ckglBzjMx.setJx("1");
         ckglBzjxMxService.insert(ckglBzjMx);
         //更改标准件表
         CkglBzj ckglBzj = ckglBzjService.selectById(bzjid);
@@ -260,7 +283,36 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
      */
     @RequestMapping(value = "jxxq", method={RequestMethod.GET, RequestMethod.POST})
     public String jxxq(HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<CkglJhs> wrapper = new EntityWrapper<CkglJhs>();
+        List<CkglJhs> ckglJhs = ckglJhsService.selectList(wrapper);
+        model.addAttribute("ckglJhs", ckglJhs);
         return display("jxxq");
+    }
+
+    /**
+     * Dscription: 展示所有进销信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 15:15
+     */
+    @RequestMapping(value = "ajaxXqList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<CkglBzjMx> ajaxXqList(Queryable queryable, CkglBzjMx ckglBzjMx, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<CkglBzjMx> pageJson = ckglBzjxMxService.ajaxXqList(queryable,ckglBzjMx);
+        return pageJson;
+    }
+
+    /**
+     * Dscription: 转到修改页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 16:03
+     */
+    @RequestMapping(value = "xg", method={RequestMethod.GET, RequestMethod.POST})
+    public String xg(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        CkglBzj ckglBzj = ckglBzjService.selectById(id);
+        model.addAttribute("ckglBzj", ckglBzj);
+        return display("xg");
     }
 
 }
