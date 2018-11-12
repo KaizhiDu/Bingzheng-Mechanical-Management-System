@@ -5,8 +5,10 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglDl;
+import cn.jeeweb.modules.ckgl.entity.CkglJhs;
 import cn.jeeweb.modules.ckgl.entity.CkglXl;
 import cn.jeeweb.modules.ckgl.service.ICkglDlService;
+import cn.jeeweb.modules.ckgl.service.ICkglJhsService;
 import cn.jeeweb.modules.ckgl.service.ICkglXlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,10 @@ public class CkglCkflszController extends BaseCRUDController<CkglDl, String> {
     /**仓库管理-小类*/
     @Autowired
     private ICkglXlService ckglXlService;
+
+    /**仓库管理 - 进货商*/
+    @Autowired
+    private ICkglJhsService ckglJhsService;
 
     /**
      * Dscription: 转到添加大类页面
@@ -126,4 +132,70 @@ public class CkglCkflszController extends BaseCRUDController<CkglDl, String> {
             ckglXlService.deleteById(xlid);
         }
     }
+
+    /**
+     * Dscription: 转到设置进货商页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 12:51
+     */
+    @RequestMapping(value = "szJhs", method={RequestMethod.GET, RequestMethod.POST})
+    public String szJhs(HttpServletRequest request, HttpServletResponse response, Model model){
+        return display("szJhs");
+    }
+
+    /**
+     * Dscription: 进货商数据显示
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 13:12
+     */
+    @RequestMapping(value = "ajaxJhsList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<CkglJhs> ajaxJhsList(Queryable queryable, CkglJhs ckglJhs, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<CkglJhs> pageJson = ckglJhsService.ajaxJhsList(queryable,ckglJhs);
+        return pageJson;
+    }
+
+    /**
+     * Dscription: 转到创建进货商页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 13:29
+     */
+    @RequestMapping(value = "createJhs", method={RequestMethod.GET, RequestMethod.POST})
+    public String createJhs(HttpServletRequest request, HttpServletResponse response, Model model){
+        return display("createJhs");
+    }
+
+    /**
+     * Dscription: 保存进货商
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 13:32
+     */
+    @RequestMapping(value = "saveJhs", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveJhs(String jhs, HttpServletRequest request, HttpServletResponse response, Model model){
+        CkglJhs ckglJhs = new CkglJhs();
+        ckglJhs.setJhs(jhs);
+        ckglJhsService.insert(ckglJhs);
+    }
+
+    /**
+     * Dscription: 删除进货商
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 13:37
+     */
+    @RequestMapping(value = "deleteJhs", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void deleteJhs(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+        String idsArray[] = ids.split(",");
+        for (int i=0;i<idsArray.length;i++){
+            ckglJhsService.deleteById(idsArray[i]);
+        }
+    }
+
+
 }

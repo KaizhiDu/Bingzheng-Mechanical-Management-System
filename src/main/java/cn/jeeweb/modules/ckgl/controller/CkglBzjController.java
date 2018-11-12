@@ -200,6 +200,14 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
     @RequestMapping(value = "saveBzjkcck", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBzjkcck(String bzjid, String ly, String cksl, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String datee = sdf0.format(date0);
+        String dateArray[] = datee.split("-");
+        String n = dateArray[0];
+        String y = dateArray[1];
+        String r = dateArray[2];
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDate = sdf.format(date);
@@ -243,4 +251,16 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
         model.addAttribute("BzjMxList", ckglBzjMxList);
         return display("ckxq");
     }
+
+    /**
+     * Dscription: 转到查看整体进销情况页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 12:38
+     */
+    @RequestMapping(value = "jxxq", method={RequestMethod.GET, RequestMethod.POST})
+    public String jxxq(HttpServletRequest request, HttpServletResponse response, Model model){
+        return display("jxxq");
+    }
+
 }

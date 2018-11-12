@@ -60,12 +60,44 @@
 
     <grid:toolbar function="createDl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加大类"/>
     <grid:toolbar function="delete"/>
+    <grid:toolbar function="szJhs" icon="fa fa-edit" btnclass="btn btn-sm btn-info" title="设置进货商"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
+
+    //设置进货商
+    function szJhs(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["80%", "70%"],
+            title: "设置进货商",
+            maxmin: true, //开启最大化最小化按钮
+            content: "${adminPath}/ckgl/ckflsz/szJhs" ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
+
     //添加大类
     function createDl(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/ckgl/ckflsz/createDl";
