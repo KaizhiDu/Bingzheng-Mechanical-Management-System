@@ -1,6 +1,8 @@
 package cn.jeeweb.modules.ckgl.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.model.PageJson;
+import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglBcp;
@@ -160,13 +162,10 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
      */
     @RequestMapping(value = "exportShd", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void exportShd(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException{
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String currentTime = sdf.format(date);
+    public void exportShd(String rq, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException{
         //得到数据
         EntityWrapper<CkglCpCkjl> wrapper = new EntityWrapper<CkglCpCkjl>();
-        wrapper.eq("RQ", currentTime);
+        wrapper.eq("RQ", rq);
         wrapper.orderBy("JHBH");
         List<CkglCpCkjl> ckglCpCkjls = ckglCpCkjlService.selectList(wrapper);
 
@@ -235,7 +234,7 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         }
 
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+currentTime+"送货清单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+"送货清单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();
@@ -298,4 +297,27 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         }
     }
 
+    /**
+     * Dscription: 转到查看出库详情页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 16:44
+     */
+    @RequestMapping(value = "ckshxq", method={RequestMethod.GET, RequestMethod.POST})
+    public String ckshxq(HttpServletRequest request, HttpServletResponse response, Model model){
+        return display("ckshxq");
+    }
+
+    /**
+     * Dscription: 展示所有送货信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 16:52
+     */
+    @RequestMapping(value = "ajaxCpxqList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<CkglCpCkjl> ajaxBzjList(Queryable queryable, CkglCpCkjl ckglCpCkjl, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<CkglCpCkjl> pageJson = ckglCpCkjlService.ajaxCpxqList(queryable,ckglCpCkjl);
+        return pageJson;
+    }
 }
