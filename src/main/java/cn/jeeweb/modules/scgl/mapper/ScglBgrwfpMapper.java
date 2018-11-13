@@ -40,7 +40,7 @@ public interface ScglBgrwfpMapper extends BaseMapper<ScglBgrwfp> {
      * @version : 1.0
      * @date : 2018/9/30 10:52
      */
-    public List<BgpgdDTO> getBgpgd(@Param("RQ") String currentTime);
+    public List<BgpgdDTO> getBgpgd(@Param("RQ") String rq);
 
     /**
      * Dscription: 得到包工派工基础数据

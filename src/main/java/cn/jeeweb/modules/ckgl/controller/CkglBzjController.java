@@ -159,6 +159,9 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
     @RequestMapping(value = "saveBzjkc", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBzjkc(String jhs, String bzjid, String cg, String rksl, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        CkglBzj ckglBzj0 = ckglBzjService.selectById(bzjid);
+
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
         Date date0 = new Date();
         String datee = sdf0.format(date0);
@@ -172,6 +175,9 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
         String mx = "采购员 "+cg+" 于 "+currentDate+" 入库 "+rksl+" 件";
         //插入明细表
         CkglBzjMx ckglBzjMx = new CkglBzjMx();
+        ckglBzjMx.setFldl(ckglBzj0.getFldl());
+        ckglBzjMx.setFlxl(ckglBzj0.getFlxl());
+        ckglBzjMx.setGg(ckglBzj0.getGg());
         ckglBzjMx.setBzjid(bzjid);
         ckglBzjMx.setMx(mx);
         ckglBzjMx.setSj(date);
@@ -220,6 +226,8 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
     @ResponseBody
     public void saveBzjkcck(String bzjid, String ly, String cksl, HttpServletRequest request, HttpServletResponse response, Model model){
 
+        CkglBzj ckglBzj0 = ckglBzjService.selectById(bzjid);
+
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
         Date date0 = new Date();
         String datee = sdf0.format(date0);
@@ -233,6 +241,9 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
         String mx = "员工 "+ly+" 于 "+currentDate+" 领取 "+cksl+" 件";
         //插入明细表
         CkglBzjMx ckglBzjMx = new CkglBzjMx();
+        ckglBzjMx.setFldl(ckglBzj0.getFldl());
+        ckglBzjMx.setFlxl(ckglBzj0.getFlxl());
+        ckglBzjMx.setGg(ckglBzj0.getGg());
         ckglBzjMx.setBzjid(bzjid);
         ckglBzjMx.setMx(mx);
         ckglBzjMx.setSj(date);

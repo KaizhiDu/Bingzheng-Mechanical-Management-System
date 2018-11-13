@@ -90,25 +90,31 @@
     //点击保存，保存数据
     function check() {
         var zs = $("#zs").val();
-        var cbje = $("#cbje").val();
-        var id = $("#bgmxid").val();
-        var rq = $("#rq").val();
-        var bgrwfpid = $("#bgrwfpid").val();
-        $.ajax({
-            type: "GET",
-            url: "${adminPath}/scgl/bgrwfp/saveBgmx",
-            data: {
-                id: id,
-                zs: zs,
-                rq: rq,
-                cbje: cbje,
-                bgrwfpid: bgrwfpid
-            },
-            success: function (data) {
+        if (zs==""||zs==null){
+            top.layer.alert("请输入注释，并注意对注释内容进行区分");
+        }
+        else{
+            var cbje = $("#cbje").val();
+            var id = $("#bgmxid").val();
+            var rq = $("#rq").val();
+            var bgrwfpid = $("#bgrwfpid").val();
+            $.ajax({
+                type: "GET",
+                url: "${adminPath}/scgl/bgrwfp/saveBgmx",
+                data: {
+                    id: id,
+                    zs: zs,
+                    rq: rq,
+                    cbje: cbje,
+                    bgrwfpid: bgrwfpid
+                },
+                success: function (data) {
 
 
-            }
-        });
+                }
+            });
+        }
+
     }
 </script>
 

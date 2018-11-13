@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * @Description:    员工职位薪资分配
@@ -95,23 +97,52 @@ public class GrglXzzwfpController extends BaseCRUDController<Xzzwfp, String> {
         if (zw==null||zw.equals("")){
             //需要把该员工加入日工任务分配
             //首先要先判断日工任务分配里有没有数据
-            EntityWrapper<ScglRcrwfp> wrapper1 = new EntityWrapper<ScglRcrwfp>();
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-            Date date1 = new Date();
-            String currentTime = sdf1.format(date1);
-            wrapper1.eq("RQ", currentTime);
-            int count = scglRcrwfpService.selectCount(wrapper1);
-            //有数据啥也不干, 没数据就要添一条数据
-            if (count!=0){
-                ScglRcrwfp scglRcrwfp = new ScglRcrwfp();
-                scglRcrwfp.setRq(currentTime);
-                scglRcrwfp.setYgid(xzzwfp.getYgid());
-                Grgl grgl = grglService.selectById(xzzwfp.getYgid());
-                scglRcrwfp.setXm(grgl.getName());
-                scglRcrwfp.setZw(xzzwfp.getZwid());
-                scglRcrwfp.setXb(grgl.getGender());
-                scglRcrwfpService.insert(scglRcrwfp);
+
+            SimpleDateFormat sss = new SimpleDateFormat("yyyy-MM-dd");
+            //得到今天的时间
+            Calendar calendar0 = new GregorianCalendar();
+            calendar0.setTime(new Date());
+            calendar0.add(calendar0.DATE,0);
+            String day = sss.format(calendar0.getTime());
+
+            //得到明天的时间
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date());
+            calendar.add(calendar.DATE,1);
+            String day1 = sss.format(calendar.getTime());
+
+            //得到后天的时间
+            Calendar calendar2 = new GregorianCalendar();
+            calendar2.setTime(new Date());
+            calendar2.add(calendar.DATE,2);
+            String day2 = sss.format(calendar2.getTime());
+
+            //得到大后天的时间
+            Calendar calendar3 = new GregorianCalendar();
+            calendar3.setTime(new Date());
+            calendar3.add(calendar.DATE,3);
+            String day3 = sss.format(calendar3.getTime());
+
+            String dates[] = {day1,day,day2,day3};
+
+            for(int i=0;i<dates.length;i++){
+                EntityWrapper<ScglRcrwfp> wrapper1 = new EntityWrapper<ScglRcrwfp>();
+                wrapper1.eq("RQ", dates[i]);
+                int count = scglRcrwfpService.selectCount(wrapper1);
+                //有数据啥也不干, 没数据就要添一条数据
+                if (count!=0){
+                    ScglRcrwfp scglRcrwfp = new ScglRcrwfp();
+                    scglRcrwfp.setRq(dates[i]);
+                    scglRcrwfp.setYgid(xzzwfp.getYgid());
+                    Grgl grgl = grglService.selectById(xzzwfp.getYgid());
+                    scglRcrwfp.setXm(grgl.getName());
+                    scglRcrwfp.setZw(xzzwfp.getZwid());
+                    scglRcrwfp.setXb(grgl.getGender());
+                    scglRcrwfpService.insert(scglRcrwfp);
+                }
             }
+
+
         }
 
 

@@ -26,6 +26,15 @@ public class CkglBzjMx extends AbstractEntity<String> {
     /** 标准件ID */
     @TableField(value = "BZJID")
     private String bzjid;
+    /** 分类大类 */
+    @TableField(value = "FLDL")
+    private String fldl;
+    /** 分类小类 */
+    @TableField(value = "FLXL")
+    private String flxl;
+    /** 规格 */
+    @TableField(value = "GG")
+    private String gg;
     /** 明细 */
     @TableField(value = "MX")
     private String mx;
@@ -165,5 +174,29 @@ public class CkglBzjMx extends AbstractEntity<String> {
 
     public void setJx(String jx) {
         this.jx = jx;
+    }
+
+    public String getFldl() {
+        return fldl;
+    }
+
+    public void setFldl(String fldl) {
+        this.fldl = fldl;
+    }
+
+    public String getFlxl() {
+        return flxl;
+    }
+
+    public void setFlxl(String flxl) {
+        this.flxl = flxl;
+    }
+
+    public String getGg() {
+        return gg;
+    }
+
+    public void setGg(String gg) {
+        this.gg = gg;
     }
 }

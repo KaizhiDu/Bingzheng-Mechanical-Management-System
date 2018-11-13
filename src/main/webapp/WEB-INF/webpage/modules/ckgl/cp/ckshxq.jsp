@@ -66,8 +66,6 @@
 
 <script type="text/javascript">
 
-
-
     //导出送货单
     function exportShd(title, url, gridId, id, width, height, tipMsg){
         var rq = $("#rq").val();

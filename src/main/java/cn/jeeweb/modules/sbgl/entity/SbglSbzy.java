@@ -40,6 +40,9 @@ public class SbglSbzy extends AbstractEntity<String> {
     /** 是否可用 */
     @TableField(value = "SFKY")
     private String sfky;
+    /** 状态 */
+    @TableField(value = "ZT")
+    private String zt;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -53,6 +56,14 @@ public class SbglSbzy extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getZt() {
+        return zt;
+    }
+
+    public void setZt(String zt) {
+        this.zt = zt;
+    }
 
     @Override
     public String getId() {

@@ -616,7 +616,7 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
             }
         }
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+"日工检验单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\检验\\"+rq+"日工检验单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

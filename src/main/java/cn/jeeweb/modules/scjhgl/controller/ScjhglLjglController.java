@@ -307,7 +307,7 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
             }
         }
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+htmc+" 零部件详情.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+htmc+" 零部件详情.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

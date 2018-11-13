@@ -814,7 +814,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             }
         }
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+"-"+xm+"包工检验单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\检验\\"+rq+"-"+xm+"包工检验单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

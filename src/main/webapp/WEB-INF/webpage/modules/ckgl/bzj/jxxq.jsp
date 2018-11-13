@@ -52,6 +52,18 @@
                 <input name="r" id="r" htmlEscape="false" class="form-control" placeholder="输入日期">
             </div>
             <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">分类大类：</label>
+                <input name="fldl" id="fldl" htmlEscape="false" class="form-control" placeholder="输入分类大类">
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">分类小类：</label>
+                <input name="flxl" id="flxl" htmlEscape="false" class="form-control" placeholder="输入分类小类">
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">规格：</label>
+                <input name="gg" id="gg" htmlEscape="false" class="form-control" placeholder="输入规格">
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
                 <label class="control-label">进货商：</label>
                 <select id="jhs" name="jhs" class="form-control">
                     <option value="">请选择</option>
@@ -80,6 +92,9 @@
     <grid:column label="年" name="n" width="35"/>
     <grid:column label="月" name="y" width="30"/>
     <grid:column label="日" name="r" width="30"/>
+    <grid:column label="大类" name="fldl" width="30"/>
+    <grid:column label="小类" name="flxl" width="30"/>
+    <grid:column label="规格" name="gg" width="30"/>
     <grid:column label="进货商" name="jhs" width="40"/>
     <grid:column label="明细" name="mx"/>
 

@@ -81,7 +81,7 @@
     <grid:column label="状态" name="zt" dict="SBZT" formatterValue=""/>
 
     <grid:toolbar function="createSb" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
-    <grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>
+    <%--<grid:toolbar function="delete" title="删除" btnclass="btn-danger"/>--%>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>

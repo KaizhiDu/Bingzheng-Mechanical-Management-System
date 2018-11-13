@@ -314,6 +314,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     sbglSbzy.setSsdl(s.getSsdl());
                     sbglSbzy.setRq(thisDay);
                     sbglSbzy.setSfky("1");
+                    sbglSbzy.setZt(s.getZt());
                     sbglSbzyService.insert(sbglSbzy);
                 }
             }
@@ -1047,7 +1048,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         }
 
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+" "+xm+" 日工派工单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+rq+" "+xm+" 日工派工单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();
@@ -1120,7 +1121,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                 }
                     //创建一行
                     Row row0 = sheet1.createRow(i*15);
-                    row0.setHeightInPoints(35);
+                    row0.setHeightInPoints(27);
                     //创建单元格
                     Cell cell00 = row0.createCell(0);
                     Cell cell01 = row0.createCell(1);
@@ -1145,7 +1146,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
 
                     //第二行
                     Row row1 = sheet1.createRow(i*15+1);
-                    row1.setHeightInPoints(35);
+                    row1.setHeightInPoints(27);
                     //创建单元格
                     Cell cell10 = row1.createCell(0);
                     Cell cell11 = row1.createCell(1);
@@ -1165,7 +1166,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     for (int a=0;a<rgnrDTOList.size();a++){
                         RgnrDTO rgnr = rgnrDTOList.get(a);
                         Row row = sheet1.createRow(i*15+2+a);
-                        row.setHeightInPoints(30);
+                        row.setHeightInPoints(27);
                         //创建单元格
                         Cell cell0 = row.createCell(0);
                         Cell cell1 = row.createCell(1);
@@ -1211,7 +1212,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         }
 
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+"日工派工单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+rq+"日工派工单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

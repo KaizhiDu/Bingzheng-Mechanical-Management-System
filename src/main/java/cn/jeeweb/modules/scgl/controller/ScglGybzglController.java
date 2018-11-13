@@ -248,7 +248,7 @@ public class ScglGybzglController extends BaseCRUDController<ScglGybzgl, String>
             }
         }
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\ 工艺详情.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\ 工艺详情.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

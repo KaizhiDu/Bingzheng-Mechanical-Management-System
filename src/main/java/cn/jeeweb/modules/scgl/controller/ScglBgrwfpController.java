@@ -708,7 +708,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 
                 //创建一行
                 Row row0 = sheet1.createRow(i*15);
-                row0.setHeightInPoints(35);
+                row0.setHeightInPoints(27);
                 //创建单元格
                 Cell cell00 = row0.createCell(0);
                 Cell cell01 = row0.createCell(1);
@@ -733,7 +733,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 
                 //第二行
                 Row row1 = sheet1.createRow(i*15+1);
-                row1.setHeightInPoints(35);
+                row1.setHeightInPoints(27);
                 //创建单元格
                 Cell cell10 = row1.createCell(0);
                 Cell cell11 = row1.createCell(1);
@@ -753,7 +753,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 for (int a=0;a<bgnrDTOList.size();a++){
                     BgnrDTO bgnr = bgnrDTOList.get(a);
                     Row row = sheet1.createRow(i*15+2+a);
-                    row.setHeightInPoints(30);
+                    row.setHeightInPoints(27);
                     //创建单元格
                     Cell cell0 = row.createCell(0);
                     Cell cell1 = row.createCell(1);
@@ -799,7 +799,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
             }
 
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+"包工派工单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+rq+"包工派工单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();
@@ -871,12 +871,50 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 
 
                 }
-                else{
-                    bgpgJcxxList2.add(r2);
+
+              if (r1.getId().equals(r2.getId())){
+                  //两个id相同，但是注释不同。也需要复制
+                    if (!r1.getZs().equals(r2.getZs())){
+                        //入r2，然后入""
+                        bgpgJcxxList2.add(r2);
+                        //复制
+                        BgpgJcxxDTO bb = new BgpgJcxxDTO();
+                        bb.setId(r2.getId());
+                        bb.setSbmc("");
+                        bb.setJhbh("");
+                        bb.setLjmc("");
+                        bb.setGyxlmc("");
+                        bb.setGydlmc("");
+                        bb.setYwcl("");
+                        bgpgJcxxList2.add(bb);
+
+                        //最后一个的话，入r1，然后入""
+                        if (i==bgpgJcxxList.size()-1){
+                            bgpgJcxxList2.add(r1);
+                            BgpgJcxxDTO bbb = new BgpgJcxxDTO();
+                            bbb.setId(r1.getId());
+                            bbb.setSbmc("");
+                            bbb.setJhbh("");
+                            bbb.setLjmc("");
+                            bbb.setGydlmc("");
+                            bbb.setYwcl("");
+                            bbb.setGyxlmc("");
+                            bgpgJcxxList2.add(bbb);
+                        }
+                    }
+                    else{
+                        bgpgJcxxList2.add(r2);
                     if (i==bgpgJcxxList.size()-1){
                         bgpgJcxxList2.add(r1);
+                         }
                     }
-                }
+              }
+//                else{
+//                    bgpgJcxxList2.add(r2);
+//                    if (i==bgpgJcxxList.size()-1){
+//                        bgpgJcxxList2.add(r1);
+//                    }
+//                }
             }
 
 
@@ -889,6 +927,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 
                     //id相同，r1继续插入
                     if (r1.getId().equals(r2.getId())){
+//                        if (!r1.getZs().equals(r2.getZs()))
                         rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
                     }
                     //id不相同

@@ -234,7 +234,7 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         }
 
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+"送货清单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\仓库\\"+rq+"送货清单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

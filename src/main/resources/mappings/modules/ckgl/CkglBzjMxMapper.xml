@@ -20,6 +20,15 @@
         <if test="entity.jx!=null and entity.jx!=''">
             AND JX = #{entity.jx}
         </if>
+        <if test="entity.fldl!=null and entity.fldl!=''">
+            AND FLDL LIKE "%"#{entity.fldl}"%"
+        </if>
+        <if test="entity.flxl!=null and entity.flxl!=''">
+            AND FLXL LIKE "%"#{entity.flxl}"%"
+        </if>
+        <if test="entity.gg!=null and entity.gg!=''">
+            AND GG LIKE "%"#{entity.gg}"%"
+        </if>
         ORDER BY SJ DESC
     </select>
 

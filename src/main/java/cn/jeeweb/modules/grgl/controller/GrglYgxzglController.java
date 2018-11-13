@@ -291,7 +291,7 @@ public class GrglYgxzglController extends BaseCRUDController<GrglYgxzgl, String>
         }
 
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+nd+"-"+yf+"工资单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\Program Files\\aaaaa\\"+nd+"-"+yf+"工资单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

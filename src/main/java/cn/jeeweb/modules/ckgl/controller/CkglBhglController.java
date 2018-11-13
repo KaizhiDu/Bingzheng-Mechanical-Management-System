@@ -153,7 +153,7 @@ public class CkglBhglController extends BaseCRUDController<CkglBhgl, String> {
         }
 
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\补货清单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\仓库\\补货清单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

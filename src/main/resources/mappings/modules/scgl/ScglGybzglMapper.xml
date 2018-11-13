@@ -39,8 +39,7 @@ WHERE 1=1
 			AND T.GYXLMC LIKE "%"#{entity.gyxlmc}"%"
 		</if>
 		<if test="entity.zzjg!=null and entity.zzjg!=''">
-			AND T.SYSL &lt; T.SL
-			AND T.SYSL &gt; '0'
+			AND T.JHSCSL &gt; '0'
 		</if>
 		AND T.SCSFXS = '1'
 ORDER BY JHBH,LJMC,DPX,XPX
