@@ -75,6 +75,8 @@
                  outclass="btn-primary" url="${adminPath}/ckgl/ycl/ck?id=\"+row.id+\"" />
     <grid:button title="查看进销详情" groupname="opt" function="ckxq"
                  outclass="btn-warning" url="${adminPath}/ckgl/ycl/ckxq?id=\"+row.id+\"" />
+    <grid:button title="修改" groupname="opt" function="xg"
+                 outclass="btn-info" url="${adminPath}/ckgl/ycl/xg?id=\"+row.id+\"" />
 
     <grid:column label="大类" name="fldl"/>
     <grid:column label="小类" name="flxl"/>
@@ -86,12 +88,49 @@
 
     <grid:toolbar function="createYcl" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加原材料"/>
     <grid:toolbar function="delete"/>
+    <grid:toolbar function="jxxq" icon="fa fa-edit" btnclass="btn btn-sm btn-info" title="进销详情"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
+
+    //修改
+    function xg(title, url, gridId, id, width, height, tipMsg){
+        openDia("修改",url,gridId,"40%","40%");
+    }
+
+    //查看整体进销详情
+    function jxxq(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["85%", "80%"],
+            title: "查看进销详情",
+            maxmin: true, //开启最大化最小化按钮
+            content: "${adminPath}/ckgl/ycl/jxxq",
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable(gridId);
+            },
+            end: function (index) {
+                refreshTable(gridId);
+            }
+        });
+    }
+
     //添加标准件
     function createYcl(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/ckgl/ycl/createYcl";

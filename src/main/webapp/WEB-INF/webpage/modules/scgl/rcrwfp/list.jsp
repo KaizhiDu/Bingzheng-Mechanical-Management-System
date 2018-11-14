@@ -50,12 +50,12 @@
            url="${adminPath}/scgl/rcrwfp/ajaxRcrwfpList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
-    <grid:button title="分配工时" groupname="opt" function="fpgs"
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="120"/>
+    <grid:button title="工时" groupname="opt" function="fpgs"
                  outclass="btn-primary" url="${adminPath}/scgl/rcrwfp/fpgs?id=\"+row.id+\"" />
-    <grid:button title="分配任务" groupname="opt" function="fpsb"
+    <grid:button title="任务" groupname="opt" function="fpsb"
                  outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fpsb?id=\"+row.id+\"&rq=\"+row.rq+\"" />
-    <grid:button title="任务详情" groupname="opt" function="rwxq"
+    <grid:button title="详情" groupname="opt" function="rwxq"
                  outclass="btn-info" url="${adminPath}/scgl/rcrwfp/rwxq?id=\"+row.id+\"&rq=\"+row.rq+\"&xm=\"+row.xm+\"" />
 
     <grid:column label="工时" name="gs" width="30"/>

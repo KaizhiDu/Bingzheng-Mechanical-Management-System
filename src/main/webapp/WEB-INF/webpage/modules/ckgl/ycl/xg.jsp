@@ -30,9 +30,7 @@
     </style>
 </head>
 <body class="container">
-<input type="hidden" id="rjid" name="rjid" value="${ckglRj.id}">
-<h2>${ckglRj.fldl} - ${ckglRj.flxl} - ${ckglRj.gg}</h2>
-<hr>
+<input type="hidden" id="yclid" name="yclid" value="${ckglYcl.id}">
 <div class="row">
     <div class="col-md-3">
 
@@ -42,33 +40,29 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>采购：</label>
+                        <label>规格：</label>
                     </td>
                     <td>
-                        <input name="cg" id="cg" htmlEscape="false" class="form-control" placeholder="请输入采购员姓名"/>
+                        <input name="gg" id="gg" htmlEscape="false" class="form-control" placeholder="请输入规格" value="${ckglYcl.gg}"/>
                     </td>
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>入库数量：</label>
+                        <label>预警量：</label>
                     </td>
                     <td>
-                        <input name="rksl" id="rksl" htmlEscape="false" class="form-control" placeholder="请输入入库数量" onchange="checkSl()"/>
+                        <input name="yjkc" id="yjkc" htmlEscape="false" class="form-control" placeholder="请输入预警量" onchange="checkYjkc()" value="${ckglYcl.yjkc}"/>
                     </td>
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>进货商：</label>
+                        <label>备注：</label>
                     </td>
                     <td>
-                        <select id="jhs" name="jhs" class="form-control">
-                            <c:forEach var="jhs" items="${ckglJhs}">
-                                <option value="${jhs.jhs}">${jhs.jhs}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-                </tr>
+                        <textarea id="bz" name="bz" class="form-control" rows="3" cols="20" placeholder="请输入备注信息">${ckglYcl.bz}</textarea>
 
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -79,32 +73,33 @@
 
 <script type="text/javascript">
 
-    //检查数量
-    function checkSl(){
-        var rksl = $("#rksl").val();
+    //检查预警量
+    function checkYjkc(){
+        var yjkc = $("#yjkc").val();
         // var r = yjkc.match(/^[0-9]*$/);
-        var r = rksl.match(/^\d+(\.\d+)?$/);
+        var r = yjkc.match(/^\d+(\.\d+)?$/);
         //先判断是不是数字
         if(r == null){
             top.layer.alert("请输入数字");
-            $("#rksl").val("");
+            $("#yjkc").val("");
         }
     }
 
     //点击保存，保存数据
     function check() {
-        var rjid = $("#rjid").val();
-        var cg = $("#cg").val();
-        var rksl = $("#rksl").val();
-        var jhs = $("#jhs").val();
+        var yclid = $("#yclid").val();
+        var gg = $("#gg").val();
+        var yjkc = $("#yjkc").val();
+        var bz = $("#bz").val();
         $.ajax({
             type: "GET",
-            url: "${adminPath}/ckgl/rj/saveRjkc",
+            url: "${adminPath}/ckgl/ycl/saveYcl",
             data: {
-                rjid: rjid,
-                cg: cg,
-                jhs: jhs,
-                rksl: rksl
+                id: yclid,
+                gg: gg,
+                yjkc: yjkc,
+                bz: bz
+
             },
             success: function (data) {
 

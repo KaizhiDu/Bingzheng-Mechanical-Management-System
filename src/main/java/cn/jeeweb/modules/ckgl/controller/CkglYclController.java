@@ -54,6 +54,10 @@ public class CkglYclController extends BaseCRUDController<CkglYcl, String> {
     @Autowired
     private ICkglYclMxService ckglYclxMxService;
 
+    /**仓库管理 - 进货商*/
+    @Autowired
+    private ICkglJhsService ckglJhsService;
+
     /**
      * Dscription: 搜索项和前置内容
      * @author : Kevin Du
@@ -93,11 +97,16 @@ public class CkglYclController extends BaseCRUDController<CkglYcl, String> {
     @RequestMapping(value = "saveYcl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBzj(CkglYcl ckglYcl, HttpServletRequest request, HttpServletResponse response, Model model){
-        if (ckglYcl.getFldl()!=null&&!ckglYcl.getFldl().equals("")){
-            ckglYcl.setFldl(ckglDlService.selectById(ckglYcl.getFldl()).getDlmc());
+        if (ckglYcl.getId()!=null&&!ckglYcl.getId().equals("")){
+            ckglYclService.updateById(ckglYcl);
         }
-        ckglYcl.setKc("0");
-        ckglYclService.insert(ckglYcl);
+        else{
+            if (ckglYcl.getFldl()!=null&&!ckglYcl.getFldl().equals("")){
+                ckglYcl.setFldl(ckglDlService.selectById(ckglYcl.getFldl()).getDlmc());
+            }
+            ckglYcl.setKc("0");
+            ckglYclService.insert(ckglYcl);
+        }
     }
 
     /**
@@ -141,6 +150,9 @@ public class CkglYclController extends BaseCRUDController<CkglYcl, String> {
     public String rk(String id, HttpServletRequest request, HttpServletResponse response, Model model){
         CkglYcl ckglYcl = ckglYclService.selectById(id);
         model.addAttribute("ckglYcl", ckglYcl);
+        EntityWrapper<CkglJhs> wrapper = new EntityWrapper<CkglJhs>();
+        List<CkglJhs> ckglJhs = ckglJhsService.selectList(wrapper);
+        model.addAttribute("ckglJhs", ckglJhs);
         return display("rk");
     }
 
@@ -152,16 +164,35 @@ public class CkglYclController extends BaseCRUDController<CkglYcl, String> {
      */
     @RequestMapping(value = "saveYclkc", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveBzjkc(String yclid, String cg, String rksl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveBzjkc(String jhs, String yclid, String cg, String rksl, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        CkglYcl ckglYcl0 = ckglYclService.selectById(yclid);
+
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String datee = sdf0.format(date0);
+        String dateArray[] = datee.split("-");
+        String n = dateArray[0];
+        String y = dateArray[1];
+        String r = dateArray[2];
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDate = sdf.format(date);
         String mx = "采购员 "+cg+" 于 "+currentDate+" 入库 "+rksl+" 件";
         //插入明细表
         CkglYclMx ckglYclMx = new CkglYclMx();
+        ckglYclMx.setFldl(ckglYcl0.getFldl());
+        ckglYclMx.setFlxl(ckglYcl0.getFlxl());
+        ckglYclMx.setGg(ckglYcl0.getGg());
         ckglYclMx.setYclid(yclid);
         ckglYclMx.setMx(mx);
         ckglYclMx.setSj(date);
+        ckglYclMx.setN(n);
+        ckglYclMx.setY(y);
+        ckglYclMx.setR(r);
+        ckglYclMx.setJhs(jhs);
+        ckglYclMx.setJx("0");
         ckglYclxMxService.insert(ckglYclMx);
         //更改标准件表
         CkglYcl ckglYcl = ckglYclService.selectById(yclid);
@@ -201,15 +232,33 @@ public class CkglYclController extends BaseCRUDController<CkglYcl, String> {
     @RequestMapping(value = "saveYclkcck", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBzjkcck(String yclid, String ly, String cksl, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        CkglYcl ckglYcl0 = ckglYclService.selectById(yclid);
+
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String datee = sdf0.format(date0);
+        String dateArray[] = datee.split("-");
+        String n = dateArray[0];
+        String y = dateArray[1];
+        String r = dateArray[2];
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDate = sdf.format(date);
         String mx = "采购员 "+ly+" 于 "+currentDate+" 领取 "+cksl+" 件";
         //插入明细表
         CkglYclMx ckglYclMx = new CkglYclMx();
+        ckglYclMx.setFldl(ckglYcl0.getFldl());
+        ckglYclMx.setFlxl(ckglYcl0.getFlxl());
+        ckglYclMx.setGg(ckglYcl0.getGg());
         ckglYclMx.setYclid(yclid);
         ckglYclMx.setMx(mx);
         ckglYclMx.setSj(date);
+        ckglYclMx.setN(n);
+        ckglYclMx.setY(y);
+        ckglYclMx.setR(r);
+        ckglYclMx.setJx("1");
         ckglYclxMxService.insert(ckglYclMx);
         //更改标准件表
         CkglYcl ckglYcl = ckglYclService.selectById(yclid);
@@ -242,5 +291,45 @@ public class CkglYclController extends BaseCRUDController<CkglYcl, String> {
         List<CkglYclMx> ckglYclMxList = ckglYclxMxService.selectList(wrapper);
         model.addAttribute("YclMxList", ckglYclMxList);
         return display("ckxq");
+    }
+
+    /**
+     * Dscription: 转到查看整体进销情况页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 12:38
+     */
+    @RequestMapping(value = "jxxq", method={RequestMethod.GET, RequestMethod.POST})
+    public String jxxq(HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<CkglJhs> wrapper = new EntityWrapper<CkglJhs>();
+        List<CkglJhs> ckglJhs = ckglJhsService.selectList(wrapper);
+        model.addAttribute("ckglJhs", ckglJhs);
+        return display("jxxq");
+    }
+
+    /**
+     * Dscription: 展示所有进销信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 15:15
+     */
+    @RequestMapping(value = "ajaxXqList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<CkglYclMx> ajaxXqList(Queryable queryable, CkglYclMx ckglYclMx, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<CkglYclMx> pageJson = ckglYclxMxService.ajaxXqList(queryable,ckglYclMx);
+        return pageJson;
+    }
+
+    /**
+     * Dscription: 转到修改页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 16:03
+     */
+    @RequestMapping(value = "xg", method={RequestMethod.GET, RequestMethod.POST})
+    public String xg(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        CkglYcl ckglYcl = ckglYclService.selectById(id);
+        model.addAttribute("ckglYcl", ckglYcl);
+        return display("xg");
     }
 }

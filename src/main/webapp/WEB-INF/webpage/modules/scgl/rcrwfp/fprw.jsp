@@ -152,7 +152,7 @@
         }
         top.layer.open({
             type: 2,
-            area: ["20%", "30%"],
+            area: ["30%", "50%"],
             title: "分配工作量",
             maxmin: true, //开启最大化最小化按钮
             content: url ,

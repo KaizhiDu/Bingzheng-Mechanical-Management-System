@@ -37,7 +37,7 @@
            url="${adminPath}/scgl/ljgybz/ajaxJhglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="70"/>
     <grid:button title="修改" groupname="opt" function="updateHt"
     outclass="btn-success" url="${adminPath}/scjhgl/htgl/updateHt?id=\"+row.id+\"" />
     <grid:button title="删除" groupname="opt" function="deleteHt"

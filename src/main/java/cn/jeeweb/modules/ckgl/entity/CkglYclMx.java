@@ -32,6 +32,30 @@ public class CkglYclMx extends AbstractEntity<String> {
     /** 时间 */
     @TableField(value = "SJ")
     private Date sj;
+    /**年*/
+    @TableField(value = "N")
+    private String n;
+    /**月*/
+    @TableField(value = "Y")
+    private String y;
+    /**日*/
+    @TableField(value = "R")
+    private String r;
+    /**进货商*/
+    @TableField(value = "JHS")
+    private String jhs;
+    /**进销*/
+    @TableField(value = "JX")
+    private String jx;
+    /** 分类大类 */
+    @TableField(value = "FLDL")
+    private String fldl;
+    /** 分类小类 */
+    @TableField(value = "FLXL")
+    private String flxl;
+    /** 规格 */
+    @TableField(value = "GG")
+    private String gg;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -110,5 +134,69 @@ public class CkglYclMx extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getN() {
+        return n;
+    }
+
+    public void setN(String n) {
+        this.n = n;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public void setY(String y) {
+        this.y = y;
+    }
+
+    public String getR() {
+        return r;
+    }
+
+    public void setR(String r) {
+        this.r = r;
+    }
+
+    public String getJhs() {
+        return jhs;
+    }
+
+    public void setJhs(String jhs) {
+        this.jhs = jhs;
+    }
+
+    public String getJx() {
+        return jx;
+    }
+
+    public void setJx(String jx) {
+        this.jx = jx;
+    }
+
+    public String getFldl() {
+        return fldl;
+    }
+
+    public void setFldl(String fldl) {
+        this.fldl = fldl;
+    }
+
+    public String getFlxl() {
+        return flxl;
+    }
+
+    public void setFlxl(String flxl) {
+        this.flxl = flxl;
+    }
+
+    public String getGg() {
+        return gg;
+    }
+
+    public void setGg(String gg) {
+        this.gg = gg;
     }
 }

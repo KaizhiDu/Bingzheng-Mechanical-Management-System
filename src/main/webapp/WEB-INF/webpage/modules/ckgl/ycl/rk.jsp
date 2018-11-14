@@ -56,6 +56,18 @@
                         <input name="rksl" id="rksl" htmlEscape="false" class="form-control" placeholder="请输入入库数量" onchange="checkSl()"/>
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>进货商：</label>
+                    </td>
+                    <td>
+                        <select id="jhs" name="jhs" class="form-control">
+                            <c:forEach var="jhs" items="${ckglJhs}">
+                                <option value="${jhs.jhs}">${jhs.jhs}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                </tr>
 
             </table>
         </form>
@@ -84,12 +96,14 @@
         var yclid = $("#yclid").val();
         var cg = $("#cg").val();
         var rksl = $("#rksl").val();
+        var jhs = $("#jhs").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/ckgl/ycl/saveYclkc",
             data: {
                 yclid: yclid,
                 cg: cg,
+                jhs: jhs,
                 rksl: rksl
             },
             success: function (data) {

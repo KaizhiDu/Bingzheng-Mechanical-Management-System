@@ -55,7 +55,7 @@
            url="${adminPath}/jygl/rgjy/ajaxRgjyList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="130"/>
 
     <grid:button title="检验" groupname="opt" function="jy"
                  outclass="btn-success" url="${adminPath}/jygl/rgjy/jy?id=\"+row.id+\"" />

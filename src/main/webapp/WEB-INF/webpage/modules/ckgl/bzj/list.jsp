@@ -115,7 +115,7 @@
             title: "查看进销详情",
             maxmin: true, //开启最大化最小化按钮
             content: "${adminPath}/ckgl/bzj/jxxq",
-            success: function(layero, index){
+            success: function(layero, indexV){
                 //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
                 $(":button").each(function () {
                     $(this).blur();

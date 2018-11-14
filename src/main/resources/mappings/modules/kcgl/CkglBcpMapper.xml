@@ -6,7 +6,8 @@
        JHBH,
 			 LBJMC,
 			 LBJTH,
-			 RKSL
+			 RKSL,
+              UPDATE_DATE
 FROM T_CKGL_BCP
 WHERE 1=1
      AND SFSWWCBCP = '0'
@@ -19,6 +20,7 @@ WHERE 1=1
         <if test="entity.lbjth!=null and entity.lbjth!=''">
             AND LBJTH = #{entity.lbjth}
         </if>
+        ORDER BY UPDATE_DATE DESC
     </select>
 
     <select id="ajaxBcpList2" resultType="cn.jeeweb.modules.ckgl.entity.CkglBcp">
