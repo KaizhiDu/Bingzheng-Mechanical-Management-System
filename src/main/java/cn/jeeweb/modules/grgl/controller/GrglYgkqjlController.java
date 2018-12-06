@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -185,22 +187,52 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
 
         }
 
-        //查看表里有没有今天的员工考勤信息
-        EntityWrapper<GrglYgkqjl> wrapper = new EntityWrapper<GrglYgkqjl>();
-        wrapper.eq("RQ", currentTime);
-        int count = grglYgkqjlService.selectCount(wrapper);
-        //如果为空，就要把所有员工信息加入表内
-        if (count == 0){
-            EntityWrapper<Grgl> wrapper1 = new EntityWrapper<Grgl>();
-            List<Grgl> grgls = grglService.selectList(wrapper1);
-            for (int i=0;i<grgls.size();i++){
-                Grgl grgl = grgls.get(i);
-                GrglYgkqjl grglYgkqjl = new GrglYgkqjl();
-                grglYgkqjl.setYgid(grgl.getId());
-                grglYgkqjl.setRq(currentTime);
-                grglYgkqjlService.insert(grglYgkqjl);
+        SimpleDateFormat sss = new SimpleDateFormat("yyyy-MM-dd");
+        //得到今天的时间
+        Calendar calendar0 = new GregorianCalendar();
+        calendar0.setTime(new Date());
+        calendar0.add(calendar0.DATE,0);
+        String day = sss.format(calendar0.getTime());
+
+        //得到明天的时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        calendar.add(calendar.DATE,1);
+        String day1 = sss.format(calendar.getTime());
+
+        //得到后天的时间
+        Calendar calendar2 = new GregorianCalendar();
+        calendar2.setTime(new Date());
+        calendar2.add(calendar.DATE,2);
+        String day2 = sss.format(calendar2.getTime());
+
+        //得到大后天的时间
+        Calendar calendar3 = new GregorianCalendar();
+        calendar3.setTime(new Date());
+        calendar3.add(calendar.DATE,3);
+        String day3 = sss.format(calendar3.getTime());
+
+        String dates[] = {day1,day,day2,day3};
+
+        //查看表里有没有这几天的信息的员工考勤信息
+        for(int i=0;i<dates.length;i++){
+            EntityWrapper<GrglYgkqjl> wrapper = new EntityWrapper<GrglYgkqjl>();
+            wrapper.eq("RQ", dates[i]);
+            int count = grglYgkqjlService.selectCount(wrapper);
+            //如果为空，就要把所有员工信息加入表内
+            if (count == 0){
+                EntityWrapper<Grgl> wrapper1 = new EntityWrapper<Grgl>();
+                List<Grgl> grgls = grglService.selectList(wrapper1);
+                for (int j=0;j<grgls.size();j++){
+                    Grgl grgl = grgls.get(j);
+                    GrglYgkqjl grglYgkqjl = new GrglYgkqjl();
+                    grglYgkqjl.setYgid(grgl.getId());
+                    grglYgkqjl.setRq(dates[i]);
+                    grglYgkqjlService.insert(grglYgkqjl);
+                }
             }
         }
+
     }
 
     /**

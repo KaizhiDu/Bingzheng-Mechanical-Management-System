@@ -76,6 +76,14 @@
                         <input name="lbjsl" id="lbjsl" htmlEscape="false" class="form-control" placeholder="请输入数量" value="${scjhglLjgl.sl}" onchange="checkSl()"/>
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>补充数量：</label>
+                    </td>
+                    <td>
+                        <input name="bcsl" id="bcsl" htmlEscape="false" class="form-control" placeholder="请输入数量" value="${scjhglLjgl.bcsl}" onchange="checkSl()"/>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -105,6 +113,7 @@
         var htid = $("#htid").val();
         var ljth = $("#ljth").val();
         var ljmc = $("#ljmc").val();
+        var bcsl = $("#bcsl").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/ljgl/saveSl",
@@ -113,7 +122,8 @@
                 lbjsl: lbjsl,
                 htid: htid,
                 ljth: ljth,
-                ljmc: ljmc
+                ljmc: ljmc,
+                bcsl: bcsl
             },
             success: function (data) {
 

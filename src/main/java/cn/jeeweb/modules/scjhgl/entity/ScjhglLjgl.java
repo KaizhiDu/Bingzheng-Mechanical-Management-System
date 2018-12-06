@@ -44,6 +44,9 @@ public class ScjhglLjgl extends AbstractEntity<String> {
     /** 数量 */
     @TableField(value = "SL")
     private String sl;
+    /** 补充数量 */
+    @TableField(value = "BCSL")
+    private String bcsl;
     /** 未入库数量 */
     @TableField(value = "WRKSL")
     private String wrksl;
@@ -198,5 +201,13 @@ public class ScjhglLjgl extends AbstractEntity<String> {
 
     public void setSfwwcrk(String sfwwcrk) {
         this.sfwwcrk = sfwwcrk;
+    }
+
+    public String getBcsl() {
+        return bcsl;
+    }
+
+    public void setBcsl(String bcsl) {
+        this.bcsl = bcsl;
     }
 }

@@ -76,6 +76,7 @@
     <grid:column label="零部件图号" name="ljth"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
+    <grid:column label="补充数量" name="bcsl"/>
     <grid:column label="未入库数量" name="wrksl"/>
 
     <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零部件"/>
@@ -106,7 +107,7 @@
 
     //修改数量
     function modifySl(title, url, gridId, id, width, height, tipMsg){
-        openDia("修改零部件数量",url,gridId,"30%","30%");
+        openDia("修改零部件数量",url,gridId,"50%","70%");
     }
 
     //添加零部件

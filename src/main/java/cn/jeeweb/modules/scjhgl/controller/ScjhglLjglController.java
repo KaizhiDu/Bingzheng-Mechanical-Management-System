@@ -189,31 +189,73 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
      * @date : 2018/11/5 18:08
      */
     @RequestMapping(value = "saveSl", method={RequestMethod.GET, RequestMethod.POST})
-    public void saveSl(String id, String lbjsl, String htid, String ljmc, String ljth, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveSl(String id, String lbjsl, String htid, String ljmc, String ljth, String bcsl, HttpServletRequest request, HttpServletResponse response, Model model){
         int lbjsli = 0;
         if (lbjsl!=null&&!lbjsl.equals("")){
             lbjsli = Integer.parseInt(lbjsl);
         }
-        //先改变零件的信息
-        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
-        scjhglLjgl.setWrksl(lbjsl);
-        scjhglLjgl.setSysl(lbjsl);
-        scjhglLjgl.setSl(lbjsl);
-        scjhglLjgl.setLjmc(ljmc);
-        scjhglLjgl.setLjth(ljth);
-        scjhglLjgl.setHtid(htid);
-        scjhglLjglService.updateById(scjhglLjgl);
 
-        //再更新下属零件工艺编制信息
-        List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(id);
-        if (ljgybzByLjid.size()>0){
-            for (ScglLjgybz s : ljgybzByLjid) {
+        //更新下属零件工艺编制信息
+        List<ScglLjgybz> ljgybzByLjid0 = scglLjgybzService.getLjgybzByLjid(id);
+        if (ljgybzByLjid0.size()>0){
+            for (ScglLjgybz s : ljgybzByLjid0) {
                 s.setWrksl(lbjsli);
                 s.setSysl(lbjsli);
                 s.setSl(lbjsli);
                 scglLjgybzService.updateById(s);
             }
         }
+
+        //先改变零件的信息
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
+
+        //如果bcsli不为0的话
+        if (bcsl!=null&&!bcsl.equals("")){
+            //这是新的补充数量
+            int bcsli = Integer.parseInt(bcsl);
+            //这是旧的补充数量
+            int oldbcsli = 0;
+            if (scjhglLjgl.getBcsl()!=null&&!scjhglLjgl.getBcsl().equals("")){
+                oldbcsli = Integer.parseInt(scjhglLjgl.getBcsl());
+            }
+            //首先需要改变未入库数量
+            int wrksli = 0;
+            int sysli = 0;
+            int sli = 0;
+            if (scjhglLjgl.getWrksl()!=null&&!scjhglLjgl.getWrksl().equals("")){
+                wrksli = Integer.parseInt(scjhglLjgl.getWrksl());
+            }
+            if (scjhglLjgl.getSysl()!=null&&!scjhglLjgl.getSysl().equals("")){
+                sysli = Integer.parseInt(scjhglLjgl.getSysl());
+            }
+            if (scjhglLjgl.getSl()!=null&&!scjhglLjgl.getSl().equals("")){
+                sli = Integer.parseInt(scjhglLjgl.getSl());
+            }
+            wrksli = wrksli + bcsli - oldbcsli;
+            sysli = sysli + bcsli - oldbcsli;
+            sli = sli + bcsli - oldbcsli;
+            scjhglLjgl.setWrksl(wrksli+"");
+            scjhglLjgl.setSysl(sysli+"");
+            scjhglLjgl.setSl(sli+"");
+            //还要要修改工艺里面相关信息
+            List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(id);
+            for (ScglLjgybz s : ljgybzByLjid) {
+                int sysl = s.getSysl() + bcsli - oldbcsli;
+                int sl = s.getSl() + bcsli - oldbcsli;
+                int wrksl = s.getWrksl() + bcsli - oldbcsli;
+                s.setSl(sl);
+                s.setSysl(sysl);
+                s.setWrksl(wrksl);
+                scglLjgybzService.updateById(s);
+            }
+
+        }
+        scjhglLjgl.setLjmc(ljmc);
+        scjhglLjgl.setLjth(ljth);
+        scjhglLjgl.setHtid(htid);
+        scjhglLjgl.setBcsl(bcsl);
+        scjhglLjglService.updateById(scjhglLjgl);
+
 
     }
 

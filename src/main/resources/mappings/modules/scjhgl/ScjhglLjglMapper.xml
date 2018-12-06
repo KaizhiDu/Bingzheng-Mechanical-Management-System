@@ -9,6 +9,7 @@
 			 DYL,
 			 WRKSL,
 			 SL,
+			 bcsl,
 		     SYSL
 FROM T_SCJHGL_LJGL T
 WHERE 1=1
