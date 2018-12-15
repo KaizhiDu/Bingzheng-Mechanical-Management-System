@@ -178,7 +178,6 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         sheet1.setColumnWidth(1, 3700);
         sheet1.setColumnWidth(2, 3700);
         sheet1.setColumnWidth(3, 3700);
-        sheet1.setColumnWidth(4, 3700);
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
@@ -193,17 +192,14 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         Cell cell01 = row0.createCell(1);
         Cell cell02 = row0.createCell(2);
         Cell cell03 = row0.createCell(3);
-        Cell cell04 = row0.createCell(4);
         cell00.setCellValue("日期");
-        cell01.setCellValue("计划名称");
-        cell02.setCellValue("零部件名称");
-        cell03.setCellValue("零部件图号");
-        cell04.setCellValue("送货数量");
+        cell01.setCellValue("零部件名称");
+        cell02.setCellValue("零部件图号");
+        cell03.setCellValue("送货数量");
         cell00.setCellStyle(style);
         cell01.setCellStyle(style);
         cell02.setCellStyle(style);
         cell03.setCellStyle(style);
-        cell04.setCellStyle(style);
 
         if (ckglCpCkjls!=null){
             for (int i=0;i<ckglCpCkjls.size();i++){
@@ -217,19 +213,16 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
                 Cell cell1 = row.createCell(1);
                 Cell cell2 = row.createCell(2);
                 Cell cell3 = row.createCell(3);
-                Cell cell4 = row.createCell(4);
 
                 //给单元格设值
                 cell0.setCellValue(c.getRq());
-                cell1.setCellValue(c.getJhbh());
-                cell2.setCellValue(c.getLbjmc());
-                cell3.setCellValue(c.getLbjth());
-                cell4.setCellValue(c.getRksl());
+                cell1.setCellValue(c.getLbjmc());
+                cell2.setCellValue(c.getLbjth());
+                cell3.setCellValue(c.getRksl());
                 cell0.setCellStyle(style);
                 cell1.setCellStyle(style);
                 cell2.setCellStyle(style);
                 cell3.setCellStyle(style);
-                cell4.setCellStyle(style);
             }
         }
 
@@ -268,7 +261,7 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         //先判断半成品库里有没有该图号的零部件存在
         EntityWrapper<CkglCp> wrapper = new EntityWrapper<CkglCp>();
         wrapper.eq("LBJTH", ckglCp.getLbjth());
-        wrapper.eq("JHBH", ckglCp.getJhbh());
+        //wrapper.eq("JHBH", ckglCp.getJhbh());
         int count = ckglCpService.selectCount(wrapper);
         if (count>0){
             CkglCp ckglCp1 = ckglCpService.selectOne(wrapper);
@@ -287,7 +280,6 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         else{
             CkglCp ckgl = new CkglCp();
             ckgl.setJhid("");
-            ckgl.setJhbh(ckglCp.getJhbh());
             ckgl.setLbjid("");
             ckgl.setLbjmc(ckglCp.getLbjmc());
             ckgl.setLbjth(ckglCp.getLbjth());

@@ -312,7 +312,7 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
 
         }
         GrglYgkqjl grglYgkqjl = new GrglYgkqjl();
-        grglYgkqjl.setRq(currentTime);
+        grglYgkqjl.setRq(rq);
         grglYgkqjl.setSw(sw);
         grglYgkqjl.setXw(xw);
         grglYgkqjl.setJb(jb);

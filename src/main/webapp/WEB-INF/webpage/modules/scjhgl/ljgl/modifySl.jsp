@@ -78,7 +78,7 @@
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>补充数量：</label>
+                        <label>追加数量：</label>
                     </td>
                     <td>
                         <input name="bcsl" id="bcsl" htmlEscape="false" class="form-control" placeholder="请输入数量" value="${scjhglLjgl.bcsl}" onchange="checkSl()"/>
@@ -129,6 +129,39 @@
 
             }
         });
+    }
+
+    //更新到当前页
+    function refreshTable2(gridId){
+        var queryParams = {};
+        var queryFields=$('#queryFields').val();
+        var curpagenum = $("#"+gridId+"").jqGrid('getGridParam', 'page');
+        queryParams['queryFields'] = queryFields;
+        //普通的查询
+        $('#' + gridId + "Query").find(":input").each(function() {
+            var val = $(this).val();
+            if (queryParams[$(this).attr('name')]) {
+                val = queryParams[$(this).attr('name')] + "," + $(this).val();
+            }
+            queryParams[$(this).attr('name')] = val;
+        });
+
+        // 普通的查询
+        $('#' + gridId + "Query").find(":input").each(function() {
+            var condition = $(this).attr('condition');
+            if (!condition) {
+                condition = "";
+            }
+            var key = "query." + $(this).attr('name') + "||" + condition;
+            queryParams[key] = queryParams[$(this).attr('name')];
+        });
+        //刷新
+        //传入查询条件参数
+        $("#"+gridId).jqGrid('setGridParam',{
+            datatype:'json',
+            postData:queryParams, //发送数据
+            page:curpagenum
+        }).trigger("reloadGrid"); //重新载入
     }
 </script>
 

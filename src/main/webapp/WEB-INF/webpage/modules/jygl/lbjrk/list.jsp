@@ -108,7 +108,7 @@
                     type: "GET",
                     url: url,
                     success: function (data) {
-                        refreshTable(gridId);
+                        refreshTable2(gridId);
                     }
                 });
                 layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框

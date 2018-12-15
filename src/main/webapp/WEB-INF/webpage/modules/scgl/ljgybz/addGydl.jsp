@@ -76,7 +76,7 @@
                 type: "GET",
                 url: "${adminPath}/scgl/ljgybz/saveGydlbz?ids="+ids+"&ljid="+ljid,
                 success: function (data) {
-                    refreshTable(gridId);
+                    refreshTable2(gridId);
                     layer.msg(data.msg);
                 }
             });
@@ -86,6 +86,39 @@
             top.layer.alert('请选择要添加的工艺大类!', {icon: 0, title:'警告'});
             return;
         }
+    }
+
+    //更新到当前页
+    function refreshTable2(gridId){
+        var queryParams = {};
+        var queryFields=$('#queryFields').val();
+        var curpagenum = $("#"+gridId+"").jqGrid('getGridParam', 'page');
+        queryParams['queryFields'] = queryFields;
+        //普通的查询
+        $('#' + gridId + "Query").find(":input").each(function() {
+            var val = $(this).val();
+            if (queryParams[$(this).attr('name')]) {
+                val = queryParams[$(this).attr('name')] + "," + $(this).val();
+            }
+            queryParams[$(this).attr('name')] = val;
+        });
+
+        // 普通的查询
+        $('#' + gridId + "Query").find(":input").each(function() {
+            var condition = $(this).attr('condition');
+            if (!condition) {
+                condition = "";
+            }
+            var key = "query." + $(this).attr('name') + "||" + condition;
+            queryParams[key] = queryParams[$(this).attr('name')];
+        });
+        //刷新
+        //传入查询条件参数
+        $("#"+gridId).jqGrid('setGridParam',{
+            datatype:'json',
+            postData:queryParams, //发送数据
+            page:curpagenum
+        }).trigger("reloadGrid"); //重新载入
     }
 </script>
 </body>

@@ -81,7 +81,7 @@
                         type: "GET",
                         url: "${adminPath}/scgl/rcrwfp/deleteSb?ids="+ids+"&rq="+rq,
                         success: function (data) {
-                            refreshTable(gridId);
+                            refreshTable2(gridId);
                             layer.msg(data.msg,{ icon: 1, time: 1000 });
                         }
                     });
@@ -130,13 +130,13 @@
                 //判断逻辑并关闭
                 setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
                 layer.msg("保存成功!",{ icon: 1, time: 1000 });
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             cancel: function(index){
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             end: function (index) {
-                refreshTable(gridId);
+                refreshTable2(gridId);
             }
         });
     }
@@ -164,12 +164,45 @@
             },
             btn: ['关闭'],
             cancel: function(index){
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             end: function (index) {
-                refreshTable(gridId);
+                refreshTable2(gridId);
             }
         });
+    }
+
+    //更新到当前页
+    function refreshTable2(gridId){
+        var queryParams = {};
+        var queryFields=$('#queryFields').val();
+        var curpagenum = $("#"+gridId+"").jqGrid('getGridParam', 'page');
+        queryParams['queryFields'] = queryFields;
+        //普通的查询
+        $('#' + gridId + "Query").find(":input").each(function() {
+            var val = $(this).val();
+            if (queryParams[$(this).attr('name')]) {
+                val = queryParams[$(this).attr('name')] + "," + $(this).val();
+            }
+            queryParams[$(this).attr('name')] = val;
+        });
+
+        // 普通的查询
+        $('#' + gridId + "Query").find(":input").each(function() {
+            var condition = $(this).attr('condition');
+            if (!condition) {
+                condition = "";
+            }
+            var key = "query." + $(this).attr('name') + "||" + condition;
+            queryParams[key] = queryParams[$(this).attr('name')];
+        });
+        //刷新
+        //传入查询条件参数
+        $("#"+gridId).jqGrid('setGridParam',{
+            datatype:'json',
+            postData:queryParams, //发送数据
+            page:curpagenum
+        }).trigger("reloadGrid"); //重新载入
     }
 
 </script>

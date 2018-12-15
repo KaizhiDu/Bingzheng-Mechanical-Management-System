@@ -377,12 +377,12 @@ function search(gridId) {
 		queryParams[key] = queryParams[$(this).attr('name')];
 	});
     //刷新
-    //传入查询条件参数  
-    $("#"+gridId).jqGrid('setGridParam',{  
-        datatype:'json',  
-        postData:queryParams, //发送数据  
-        page:1  
-    }).trigger("reloadGrid"); //重新载入    
+    //传入查询条件参数
+    $("#"+gridId).jqGrid('setGridParam',{
+        datatype:'json',
+        postData:queryParams, //发送数据
+        page:1
+    }).trigger("reloadGrid"); //重新载入
 }
 
 /**

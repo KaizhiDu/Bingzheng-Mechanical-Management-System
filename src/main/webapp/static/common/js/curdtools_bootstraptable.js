@@ -192,8 +192,12 @@ function delObj(title, url, infoid) {
 	});
 }
 
-function refreshTable(tableid) {
+function refreshTable2(tableid) {
 	doSearch(tableid);
+}
+
+function StaticRefreshTable() {
+
 }
 
 /**

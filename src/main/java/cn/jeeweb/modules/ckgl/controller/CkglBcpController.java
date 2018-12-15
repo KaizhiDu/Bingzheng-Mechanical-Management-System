@@ -145,7 +145,7 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
         //根据图号判断，成品库里面有没有该信息
         EntityWrapper<CkglCp> wrapper = new EntityWrapper<CkglCp>();
         wrapper.eq("LBJTH", ckglBcp.getLbjth());
-        wrapper.eq("JHBH", ckglBcp.getJhbh());
+        //wrapper.eq("JHBH", ckglBcp.getJhbh());
         int count = ckglCpService.selectCount(wrapper);
         //插入
         if (count == 0){

@@ -39,15 +39,15 @@
 <div class="row">
     <div id="CkglCpGridQuery" class="col-md-12">
         <div class="form-inline">
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">计划名称：</label>
-                <select name="jhbh" class="form-control" id="jhbh">
-                    <option value="">请选择</option>
-                    <c:forEach items="${htList}" var="ht">
-                        <option value="${ht.htbh}">${ht.htbh}</option>
-                    </c:forEach>
-                </select>
-            </div>
+            <%--<div class="form-group col-md-4" style="margin-bottom: 10px">--%>
+                <%--<label class="control-label">计划名称：</label>--%>
+                <%--<select name="jhbh" class="form-control" id="jhbh">--%>
+                    <%--<option value="">请选择</option>--%>
+                    <%--<c:forEach items="${htList}" var="ht">--%>
+                        <%--<option value="${ht.htbh}">${ht.htbh}</option>--%>
+                    <%--</c:forEach>--%>
+                <%--</select>--%>
+            <%--</div>--%>
             <div class="form-group col-md-4" style="margin-bottom: 10px">
                 <label class="control-label">零部件名称：</label>
                 <select name="lbjmc" class="form-control" id="lbjmc">
@@ -80,7 +80,7 @@
     <grid:button title="出库" groupname="opt" function="ck"
                  outclass="btn-success" url="${adminPath}/ckgl/cp/ck?id=\"+row.id+\"" />
 
-    <grid:column label="计划名称" name="jhbh"/>
+    <%--<grid:column label="计划名称" name="jhbh"/>--%>
     <grid:column label="零部件名称" name="lbjmc"/>
     <grid:column label="零部件图号" name="lbjth"/>
     <grid:column label="库存数量" name="rksl"/>
@@ -126,13 +126,13 @@
                 //判断逻辑并关闭
                 setTimeout(function(){top.layer.close(index)}, 300);//延时0.1秒，对应360 7.1版本bug
                 layer.msg("添加成功!",{ icon: 1, time: 1000 });
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             cancel: function(index){
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             end: function (index) {
-                refreshTable(gridId);
+                refreshTable2(gridId);
             }
         });
     }
@@ -167,13 +167,13 @@
                 //判断逻辑并关闭
                 setTimeout(function(){top.layer.close(index)}, 300);//延时0.1秒，对应360 7.1版本bug
                 layer.msg("添加成功!",{ icon: 1, time: 1000 });
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             cancel: function(index){
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             end: function (index) {
-                refreshTable(gridId);
+                refreshTable2(gridId);
             }
         });
     }
@@ -213,17 +213,49 @@
                 //判断逻辑并关闭
                 setTimeout(function(){top.layer.close(index)}, 300);//延时0.1秒，对应360 7.1版本bug
                 layer.msg("出库成功!",{ icon: 1, time: 1000 });
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             cancel: function(index){
-                refreshTable(gridId);
+                refreshTable2(gridId);
             },
             end: function (index) {
-                refreshTable(gridId);
+                refreshTable2(gridId);
             }
         });
     }
 
+    //更新到当前页
+    function refreshTable2(gridId){
+        var queryParams = {};
+        var queryFields=$('#queryFields').val();
+        var curpagenum = $("#"+gridId+"").jqGrid('getGridParam', 'page');
+        queryParams['queryFields'] = queryFields;
+        //普通的查询
+        $('#' + gridId + "Query").find(":input").each(function() {
+            var val = $(this).val();
+            if (queryParams[$(this).attr('name')]) {
+                val = queryParams[$(this).attr('name')] + "," + $(this).val();
+            }
+            queryParams[$(this).attr('name')] = val;
+        });
+
+        // 普通的查询
+        $('#' + gridId + "Query").find(":input").each(function() {
+            var condition = $(this).attr('condition');
+            if (!condition) {
+                condition = "";
+            }
+            var key = "query." + $(this).attr('name') + "||" + condition;
+            queryParams[key] = queryParams[$(this).attr('name')];
+        });
+        //刷新
+        //传入查询条件参数
+        $("#"+gridId).jqGrid('setGridParam',{
+            datatype:'json',
+            postData:queryParams, //发送数据
+            page:curpagenum
+        }).trigger("reloadGrid"); //重新载入
+    }
 </script>
 
 </body>
