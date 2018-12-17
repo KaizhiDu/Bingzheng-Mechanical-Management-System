@@ -13,7 +13,7 @@
     <html:css
             name="bootstrap-fileinput,font-awesome,animate,iCheck,datepicker,jqgrid,sweetalert,Validform,jqgrid"/>
     <html:js
-            name="layer,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
+            name="layer,laydate,jqGrid,jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
     <script>
         $(function () {
             $(".ibox-title").hide();
@@ -31,27 +31,31 @@
 </head>
 <body>
 
-<h2>${rcrwfp.xm}</h2>
-<hr>
-
-<input type="hidden" id="rcrwfpid" name="rcrwfpid" value="${rcrwfp.id}">
-<input type="hidden" id="rq" name="rq" value="${rq}">
-
-<grid:grid id="RcrwfpSb"
-           url="${adminPath}/scgl/rcrwfp/ajaxRcrwfpSbList?rcrwfpid=${rcrwfp.id}" pageable="true">
+<h2>${grgl.name}</h2>
+<input type="hidden" id="ygid" name="ygid" value="${grgl.id}">
+<div class="row">
+    <div id="BgrwfpGridQuery" class="col-md-12">
+        <div class="form-inline">
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label>日期：</label>
+                <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
+            </div>
+        </div>
+    </div>
+</div>
+<grid:grid id="Bgrwfp"
+           url="${adminPath}/scgl/bgrwfp/ajaxBgrwfpList?ygid=${grgl.id}" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="30"/>
-    <grid:button title="任务分配" groupname="opt" function="fprw"
-                 outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fprw?id=\"+row.id+\"" />
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="150"/>
+    <grid:button title="修改承包金额" groupname="opt" function="bgmx"
+                 outclass="btn-success" url="${adminPath}/scgl/rcrwfp/xgcbje?id=\"+row.id+\"" />
 
-    <grid:column label="设备编号" name="sbbh"/>
-    <grid:column label="设备名称" name="sbmc"/>
-    <grid:column label="所属类别" name="ssdl"/>
-
-    <grid:toolbar function="addSb" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加设备"/>
-    <grid:toolbar function="deleteSb" icon="fa fa-trash" title="删除设备" btnclass="btn-danger"/>
-    <grid:toolbar function="fpbgrw" icon="fa fa-edit" title="分配包工任务" btnclass="btn-info"/>
+    <grid:column label="日期" name="rq"/>
+    <grid:column label="包工名称" name="bgmc"/>
+    <grid:column label="姓名" name="xm"/>
+    <grid:column label="职位" name="zw"/>
+    <grid:column label="性别" name="xb" dict="sex" dateformat=""/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -59,81 +63,50 @@
 
 <script type="text/javascript">
 
-    //分配包工任务
-    function fpbgrw(title, url, gridId, id, width, height, tipMsg){
-        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
-            width='auto';
-            height='auto';
-        }else{//如果是PC端，根据用户设置的width和height显示。
-
-        }
-        top.layer.open({
-            type: 2,
-            area: ["90%", "87%"],
-            title: "分配包工任务",
-            maxmin: true, //开启最大化最小化按钮
-            content: "${adminPath}/scgl/rcrwfp/fpbgrw" ,
-            success: function(layero, index){
-                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
-                $(":button").each(function () {
-                    $(this).blur();
-                });
-            },
-            btn: ['关闭'],
-            cancel: function(index){
-                refreshTable2(gridId);
-            },
-            end: function (index) {
-                refreshTable2(gridId);
-            }
-        });
-    }
-
-
-    //删除设备
-    function deleteSb(title, url, gridId, id, width, height, tipMsg){
+    //导出包工派工单
+    function exprortBgpgd(){
         var rq = $("#rq").val();
-        //获取选中行的id数组
-        var idsArray = $("#RcrwfpSbGrid").jqGrid("getGridParam", "selarrrow")
-        if (idsArray.length>0){
-            var ids = "";
-            for (var i=0;i<idsArray.length;i++){
-                if (i==0){
-                    ids = idsArray[i];
-                }
-                else{
-                    ids = ids + "," + idsArray[i];
-                }
-            }
-            //需要提示，确定要删除吗？删除这个计划，相关零部件也会删除
-            layer.confirm('确定要删除吗？', {
-                    btn: ['确定', '取消']
-                }, function (index, layero) {
-                    $.ajax({
-                        type: "GET",
-                        url: "${adminPath}/scgl/rcrwfp/deleteSb?ids="+ids+"&rq="+rq,
-                        success: function (data) {
-                            refreshTable2(gridId);
-                            layer.msg(data.msg,{ icon: 1, time: 1000 });
-                        }
-                    });
-                    layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-
-
-                }
-            );
-
+        var ygid = $("#ygid").val();
+        if (rq==''){
+            layer.alert("请选择日期");
         }
+        //导出
         else{
-            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
-            return;
+            $.ajax({
+                type: "get",
+                url: "${adminPath}/scgl/bgrwfp/exprortBgpgd?rq="+rq+"&ygid="+ygid,
+                success: function (data) {
+
+                }
+            });
+            layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+            top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
         }
+
     }
 
-    //添加设备
-    function addSb(title, url, gridId, id, width, height, tipMsg){
-        var rq = $("#rq").val();
-        url = "${adminPath}/scgl/rcrwfp/addSb?rcrwfpid=${rcrwfp.id}&rq="+rq;
+    //删除包工任务
+    function deleteBgrw(title, url, gridId, id, width, height, tipMsg){
+        layer.confirm('确定要删除吗？', {
+                btn: ['确定', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (data) {
+                        refreshTable2(gridId);
+                        layer.msg(data.msg,{ icon: 1, time: 1000 });
+                    }
+                });
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+
+
+            }
+        );
+    }
+
+    //包工明细
+    function bgmx(title, url, gridId, id, width, height, tipMsg) {
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -142,8 +115,8 @@
         }
         top.layer.open({
             type: 2,
-            area: ["90%", "85%"],
-            title: "添加设备",
+            area: ["30%", "50%"],
+            title: "包工明细",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
             success: function(layero, index){
@@ -152,7 +125,7 @@
                     $(this).blur();
                 });
             },
-            btn: ['添加', '关闭'],
+            btn: ['保存', '关闭'],
             yes: function(index, layero){
                 var body = top.layer.getChildFrame('body', index);
                 var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -173,9 +146,8 @@
         });
     }
 
-    //分配任务
-    function fprw(title, url, gridId, id, width, height, tipMsg){
-
+    //分配日常任务
+    function fpsb(title, url, gridId, id, width, height, tipMsg) {
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';
@@ -184,8 +156,8 @@
         }
         top.layer.open({
             type: 2,
-            area: ["90%", "85%"],
-            title: "添加任务",
+            area: ["95%", "90%"],
+            title: "包工任务分配",
             maxmin: true, //开启最大化最小化按钮
             content: url ,
             success: function(layero, index){
@@ -200,6 +172,18 @@
             },
             end: function (index) {
                 refreshTable2(gridId);
+            }
+        });
+    }
+
+    function createBgrw(title, url, gridId, id, width, height, tipMsg){
+        var ygid = $("#ygid").val();
+        $.ajax({
+            type: "get",
+            url: "${adminPath}/scgl/bgrwfp/createBgrw?ygid="+ygid,
+            success: function (data) {
+                refreshTable2(gridId);
+                layer.msg("创建成功!",{ icon: 1, time: 1000 });
             }
         });
     }
@@ -236,7 +220,6 @@
             page:curpagenum
         }).trigger("reloadGrid"); //重新载入
     }
-
 </script>
 
 </body>

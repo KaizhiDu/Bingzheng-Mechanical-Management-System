@@ -116,6 +116,10 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @Autowired
     private IScglBgrwfpService scglBgrwfpService;
 
+    /**包工-明细Service*/
+    @Autowired
+    IScglBgmxService scglBgmxService;
+
 
     /**
      * Dscription: 添加日子和搜索项
@@ -137,6 +141,8 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         calendar.setTime(new Date());
         calendar.add(calendar.DATE,1);
         String day1 = sss.format(calendar.getTime());
+
+        model.addAttribute("day1", day1);
 
         //得到后天的时间
         Calendar calendar2 = new GregorianCalendar();
@@ -1373,6 +1379,71 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         }
         model.addAttribute("getData" , getData);
         return display("rwxq");
+    }
+
+    /**
+     * Dscription: 分配包工任务
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/12/17 16:32
+     */
+    @RequestMapping(value = "fpbgrw", method={RequestMethod.GET, RequestMethod.POST})
+    public String fpbgrw(HttpServletRequest request, HttpServletResponse response, Model model){
+        return display("bgList");
+    }
+
+    /**
+     * Dscription: 转到查看包工任务页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/4 15:29
+     */
+    @RequestMapping(value = "ckbgrw",method = {RequestMethod.GET,RequestMethod.POST})
+    public String ckbgrw(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        Grgl grgl = grglService.selectById(id);
+        model.addAttribute("grgl", grgl);
+        return display("ckbgrw");
+    }
+
+    /**
+     * Dscription: 修改承包金额
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/12/17 17:06
+     */
+    @RequestMapping(value = "xgcbje",method = {RequestMethod.GET,RequestMethod.POST})
+    public String xgcbje(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(id);
+        model.addAttribute("bgrwfp",scglBgrwfp);
+        //查看如果有表里有数据，就把把数据代入
+        EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<ScglBgmx>();
+        wrapper.eq("BGRWFPID", id);
+        ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper);
+        model.addAttribute("scglBgmx", scglBgmx);
+        return display("xgcbje");
+    }
+
+    /**
+     * Dscription: 保存包工明细
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/12/17 17:33
+     */
+    @RequestMapping(value = "saveBgmx",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public void saveBgmx(String id, String cbje, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglBgmx scglBgmx = scglBgmxService.selectById(id);
+        float cbjef = 0;
+        float yjqs = 0;
+        if (scglBgmx.getCbje()!=null&&!scglBgmx.getCbje().equals("")){
+            cbjef = Float.parseFloat(scglBgmx.getCbje());
+        }
+        if (cbje!=null&&!cbje.equals("")){
+            yjqs = Float.parseFloat(cbje);
+        }
+        cbjef = cbjef - yjqs;
+        scglBgmx.setCbje(cbjef+"");
+        scglBgmxService.updateById(scglBgmx);
     }
 
 }

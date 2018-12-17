@@ -37,7 +37,7 @@
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">日期：</label>
-                <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
+                <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" value="${day1}" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
             </div>
         </div>
     </div>
