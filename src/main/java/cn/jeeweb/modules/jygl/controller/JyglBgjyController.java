@@ -139,8 +139,12 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
      * @date : 2018/10/1 11:41
      */
     @RequestMapping(value = "jy", method={RequestMethod.GET, RequestMethod.POST})
-    public String jy(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
+    public String jy(String id, String bgrwfpid, HttpServletRequest request, HttpServletResponse response, Model model){
         JyglBgjy jyglBgjy = jyglBgjyService.selectById(id);
+
+        //包工任务分配ID
+        model.addAttribute("bgrwfpid", bgrwfpid);
+
         //实际完成量
         String sjwcl = jyglBgjy.getSjwcl();
         model.addAttribute("sjwcl", sjwcl);
@@ -178,7 +182,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
      */
     @RequestMapping(value = "saveWcl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveWcl(String bgrwid, String ljgybzid, String sjwcl, String bfl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveWcl(String bgrwid, String bgrwfpid, String ljgybzid, String sjwcl, String bfl, HttpServletRequest request, HttpServletResponse response, Model model){
 
         JyglBgjy preJyglBgjy = jyglBgjyService.selectById(bgrwid);
         String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
@@ -518,7 +522,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         //得到与该任务平齐的所有任务
         String fpsbid = finalBgjy.getFpsbid();
         ScglBgsb scglBgsb = scglBgsbService.selectById(fpsbid);
-        String bgrwfpid = scglBgsb.getBgrwfpid();
+        //String bgrwfpid = scglBgsb.getBgrwfpid();
         List<ScglBgrw> bgrwByBgrwfpid = scglBgrwService.getBgrwByBgrwfpid(bgrwfpid);
         if (bgrwByBgrwfpid.size()>0){
             int bfll = 0;
@@ -575,6 +579,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                        }
 
                    EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<ScglBgmx>();
+                   wrapper.eq("BGRWFPID", bgrwfpid);
                    ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper);
                    float cbjee = 0;
                    if (scglBgmx.getCbje()!=null&&!scglBgmx.getCbje().equals("")){

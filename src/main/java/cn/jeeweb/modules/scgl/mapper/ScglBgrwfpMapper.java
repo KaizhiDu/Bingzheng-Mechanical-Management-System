@@ -48,5 +48,5 @@ public interface ScglBgrwfpMapper extends BaseMapper<ScglBgrwfp> {
      * @version : 1.0
      * @date : 2018/9/30 10:55
      */
-    public List<BgpgJcxxDTO> getBgpgJcxx(@Param("RQ") String currentTime);
+    public List<BgpgJcxxDTO> getBgpgJcxx(@Param("RQ") String rq, @Param("YGID") String ygid);
 }

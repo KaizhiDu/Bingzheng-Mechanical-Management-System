@@ -10,7 +10,7 @@ FROM T_GRGL T,
      t_grgl_xzzwfp T1
 WHERE 1=1
       AND T.ID = T1.YGID
-      AND T1.ZWID IN('数控','数控领班','钳工','钳工领班','车工','铣工','外协勤务')
+      AND T1.ZWID IN('数控','数控领班','钳工','钳工领班','车工','铣工','外协勤务','外协采购','司机采购')
 ORDER BY T1.ZWID DESC
     </select>
 

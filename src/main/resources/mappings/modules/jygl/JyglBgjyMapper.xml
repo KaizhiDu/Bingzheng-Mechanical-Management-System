@@ -4,6 +4,7 @@
 
     <select id="ajaxBgjyList" resultType="cn.jeeweb.modules.jygl.dto.BgjyDTO">
         SELECT T.ID,
+        T2.ID BGRWFPID,
         T2.XM,
         T2.ZW,
         T2.RQ,

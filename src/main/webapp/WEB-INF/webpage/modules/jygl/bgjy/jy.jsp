@@ -33,6 +33,7 @@
 <input type="hidden" id="ljgybzid" name="ljgybzid" value="${ljgybzid}">
 <input type="hidden" id="ywcl" name="ywcl" value="${ywcl}">
 <input type="hidden" id="bgrwid" name="bgrwid" value="${bgrwid}">
+<input type="hidden" id="bgrwfpid" name="bgrwfpid" value="${bgrwfpid}">
 <div class="row">
     <div class="col-md-3">
 
@@ -123,6 +124,7 @@
         var ljgybzid = $("#ljgybzid").val();
         var bgrwid = $("#bgrwid").val();
         var bfl = $("#bfl").val();
+        var bgrwfpid = $("#bgrwfpid").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/jygl/bgjy/saveWcl",
@@ -130,7 +132,8 @@
                 sjwcl: sjwcl,
                 ljgybzid: ljgybzid,
                 bgrwid: bgrwid,
-                bfl: bfl
+                bfl: bfl,
+                bgrwfpid: bgrwfpid
             },
             success: function (data) {
 

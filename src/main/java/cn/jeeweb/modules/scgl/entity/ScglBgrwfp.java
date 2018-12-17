@@ -32,6 +32,9 @@ public class ScglBgrwfp extends AbstractEntity<String> {
     /** 姓名 */
     @TableField(value = "XM")
     private String xm;
+    /** 包工名称 */
+    @TableField(value = "BGMC")
+    private String bgmc;
     /** 职位 */
     @TableField(value = "ZW")
     private String zw;
@@ -154,6 +157,14 @@ public class ScglBgrwfp extends AbstractEntity<String> {
 
     public void setSffprw(String sffprw) {
         this.sffprw = sffprw;
+    }
+
+    public String getBgmc() {
+        return bgmc;
+    }
+
+    public void setBgmc(String bgmc) {
+        this.bgmc = bgmc;
     }
 }
 

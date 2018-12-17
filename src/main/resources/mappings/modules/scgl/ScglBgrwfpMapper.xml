@@ -31,6 +31,7 @@
 			 T.ZW,
 			 T.XM,
              T.RQ,
+             T.BGMC,
 			 T1.CBJE,
 			 T1.ZS,
 			 T3.SBMC,
@@ -57,7 +58,12 @@ WHERE 1=1
 			AND T5.GYDLBZID = T6.ID
 			AND T6.LJID = T7.ID
 			AND T7.HTID = T8.ID
-			AND T.RQ = #{RQ}
+        <if test="RQ!=null and RQ!=''">
+            AND T.RQ = #{RQ}
+        </if>
+        <if test="YGID!=null and YGID!=''">
+            AND T.YGID = #{YGID}
+        </if>
 ORDER BY T.ZW,T.XM,T1.ZS,T3.SBMC,T8.HTBH,T7.LJMC,T6.GYDLMC,T5.GYXLMC
     </select>
 

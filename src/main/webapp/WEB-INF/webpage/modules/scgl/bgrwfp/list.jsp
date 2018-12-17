@@ -33,17 +33,16 @@
 
 <div class="row">
     <div id="RcrwfpGridQuery" class="col-md-12">
-        <div class="form-inline">
-            <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">日期：</label>
-                <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
-            </div>
-        </div>
+        <%--<div class="form-inline">--%>
+            <%--<div class="form-group col-md-3" style="margin-bottom: 10px">--%>
+                <%--<label class="control-label">日期：</label>--%>
+                <%--<input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </div>
 </div>
 <h2>${currentTime} 包工分配</h2>
-<grid:grid id="Yggl"
-           url="${adminPath}/grgl/grgl/ajaxGrglList" pageable="true">
+<grid:grid id="Yggl" url="${adminPath}/grgl/grgl/ajaxGrglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="50"/>
@@ -54,7 +53,7 @@
     <grid:column label="职位" name="zw"/>
     <grid:column label="性别" name="xb" dict="sex" dateformat=""/>
 
-    <grid:toolbar function="createPgd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="生成派工单"/>
+    <%--<grid:toolbar function="createPgd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="生成派工单"/>--%>
 
 </grid:grid>
 

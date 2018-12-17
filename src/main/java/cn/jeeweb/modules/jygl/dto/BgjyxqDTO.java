@@ -28,6 +28,16 @@ public class BgjyxqDTO {
     private String ywcl;
     /**零部件工艺编制ID*/
     private String ljgybzid;
+    /**包工任务分配ID*/
+    private String bgrwfpid;
+
+    public String getBgrwfpid() {
+        return bgrwfpid;
+    }
+
+    public void setBgrwfpid(String bgrwfpid) {
+        this.bgrwfpid = bgrwfpid;
+    }
 
     public String getLjgybzid() {
         return ljgybzid;

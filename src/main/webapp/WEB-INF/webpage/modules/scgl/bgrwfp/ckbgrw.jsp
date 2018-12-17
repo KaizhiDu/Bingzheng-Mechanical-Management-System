@@ -56,17 +56,41 @@
                  outclass="btn-danger" url="${adminPath}/scgl/bgrwfp/deleteBgrw?id=\"+row.id+\"" />
 
     <grid:column label="日期" name="rq"/>
+    <grid:column label="包工名称" name="bgmc"/>
     <grid:column label="姓名" name="xm"/>
     <grid:column label="职位" name="zw"/>
     <grid:column label="性别" name="xb" dict="sex" dateformat=""/>
 
     <grid:toolbar function="createBgrw" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="创建包工任务"/>
+    <grid:toolbar function="exprortBgpgd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="导出包工派工单"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
 </grid:grid>
 
 <script type="text/javascript">
+
+    //导出包工派工单
+    function exprortBgpgd(){
+        var rq = $("#rq").val();
+        var ygid = $("#ygid").val();
+        if (rq==''){
+            layer.alert("请选择日期");
+        }
+        //导出
+        else{
+            $.ajax({
+                type: "get",
+                url: "${adminPath}/scgl/bgrwfp/exprortBgpgd?rq="+rq+"&ygid="+ygid,
+                success: function (data) {
+
+                }
+            });
+            layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+            top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+        }
+
+    }
 
     //删除包工任务
     function deleteBgrw(title, url, gridId, id, width, height, tipMsg){

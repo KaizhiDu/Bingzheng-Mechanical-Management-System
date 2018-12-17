@@ -19,6 +19,15 @@ public class BgpgJcxxDTO {
     private String gydlmc;
     private String gyxlmc;
     private String ywcl;
+    private String bgmc;
+
+    public String getBgmc() {
+        return bgmc;
+    }
+
+    public void setBgmc(String bgmc) {
+        this.bgmc = bgmc;
+    }
 
     public String getId() {
         return id;

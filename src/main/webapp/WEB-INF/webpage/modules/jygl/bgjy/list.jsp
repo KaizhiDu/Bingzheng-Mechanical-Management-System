@@ -55,10 +55,11 @@
            url="${adminPath}/jygl/bgjy/ajaxBgjyList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
+    <grid:column label="sys.common.key" hidden="true" name="bgrwfpid"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="130"/>
 
     <grid:button title="检验" groupname="opt" function="jy"
-                 outclass="btn-success" url="${adminPath}/jygl/bgjy/jy?id=\"+row.id+\"" />
+                 outclass="btn-success" url="${adminPath}/jygl/bgjy/jy?id=\"+row.id+\"&bgrwfpid=\"+row.bgrwfpid+\"" />
     <grid:button title="注释" groupname="opt" function="zs"
                  outclass="btn-primary" url="${adminPath}/jygl/bgjy/zs?id=\"+row.id+\"" />
 

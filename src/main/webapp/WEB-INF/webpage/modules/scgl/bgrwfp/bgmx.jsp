@@ -50,6 +50,14 @@
                 </tr>
                 <tr class="form-group">
                     <td>
+                        <label>包工名称：</label>
+                    </td>
+                    <td>
+                        <input name="bgmc" id="bgmc" htmlEscape="false" class="form-control" placeholder="请输入承包名称" value="${scglBgmx.bgmc}"/>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>承包金额：</label>
                     </td>
                     <td>
@@ -94,6 +102,7 @@
             top.layer.alert("请输入注释，并注意对注释内容进行区分");
         }
         else{
+            var bgmc = $("#bgmc").val();
             var cbje = $("#cbje").val();
             var id = $("#bgmxid").val();
             var rq = $("#rq").val();
@@ -105,6 +114,7 @@
                     id: id,
                     zs: zs,
                     rq: rq,
+                    bgmc: bgmc,
                     cbje: cbje,
                     bgrwfpid: bgrwfpid
                 },

@@ -18,6 +18,15 @@ public class BgjyDTO {
     private String ywcl;
     private String sjwcl;
     private String bfl;
+    private String bgrwfpid;
+
+    public String getBgrwfpid() {
+        return bgrwfpid;
+    }
+
+    public void setBgrwfpid(String bgrwfpid) {
+        this.bgrwfpid = bgrwfpid;
+    }
 
     public String getBfl() {
         return bfl;
