@@ -208,6 +208,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     float cbje = 0;
                     float jl = 0;
                     float kk = 0;
+                    float zybf = 0;
                     if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
                         cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
                     }
@@ -250,9 +251,12 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     if (grglYgxzgl.getKk()!=null&&!grglYgxzgl.getKk().equals("")){
                         kk = Float.parseFloat(grglYgxzgl.getKk());
                     }
+                    if (grglYgxzgl.getZybf()!=null&&!grglYgxzgl.getZybf().equals("")){
+                        zybf = Float.parseFloat(grglYgxzgl.getZybf());
+                    }
 
                     zcqgz = cqgz + cqgz2;
-                    rggz = gs * sx;
+                    rggz = gs * sx + zybf;
                     hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk +zcqgz;
 
                     grglYgxzgl.setZcqgz(zcqgz+"");
@@ -426,6 +430,18 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         //拿到原始数据
         String gsid = scglRggs.getId();
         ScglRggs ysRggs1 = scglRggsService.selectById(gsid);
+        //原始的中夜班费和新的中夜班费
+        float yszybff = 0;
+        float xzybff = 0;
+        if (ysRggs1!=null){
+            if (!ysRggs1.getZybf().equals("")&&ysRggs1.getZybf()!=null){
+                yszybff = Float.parseFloat(ysRggs1.getZybf());
+            }
+
+        }
+        if (!scglRggs.getZybf().equals("")&&scglRggs.getZybf()!=null){
+            xzybff = Float.parseFloat(scglRggs.getZybf());
+        }
         //得到年月
         String[] dateArray = rq.split("-");
         int nd = Integer.parseInt(dateArray[0]);
@@ -510,6 +526,14 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                 grglYgxzgl.setCqgz2(cqgzf+"");
             }
 
+            //把新的zybf累加到YGXZGL里面
+            float zybfzh = 0;
+            if (grglYgxzgl.getZybf()!=null&&!grglYgxzgl.getZybf().equals("")){
+                zybfzh = Float.parseFloat(grglYgxzgl.getZybf());
+            }
+            zybfzh = zybfzh - yszybff + xzybff;
+            grglYgxzgl.setZybf(zybfzh+"");
+
         //注意判断null和""的情况
         //合计
         float hj = 0;
@@ -530,6 +554,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         float cbje = 0;
         float jl = 0;
         float kk = 0;
+        float zybf = 0;
         if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
             cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
         }
@@ -572,9 +597,12 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         if (grglYgxzgl.getKk()!=null&&!grglYgxzgl.getKk().equals("")){
             kk = Float.parseFloat(grglYgxzgl.getKk());
         }
+        if (grglYgxzgl.getZybf()!=null&&!grglYgxzgl.getZybf().equals("")){
+            zybf = Float.parseFloat(grglYgxzgl.getZybf());
+        }
 
         zcqgz = cqgz + cqgz2;
-        rggz = gs2 * sx;
+        rggz = gs2 * sx + zybf;
         hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk + zcqgz;
 
         grglYgxzgl.setZcqgz(zcqgz+"");

@@ -202,6 +202,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 float cbje = 0;
                 float jl = 0;
                 float kk = 0;
+                float zybf = 0;
                 if (grglYgxzgl.getCqgz()!=null&&!grglYgxzgl.getCqgz().equals("")){
                     cqgz = Float.parseFloat(grglYgxzgl.getCqgz());
                 }
@@ -244,9 +245,12 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 if (grglYgxzgl.getKk()!=null&&!grglYgxzgl.getKk().equals("")){
                     kk = Float.parseFloat(grglYgxzgl.getKk());
                 }
+                if (grglYgxzgl.getZybf()!=null&&!grglYgxzgl.getZybf().equals("")){
+                    zybf = Float.parseFloat(grglYgxzgl.getZybf());
+                }
 
                 zcqgz = cqgz + cqgz2;
-                rggz = gs * sx;
+                rggz = gs * sx + zybf;
                 hj = zwgz + dx + fb + jtf + bt - bx + cq + rggz + cbje + jl - kk + zcqgz;
 
                 grglYgxzgl.setZcqgz(zcqgz+"");

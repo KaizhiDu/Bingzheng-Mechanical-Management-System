@@ -93,6 +93,9 @@ public class GrglYgxzgl extends AbstractEntity<String> {
     /** 合计 */
     @TableField(value = "HJ")
     private String hj;
+    /** 中夜班费 */
+    @TableField(value = "zybf")
+    private String zybf;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -329,5 +332,13 @@ public class GrglYgxzgl extends AbstractEntity<String> {
 
     public void setZcqgz(String zcqgz) {
         this.zcqgz = zcqgz;
+    }
+
+    public String getZybf() {
+        return zybf;
+    }
+
+    public void setZybf(String zybf) {
+        this.zybf = zybf;
     }
 }

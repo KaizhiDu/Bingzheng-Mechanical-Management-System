@@ -35,6 +35,9 @@ public class ScglRggs extends AbstractEntity<String> {
     /** 加班 */
     @TableField(value = "jb")
     private String jb;
+    /** 中夜班费 */
+    @TableField(value = "zybf")
+    private String zybf;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -48,6 +51,14 @@ public class ScglRggs extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getZybf() {
+        return zybf;
+    }
+
+    public void setZybf(String zybf) {
+        this.zybf = zybf;
+    }
 
     @Override
     public String getId() {
@@ -122,4 +133,6 @@ public class ScglRggs extends AbstractEntity<String> {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+
 }
