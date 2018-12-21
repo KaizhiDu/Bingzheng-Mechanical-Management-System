@@ -142,7 +142,9 @@
         var id = $("#rggsid").val();
         var rq = $("#rq").val();
         var gs = $("#gs").val();
-
+        if (zybf='undefined'){
+            zybf = '0';
+        }
         $.ajax({
             type: "GET",
             url: "${adminPath}/scgl/rcrwfp/saveGs",

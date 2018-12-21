@@ -41,7 +41,7 @@
                 <select name="jhbh" class="form-control" id="jhbh">
                     <option value="">请选择</option>
                     <c:forEach items="${jhglList}" var="jh">
-                        <option value="${jh.jhid}">${jh.jhbh}</option>
+                        <option value="${jh.id}">${jh.htbh}</option>
                     </c:forEach>
                 </select>
             </div>

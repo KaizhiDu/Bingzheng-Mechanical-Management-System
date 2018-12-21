@@ -33,6 +33,20 @@
 
 <h4>计划管理</h4>
 
+<div class="row">
+    <div id="ljglGridQuery" class="col-md-12">
+        <div class="form-inline">
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">是否完成：</label>
+                <select name="sfwc" class="form-control" id="sfwc">
+                    <option value="0">未完成</option>
+                    <option value="1">已完成</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
 <grid:grid id="ljgl"
            url="${adminPath}/scgl/ljgybz/ajaxJhglList" pageable="true">
 
@@ -48,8 +62,10 @@
     <grid:column label="计划名称" name="htbh" width="30"/>
     <grid:column label="描述" name="ms"/>
     <grid:column label="数量" name="sl"/>
+    <grid:column label="创建日期" name="rq"/>
 
     <grid:toolbar function="createHt" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
+    <grid:toolbar function="search"/>
 
 </grid:grid>
 

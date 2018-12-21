@@ -50,6 +50,10 @@
                 <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
             </div>
             <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">零部件名称：</label>
+                <input name="ljmc" id="ljmc" htmlEscape="false" class="form-control" placeholder="请输入零部件名称"/>
+            </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">排序方式：</label>
                 <select name="pxfs" class="form-control" id="pxfs">
                     <option value="">请选择</option>

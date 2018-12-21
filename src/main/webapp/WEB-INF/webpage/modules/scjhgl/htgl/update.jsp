@@ -62,6 +62,23 @@
                         <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入计划生产数量" value="${scjhglHtgl.sl}" onchange="checkSl()"/>
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>是否完成：</label>
+                    </td>
+                    <td>
+                        <select name="sfwc" class="form-control" id="sfwc">
+                          <c:if test="${scjhglHtgl.sfwc==0}">
+                              <option value="0">未完成</option>
+                              <option value="1">已完成</option>
+                          </c:if>
+                            <c:if test="${scjhglHtgl.sfwc==1}">
+                                <option value="1">已完成</option>
+                                <option value="0">未完成</option>
+                            </c:if>
+                        </select>
+                    </td>
+                </tr>
 
             </table>
         </form>
@@ -91,6 +108,7 @@
         var htbh = $("#htbh").val();
         var ms = $("#ms").val();
         var sl = $("#sl").val();
+        var sfwc = $("#sfwc").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/htgl/saveHt",
@@ -98,7 +116,8 @@
                 id: id,
                 htbh: htbh,
                 ms: ms,
-                sl: sl
+                sl: sl,
+                sfwc: sfwc
             },
             success: function (data) {
 

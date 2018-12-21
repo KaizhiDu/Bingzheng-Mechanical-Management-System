@@ -18,6 +18,7 @@ import cn.jeeweb.modules.sbgl.service.ISbglService;
 import cn.jeeweb.modules.scgl.dto.*;
 import cn.jeeweb.modules.scgl.entity.*;
 import cn.jeeweb.modules.scgl.service.*;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -444,8 +445,11 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
     public String addRw(String fpsbid ,HttpServletRequest request, HttpServletResponse response, Model model){
         model.addAttribute("fpsbid", fpsbid);
         //得到所有计划信息
-        List<SsxDTO> jhglList = scjhglHtglService.getJhList();
-        model.addAttribute("jhglList", jhglList);
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("RQ", false);
+        wrapper.eq("SFWC","0");
+        List<ScjhglHtgl> jhList = scjhglHtglService.selectList(wrapper);
+        model.addAttribute("jhglList", jhList);
         return display("addRw");
     }
 
@@ -1053,9 +1057,12 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 ywcl = Integer.parseInt(s.getYwcl());
             }
             ScglLjgybz scglLjgybz = scglLjgybzService.selectById(s.getLjgybzid());
-            int newJhscsl = scglLjgybz.getJhscsl() - ywcl;
-            scglLjgybz.setJhscsl(newJhscsl);
-            scglLjgybzService.updateById(scglLjgybz);
+            if (scglLjgybz!=null){
+                int newJhscsl = scglLjgybz.getJhscsl() - ywcl;
+                scglLjgybz.setJhscsl(newJhscsl);
+                scglLjgybzService.updateById(scglLjgybz);
+            }
+
             scglBgrwService.deleteById(s.getId());
         }
         //然后删除设备信息
@@ -1098,10 +1105,10 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         //新建工作表
         Sheet sheet1 = wb.createSheet("包工派工单");
         //设置单元格宽度
-        sheet1.setColumnWidth(0, 3200);
-        sheet1.setColumnWidth(1, 3200);
-        sheet1.setColumnWidth(2, 3200);
-        sheet1.setColumnWidth(3, 3200);
+        sheet1.setColumnWidth(0, 2500);
+        sheet1.setColumnWidth(1, 2500);
+        sheet1.setColumnWidth(2, 2500);
+        sheet1.setColumnWidth(3, 2500);
         sheet1.setColumnWidth(4, 3200);
         sheet1.setColumnWidth(5, 3200);
         sheet1.setColumnWidth(6, 3200);
@@ -1114,7 +1121,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 
         //表头
         Row row0 = sheet1.createRow(0);
-        row0.setHeightInPoints(35);
+        row0.setHeightInPoints(20);
         Cell cell00 = row0.createCell(0);
         Cell cell01 = row0.createCell(1);
         Cell cell02 = row0.createCell(2);
@@ -1122,14 +1129,16 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         Cell cell04 = row0.createCell(4);
         Cell cell05 = row0.createCell(5);
         Cell cell06 = row0.createCell(6);
+        Cell cell07 = row0.createCell(7);
 
         cell00.setCellValue("包工名称");
         cell01.setCellValue("设备名称");
         cell02.setCellValue("计划编号");
-        cell03.setCellValue("零件名称");
-        cell04.setCellValue("工艺大类名称");
-        cell05.setCellValue("工艺小类名称");
-        cell06.setCellValue("应完成量");
+        cell03.setCellValue("零件图号");
+        cell04.setCellValue("零件名称");
+        cell05.setCellValue("工艺大类名称");
+        cell06.setCellValue("工艺小类名称");
+        cell07.setCellValue("应完成量");
         cell00.setCellStyle(style);
         cell01.setCellStyle(style);
         cell02.setCellStyle(style);
@@ -1137,6 +1146,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         cell04.setCellStyle(style);
         cell05.setCellStyle(style);
         cell06.setCellStyle(style);
+        cell07.setCellStyle(style);
 
 
         if (bgpgJcxxList!=null){
@@ -1144,7 +1154,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 BgpgJcxxDTO c = bgpgJcxxList.get(i);
                 //创建一行
                 Row row = sheet1.createRow(i+1);
-                row.setHeightInPoints(35);
+                row.setHeightInPoints(20);
 
                 //创建单元格
                 Cell cell0 = row.createCell(0);
@@ -1154,15 +1164,17 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 Cell cell4 = row.createCell(4);
                 Cell cell5 = row.createCell(5);
                 Cell cell6 = row.createCell(6);
+                Cell cell7 = row.createCell(7);
 
                 //给单元格设值
                 cell0.setCellValue(c.getBgmc());
                 cell1.setCellValue(c.getSbmc());
                 cell2.setCellValue(c.getJhbh());
-                cell3.setCellValue(c.getLjmc());
-                cell4.setCellValue(c.getGydlmc());
-                cell5.setCellValue(c.getGyxlmc());
-                cell6.setCellValue(c.getYwcl());
+                cell3.setCellValue(c.getLjth());
+                cell4.setCellValue(c.getLjmc());
+                cell5.setCellValue(c.getGydlmc());
+                cell6.setCellValue(c.getGyxlmc());
+                cell7.setCellValue(c.getYwcl());
                 cell0.setCellStyle(style);
                 cell1.setCellStyle(style);
                 cell2.setCellStyle(style);
@@ -1170,6 +1182,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 cell4.setCellStyle(style);
                 cell5.setCellStyle(style);
                 cell6.setCellStyle(style);
+                cell7.setCellStyle(style);
             }
         }
 

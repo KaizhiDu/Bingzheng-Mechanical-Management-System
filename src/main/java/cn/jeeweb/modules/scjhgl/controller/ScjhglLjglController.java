@@ -66,6 +66,8 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
         EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("rq", false);
+        wrapper.eq("SFWC","0");
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
         model.addAttribute("htList", list);
     }
@@ -79,6 +81,8 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     @RequestMapping(value = "createLj",method = {RequestMethod.GET,RequestMethod.POST})
     public String createLj(HttpServletRequest request, HttpServletResponse response, Model model){
         EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("rq", false);
+        wrapper.eq("SFWC","0");
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
         model.addAttribute("htList", list);
         return display("create");

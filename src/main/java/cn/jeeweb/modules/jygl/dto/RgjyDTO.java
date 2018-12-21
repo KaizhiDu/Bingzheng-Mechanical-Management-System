@@ -12,12 +12,21 @@ public class RgjyDTO {
     private String rq;
     private String jhbh;
     private String ljmc;
+    private String ljth;
     private String gydlmc;
     private String gyxlmc;
     private String sbmc;
     private String ywcl;
     private String sjwcl;
     private String bfl;
+
+    public String getLjth() {
+        return ljth;
+    }
+
+    public void setLjth(String ljth) {
+        this.ljth = ljth;
+    }
 
     public String getId() {
         return id;

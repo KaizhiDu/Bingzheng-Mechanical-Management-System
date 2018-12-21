@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -85,16 +87,30 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     @RequestMapping(value = "saveHt",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public void saveHt(HttpServletRequest request, HttpServletResponse response, Model model, ScjhglHtgl scjhglHtgl){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
+
         if (scjhglHtgl.getId().equals("")){
             scjhglHtgl.setId(null);
         }
         if (scjhglHtgl.getId()==null){
+            scjhglHtgl.setSfwc("0");
+            scjhglHtgl.setRq(currentDate);
             scjhglHtglService.insert(scjhglHtgl);
         }
         else{
             scjhglHtglService.updateById(scjhglHtgl);
         }
     }
+
+    /**
+     * Dscription: 更新
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/12/20 13:10
+     */
 
     /**
     * @Description:    更新合同信息

@@ -19,6 +19,15 @@ public class BgjyDTO {
     private String sjwcl;
     private String bfl;
     private String bgrwfpid;
+    private String ljth;
+
+    public String getLjth() {
+        return ljth;
+    }
+
+    public void setLjth(String ljth) {
+        this.ljth = ljth;
+    }
 
     public String getBgrwfpid() {
         return bgrwfpid;

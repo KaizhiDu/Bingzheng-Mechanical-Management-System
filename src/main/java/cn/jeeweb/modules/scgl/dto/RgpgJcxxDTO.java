@@ -17,9 +17,18 @@ public class RgpgJcxxDTO {
     private String sbmc;
     private String jhbh;
     private String ljmc;
+    private String ljth;
     private String gydlmc;
     private String gyxlmc;
     private String ywcl;
+
+    public String getLjth() {
+        return ljth;
+    }
+
+    public void setLjth(String ljth) {
+        this.ljth = ljth;
+    }
 
     public String getId() {
         return id;

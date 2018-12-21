@@ -20,6 +20,7 @@ import cn.jeeweb.modules.sbgl.service.*;
 import cn.jeeweb.modules.scgl.dto.*;
 import cn.jeeweb.modules.scgl.entity.*;
 import cn.jeeweb.modules.scgl.service.*;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -831,9 +832,12 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     @RequestMapping(value = "addRw", method={RequestMethod.GET, RequestMethod.POST})
     public String addRw(String fpsbid ,HttpServletRequest request, HttpServletResponse response, Model model){
          model.addAttribute("fpsbid", fpsbid);
-         //得到所有计划信息
-         List<SsxDTO> jhglList = scjhglHtglService.getJhList();
-         model.addAttribute("jhglList", jhglList);
+        //得到所有计划信息
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("RQ", false);
+        wrapper.eq("SFWC","0");
+        List<ScjhglHtgl> jhList = scjhglHtglService.selectList(wrapper);
+         model.addAttribute("jhglList", jhList);
         return display("addRw");
      }
 
@@ -1289,7 +1293,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                         bb.setSbmc("");
                         bb.setJhbh("");
                         bb.setLjmc("");
-                        bb.setGydlmc("");
+                        bb.setLjth("");
                         bb.setGyxlmc("");
                         bb.setYwcl("");
                         rgpgJcxx2.add(bb);
@@ -1302,7 +1306,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                             bbb.setSbmc("");
                             bbb.setJhbh("");
                             bbb.setLjmc("");
-                            bbb.setGydlmc("");
+                            bbb.setLjth("");
                             bbb.setGyxlmc("");
                             bbb.setYwcl("");
                             rgpgJcxx2.add(bbb);
@@ -1316,14 +1320,14 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                 }
             }
             RgpgJcxxDTO r0 = rgpgJcxx2.get(0);
-            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getGydlmc()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
+            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getLjth()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
             for (int i=1;i<rgpgJcxx2.size();i++){
                 RgpgJcxxDTO r1 = rgpgJcxx2.get(i);
                 RgpgJcxxDTO r2 = rgpgJcxx2.get(i-1);
 
                 //id相同，r1继续插入
                 if (r1.getId().equals(r2.getId())){
-                    rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                    rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getLjth()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
                 }
                 //id不相同
                 else{
@@ -1334,11 +1338,11 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                         }
                     }
                     //重设rw
-                    rw = r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                    rw = r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getLjth()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
                 }
 
                 if (i==rgpgJcxx2.size()-1){
-                    //rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件";
+                    //rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getLjth()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件";
                     for (RgpgdDTO r : rgpgdDTOList) {
                         if (r.getId().equals(r2.getId())){
                             r.setNr(rw);
@@ -1374,7 +1378,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         model.addAttribute("xm", xm);
         List<String> getData = new ArrayList<String>();
         for (RgpgJcxxDTO r : rgpgJcxx) {
-            String nr = r.getSbmc()+" - "+r.getLjmc()+" - "+r.getGydlmc()+" - "+r.getGyxlmc()+" - "+r.getYwcl()+"件";
+            String nr = r.getSbmc()+" - "+r.getLjmc()+" - "+r.getLjth()+" - "+r.getGyxlmc()+" - "+r.getYwcl()+"件";
             getData.add(nr);
         }
         model.addAttribute("getData" , getData);

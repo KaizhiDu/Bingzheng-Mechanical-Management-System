@@ -41,6 +41,9 @@ public class ScjhglHtglServiceImpl extends CommonServiceImpl<ScjhglHtglMapper, S
      */
     @Override
     public PageJson<ScjhglHtgl> ajaxJhglList(Queryable queryable, ScjhglHtgl scjhglHtgl) {
+        if (scjhglHtgl.getSfwc()==null){
+            scjhglHtgl.setSfwc("0");
+        }
         Pageable pageable = queryable.getPageable();
         Page<ScjhglHtgl> page = new Page<ScjhglHtgl>(pageable.getPageNumber(), pageable.getPageSize());
         page.setRecords(scjhglHtglMapper.ajaxJhglList(page, scjhglHtgl));

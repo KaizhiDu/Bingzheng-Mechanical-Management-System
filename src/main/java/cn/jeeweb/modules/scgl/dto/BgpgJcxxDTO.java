@@ -20,6 +20,15 @@ public class BgpgJcxxDTO {
     private String gyxlmc;
     private String ywcl;
     private String bgmc;
+    private String ljth;
+
+    public String getLjth() {
+        return ljth;
+    }
+
+    public void setLjth(String ljth) {
+        this.ljth = ljth;
+    }
 
     public String getBgmc() {
         return bgmc;

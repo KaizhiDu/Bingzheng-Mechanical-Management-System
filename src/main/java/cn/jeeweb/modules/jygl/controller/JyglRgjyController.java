@@ -530,9 +530,9 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         sheet1.setColumnWidth(1, 2000);
         sheet1.setColumnWidth(2, 4700);
         sheet1.setColumnWidth(3, 3700);
-        sheet1.setColumnWidth(4, 3700);
-        sheet1.setColumnWidth(5, 3700);
-        sheet1.setColumnWidth(6, 3700);
+        sheet1.setColumnWidth(4, 3500);
+        sheet1.setColumnWidth(5, 3500);
+        sheet1.setColumnWidth(6, 3500);
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
@@ -542,7 +542,7 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
 
         //表头
         Row row0 = sheet1.createRow(0);
-        row0.setHeightInPoints(35);
+        row0.setHeightInPoints(20);
         Cell cell00 = row0.createCell(0);
         Cell cell01 = row0.createCell(1);
         Cell cell02 = row0.createCell(2);
@@ -552,17 +552,17 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         Cell cell06 = row0.createCell(6);
         Cell cell07 = row0.createCell(7);
         Cell cell08 = row0.createCell(8);
-        Cell cell09 = row0.createCell(9);
         cell00.setCellValue("日期");
         cell01.setCellValue("姓名");
-        cell02.setCellValue("计划编号");
+        // cell02.setCellValue("计划编号");
+        cell02.setCellValue("零部件图号");
         cell03.setCellValue("零部件名称");
         cell04.setCellValue("设备名称");
-        cell05.setCellValue("工艺大类名称");
-        cell06.setCellValue("工艺小类名称");
-        cell07.setCellValue("应完成量");
-        cell08.setCellValue("实完成量");
-        cell09.setCellValue("报废量");
+        // cell06.setCellValue("工艺大类名称");
+        cell05.setCellValue("工艺小类名称");
+        cell06.setCellValue("应完成量");
+        cell07.setCellValue("实完成量");
+        cell08.setCellValue("报废量");
         cell00.setCellStyle(style);
         cell01.setCellStyle(style);
         cell02.setCellStyle(style);
@@ -572,14 +572,13 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         cell06.setCellStyle(style);
         cell07.setCellStyle(style);
         cell08.setCellStyle(style);
-        cell09.setCellStyle(style);
 
         if (rgjyDTOS!=null){
             for (int i = 0; i < rgjyDTOS.size(); i++) {
                 RgjyDTO c = rgjyDTOS.get(i);
                 //创建一行
                 Row row = sheet1.createRow(i+1);
-                row.setHeightInPoints(35);
+                row.setHeightInPoints(20);
                 //创建单元格
                 Cell cell0 = row.createCell(0);
                 Cell cell1 = row.createCell(1);
@@ -590,18 +589,17 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
                 Cell cell6 = row.createCell(6);
                 Cell cell7 = row.createCell(7);
                 Cell cell8 = row.createCell(8);
-                Cell cell9 = row.createCell(9);
+
                 //给单元格设值
                 cell0.setCellValue(c.getRq());
                 cell1.setCellValue(c.getXm());
-                cell2.setCellValue(c.getJhbh());
+                cell2.setCellValue(c.getLjth());
                 cell3.setCellValue(c.getLjmc());
                 cell4.setCellValue(c.getSbmc());
-                cell5.setCellValue(c.getGydlmc());
-                cell6.setCellValue(c.getGyxlmc());
-                cell7.setCellValue(c.getYwcl());
+                cell5.setCellValue(c.getGyxlmc());
+                cell6.setCellValue(c.getYwcl());
+                cell7.setCellValue("");
                 cell8.setCellValue("");
-                cell9.setCellValue("");
                 cell0.setCellStyle(style);
                 cell1.setCellStyle(style);
                 cell2.setCellStyle(style);
@@ -611,7 +609,6 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
                 cell6.setCellStyle(style);
                 cell7.setCellStyle(style);
                 cell8.setCellStyle(style);
-                cell9.setCellStyle(style);
 
             }
         }

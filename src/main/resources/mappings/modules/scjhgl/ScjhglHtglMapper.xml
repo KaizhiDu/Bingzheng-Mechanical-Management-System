@@ -8,7 +8,10 @@
         <if test="entity.id!=null and entity.id!=''">
             AND ID = #{entity.id}
         </if>
-        ORDER BY HTBH
+        <if test="entity.sfwc!=null and entity.sfwc!=''">
+            AND SFWC = #{entity.sfwc}
+        </if>
+        ORDER BY RQ DESC
     </select>
 
     <select id="getJhList" resultType="cn.jeeweb.modules.scgl.dto.SsxDTO">
