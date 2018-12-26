@@ -1294,6 +1294,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                         bb.setJhbh("");
                         bb.setLjmc("");
                         bb.setLjth("");
+                        bb.setGydlmc("");
                         bb.setGyxlmc("");
                         bb.setYwcl("");
                         rgpgJcxx2.add(bb);
@@ -1307,6 +1308,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                             bbb.setJhbh("");
                             bbb.setLjmc("");
                             bbb.setLjth("");
+                            bb.setGydlmc("");
                             bbb.setGyxlmc("");
                             bbb.setYwcl("");
                             rgpgJcxx2.add(bbb);
@@ -1319,15 +1321,16 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                     }
                 }
             }
+
             RgpgJcxxDTO r0 = rgpgJcxx2.get(0);
-            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getLjth()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
+            String rw = r0.getSbmc()+"xiaofenge"+r0.getJhbh()+"-"+r0.getLjmc()+"-"+r0.getLjth()+"-"+r0.getGydlmc()+"-"+r0.getGyxlmc()+"-"+r0.getYwcl()+"件dafenge";
             for (int i=1;i<rgpgJcxx2.size();i++){
                 RgpgJcxxDTO r1 = rgpgJcxx2.get(i);
                 RgpgJcxxDTO r2 = rgpgJcxx2.get(i-1);
 
                 //id相同，r1继续插入
                 if (r1.getId().equals(r2.getId())){
-                    rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getLjth()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                    rw = rw + r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getLjth()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
                 }
                 //id不相同
                 else{
@@ -1338,7 +1341,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                         }
                     }
                     //重设rw
-                    rw = r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getLjth()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
+                    rw = r1.getSbmc()+"xiaofenge"+r1.getJhbh()+"-"+r1.getLjmc()+"-"+r1.getLjth()+"-"+r1.getGydlmc()+"-"+r1.getGyxlmc()+"-"+r1.getYwcl()+"件dafenge";
                 }
 
                 if (i==rgpgJcxx2.size()-1){

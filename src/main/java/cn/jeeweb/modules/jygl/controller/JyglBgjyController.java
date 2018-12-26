@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -726,8 +727,22 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     @ResponseBody
     public void exportBgjyd(String xm, String rq, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 
-        List<BgjyDTO> bgjyDTOS = jyglBgjyService.exportBgjyd(xm, rq);
+        List<BgjyDTO> bgjyDTOSS = jyglBgjyService.exportBgjyd(xm, rq);
 
+        List<BgjyDTO> bgjyDTOS = new ArrayList<BgjyDTO>();
+        for (BgjyDTO b : bgjyDTOSS) {
+            float ywcl = 0;
+            float sjwcl = 0;
+            if (!b.getYwcl().equals("")&&b.getYwcl()!=null){
+                ywcl = Float.parseFloat(b.getYwcl());
+            }
+            if (b.getSjwcl()!=null){
+                sjwcl = Float.parseFloat(b.getSjwcl());
+            }
+            if (sjwcl<ywcl){
+                bgjyDTOS.add(b);
+            }
+        }
         //新建一个工作簿
         Workbook wb = new XSSFWorkbook();
         //新建工作表
@@ -759,17 +774,18 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         Cell cell06 = row0.createCell(6);
         Cell cell07 = row0.createCell(7);
         Cell cell08 = row0.createCell(8);
+        Cell cell09 = row0.createCell(9);
         cell00.setCellValue("日期");
         cell01.setCellValue("姓名");
-       // cell02.setCellValue("计划编号");
+        // cell02.setCellValue("计划编号");
         cell02.setCellValue("零部件图号");
         cell03.setCellValue("零部件名称");
         cell04.setCellValue("设备名称");
-       // cell06.setCellValue("工艺大类名称");
-        cell05.setCellValue("工艺小类名称");
-        cell06.setCellValue("应完成量");
-        cell07.setCellValue("实完成量");
-        cell08.setCellValue("报废量");
+        cell05.setCellValue("工艺大类名称");
+        cell06.setCellValue("工艺小类名称");
+        cell07.setCellValue("应完成量");
+        cell08.setCellValue("实完成量");
+        cell09.setCellValue("报废量");
         cell00.setCellStyle(style);
         cell01.setCellStyle(style);
         cell02.setCellStyle(style);
@@ -779,6 +795,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         cell06.setCellStyle(style);
         cell07.setCellStyle(style);
         cell08.setCellStyle(style);
+        cell09.setCellStyle(style);
 
 
         if (bgjyDTOS!=null){
@@ -797,6 +814,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 Cell cell6 = row.createCell(6);
                 Cell cell7 = row.createCell(7);
                 Cell cell8 = row.createCell(8);
+                Cell cell9 = row.createCell(9);
 
                 //给单元格设值
                 cell0.setCellValue(c.getRq());
@@ -804,10 +822,11 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 cell2.setCellValue(c.getLjth());
                 cell3.setCellValue(c.getLjmc());
                 cell4.setCellValue(c.getSbmc());
-                cell5.setCellValue(c.getGyxlmc());
-                cell6.setCellValue(c.getYwcl());
-                cell7.setCellValue("");
-                cell8.setCellValue("");
+                cell5.setCellValue(c.getGydlmc());
+                cell6.setCellValue(c.getGyxlmc());
+                cell7.setCellValue(c.getYwcl());
+                cell8.setCellValue(c.getSjwcl());
+                cell9.setCellValue(c.getBfl());
                 cell0.setCellStyle(style);
                 cell1.setCellStyle(style);
                 cell2.setCellStyle(style);
@@ -817,6 +836,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 cell6.setCellStyle(style);
                 cell7.setCellStyle(style);
                 cell8.setCellStyle(style);
+                cell9.setCellStyle(style);
 
             }
         }

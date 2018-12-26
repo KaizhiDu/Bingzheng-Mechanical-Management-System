@@ -67,6 +67,7 @@
     <grid:column label="日期" name="rq"/>
     <grid:column label="零部件图号" name="ljth"/>
     <grid:column label="零部件名称" name="ljmc"/>
+    <grid:column label="工艺大类名称" name="gydlmc"/>
     <grid:column label="工艺小类名称" name="gyxlmc"/>
     <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="应完成量" name="ywcl"/>

@@ -41,39 +41,10 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>计划名称：</label>
+                        <label>追加数量：</label>
                     </td>
                     <td>
-                        <select id="htid" name="htid" class="form-control">
-                            <c:forEach var="ht" items="${htList}">
-                                <c:if test="${scjhglLjgl.htid==ht.id}"><option value="${ht.id}" selected="selected">${ht.htbh}</option></c:if>
-                                <c:if test="${scjhglLjgl.htid!=ht.id}"><option value="${ht.id}">${ht.htbh}</option></c:if>
-                            </c:forEach>
-                        </select>
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>零部件图号：</label>
-                    </td>
-                    <td>
-                        <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号" value="${scjhglLjgl.ljth}"/>
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>零部件名称：</label>
-                    </td>
-                    <td>
-                        <input name="ljmc" id="ljmc" htmlEscape="false" class="form-control" placeholder="请输入零部件名称" value="${scjhglLjgl.ljmc}"/>
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>零部件数量：</label>
-                    </td>
-                    <td>
-                        <input name="lbjsl" id="lbjsl" htmlEscape="false" class="form-control" placeholder="请输入数量" value="${scjhglLjgl.sl}" onchange="checkSl()"/>
+                        <input name="bcsl" id="bcsl" htmlEscape="false" class="form-control" placeholder="请输入数量" value="${scjhglLjgl.bcsl}" onchange="checkSl()"/>
                     </td>
                 </tr>
             </table>
@@ -101,19 +72,13 @@
     //点击保存，保存数据
     function check() {
         var lbjid = $("#lbjid").val();
-        var lbjsl = $("#lbjsl").val();
-        var htid = $("#htid").val();
-        var ljth = $("#ljth").val();
-        var ljmc = $("#ljmc").val();
+        var bcsl = $("#bcsl").val();
         $.ajax({
             type: "GET",
-            url: "${adminPath}/scjhgl/ljgl/saveSl",
+            url: "${adminPath}/scjhgl/ljgl/saveZjsl",
             data: {
                 id: lbjid,
-                lbjsl: lbjsl,
-                htid: htid,
-                ljth: ljth,
-                ljmc: ljmc,
+                bcsl: bcsl
             },
             success: function (data) {
 

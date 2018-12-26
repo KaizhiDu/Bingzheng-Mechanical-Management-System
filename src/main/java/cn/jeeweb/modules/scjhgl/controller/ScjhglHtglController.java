@@ -9,14 +9,8 @@ import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
 import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
-import cn.jeeweb.modules.scjhgl.entity.ScjhglBjzc;
-import cn.jeeweb.modules.scjhgl.entity.ScjhglFzjs;
-import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
-import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
-import cn.jeeweb.modules.scjhgl.service.IScjhglBjzcService;
-import cn.jeeweb.modules.scjhgl.service.IScjhglFzjsService;
-import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
-import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
+import cn.jeeweb.modules.scjhgl.entity.*;
+import cn.jeeweb.modules.scjhgl.service.*;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,6 +60,10 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     /**部件组成Service*/
     @Autowired
     private IScjhglBjzcService scjhglBjzcService;
+
+    /**标准件管理Service*/
+    @Autowired
+    private IScjhglBzjglService scjhglBzjglService;
 
     /**
     * @Description:    展示所有合同信息
@@ -238,13 +236,17 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
             scjhglFzjsService.insert(scjhglFzjs);
         }
         //现在需要把得到的count加到所有需要添加的ID后
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
         //先创建新的计划数据
         ScjhglHtgl newScjhglHtgl = new ScjhglHtgl();
         newScjhglHtgl.setId(scjhglHtgl.getId()+"-"+count);
         newScjhglHtgl.setHtbh(scjhglHtgl.getHtbh());
         newScjhglHtgl.setMs(scjhglHtgl.getMs());
         newScjhglHtgl.setSl(scjhglHtgl.getSl());
+        newScjhglHtgl.setRq(currentDate);
+        newScjhglHtgl.setSfwc("0");
         scjhglHtglService.insert(newScjhglHtgl);
 
         //然后复制零部件工艺编制的数据
@@ -333,7 +335,28 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
 
         }
 
-
+        //最后复制标准件信息
+        EntityWrapper<ScjhglBzjgl> wrapper1 = new EntityWrapper<ScjhglBzjgl>();
+        wrapper1.eq("HTID", yjhid);
+        List<ScjhglBzjgl> scjhglBzjgls = scjhglBzjglService.selectList(wrapper1);
+        for (ScjhglBzjgl s : scjhglBzjgls) {
+            String xid = s.getId()+"-"+count;
+            String xhtid = s.getHtid()+"-"+count;
+            ScjhglBzjgl ss = new ScjhglBzjgl();
+            ss.setId(xid);
+            ss.setHtid(xhtid);
+            ss.setFldl(s.getFldl());
+            ss.setFlxl(s.getFlxl());
+            ss.setDw(s.getDw());
+            ss.setGg(s.getGg());
+            ss.setDyl(s.getDyl());
+            int dyl = Integer.parseInt(s.getDyl());
+            int jhsl = Integer.parseInt(scjhglHtglService.selectById(yjhid+"-"+count).getSl());
+            int sl = dyl * jhsl;
+            ss.setSl(sl+"");
+            ss.setRksl(s.getRksl());
+            scjhglBzjglService.insert(ss);
+        }
 
     }
 }

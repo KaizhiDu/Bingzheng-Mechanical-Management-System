@@ -21,6 +21,15 @@ public class BgpgJcxxDTO {
     private String ywcl;
     private String bgmc;
     private String ljth;
+    private String sjwcl;
+
+    public String getSjwcl() {
+        return sjwcl;
+    }
+
+    public void setSjwcl(String sjwcl) {
+        this.sjwcl = sjwcl;
+    }
 
     public String getLjth() {
         return ljth;

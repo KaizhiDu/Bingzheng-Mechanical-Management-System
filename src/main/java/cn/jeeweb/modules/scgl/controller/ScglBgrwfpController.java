@@ -1130,6 +1130,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         Cell cell05 = row0.createCell(5);
         Cell cell06 = row0.createCell(6);
         Cell cell07 = row0.createCell(7);
+        Cell cell08 = row0.createCell(8);
 
         cell00.setCellValue("包工名称");
         cell01.setCellValue("设备名称");
@@ -1139,6 +1140,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         cell05.setCellValue("工艺大类名称");
         cell06.setCellValue("工艺小类名称");
         cell07.setCellValue("应完成量");
+        cell08.setCellValue("已完成量");
         cell00.setCellStyle(style);
         cell01.setCellStyle(style);
         cell02.setCellStyle(style);
@@ -1147,6 +1149,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         cell05.setCellStyle(style);
         cell06.setCellStyle(style);
         cell07.setCellStyle(style);
+        cell08.setCellStyle(style);
 
 
         if (bgpgJcxxList!=null){
@@ -1165,6 +1168,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 Cell cell5 = row.createCell(5);
                 Cell cell6 = row.createCell(6);
                 Cell cell7 = row.createCell(7);
+                Cell cell8 = row.createCell(8);
 
                 //给单元格设值
                 cell0.setCellValue(c.getBgmc());
@@ -1175,6 +1179,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 cell5.setCellValue(c.getGydlmc());
                 cell6.setCellValue(c.getGyxlmc());
                 cell7.setCellValue(c.getYwcl());
+                cell8.setCellValue(c.getSjwcl());
                 cell0.setCellStyle(style);
                 cell1.setCellStyle(style);
                 cell2.setCellStyle(style);
@@ -1183,6 +1188,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 cell5.setCellStyle(style);
                 cell6.setCellStyle(style);
                 cell7.setCellStyle(style);
+                cell8.setCellStyle(style);
             }
         }
 

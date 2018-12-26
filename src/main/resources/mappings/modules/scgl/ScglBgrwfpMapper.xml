@@ -40,7 +40,8 @@
         T7.LJTH,
 			 T6.GYDLMC,
 			 T5.GYXLMC,
-			 T4.YWCL
+			 T4.YWCL,
+             T4.SJWCL
 FROM T_SCGL_BGRWFP T,
 		 T_SCGL_BGRWFP_BG_MX T1,
 		 T_SCGL_BGRWFP_BG_SB T2,

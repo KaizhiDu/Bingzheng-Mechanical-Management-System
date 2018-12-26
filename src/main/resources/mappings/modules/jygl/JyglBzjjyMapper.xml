@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.jygl.mapper.JyglBzjjyMapper" >
+    <select id="exportBzj" resultType="cn.jeeweb.modules.jygl.entity.JyglBzjjy">
+        SELECT ID,
+        (SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.HTID) HTID,
+        (SELECT DLMC FROM t_ckgl_ckfl_dl T2 WHERE T2.ID = T.FLDL) FLDL,
+        FLXL,
+        GG,
+        DW,
+        SL,
+        RKSL
+        FROM T_SCJHGL_BZJGL T
+        WHERE 1=1
+        <if test="entity.htid!=null and entity.htid!=''">
+            AND T.HTID = #{entity.htid}
+        </if>
+        AND RKSL IS NULL
+        ORDER BY T.RQ DESC
+
+    </select>
+</mapper>
