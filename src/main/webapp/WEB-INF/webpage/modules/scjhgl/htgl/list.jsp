@@ -51,13 +51,15 @@
            url="${adminPath}/scgl/ljgybz/ajaxJhglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="70"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="120"/>
     <grid:button title="修改" groupname="opt" function="updateHt"
     outclass="btn-success" url="${adminPath}/scjhgl/htgl/updateHt?id=\"+row.id+\"" />
     <grid:button title="删除" groupname="opt" function="deleteHt"
                  outclass="btn-danger" url="${adminPath}/scjhgl/htgl/deleteHt/?id=\"+row.id+\"" />
     <grid:button title="复制" groupname="opt" function="copyHt"
                  outclass="btn-warning" url="${adminPath}/scjhgl/htgl/copyHt?id=\"+row.id+\"" />
+    <grid:button title="导出仓库比照表" groupname="opt" function="yckbz"
+                 outclass="btn-info" url="${adminPath}/scjhgl/htgl/yckbz?id=\"+row.id+\"" />
 
     <grid:column label="计划名称" name="htbh" width="30"/>
     <grid:column label="描述" name="ms"/>
@@ -70,6 +72,18 @@
 </grid:grid>
 
 <script type="text/javascript">
+    //导出仓库对照表
+    function yckbz(title, url, gridId, id, width, height, tipMsg){
+        $.ajax({
+            type: "get",
+            url: url,
+            success: function (data) {
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+            }
+        });
+    }
+
     //添加一个合同
     function createHt(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/scjhgl/htgl/createHt";

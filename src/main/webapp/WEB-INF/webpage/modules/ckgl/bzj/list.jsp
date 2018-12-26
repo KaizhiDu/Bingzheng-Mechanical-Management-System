@@ -89,6 +89,7 @@
     <grid:toolbar function="createBzj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加标准件"/>
     <grid:toolbar function="delete"/>
     <grid:toolbar function="jxxq" icon="fa fa-edit" btnclass="btn btn-sm btn-info" title="进销详情"/>
+    <%--<grid:toolbar function="jxxq" icon="fa fa-edit" btnclass="btn btn-sm btn-success" title="对比计划"/>--%>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>

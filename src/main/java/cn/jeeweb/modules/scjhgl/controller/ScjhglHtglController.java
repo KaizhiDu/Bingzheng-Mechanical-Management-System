@@ -5,13 +5,23 @@ import cn.jeeweb.core.model.AjaxJson;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.ckgl.entity.CkglBzj;
+import cn.jeeweb.modules.ckgl.entity.CkglCp;
+import cn.jeeweb.modules.ckgl.service.ICkglBzjService;
+import cn.jeeweb.modules.ckgl.service.ICkglCpService;
+import cn.jeeweb.modules.ckgl.service.ICkglDlService;
 import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
 import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
+import cn.jeeweb.modules.scjhgl.dto.BzjBzb;
+import cn.jeeweb.modules.scjhgl.dto.CpBzb;
 import cn.jeeweb.modules.scjhgl.entity.*;
 import cn.jeeweb.modules.scjhgl.service.*;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +31,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -64,6 +77,18 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     /**标准件管理Service*/
     @Autowired
     private IScjhglBzjglService scjhglBzjglService;
+
+    /**仓库管理 - 标准件*/
+    @Autowired
+    private ICkglBzjService ckglBzjService;
+
+    /**仓库管理 - 成品*/
+    @Autowired
+    private ICkglCpService ckglCpService;
+
+    /**仓库管理 - 分类大类*/
+    @Autowired
+    private ICkglDlService ckglDlService;
 
     /**
     * @Description:    展示所有合同信息
@@ -357,6 +382,240 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
             ss.setRksl(s.getRksl());
             scjhglBzjglService.insert(ss);
         }
+
+    }
+
+    @RequestMapping(value = "yckbz",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public void yckbz(String id, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+
+        String htbh = scjhglHtglService.selectById(id).getHtbh();
+
+        //先通过计划ID得到，该计划下所有标准件信息
+        EntityWrapper<ScjhglBzjgl> wrapper01 = new EntityWrapper<ScjhglBzjgl>();
+        wrapper01.eq("HTID", id);
+        List<ScjhglBzjgl> scjhglBzjgls = scjhglBzjglService.selectList(wrapper01);
+
+        //得到标准件仓库里面，所有标准件信息
+        EntityWrapper<CkglBzj> wrapper001 = new EntityWrapper<CkglBzj>();
+        List<CkglBzj> ckglBzjs = ckglBzjService.selectList(wrapper001);
+
+        //再通过计划ID得到，该计划下所有零部件信息
+        EntityWrapper<ScjhglLjgl> wrapper02 = new EntityWrapper<ScjhglLjgl>();
+        wrapper02.eq("HTID", id);
+        List<ScjhglLjgl> scjhglLjgls = scjhglLjglService.selectList(wrapper02);
+
+        //得到成品仓库里面，所有成品信息
+        EntityWrapper<CkglCp> wrapper002 = new EntityWrapper<CkglCp>();
+        List<CkglCp> ckglCps = ckglCpService.selectList(wrapper002);
+
+        //标准件比照信息
+        List<BzjBzb> bzjBzbList = new ArrayList<BzjBzb>();
+
+        //成品比照信息
+        List<CpBzb> cpBzbList = new ArrayList<CpBzb>();
+
+        for (ScjhglBzjgl s : scjhglBzjgls) {
+            String dlmc = ckglDlService.selectById(s.getFldl()).getDlmc();
+            s.setFldl(dlmc);
+            for (CkglBzj c : ckglBzjs) {
+               if (s.getFldl().equals(c.getFldl())){
+                   if (s.getFlxl().equals(c.getFlxl())){
+                       if (s.getGg().equals(c.getGg())){
+                           //放入bzjbzb
+                           BzjBzb b = new BzjBzb();
+                           b.setFldl(s.getFldl());
+                           b.setFlxl(s.getFlxl());
+                           b.setGg(s.getGg());
+                           b.setJhxql(s.getSl());
+                           b.setKc(c.getKc());
+                           float sl = 0;
+                           float kc = 0;
+                           if (s.getSl()!=null&&!s.getSl().equals("")){
+                               sl = Float.parseFloat(s.getSl());
+                           }
+                           if (c.getKc()!=null&&!c.getKc().equals("")){
+                               kc = Float.parseFloat(c.getKc());
+                           }
+                           float yjybsl = sl - kc;
+                           if (yjybsl<0){
+                               yjybsl = 0;
+                           }
+                           b.setYjybsl(yjybsl+"");
+                           bzjBzbList.add(b);
+                       }
+                   }
+               }
+            }
+        }
+
+        for (ScjhglLjgl s : scjhglLjgls) {
+            for (CkglCp c : ckglCps) {
+                if (s.getLjth().equals(c.getLbjth())){
+                    //插入cpbzb
+                    CpBzb b = new CpBzb();
+                    b.setTh(s.getLjth());
+                    b.setMc(s.getLjmc());
+                    b.setJhxql(s.getSl());
+                    b.setKc(c.getRksl());
+                    float sl = 0;
+                    float kc = 0;
+                    if (s.getSl()!=null&&!s.getSl().equals("")){
+                        sl = Float.parseFloat(s.getSl());
+                    }
+                    if (c.getRksl()!=null&&!c.getRksl().equals("")){
+                        kc = Float.parseFloat(c.getRksl());
+                    }
+                    float yjybsl = sl - kc;
+                    if (yjybsl<0){
+                        yjybsl = 0;
+                    }
+                    b.setYjybsl(yjybsl+"");
+                    cpBzbList.add(b);
+                }
+            }
+        }
+
+        //新建一个工作簿
+        Workbook wb = new XSSFWorkbook();
+
+        //新建工作表
+        Sheet sheet1 = wb.createSheet("零部件比照表");
+        //设置单元格宽度
+        sheet1.setColumnWidth(0, 3700);
+        sheet1.setColumnWidth(1, 3700);
+        sheet1.setColumnWidth(2, 3700);
+        sheet1.setColumnWidth(3, 3700);
+        sheet1.setColumnWidth(4, 3700);
+        //设置边框
+        CellStyle style = wb.createCellStyle();
+        style.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+
+        //表头
+        Row row0 = sheet1.createRow(0);
+        row0.setHeightInPoints(20);
+        Cell cell00 = row0.createCell(0);
+        Cell cell01 = row0.createCell(1);
+        Cell cell02 = row0.createCell(2);
+        Cell cell03 = row0.createCell(3);
+        Cell cell04 = row0.createCell(4);
+        cell00.setCellValue("图号");
+        cell01.setCellValue("名称");
+        cell02.setCellValue("计划需求量");
+        cell03.setCellValue("库存");
+        cell04.setCellValue("预警补充数量");
+        cell00.setCellStyle(style);
+        cell01.setCellStyle(style);
+        cell02.setCellStyle(style);
+        cell03.setCellStyle(style);
+        cell04.setCellStyle(style);
+
+        if (cpBzbList!=null){
+            for (int i=0;i<cpBzbList.size();i++){
+                CpBzb c = cpBzbList.get(i);
+                //创建一行
+                Row row = sheet1.createRow(i+1);
+                row.setHeightInPoints(20);
+
+                //创建单元格
+                Cell cell0 = row.createCell(0);
+                Cell cell1 = row.createCell(1);
+                Cell cell2 = row.createCell(2);
+                Cell cell3 = row.createCell(3);
+                Cell cell4 = row.createCell(4);
+
+                //给单元格设值
+                cell0.setCellValue(c.getTh());
+                cell1.setCellValue(c.getMc());
+                cell2.setCellValue(c.getJhxql());
+                cell3.setCellValue(c.getKc());
+                cell4.setCellValue(c.getYjybsl());
+                cell0.setCellStyle(style);
+                cell1.setCellStyle(style);
+                cell2.setCellStyle(style);
+                cell3.setCellStyle(style);
+                cell4.setCellStyle(style);
+            }
+        }
+
+
+        //新建工作表
+        Sheet sheet2 = wb.createSheet("标准件比照表");
+        //设置单元格宽度
+        sheet2.setColumnWidth(0, 3700);
+        sheet2.setColumnWidth(1, 3700);
+        sheet2.setColumnWidth(2, 3700);
+        sheet2.setColumnWidth(3, 3700);
+        sheet2.setColumnWidth(4, 3700);
+        sheet2.setColumnWidth(5, 3700);
+        //设置边框
+        CellStyle style2 = wb.createCellStyle();
+        style2.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style2.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style2.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style2.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+
+        //表头
+        Row row02 = sheet2.createRow(0);
+        row02.setHeightInPoints(20);
+        Cell cell002 = row02.createCell(0);
+        Cell cell012 = row02.createCell(1);
+        Cell cell022 = row02.createCell(2);
+        Cell cell032 = row02.createCell(3);
+        Cell cell042 = row02.createCell(4);
+        Cell cell052 = row02.createCell(5);
+        cell002.setCellValue("分类大类");
+        cell012.setCellValue("分类小类");
+        cell022.setCellValue("规格");
+        cell032.setCellValue("计划需求量");
+        cell042.setCellValue("库存");
+        cell052.setCellValue("预警补充数量");
+        cell002.setCellStyle(style);
+        cell012.setCellStyle(style);
+        cell022.setCellStyle(style);
+        cell032.setCellStyle(style);
+        cell042.setCellStyle(style);
+        cell052.setCellStyle(style);
+
+        if (bzjBzbList!=null){
+            for (int i=0;i<bzjBzbList.size();i++){
+                BzjBzb c = bzjBzbList.get(i);
+                //创建一行
+                Row row = sheet2.createRow(i+1);
+                row.setHeightInPoints(20);
+
+                //创建单元格
+                Cell cell0 = row.createCell(0);
+                Cell cell1 = row.createCell(1);
+                Cell cell2 = row.createCell(2);
+                Cell cell3 = row.createCell(3);
+                Cell cell4 = row.createCell(4);
+                Cell cell5 = row.createCell(5);
+
+                //给单元格设值
+                cell0.setCellValue(c.getFldl());
+                cell1.setCellValue(c.getFlxl());
+                cell2.setCellValue(c.getGg());
+                cell3.setCellValue(c.getJhxql());
+                cell4.setCellValue(c.getKc());
+                cell5.setCellValue(c.getYjybsl());
+                cell0.setCellStyle(style);
+                cell1.setCellStyle(style);
+                cell2.setCellStyle(style);
+                cell3.setCellStyle(style);
+                cell4.setCellStyle(style);
+                cell5.setCellStyle(style);
+            }
+        }
+
+//创建流
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+htbh+" 仓库对照表.xlsx");
+        //输出流
+        wb.write(fileOut);
+        fileOut.close();
 
     }
 }
