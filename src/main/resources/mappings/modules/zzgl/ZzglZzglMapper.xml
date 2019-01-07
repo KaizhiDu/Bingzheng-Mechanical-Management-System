@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.zzgl.mapper.ZzglZzglMapper" >
+    <select id="ajaxZzglList" resultType="cn.jeeweb.modules.zzgl.entity.ZzglZzgl">
+          SELECT T.ID,
+          T.RQ,
+          T.N,
+          T.Y,
+          T.R,
+          T.MX,
+          T.MXBC,
+          T.XXMX,
+          CASE
+        WHEN T.LX = '0'
+         THEN '收入'
+         WHEN T.LX = '1'
+         THEN ' 支出'
+         WHEN T.LX = '2'
+         THEN ' 调动'
+         WHEN T.LX = '3'
+         THEN ' 借还'
+         END LX,
+         T.ONE,
+         T.TWO,
+         T.THREE,
+         T.FOUR,
+         T.FIVE,
+         T.SIX,
+         T.SEVEN,
+         T.EIGHT
+          FROM T_ZZGL_ZZGL T
+          WHERE 1=1
+        <if test="n!=null and n!=''">
+            AND T.N = #{n}
+        </if>
+        <if test="y!=null and y!=''">
+            AND T.Y = #{y}
+        </if>
+        <if test="r!=null and r!=''">
+            AND T.R = #{r}
+        </if>
+        <if test="lx!=null and lx!=''">
+            AND T.LX = #{lx}
+        </if>
+        <if test="px==0">
+            ORDER BY RQ DESC
+        </if>
+        <if test="px==1">
+            ORDER BY LX,RQ DESC
+        </if>
+
+    </select>
+
+
+</mapper>

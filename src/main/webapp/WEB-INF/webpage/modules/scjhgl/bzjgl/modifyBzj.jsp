@@ -62,6 +62,18 @@
                         <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入数量" value="${scjhglBzjgl.sl}" onchange="checkSl()"/>
                     </td>
                 </tr>
+                <%--<tr class="form-group">--%>
+                    <%--<td>--%>
+                        <%--<label>进货商：</label>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                        <%--<select id="jhs" name="jhs" class="form-control">--%>
+                            <%--<c:forEach var="jhs" items="${ckglJhs}">--%>
+                                <%--<option value="${jhs.jhs}">${jhs.jhs}</option>--%>
+                            <%--</c:forEach>--%>
+                        <%--</select>--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
             </table>
         </form>
     </div>
@@ -112,6 +124,7 @@
         var dw = $("#dw").val();
         var sl = $("#sl").val();
         var bzjid = $("#bzjid").val();
+
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/bzjgl/updateBzj",
@@ -120,6 +133,7 @@
                 gg: gg,
                 dw: dw,
                 sl: sl
+
             },
             success: function (data) {
 

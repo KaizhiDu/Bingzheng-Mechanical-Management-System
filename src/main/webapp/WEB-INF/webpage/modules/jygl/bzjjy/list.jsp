@@ -105,6 +105,7 @@
     <grid:column label="单位" name="dw"/>
     <grid:column label="数量" name="sl"/>
     <grid:column label="入库人" name="rksl"/>
+    <grid:column label="进货商" name="jhs"/>
 
     <%--<grid:toolbar function="ckrkxq" icon="fa fa-edit" title="查看入库详情" btnclass="btn-primary"/>--%>
     <grid:toolbar function="exportBzj" icon="fa fa-file-excel-o" title="导出" btnclass="btn-warning"/>

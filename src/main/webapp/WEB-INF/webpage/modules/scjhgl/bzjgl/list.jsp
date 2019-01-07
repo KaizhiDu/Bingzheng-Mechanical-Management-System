@@ -84,6 +84,7 @@
     <grid:column label="单位" name="dw"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
+    <%--<grid:column label="进货商" name="jhs"/>--%>
 
     <grid:toolbar function="createBzj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加标准件"/>
     <grid:toolbar function="deleteBzj" icon="fa fa-trash-o" title="删除" btnclass="btn-danger"/>

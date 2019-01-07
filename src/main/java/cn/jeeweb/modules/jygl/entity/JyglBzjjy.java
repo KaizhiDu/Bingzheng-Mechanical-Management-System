@@ -59,6 +59,9 @@ public class JyglBzjjy extends AbstractEntity<String> {
     /** 入库日 */
     @TableField(value = "R")
     private String r;
+    /** 进货商 */
+    @TableField(value = "JHS")
+    private String jhs;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -72,6 +75,14 @@ public class JyglBzjjy extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getJhs() {
+        return jhs;
+    }
+
+    public void setJhs(String jhs) {
+        this.jhs = jhs;
+    }
 
     public String getDyl() {
         return dyl;

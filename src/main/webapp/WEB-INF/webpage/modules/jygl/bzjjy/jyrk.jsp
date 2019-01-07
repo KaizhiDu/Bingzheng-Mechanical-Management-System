@@ -67,6 +67,18 @@
                         <input type="checkbox" name="bxgrq" id="bxgrq">
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>进货商：</label>
+                    </td>
+                    <td>
+                        <select id="jhs" name="jhs" class="form-control">
+                            <c:forEach var="jhs" items="${ckglJhs}">
+                                <option value="${jhs.jhs}">${jhs.jhs}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -118,6 +130,7 @@
 
     //点击保存，保存数据
     function check() {
+        var jhs = $("#jhs").val();
         var a = document.getElementById("bxgrq");
         var status = "0";
         if (a.checked){
@@ -131,7 +144,8 @@
             data: {
                 id: bzjid,
                 rksl: rksl,
-                status: status
+                status: status,
+                jhs: jhs
             },
             success: function (data) {
 

@@ -6,8 +6,10 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglDl;
+import cn.jeeweb.modules.ckgl.entity.CkglJhs;
 import cn.jeeweb.modules.ckgl.service.ICkglBzjService;
 import cn.jeeweb.modules.ckgl.service.ICkglDlService;
+import cn.jeeweb.modules.ckgl.service.ICkglJhsService;
 import cn.jeeweb.modules.ckgl.service.ICkglXlService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBzjgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
@@ -62,6 +64,10 @@ public class ScjhglBzjglController extends BaseCRUDController<ScjhglBzjgl, Strin
     @Autowired
     private IScjhglHtglService scjhglHtglService;
 
+    /**仓库管理 - 进货商Service*/
+    @Autowired
+    private ICkglJhsService ckglJhsService;
+
     /**
      * @Description:    搜索项
      * @Author:         杜凯之
@@ -94,6 +100,9 @@ public class ScjhglBzjglController extends BaseCRUDController<ScjhglBzjgl, Strin
         wrapper2.eq("SFWC","0");
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper2);
         model.addAttribute("htList", list);
+        EntityWrapper<CkglJhs> wrapper1 = new EntityWrapper<CkglJhs>();
+        List<CkglJhs> ckglJhs = ckglJhsService.selectList(wrapper1);
+        model.addAttribute("ckglJhs", ckglJhs);
         return display("createBzj");
     }
 
@@ -167,6 +176,9 @@ public class ScjhglBzjglController extends BaseCRUDController<ScjhglBzjgl, Strin
         wrapper2.eq("SFWC","0");
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper2);
         model.addAttribute("htList", list);
+        EntityWrapper<CkglJhs> wrapper1 = new EntityWrapper<CkglJhs>();
+        List<CkglJhs> ckglJhs = ckglJhsService.selectList(wrapper1);
+        model.addAttribute("ckglJhs", ckglJhs);
         return display("modifyBzj");
 }
 

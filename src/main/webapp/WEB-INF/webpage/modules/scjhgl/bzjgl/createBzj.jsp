@@ -97,6 +97,18 @@
                         <input name="dyl" id="dyl" htmlEscape="false" class="form-control" placeholder="请输入单用量" onchange="checkSl()"/>
                     </td>
                 </tr>
+                <%--<tr class="form-group">--%>
+                    <%--<td>--%>
+                        <%--<label>进货商：</label>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                        <%--<select id="jhs" name="jhs" class="form-control">--%>
+                            <%--<c:forEach var="jhs" items="${ckglJhs}">--%>
+                                <%--<option value="${jhs.jhs}">${jhs.jhs}</option>--%>
+                            <%--</c:forEach>--%>
+                        <%--</select>--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
             </table>
         </form>
     </div>
@@ -149,6 +161,7 @@
         var dw = $("#dw").val();
         var dyl = $("#dyl").val();
         var htid = $("#htid").val();
+
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/bzjgl/saveBzj",
@@ -160,6 +173,7 @@
                 dyl: dyl,
                 flxl: flxl,
                 htid: htid
+
 
             },
             success: function (data) {
