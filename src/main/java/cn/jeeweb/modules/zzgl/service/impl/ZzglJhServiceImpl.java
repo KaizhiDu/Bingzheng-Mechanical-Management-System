@@ -27,12 +27,12 @@ public class ZzglJhServiceImpl extends CommonServiceImpl<ZzglJhMapper, ZzglJh> i
 
     @Override
     public PageJson<ZzglJh> ajaxJhList(Queryable queryable, ZzglJh zzglJh) {
-        if (zzglJh.getY()!=null){
+        if (zzglJh.getY()!=null&&!zzglJh.getY().equals("")){
             if (!zzglJh.getY().equals("10")&&!zzglJh.getY().equals("11")&&!zzglJh.getY().equals("12")){
                 zzglJh.setY("0"+zzglJh.getY());
             }
         }
-        if (zzglJh.getR()!=null){
+        if (zzglJh.getR()!=null&&!zzglJh.getR().equals("")){
             if (zzglJh.getR().equals("1")||zzglJh.getR().equals("2")||zzglJh.getR().equals("3")||zzglJh.getR().equals("4")||zzglJh.getR().equals("5")||zzglJh.getR().equals("6")||zzglJh.getR().equals("7")||zzglJh.getR().equals("8")||zzglJh.getR().equals("9")){
                 zzglJh.setR("0"+zzglJh.getR());
             }

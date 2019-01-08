@@ -78,27 +78,11 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
     @RequestMapping(value = "ajaxJhList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<ZzglJh> ajaxZzglList(String n, String y, String name, String r, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model){
-        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
-        Date date0 = new Date();
-        String currentDate = sdf0.format(date0);
-        String[] dateArray = currentDate.split("-");
-        int nn = Integer.parseInt(dateArray[0]);
-        int yy = Integer.parseInt(dateArray[1]);
-        int rr = Integer.parseInt(dateArray[2]);
         ZzglJh z = new ZzglJh();
         z.setN(n);
         z.setY(y);
         z.setR(r);
         z.setName(name);
-        if (n==null){
-            z.setN(nn+"");
-        }
-        if (y==null){
-            z.setY(yy+"");
-        }
-        if (r==null){
-            z.setR(rr+"");
-        }
         PageJson<ZzglJh> pageJson = zzglJhService.ajaxJhList(queryable,z);
         return pageJson;
     }

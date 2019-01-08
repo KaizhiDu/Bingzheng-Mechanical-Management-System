@@ -41,7 +41,6 @@
             <div class="form-group col-md-2" style="margin-bottom: 10px">
                 <label class="control-label">月：</label>
                 <select name="y" class="form-control" id="y">
-                    <option value="${y}">${y}</option>
                     <option value="">全部</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -60,7 +59,6 @@
             <div class="form-group col-md-2" style="margin-bottom: 10px">
                 <label class="control-label">日：</label>
                 <select name="r" class="form-control" id="r">
-                    <option value="${r}">${r}</option>
                     <option value="">全部</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -112,7 +110,7 @@
                  outclass="btn-success" url="${adminPath}/zzgl/jh/hk?id=\"+row.id+\"" />
     <grid:button title="查看明细" groupname="opt" function="ckmx"
                 outclass="btn-warning" url="${adminPath}/zzgl/jh/ckmx?id=\"+row.id+\"" />
-
+    <grid:column label="月" name="y" width="60"/>
     <grid:column label="日" name="r" width="60"/>
     <grid:column label="姓名" name="name" />
     <grid:column label="钱款" name="money" />
