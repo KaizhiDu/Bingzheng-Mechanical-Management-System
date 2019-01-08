@@ -22,4 +22,6 @@ public interface ZzglZzglMapper extends BaseMapper<ZzglZzgl>{
      * @date : 2019/1/5 14:47
      */
     public List<ZzglZzgl> ajaxZzglList(Pagination page, @Param("n") String n, @Param("y") String y, @Param("px") String px, @Param("lx") String lx, @Param("r") String r);
+
+    public List<ZzglZzgl> exportZzgl(@Param("n") String n, @Param("y") String y, @Param("r") String r, @Param("px") String px);
 }

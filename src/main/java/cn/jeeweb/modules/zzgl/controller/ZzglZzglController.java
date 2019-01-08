@@ -11,8 +11,14 @@ import cn.jeeweb.modules.jcsz.service.IJcszMxmbService;
 import cn.jeeweb.modules.jcsz.service.IJcszZzseService;
 import cn.jeeweb.modules.zzgl.dto.ValueDTO;
 import cn.jeeweb.modules.zzgl.dto.ZzglDTO;
+import cn.jeeweb.modules.zzgl.entity.ZzglJh;
 import cn.jeeweb.modules.zzgl.entity.ZzglZzgl;
+import cn.jeeweb.modules.zzgl.service.IZzglJhService;
 import cn.jeeweb.modules.zzgl.service.IZzglZzglService;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +56,10 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     /**资金管理 - 资金管理Service*/
     @Autowired
     private IZzglZzglService zzglZzglService;
+
+    /**资金管理 - 借款Service*/
+    @Autowired
+    private IZzglJhService zzglJhService;
 
     /**
      * Dscription: 搜索项和前置内容
@@ -220,6 +232,9 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     @RequestMapping(value = "saveSr", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveSr(String mx1, String mx2, String jz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (money==null){
+            money = "0";
+        }
         float moneyf = Float.parseFloat(money);
         //排序时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -371,6 +386,9 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     @RequestMapping(value = "saveZc", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveZc(String mx1, String mx2, String cz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (money==null){
+            money = "0";
+        }
         String m = money;
         //支出是减去的钱
         float moneyf = 0 - Float.parseFloat(money);
@@ -525,6 +543,9 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     @RequestMapping(value = "saveDd", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveDd(String mx2, String jz, String cz, String money, String lx, String jtsj, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (money==null){
+            money = "0";
+        }
         float jmoney = Float.parseFloat(money);
         float cmoney = 0 - Float.parseFloat(money);
         String czMoney = cmoney+"";
@@ -882,6 +903,14 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         float seven = Float.parseFloat(j1.getSeven())+Float.parseFloat(j2.getSeven());
         float eight = Float.parseFloat(j1.getEight())+Float.parseFloat(j2.getEight());
         float sum = one + two + three + four + five + six + seven + eight;
+
+        //sum还需要加上借款
+        EntityWrapper<ZzglJh> wrapper = new EntityWrapper<ZzglJh>();
+        List<ZzglJh> zzglJhs = zzglJhService.selectList(wrapper);
+        for (ZzglJh z : zzglJhs) {
+            sum = sum + Float.parseFloat(z.getMoney());
+        }
+
         valueDTO.setEight(eight+"");
         valueDTO.setFive(five+"");
         valueDTO.setFour(four+"");
@@ -934,13 +963,102 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     }
 
   /**
-   * Dscription: 借还
+   * Dscription: 转到借还页面
    * @author : Kevin Du
    * @version : 1.0
    * @date : 2019/1/7 14:25
    */
     @RequestMapping(value = "jh", method={RequestMethod.GET, RequestMethod.POST})
     public String jh(HttpServletRequest request, HttpServletResponse response, Model model){
+                //得到当前年月
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String currentDate = sdf0.format(date0);
+        String[] dateArray = currentDate.split("-");
+        int n = Integer.parseInt(dateArray[0]);
+        int y = Integer.parseInt(dateArray[1]);
+        int r = Integer.parseInt(dateArray[2]);
+        model.addAttribute("y", y);
+        model.addAttribute("n", n);
+        model.addAttribute("r", r);
+        model.addAttribute("day", currentDate);
         return display("jh");
     }
+
+/**
+ * Dscription: 导出资金管理
+ * @author : Kevin Du
+ * @version : 1.0
+ * @date : 2019/1/7 22:09
+ */
+    @RequestMapping(value = "exprortZzgl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void exprortZzgl(String n, String y, String r, String lx, String px, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+        //首先根据搜索条件得到数据
+        List<ZzglZzgl> zzglZzgls = zzglZzglService.exportZzgl(n, y, r, lx, px);
+        //新建一个工作簿
+        Workbook wb = new XSSFWorkbook();
+        //新建工作表
+        Sheet sheet1 = wb.createSheet("资金流动单");
+        //设置单元格宽度
+        sheet1.setColumnWidth(0, 3000);
+        sheet1.setColumnWidth(1, 2500);
+        sheet1.setColumnWidth(2, 9000);
+        sheet1.setColumnWidth(3, 7500);
+        //设置边框
+        CellStyle style = wb.createCellStyle();
+        style.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+
+        //表头
+        Row row0 = sheet1.createRow(0);
+        row0.setHeightInPoints(35);
+        Cell cell00 = row0.createCell(0);
+        Cell cell01 = row0.createCell(1);
+        Cell cell02 = row0.createCell(2);
+        Cell cell03 = row0.createCell(3);
+        cell00.setCellValue("日期");
+        cell01.setCellValue("类型");
+        cell02.setCellValue("详情");
+        cell03.setCellValue("明细");
+        cell00.setCellStyle(style);
+        cell01.setCellStyle(style);
+        cell02.setCellStyle(style);
+        cell03.setCellStyle(style);
+
+        if (zzglZzgls!=null){
+            for (int i=0;i<zzglZzgls.size();i++){
+                ZzglZzgl c = zzglZzgls.get(i);
+                //创建一行
+                Row row = sheet1.createRow(i+1);
+                row.setHeightInPoints(35);
+
+                //创建单元格
+                Cell cell0 = row.createCell(0);
+                Cell cell1 = row.createCell(1);
+                Cell cell2 = row.createCell(2);
+                Cell cell3 = row.createCell(3);
+
+                //给单元格设值
+                cell0.setCellValue(c.getN()+"-"+c.getY()+"-"+c.getR());
+                cell1.setCellValue(c.getLx());
+                cell2.setCellValue(c.getXxmx());
+                cell3.setCellValue(c.getMx());
+                cell0.setCellStyle(style);
+                cell1.setCellStyle(style);
+                cell2.setCellStyle(style);
+                cell3.setCellStyle(style);
+            }
+        }
+
+        //创建流
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\资金流动单.xlsx");
+        //输出流
+        wb.write(fileOut);
+        fileOut.close();
+    }
+
+
 }

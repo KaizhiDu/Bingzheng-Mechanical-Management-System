@@ -11,24 +11,21 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * Dscription: 资金管理 - 借还
+ * Dscription: 资金管理 - 借还明细
  * @author : Kevin Du
  * @version : 1.0
- * @date : 2019/1/7 14:36
+ * @date : 2019/1/7 14:59
  */
-@TableName("T_ZZGL_JH")
+@TableName("T_ZZGL_JHMX")
 @SuppressWarnings("serial")
-public class ZzglJh extends AbstractEntity<String> {
+public class ZzglJhmx extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 姓名 */
-    @TableField(value = "NAME")
-    private String name;
-    /** 钱 */
-    @TableField(value = "MONEY")
-    private String money;
+    /** 借还ID */
+    @TableField(value = "JHID")
+    private String jhid;
     /** 日期 */
     @TableField(value = "RQ")
     private String rq;
@@ -41,12 +38,13 @@ public class ZzglJh extends AbstractEntity<String> {
     /**日*/
     @TableField(value = "R")
     private String r;
-    /**资金账户*/
-    @TableField(value = "ZJZH")
-    private String zjzh;
-    /**资金名称*/
-    @TableField(value = "ZJMC")
-    private String zjmc;
+    /**明细*/
+    @TableField(value = "MX")
+    private String mx;
+    /**明细*/
+    @TableField(value = "XXMX")
+    private String xxmx;
+
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -61,60 +59,30 @@ public class ZzglJh extends AbstractEntity<String> {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
+    public String getXxmx() {
+        return xxmx;
+    }
+
+    public void setXxmx(String xxmx) {
+        this.xxmx = xxmx;
+    }
+
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getJhid() {
+        return jhid;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMoney() {
-        return money;
-    }
-
-    public void setMoney(String money) {
-        this.money = money;
-    }
-
-    public User getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(User updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public User getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(User createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setJhid(String jhid) {
+        this.jhid = jhid;
     }
 
     public String getRq() {
@@ -149,19 +117,43 @@ public class ZzglJh extends AbstractEntity<String> {
         this.r = r;
     }
 
-    public String getZjzh() {
-        return zjzh;
+    public String getMx() {
+        return mx;
     }
 
-    public void setZjzh(String zjzh) {
-        this.zjzh = zjzh;
+    public void setMx(String mx) {
+        this.mx = mx;
     }
 
-    public String getZjmc() {
-        return zjmc;
+    public User getUpdateBy() {
+        return updateBy;
     }
 
-    public void setZjmc(String zjmc) {
-        this.zjmc = zjmc;
+    public void setUpdateBy(User updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public User getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(User createBy) {
+        this.createBy = createBy;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

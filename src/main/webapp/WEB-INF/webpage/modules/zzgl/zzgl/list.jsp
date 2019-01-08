@@ -279,6 +279,22 @@
 
 <script type="text/javascript">
 
+    //导出
+    function exprortZzgl(){
+        var n = $("#n").val();
+        var y = $("#y").val();
+        var r = $("#r").val();
+        var lx = $("#lx").val();
+        var px = $("#px").val();
+        $.ajax({
+            type: "get",
+            url: "${adminPath}/zzgl/zzgl/exprortZzgl?n="+n+"&y="+y+"&r="+r+"&lx="+lx+"&px="+px,
+            success: function (data) {
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+            }
+        });
+    }
+
     //借还
     function jh(title, url, gridId, id, width, height, tipMsg){
         var url = "${adminPath}/zzgl/zzgl/jh";

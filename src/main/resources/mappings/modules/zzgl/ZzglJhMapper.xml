@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.zzgl.mapper.ZzglJhMapper" >
+    <select id="ajaxJhList" resultType="cn.jeeweb.modules.zzgl.entity.ZzglJh">
+        SELECT * FROM T_ZZGL_JH T
+        WHERE 1=1
+        <if test="n!=null and n!=''">
+            AND T.N = #{n}
+        </if>
+        <if test="y!=null and y!=''">
+            AND T.Y = #{y}
+        </if>
+        <if test="r!=null and r!=''">
+            AND T.R = #{r}
+        </if>
+        <if test="name!=null and name!=''">
+            AND T.NAME = #{name}
+        </if>
+            ORDER BY T.RQ DESC
+    </select>
+
+
+</mapper>

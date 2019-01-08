@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Dscription: 资金管理 - 资金管理
  * @author : Kevin Du
@@ -50,5 +52,26 @@ public class ZzglZzglServiceImpl extends CommonServiceImpl<ZzglZzglMapper, ZzglZ
         page.setRecords(zzglZzglMapper.ajaxZzglList(page, zzglDTO.getN(), zzglDTO.getY(), zzglDTO.getPx(), zzglDTO.getLx(), zzglDTO.getR()));
         PageJson<ZzglZzgl> pagejson = new PageJson<ZzglZzgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
+    }
+
+    /**
+     * Dscription: 导出资金管理数据
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/1/7 22:17
+     */
+    @Override
+    public List<ZzglZzgl> exportZzgl(String n, String y, String r, String lx, String px) {
+        if (y!=null){
+            if (!y.equals("10")&&!y.equals("11")&&!y.equals("12")){
+                y = "0"+y;
+            }
+        }
+        if (r!=null){
+            if (r.equals("1")||r.equals("2")||r.equals("3")||r.equals("4")||r.equals("5")||r.equals("6")||r.equals("7")||r.equals("8")||r.equals("9")){
+                r = "0"+r;
+            }
+        }
+        return zzglZzglMapper.exportZzgl(n,y,r,px);
     }
 }

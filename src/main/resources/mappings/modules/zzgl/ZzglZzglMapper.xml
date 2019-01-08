@@ -51,5 +51,38 @@
 
     </select>
 
+    <select id="exportZzgl" resultType="cn.jeeweb.modules.zzgl.entity.ZzglZzgl">
+        SELECT N,Y,R,RQ,LX,XXMX,MX FROM(
+		SELECT N,Y,R,RQ,XXMX,MX,'借还' LX FROM T_ZZGL_JHMX
+	UNION
+	SELECT N,Y,R,RQ,XXMX,MXBC,CASE
+        WHEN LX = '0'
+         THEN '收入'
+         WHEN LX = '1'
+         THEN '支出'
+         WHEN LX = '2'
+         THEN '调动'
+         WHEN LX = '3'
+         THEN '借还'
+         END LX FROM T_ZZGL_ZZGL
+	)S
+	WHERE 1=1
+        <if test="n!=null and n!=''">
+            AND S.N = #{n}
+        </if>
+        <if test="y!=null and y!=''">
+            AND S.Y = #{y}
+        </if>
+        <if test="r!=null and r!=''">
+            AND S.R = #{r}
+        </if>
+        <if test="px==0">
+            ORDER BY S.RQ DESC
+        </if>
+        <if test="px==1">
+            ORDER BY S.LX,S.RQ
+        </if>
+
+    </select>
 
 </mapper>
