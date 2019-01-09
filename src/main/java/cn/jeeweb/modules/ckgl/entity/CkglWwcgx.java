@@ -23,21 +23,36 @@ public class CkglWwcgx extends AbstractEntity<String> {
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 半成品ID */
-    @TableField(value = "BCPID")
-    private String bcpid;
+    /** 工艺大类编制ID */
+    @TableField(value = "GYDLBZID")
+    private String gydlbzid;
+    /** 工艺小类ID */
+    @TableField(value = "GYXLID")
+    private String gyxlid;
     /** 工艺小类名称 */
     @TableField(value = "GYXLMC")
     private String gyxlmc;
+    /** 描述 */
+    @TableField(value = "MS")
+    private String ms;
+    /** 排序 */
+    @TableField(value = "PX")
+    private int px;
     /** 数量 */
     @TableField(value = "SL")
-    private String sl;
-    /** 未完成数量 */
+    private int sl;
+    /** 未入库数量 */
     @TableField(value = "WRKSL")
-    private String wrksl;
+    private int wrksl;
     /** 剩余数量 */
     @TableField(value = "SYSL")
-    private String sysl;
+    private int sysl;
+    /** 计划生产数量 */
+    @TableField(value = "JHSCSL")
+    private int jhscsl;
+    /** 生产是否显示 */
+    @TableField(value = "SCSFXS")
+    private String scsfxs;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -52,20 +67,30 @@ public class CkglWwcgx extends AbstractEntity<String> {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getBcpid() {
-        return bcpid;
+    public String getGydlbzid() {
+        return gydlbzid;
     }
 
-    public void setBcpid(String bcpid) {
-        this.bcpid = bcpid;
+    public void setGydlbzid(String gydlbzid) {
+        this.gydlbzid = gydlbzid;
+    }
+
+    public String getGyxlid() {
+        return gyxlid;
+    }
+
+    public void setGyxlid(String gyxlid) {
+        this.gyxlid = gyxlid;
     }
 
     public String getGyxlmc() {
@@ -76,28 +101,36 @@ public class CkglWwcgx extends AbstractEntity<String> {
         this.gyxlmc = gyxlmc;
     }
 
-    public String getSl() {
+    public String getMs() {
+        return ms;
+    }
+
+    public void setMs(String ms) {
+        this.ms = ms;
+    }
+
+    public int getPx() {
+        return px;
+    }
+
+    public void setPx(int px) {
+        this.px = px;
+    }
+
+    public int getSl() {
         return sl;
     }
 
-    public void setSl(String sl) {
+    public void setSl(int sl) {
         this.sl = sl;
     }
 
-    public String getWrksl() {
-        return wrksl;
+    public String getScsfxs() {
+        return scsfxs;
     }
 
-    public void setWrksl(String wrksl) {
-        this.wrksl = wrksl;
-    }
-
-    public String getSysl() {
-        return sysl;
-    }
-
-    public void setSysl(String sysl) {
-        this.sysl = sysl;
+    public void setScsfxs(String scsfxs) {
+        this.scsfxs = scsfxs;
     }
 
     public User getUpdateBy() {
@@ -130,5 +163,29 @@ public class CkglWwcgx extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public int getWrksl() {
+        return wrksl;
+    }
+
+    public void setWrksl(int wrksl) {
+        this.wrksl = wrksl;
+    }
+
+    public int getSysl() {
+        return sysl;
+    }
+
+    public void setSysl(int sysl) {
+        this.sysl = sysl;
+    }
+
+    public int getJhscsl() {
+        return jhscsl;
+    }
+
+    public void setJhscsl(int jhscsl) {
+        this.jhscsl = jhscsl;
     }
 }

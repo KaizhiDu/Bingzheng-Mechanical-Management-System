@@ -111,57 +111,62 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     @ResponseBody
     public void saveHt(HttpServletRequest request, HttpServletResponse response, Model model, ScjhglHtgl scjhglHtgl){
 
+
         //先得到原始数量
         String jhid = scjhglHtgl.getId();
-        String oldsl = scjhglHtglService.selectById(jhid).getSl();
-        String xsl = scjhglHtgl.getSl();
-        int oldsli = 0;
-        int xsli = 0;
-        if (oldsl!=null&&!oldsl.equals("")){
-            oldsli = Integer.parseInt(oldsl);
-        }
-        if (xsl!=null&&!xsl.equals("")){
-            xsli = Integer.parseInt(xsl);
-        }
-        //这里的slf就是新增的或者新减的数量
-        int sli = xsli - oldsli;
-        if (sli!=0){
-            //要把下属零件的数量加上
-            List<ScjhglLjgl> ljByjhid = scjhglLjglService.getLjByjhid(jhid);
-            for (ScjhglLjgl s : ljByjhid) {
-                int sl = 0;
-                int sysl = 0;
-                int wrksl = 0;
-                if (!s.getSl().equals("")&&s.getSl()!=null){
-                    sl = Integer.parseInt(s.getSl());
-                }
-                if (!s.getSysl().equals("")&&s.getSysl()!=null){
-                    sysl = Integer.parseInt(s.getSysl());
-                }
-                if (!s.getWrksl().equals("")&&s.getWrksl()!=null){
-                    wrksl = Integer.parseInt(s.getWrksl());
-                }
-                sl = sl + sli;
-                sysl = sysl + sli;
-                wrksl = wrksl+ sli;
-                s.setSl(sl+"");
-                s.setWrksl(wrksl+"");
-                s.setSysl(sysl+"");
-                scjhglLjglService.updateById(s);
+        if (jhid!=null&&!jhid.equals("")){
+            String oldsl = scjhglHtglService.selectById(jhid).getSl();
+            String xsl = scjhglHtgl.getSl();
+            int oldsli = 0;
+            int xsli = 0;
+            if (oldsl!=null&&!oldsl.equals("")){
+                oldsli = Integer.parseInt(oldsl);
             }
+            if (xsl!=null&&!xsl.equals("")){
+                xsli = Integer.parseInt(xsl);
+            }
+            //这里的slf就是新增的或者新减的数量
+            int sli = xsli - oldsli;
+            if (sli!=0){
+                //要把下属零件的数量加上
+                List<ScjhglLjgl> ljByjhid = scjhglLjglService.getLjByjhid(jhid);
+                for (ScjhglLjgl s : ljByjhid) {
+                    int sl = 0;
+                    int sysl = 0;
+                    int wrksl = 0;
+                    if (!s.getSl().equals("")&&s.getSl()!=null){
+                        sl = Integer.parseInt(s.getSl());
+                    }
+                    if (!s.getSysl().equals("")&&s.getSysl()!=null){
+                        sysl = Integer.parseInt(s.getSysl());
+                    }
+                    if (!s.getWrksl().equals("")&&s.getWrksl()!=null){
+                        wrksl = Integer.parseInt(s.getWrksl());
+                    }
+                    sl = sl + sli;
+                    sysl = sysl + sli;
+                    wrksl = wrksl+ sli;
+                    s.setSl(sl+"");
+                    s.setWrksl(wrksl+"");
+                    s.setSysl(sysl+"");
+                    scjhglLjglService.updateById(s);
+                }
 
-            //要把下属工艺的数量加上
-            List<ScglLjgybz> ljgybzByJhid = scglLjgybzService.getLjgybzByJhid(jhid);
-            for (ScglLjgybz s : ljgybzByJhid) {
-                int sl = s.getSl() + sli;
-                int wrksl = s.getWrksl() + sli;
-                int sysl = s.getSysl() + sli;
-                s.setSysl(sysl);
-                s.setWrksl(wrksl);
-                s.setSl(sl);
-                scglLjgybzService.updateById(s);
+                //要把下属工艺的数量加上
+                List<ScglLjgybz> ljgybzByJhid = scglLjgybzService.getLjgybzByJhid(jhid);
+                for (ScglLjgybz s : ljgybzByJhid) {
+                    int sl = s.getSl() + sli;
+                    int wrksl = s.getWrksl() + sli;
+                    int sysl = s.getSysl() + sli;
+                    s.setSysl(sysl);
+                    s.setWrksl(wrksl);
+                    s.setSl(sl);
+                    scglLjgybzService.updateById(s);
+                }
             }
         }
+
+
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();

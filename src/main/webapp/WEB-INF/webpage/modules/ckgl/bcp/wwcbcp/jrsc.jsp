@@ -30,6 +30,7 @@
     </style>
 </head>
 <body class="container">
+<input value="${bcpid}" name="bcpid" id="bcpid" type="hidden">
 <div class="row">
     <div class="col-md-3">
 
@@ -39,28 +40,16 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>工艺小类名称</label>
+                        <label>计划名称：</label>
                     </td>
                     <td>
-                        <label>数量</label>
-                    </td>
-                    <td>
-                        <label>剩余数量</label>
+                        <select name="htid" class="form-control" id="htid">
+                            <c:forEach items="${htList}" var="ht">
+                                <option value="${ht.id}">${ht.htbh}</option>
+                            </c:forEach>
+                        </select>
                     </td>
                 </tr>
-                <c:forEach var="d" items="${data}">
-                    <tr class="form-group">
-                        <td>
-                            <label>${d.gyxlmc}</label>
-                        </td>
-                        <td>
-                            <label>${d.sl}</label>
-                        </td>
-                        <td>
-                            <label>${d.sysl}</label>
-                        </td>
-                    </tr>
-                </c:forEach>
             </table>
         </form>
     </div>
@@ -69,6 +58,38 @@
 </div>
 
 
+<script type="text/javascript">
+
+    //检查数量
+    function checkSl(){
+        var dyl = $("#dyl").val();
+        // var r = yjkc.match(/^[0-9]*$/);
+        var r = dyl.match(/^\d+(\.\d+)?$/);
+        //先判断是不是数字
+        if(r == null){
+            top.layer.alert("请输入数字");
+            $("#dyl").val("");
+        }
+    }
+
+    //点击保存，保存数据
+    function check() {
+        var htid = $("#htid").val();
+        var bcpid = $("#bcpid").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/ckgl/bcp/wwcbcp/saveJrsc",
+            data: {
+                htid: htid,
+                bcpid: bcpid
+            },
+            success: function (data) {
+
+
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

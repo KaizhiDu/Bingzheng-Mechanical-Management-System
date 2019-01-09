@@ -338,13 +338,13 @@
     //收入
     function sr(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/zzgl/zzgl/sr";
-        openDia("收入",url,gridId,"40%","40%");
+        openDia("收入",url,gridId,"40%","50%");
     }
 
     //支出
     function zc(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/zzgl/zzgl/zc";
-        openDia("支出",url,gridId,"40%","40%");
+        openDia("支出",url,gridId,"40%","50%");
     }
 
     //调动

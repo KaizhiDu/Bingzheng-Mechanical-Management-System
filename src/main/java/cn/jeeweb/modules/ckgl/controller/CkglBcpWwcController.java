@@ -6,10 +6,14 @@ import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglBcp;
 import cn.jeeweb.modules.ckgl.entity.CkglBcpWwc;
 import cn.jeeweb.modules.ckgl.entity.CkglWwcgx;
+import cn.jeeweb.modules.ckgl.entity.CkglWwcgydl;
 import cn.jeeweb.modules.ckgl.service.ICkglBcpService;
 import cn.jeeweb.modules.ckgl.service.ICkglWwcgxService;
+import cn.jeeweb.modules.ckgl.service.ICkglWwcgydlSerivce;
+import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
 import cn.jeeweb.modules.scgl.service.IScglGybzglService;
+import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,6 +55,10 @@ public class CkglBcpWwcController extends BaseCRUDController<CkglBcpWwc, String>
     @Autowired
     private ICkglWwcgxService ckglWwcgxService;
 
+    /**仓库管理 - 未完成工艺大类Service*/
+    @Autowired
+    private ICkglWwcgydlSerivce ckglWwcgydlSerivce;
+
     /**生产计划管理 - 零部件管理Service*/
     @Autowired
     private IScjhglLjglService scjhglLjglService;
@@ -56,6 +66,10 @@ public class CkglBcpWwcController extends BaseCRUDController<CkglBcpWwc, String>
     /**生产管理 - 零部件工艺编制Service*/
     @Autowired
     private IScglLjgybzService scglLjgybzService;
+
+    /**生产管理 - 零部件工艺大类编制Service*/
+    @Autowired
+    private IScglGydlbzService scglGydlbzService;
 
     /**
      * Dscription: 搜索项和前置内容
@@ -84,42 +98,165 @@ public class CkglBcpWwcController extends BaseCRUDController<CkglBcpWwc, String>
      */
     @RequestMapping(value = "xq", method={RequestMethod.GET, RequestMethod.POST})
     public String xq(String id, HttpServletRequest request, HttpServletResponse response, Model model){
-        EntityWrapper<CkglWwcgx> wrapper = new EntityWrapper<CkglWwcgx>();
-        wrapper.eq("BCPID", id);
-        List<CkglWwcgx> list = ckglWwcgxService.selectList(wrapper);
-        model.addAttribute("gxList", list);
+        List<CkglWwcgx> data = ckglWwcgxService.getData(id);
+        model.addAttribute("data", data);
         return display("xq");
+    }
+
+    /**
+     * Dscription: 转到加入生产页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/10/11 17:52
+     */
+    @RequestMapping(value = "jrsc", method={RequestMethod.GET, RequestMethod.POST})
+    public String jrsc(String bcpid, HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("rq", false);
+        wrapper.eq("SFWC","0");
+        List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
+        model.addAttribute("htList", list);
+        model.addAttribute("bcpid", bcpid);
+        return display("jrsc");
     }
 
     /**
      * Dscription: 加入生产
      * @author : Kevin Du
      * @version : 1.0
-     * @date : 2018/10/11 17:52
+     * @date : 2019/1/8 17:44
      */
-    @RequestMapping(value = "jrsc", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveJrsc", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void jrsc(String bcpid, HttpServletRequest request, HttpServletResponse response, Model model){
-        //首先删除wwcgx里面指定bcpid的数据
-        EntityWrapper<CkglWwcgx> wrapper = new EntityWrapper<CkglWwcgx>();
-        wrapper.eq("BCPID", bcpid);
-        ckglWwcgxService.delete(wrapper);
+    public void saveJrsc(String htid, String bcpid, HttpServletRequest request, HttpServletResponse response, Model model){
 
-        //再得到ljid 然后把ljgl里面的是否未完成入库设为0
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date0 = new Date();
+        String rq = sdf0.format(date0);
+
+        //先得到半成品信息
         CkglBcp ckglBcp = ckglBcpService.selectById(bcpid);
         String ljid = ckglBcp.getLbjid();
-        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(ljid);
-        scjhglLjgl.setSfwwcrk("0");
-        scjhglLjglService.updateById(scjhglLjgl);
+        //再得到wwcgydl
+        EntityWrapper<CkglWwcgydl> wrapper = new EntityWrapper<CkglWwcgydl>();
+        wrapper.eq("LJID", ljid);
+        List<CkglWwcgydl> ckglWwcgydls = ckglWwcgydlSerivce.selectList(wrapper);
+        //然后需要获得wwcgx
+        List<CkglWwcgx> data = ckglWwcgxService.getData(bcpid);
 
-        //然后得到ljid下的所有工艺 把所有ljgybz的scsfxs设为1
-        List<ScglLjgybz> ljgybzList = scglLjgybzService.getLjgybzByLjid(ljid);
-        for (ScglLjgybz s: ljgybzList) {
-            s.setScsfxs("1");
-            scglLjgybzService.updateById(s);
+        //之后需要加入到jhid所在的计划，下属的零件，工艺大类编制，和零件工艺编制
+
+        //首先要看该计划下有没有该零件图号
+        String lbjth = ckglBcp.getLbjth();
+        int sl = Integer.parseInt(ckglBcp.getRksl());
+        boolean isExist = false;
+       EntityWrapper<ScjhglLjgl> wrapper1 = new EntityWrapper<ScjhglLjgl>();
+       wrapper1.eq("HTID", htid);
+        List<ScjhglLjgl> scjhglLjgls = scjhglLjglService.selectList(wrapper1);
+        for (ScjhglLjgl s : scjhglLjgls) {
+            if (lbjth.equals(s.getLjth())){
+                isExist = true;
+                break;
+            }
+        }
+        //如果存在的话，只需要添加零件和零件工艺编制
+        if (isExist){
+            EntityWrapper<ScjhglLjgl> wrapper2 = new EntityWrapper<ScjhglLjgl>();
+            wrapper2.eq("LJTH", lbjth);
+            ScjhglLjgl scjhglLjgl = scjhglLjglService.selectOne(wrapper2);
+            int sli = 0;
+            int wrksli = 0;
+            int sysli = 0;
+            if (scjhglLjgl.getSl()!=null&&!scjhglLjgl.getSl().equals("")){
+                sli = Integer.parseInt(scjhglLjgl.getSl());
+            }
+            if (scjhglLjgl.getWrksl()!=null&&!scjhglLjgl.getWrksl().equals("")){
+                wrksli = Integer.parseInt(scjhglLjgl.getWrksl());
+            }
+            if (scjhglLjgl.getSysl()!=null&&!scjhglLjgl.getSysl().equals("")){
+                sysli = Integer.parseInt(scjhglLjgl.getSysl());
+            }
+            sli = sli + sl;
+            wrksli = wrksli + sl;
+
+            sysli = sysli +sl;
+            scjhglLjgl.setSl(sli+"");
+            scjhglLjgl.setWrksl(wrksli+"");
+            scjhglLjgl.setSysl(sysli+"");
+            scjhglLjglService.updateById(scjhglLjgl);
+
+            //然后需要根据gyxlmc和gydlid，增加零件工艺编制对应数量
+            String lbjid = scjhglLjgl.getId();
+            List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(lbjid);
+
+            for (CkglWwcgx c : data) {
+                String gyxlmc = c.getGyxlmc();
+                String gydlmc = ckglWwcgydlSerivce.selectById( c.getGydlbzid()).getGydlmc();
+                for (ScglLjgybz s : ljgybzByLjid) {
+                    String gyxlmc2 = s.getGyxlmc();
+                    String gxdlmc2 = scglGydlbzService.selectById(s.getGydlbzid()).getGydlmc();
+                    //可以更新数值
+                    if (gydlmc.equals(gxdlmc2)&&gyxlmc.equals(gyxlmc2)){
+                        s.setSl(s.getSl()+c.getSl());
+                        s.setWrksl(s.getWrksl()+c.getWrksl());
+                        s.setSysl(s.getSysl()+c.getSysl());
+                        scglLjgybzService.updateById(s);
+                    }
+                }
+            }
+
+        }
+        else{
+            //计划
+            ScjhglLjgl scjhglLjgl = new ScjhglLjgl();
+            scjhglLjgl.setId(ckglBcp.getLbjid());
+            scjhglLjgl.setHtid(htid);
+            scjhglLjgl.setLjth(ckglBcp.getLbjth());
+            scjhglLjgl.setLjmc(ckglBcp.getLbjmc());
+            scjhglLjgl.setSl(ckglBcp.getRksl());
+            scjhglLjgl.setWrksl(ckglBcp.getRksl());
+            scjhglLjgl.setSysl(ckglBcp.getRksl());
+            scjhglLjgl.setSfwwcrk("0");
+            scjhglLjgl.setSfsbj("0");
+            scjhglLjgl.setRq(rq);
+            scjhglLjglService.insert(scjhglLjgl);
+
+            //工艺大类编制
+            for (CkglWwcgydl c : ckglWwcgydls) {
+                ScglGydlbz s = new ScglGydlbz();
+                s.setId(c.getId());
+                s.setLjid(c.getLjid());
+                s.setGydlid(c.getGydlid());
+                s.setGydlmc(c.getGydlmc());
+                s.setPx(c.getPx());
+                scglGydlbzService.insert(s);
+            }
+
+            //零件工艺编制
+            for (CkglWwcgx c : data) {
+                ScglLjgybz s = new ScglLjgybz();
+                s.setId(c.getId());
+                s.setGydlbzid(c.getGydlbzid());
+                s.setGyxlid(c.getGyxlid());
+                s.setGyxlmc(c.getGyxlmc());
+                s.setMs(c.getMs());
+                s.setPx(c.getPx());
+                s.setSl(c.getSl());
+                s.setWrksl(c.getWrksl());
+                s.setSysl(c.getSysl());
+                s.setJhscsl(c.getJhscsl());
+                s.setScsfxs(c.getScsfxs());
+                scglLjgybzService.insert(s);
+            }
         }
 
-        //最后删除半成品数据
+
+        //最后要删除所有wwcgx wwcgydl bcp相关信息
+        //先得到半成品信息
         ckglBcpService.deleteById(bcpid);
+        ckglWwcgydlSerivce.delete(wrapper);
+        for (CkglWwcgx c : data) {
+            ckglWwcgxService.deleteById(c.getId());
+        }
     }
 }

@@ -40,15 +40,6 @@
     <div id="CkglBcpGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">计划名称：</label>
-                <select name="jhbh" class="form-control" id="jhbh">
-                    <option value="">请选择</option>
-                    <c:forEach items="${htList}" var="ht">
-                        <option value="${ht.htbh}">${ht.htbh}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
                 <label class="control-label">零部件名称：</label>
                 <select name="lbjmc" class="form-control" id="lbjmc">
                     <option value="">请选择</option>
@@ -82,10 +73,11 @@
     <grid:button title="加入生产" groupname="opt" function="jrsc"
                  outclass="btn-primary" url="${adminPath}/ckgl/bcp/wwcbcp/jrsc?bcpid=\"+row.id+\"" />
 
-    <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="lbjmc"/>
     <grid:column label="零部件图号" name="lbjth"/>
     <grid:column label="库存数量" name="rksl"/>
+
+    <grid:toolbar function="delete"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -100,21 +92,43 @@
 
     //加入生产
     function jrsc(title, url, gridId, id, width, height, tipMsg) {
-        layer.confirm('是否要加入生产吗!', {
-                btn: ['确定', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    success: function (data) {
-                        refreshTable2(gridId);
-                    }
-                });
-                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                layer.msg("操作成功!",{ icon: 1, time: 1000 });
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
 
+        }
+        top.layer.open({
+            type: 2,
+            area: ["30%", "40%"],
+            title: "加入生产",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['加入生产', '关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 300);//延时0.1秒，对应360 7.1版本bug
+                layer.msg("加入成功!",{ icon: 1, time: 1000 });
+                refreshTable2(gridId);
+            },
+            cancel: function(index){
+                refreshTable2(gridId);
+            },
+            end: function (index) {
+                refreshTable2(gridId);
             }
-        );
+        });
     }
 
     //打开一个窗口

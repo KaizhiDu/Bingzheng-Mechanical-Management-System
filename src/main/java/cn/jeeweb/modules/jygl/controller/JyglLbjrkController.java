@@ -7,11 +7,15 @@ import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglBcp;
 import cn.jeeweb.modules.ckgl.entity.CkglWwcgx;
+import cn.jeeweb.modules.ckgl.entity.CkglWwcgydl;
 import cn.jeeweb.modules.ckgl.service.ICkglBcpService;
 import cn.jeeweb.modules.ckgl.service.ICkglWwcgxService;
+import cn.jeeweb.modules.ckgl.service.ICkglWwcgydlSerivce;
 import cn.jeeweb.modules.jygl.entity.JyglLbjrk;
 import cn.jeeweb.modules.jygl.service.IJyglLbjrkService;
+import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
+import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
@@ -63,6 +67,14 @@ public class JyglLbjrkController extends BaseCRUDController<JyglLbjrk, String> {
     @Autowired
     private ICkglWwcgxService ckglWwcgxService;
 
+    /**仓库管理-未完成工艺大类Service*/
+    @Autowired
+    private ICkglWwcgydlSerivce ckglWwcgydlSerivce;
+
+    /**生产管理-工艺大类编制Service*/
+    @Autowired
+    private IScglGydlbzService scglGydlbzService;
+
 
 
 
@@ -100,64 +112,90 @@ public class JyglLbjrkController extends BaseCRUDController<JyglLbjrk, String> {
      */
     @RequestMapping(value = "rbcpk", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void rbcpk(String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
-        //首先要把零部件 是否未完成入库 设为1
+    public int rbcpk(String ljid, HttpServletRequest request, HttpServletResponse response, Model model){
+        //0 没有未完成数据  1 有未完成数据  2 没有编辑工艺信息
+        int sfwwc = 0;
+        //先得到零件信息
         ScjhglLjgl ljgl = scjhglLjglService.selectById(ljid);
-        ljgl.setSfwwcrk("1");
-        scjhglLjglService.updateById(ljgl);
-        String lbjid = ljgl.getId();
-        String lbjmc = ljgl.getLjmc();
-        String lbjth = ljgl.getLjth();
-        String rksl = ljgl.getWrksl();
-
-        //之后要把零部件工艺编制的 生产是否显示 设为0
-        //在最后一步一起完成
-
-        //下一步要插入bcp表
-        String jhid = ljgl.getHtid();
-        ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(jhid);
-        String jhbh = scjhglHtgl.getHtbh();
-        //要查询有没有同样的图号
-        EntityWrapper<CkglBcp> wrapper = new EntityWrapper<CkglBcp>();
-        wrapper.eq("LBJTH" ,lbjth);
-        wrapper.eq("SFSWWCBCP", "1");
-        int count = ckglBcpService.selectCount(wrapper);
-        //插入新记录
-        if (count == 0){
-            CkglBcp ckglBcp = new CkglBcp();
-            ckglBcp.setJhid(jhid);
-            ckglBcp.setJhbh(jhbh);
-            ckglBcp.setRksl(rksl);
-            ckglBcp.setLbjid(lbjid);
-            ckglBcp.setLbjmc(lbjmc);
-            ckglBcp.setLbjth(lbjth);
-            ckglBcp.setSfswwcbcp("1");
-            ckglBcpService.insert(ckglBcp);
+        //然后得到零件下属工艺大类信息
+        EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
+        wrapper.eq("LJID", ljid);
+        List<ScglGydlbz> scglGydlbzs = scglGydlbzService.selectList(wrapper);
+        //再得到零件下属工艺信息
+        List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(ljid);
+        if (ljgybzByLjid.size()==0){
+            sfwwc = 2;
         }
-        //更新入库数量
         else{
-            CkglBcp ckgl2 = ckglBcpService.selectOne(wrapper);
-            int newRksl = Integer.parseInt(ckgl2.getRksl())+Integer.parseInt(rksl);
-            ckgl2.setRksl(newRksl+"");
-            ckglBcpService.updateById(ckgl2);
+            for (ScglLjgybz s : ljgybzByLjid) {
+                if (s.getJhscsl()!=0){
+                    sfwwc = 1;
+                    break;
+                }
+            }
         }
+        //如果没有未完成数据的话，进行后续操作
+        if (sfwwc==0){
+            int ljsl = 0;
+            if (ljgl.getSl()!=null&&!ljgl.getSl().equals("")){
+                ljsl = Integer.parseInt(ljgl.getSl());
+            }
+            //然后得到新入半成品的零件数量
+            int bcpwwcsl = 0;
+            for (ScglLjgybz s : ljgybzByLjid) {
+                int sysl = s.getSysl();
+                int ss = sysl;
+                if (ss>bcpwwcsl){
+                    bcpwwcsl = ss;
+                }
+            }
+            //下面要把零件，工艺大类编制，工艺小类编制的信息 复制一份给bcp，wwcgydl，wwcgx
+            //1. 半成品
+            CkglBcp c = new CkglBcp();
+            c.setLbjid(ljid+"-dd");
+            c.setLbjth(ljgl.getLjth());
+            c.setLbjmc(ljgl.getLjmc());
+            c.setRksl(bcpwwcsl+"");
+            c.setSfswwcbcp("1");
+            ckglBcpService.insert(c);
 
-        //最后要把工序插入wwcgx表
-        //拿到半成品ID
-       String bcpid = ckglBcpService.selectOne(wrapper).getId();
-        //拿到零部件下的所有工艺
-        List<ScglLjgybz> ljgybzByLjidList = scglLjgybzService.getLjgybzByLjid(ljid);
-        //循环插入wwcgx表里
-        for (ScglLjgybz s:ljgybzByLjidList) {
-            s.setScsfxs("0");
-            scglLjgybzService.updateById(s);
-            CkglWwcgx ckglWwcgx = new CkglWwcgx();
-            ckglWwcgx.setBcpid(bcpid);
-            ckglWwcgx.setGyxlmc(s.getGyxlmc());
-            ckglWwcgx.setSl(s.getSl()+"");
-            ckglWwcgx.setSysl(s.getSysl()+"");
-            ckglWwcgx.setWrksl(s.getWrksl()+"");
-            ckglWwcgxService.insert(ckglWwcgx);
+            //2. 然后复制一份到wwcgydl里面
+            for (ScglGydlbz s : scglGydlbzs) {
+                CkglWwcgydl c2 = new CkglWwcgydl();
+                c2.setId(s.getId()+"-dd");
+                c2.setLjid(ljid+"-dd");
+                c2.setGydlid(s.getGydlid());
+                c2.setGydlmc(s.getGydlmc());
+                c2.setPx(s.getPx());
+                ckglWwcgydlSerivce.insert(c2);
+            }
+
+            // 3.再复制一份到wwcgx里面
+            for (ScglLjgybz s : ljgybzByLjid) {
+                CkglWwcgx c3 = new CkglWwcgx();
+                c3.setId(s.getId()+"-dd");
+                c3.setGydlbzid(s.getGydlbzid()+"-dd");
+                c3.setGyxlid(s.getGyxlid());
+                c3.setGyxlmc(s.getGyxlmc());
+                c3.setMs(s.getMs());
+                c3.setPx(s.getPx());
+                c3.setScsfxs(s.getScsfxs());
+                c3.setJhscsl(s.getJhscsl());
+                c3.setSl(bcpwwcsl);
+                int sysl = s.getSysl();
+                //int ss = ljsl - sysl;
+                c3.setWrksl(bcpwwcsl);
+                c3.setSysl(sysl);
+                ckglWwcgxService.insert(c3);
+            }
+
+//            //最后需要删除原零件，下属工艺大类编制，和下属国内工艺小类编制
+//            scjhglLjglService.deleteById(ljid);
+//            scglGydlbzService.delete(wrapper);
+//            for (ScglLjgybz s : ljgybzByLjid) {
+//                scglLjgybzService.deleteById(s.getId());
+//            }
         }
+        return sfwwc;
     }
 }

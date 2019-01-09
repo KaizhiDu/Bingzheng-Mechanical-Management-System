@@ -64,6 +64,30 @@
                 </tr>
                 <tr class="form-group">
                     <td>
+                        <label>进项：</label>
+                    </td>
+                    <td>
+                        <select name="gs" class="form-control" id="gs">
+                            <option value="">不是合同收入</option>
+                            <option value="">泉清</option>
+                            <option value="">泉清研发</option>
+                            <option value="">富友</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="ht" class="form-control" id="ht">
+                            <option value="">空</option>
+                            <option value="">总额</option>
+                            <option value="">合同1</option>
+                            <option value="">合同2</option>
+                            <option value="">合同3</option>
+                        </select>
+                    </td>
+
+
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>金额：</label>
                     </td>
                     <td>

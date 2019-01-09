@@ -99,8 +99,9 @@
         });
     }
 
-    //删除一个员工信息
+    //入标半成品未完成仓库
     function rbcpk(title, url, gridId, id, width, height, tipMsg) {
+
         layer.confirm('是否要入半成品库信息!', {
                 btn: ['确定', '取消']
             }, function (index, layero) {
@@ -108,11 +109,22 @@
                     type: "GET",
                     url: url,
                     success: function (data) {
+                        //0 没有未完成数据  1 有未完成数据  2 没有编辑工艺信息
+                        if (data==0){
+                            layer.msg("入库成功!",{ icon: 1, time: 1000 });
+                        }
+                        if (data==1){
+                            top.layer.alert('有未完成工序!', {icon: 0, title:'警告'});
+                        }
+                        if (data==2){
+                            top.layer.alert('没有编辑工艺信息!', {icon: 0, title:'警告'});
+                        }
+
                         refreshTable2(gridId);
                     }
                 });
                 layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
-                layer.msg("入库成功!",{ icon: 1, time: 1000 });
+
 
             }
         );
