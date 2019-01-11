@@ -13,6 +13,7 @@ import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -385,6 +386,81 @@ public String zjsl(String id, HttpServletRequest request, HttpServletResponse re
                 s.setWrksl(wrksl);
                 scglLjgybzService.updateById(s);
             }
-
     }
+
+    @RequestMapping(value = "copyLj", method={RequestMethod.GET, RequestMethod.POST})
+    public String copyLj(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+        model.addAttribute("ids", ids);
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
+        model.addAttribute("htList", list);
+        return display("copyLj");
+    }
+    @RequestMapping(value = "saveCopyLj", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveCopyLj(String htid, String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date0 = new Date();
+        String rq = sdf0.format(date0);
+
+        //先得到合同信息
+        ScjhglHtgl scjhglHtgl = scjhglHtglService.selectById(htid);
+        int htsl = 0;
+        if (scjhglHtgl.getSl()!=null&&!scjhglHtgl.getSl().equals("")){
+            htsl = Integer.parseInt(scjhglHtgl.getSl());
+        }
+        String idsArray[] = ids.split(",");
+        for (int i = 0; i <idsArray.length ; i++) {
+            ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(idsArray[i]);
+            int dyl = Integer.parseInt(scjhglLjgl.getDyl());
+            int sl = htsl * dyl;
+            //添加一套新的零件数据
+            ScjhglLjgl s = new ScjhglLjgl();
+            s.setId(scjhglLjgl.getId()+"-ddd");
+            s.setHtid(htid);
+            s.setLjth(scjhglLjgl.getLjth());
+            s.setLjmc(scjhglLjgl.getLjmc());
+            s.setDyl(scjhglLjgl.getDyl());
+            s.setSfsbj("0");
+            s.setSl(sl+"");
+            s.setWrksl(sl+"");
+            s.setSysl(sl+"");
+            s.setSfwwcrk(scjhglLjgl.getSfwwcrk());
+            s.setRq(rq);
+            scjhglLjglService.insert(s);
+
+            //还需要复制工艺大类和零件工艺信息
+            EntityWrapper<ScglGydlbz> wrapper = new EntityWrapper<ScglGydlbz>();
+            wrapper.eq("LJID", idsArray[i]);
+            List<ScglGydlbz> scglGydlbzs = scglGydlbzService.selectList(wrapper);
+            for (ScglGydlbz ss : scglGydlbzs) {
+                ScglGydlbz scglGydlbz = new ScglGydlbz();
+                scglGydlbz.setId(ss.getId()+"-ddd");
+                scglGydlbz.setLjid(idsArray[i]+"-ddd");
+                scglGydlbz.setGydlid(ss.getGydlid());
+                scglGydlbz.setGydlmc(ss.getGydlmc());
+                scglGydlbz.setPx(ss.getPx());
+                scglGydlbzService.insert(scglGydlbz);
+            }
+            List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(idsArray[i]);
+            for (ScglLjgybz ss : ljgybzByLjid) {
+                ScglLjgybz scglLjgybz = new ScglLjgybz();
+                scglLjgybz.setId(ss.getId()+"-ddd");
+                scglLjgybz.setGydlbzid(ss.getGydlbzid()+"-ddd");
+                scglLjgybz.setGyxlid(ss.getGyxlid());
+                scglLjgybz.setGyxlmc(ss.getGyxlmc());
+                scglLjgybz.setMs(ss.getMs());
+                scglLjgybz.setPx(ss.getPx());
+                scglLjgybz.setSl(sl);
+                scglLjgybz.setWrksl(sl);
+                scglLjgybz.setSysl(sl);
+                scglLjgybz.setJhscsl(0);
+                scglLjgybz.setScsfxs(ss.getScsfxs());
+                scglLjgybzService.insert(scglLjgybz);
+            }
+        }
+    }
+
+
 }

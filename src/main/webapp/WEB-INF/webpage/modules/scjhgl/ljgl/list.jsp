@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h4>零部件管理</h4>
+<h4> 零部件管理</h4>
 
 <div class="row">
     <div id="ljglGridQuery" class="col-md-12">
@@ -87,6 +87,7 @@
 
     <grid:toolbar function="createLj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加零部件"/>
     <grid:toolbar function="deleteLj" icon="fa fa-trash-o" title="删除" btnclass="btn-danger"/>
+    <grid:toolbar function="copyLj" btnclass="btn btn-sm btn-info" title="复制零部件"/>
     <grid:toolbar function="exportLj" icon="fa fa-file-excel-o" title="导出" btnclass="btn-warning"/>
 
     <grid:toolbar function="search"/>
@@ -95,6 +96,63 @@
 
 
 <script type="text/javascript">
+
+    function copyLj(title, url, gridId, id, width, height, tipMsg){
+        //获取选中行的id数组
+        var idsArray = $("#ljglGrid").jqGrid("getGridParam", "selarrrow")
+        if (idsArray.length>0){
+            var ids = "";
+            for (var i=0;i<idsArray.length;i++){
+                if (i==0){
+                    ids = idsArray[i];
+                }
+                else{
+                    ids = ids + "," + idsArray[i];
+                }
+            }
+            if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+                width='auto';
+                height='auto';
+            }else{//如果是PC端，根据用户设置的width和height显示。
+
+            }
+            top.layer.open({
+                type: 2,
+                area: ["30%", "30%"],
+                title: "复制零件",
+                maxmin: true, //开启最大化最小化按钮
+                content: "${adminPath}/scjhgl/ljgl/copyLj?ids="+ids ,
+                success: function(layero, index){
+                    //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                    $(":button").each(function () {
+                        $(this).blur();
+                    });
+                },
+                btn: ['保存', '关闭'],
+                yes: function(index, layero){
+                    var body = top.layer.getChildFrame('body', index);
+                    var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    //文档地址
+                    //http://www.layui.com/doc/modules/layer.html#use
+                    iframeWin.contentWindow.check();
+                    //判断逻辑并关闭
+                    setTimeout(function(){top.layer.close(index)}, 300);//延时0.1秒，对应360 7.1版本bug
+                    layer.msg("保存成功!",{ icon: 1, time: 1000 });
+                    refreshTable2(gridId);
+                },
+                cancel: function(index){
+                    refreshTable2(gridId);
+                },
+                end: function (index) {
+                    refreshTable2(gridId);
+                }
+            });
+
+        }
+        else {
+            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+        }
+    }
 
     function zjsl(title, url, gridId, id, width, height, tipMsg){
         openDia("追加数量",url,gridId,"25%","30%");

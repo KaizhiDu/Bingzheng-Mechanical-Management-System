@@ -110,8 +110,6 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
     @RequestMapping(value = "saveHt",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public void saveHt(HttpServletRequest request, HttpServletResponse response, Model model, ScjhglHtgl scjhglHtgl){
-
-
         //先得到原始数量
         String jhid = scjhglHtgl.getId();
         if (jhid!=null&&!jhid.equals("")){
@@ -131,6 +129,11 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
                 //要把下属零件的数量加上
                 List<ScjhglLjgl> ljByjhid = scjhglLjglService.getLjByjhid(jhid);
                 for (ScjhglLjgl s : ljByjhid) {
+                    //获得单用量
+                    int dyl = 0;
+                    if (s.getDyl()!=null&&!s.getDyl().equals("")){
+                        dyl = Integer.parseInt(s.getDyl());
+                    }
                     int sl = 0;
                     int sysl = 0;
                     int wrksl = 0;
@@ -143,26 +146,35 @@ public class ScjhglHtglController extends BaseCRUDController<ScjhglHtgl, String>
                     if (!s.getWrksl().equals("")&&s.getWrksl()!=null){
                         wrksl = Integer.parseInt(s.getWrksl());
                     }
-                    sl = sl + sli;
-                    sysl = sysl + sli;
-                    wrksl = wrksl+ sli;
+                    sl = sl + sli*dyl;
+                    sysl = sysl + sli*dyl;
+                    wrksl = wrksl+ sli*dyl;
                     s.setSl(sl+"");
                     s.setWrksl(wrksl+"");
                     s.setSysl(sysl+"");
                     scjhglLjglService.updateById(s);
+
+                    //还要把下属工艺的数量加上
+                    List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(s.getId());
+                    for (ScglLjgybz ss : ljgybzByLjid) {
+                        ss.setSysl(ss.getSysl()+sli*dyl);
+                        ss.setSl(ss.getSl()+sli*dyl);
+                        ss.setWrksl(ss.getWrksl()+sli*dyl);
+                        scglLjgybzService.updateById(ss);
+                    }
                 }
 
-                //要把下属工艺的数量加上
-                List<ScglLjgybz> ljgybzByJhid = scglLjgybzService.getLjgybzByJhid(jhid);
-                for (ScglLjgybz s : ljgybzByJhid) {
-                    int sl = s.getSl() + sli;
-                    int wrksl = s.getWrksl() + sli;
-                    int sysl = s.getSysl() + sli;
-                    s.setSysl(sysl);
-                    s.setWrksl(wrksl);
-                    s.setSl(sl);
-                    scglLjgybzService.updateById(s);
-                }
+//                //要把下属工艺的数量加上
+//                List<ScglLjgybz> ljgybzByJhid = scglLjgybzService.getLjgybzByJhid(jhid);
+//                for (ScglLjgybz s : ljgybzByJhid) {
+//                    int sl = s.getSl() + sli;
+//                    int wrksl = s.getWrksl() + sli;
+//                    int sysl = s.getSysl() + sli;
+//                    s.setSysl(sysl);
+//                    s.setWrksl(wrksl);
+//                    s.setSl(sl);
+//                    scglLjgybzService.updateById(s);
+//                }
             }
         }
 
