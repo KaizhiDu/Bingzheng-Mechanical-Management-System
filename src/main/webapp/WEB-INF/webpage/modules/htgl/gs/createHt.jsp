@@ -56,6 +56,14 @@
                 </tr>
                 <tr class="form-group">
                     <td>
+                        <label>返款：</label>
+                    </td>
+                    <td>
+                        <input name="fk" id="fk" htmlEscape="false" class="form-control" placeholder="请输入返款金额" onchange="checkJe()"/>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>备注：</label>
                     </td>
                     <td>
@@ -91,6 +99,7 @@
         var je = $("#je").val();
         var bz = $("#bz").val();
         var gsid = $("#gsid").val();
+        var fk = $("#fk").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/htgl/gs/saveHt",
@@ -98,7 +107,8 @@
                 htmc: htmc,
                 je: je,
                 bz: bz,
-                gsid: gsid
+                gsid: gsid,
+                fk: fk
             },
             success: function (data) {
 

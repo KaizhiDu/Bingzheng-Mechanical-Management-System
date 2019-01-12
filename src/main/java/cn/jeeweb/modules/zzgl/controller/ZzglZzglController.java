@@ -5,6 +5,12 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.htgl.entity.HtglGs;
+import cn.jeeweb.modules.htgl.entity.HtglHt;
+import cn.jeeweb.modules.htgl.entity.HtglHtmx;
+import cn.jeeweb.modules.htgl.service.IHtglGsService;
+import cn.jeeweb.modules.htgl.service.IHtglHtService;
+import cn.jeeweb.modules.htgl.service.IHtglHtmxService;
 import cn.jeeweb.modules.jcsz.entity.JcszMxmb;
 import cn.jeeweb.modules.jcsz.entity.JcszZzse;
 import cn.jeeweb.modules.jcsz.service.IJcszMxmbService;
@@ -30,9 +36,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Dscription: 资金管理 - 资金管理
@@ -60,6 +70,15 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     /**资金管理 - 借款Service*/
     @Autowired
     private IZzglJhService zzglJhService;
+
+    @Autowired
+    private IHtglGsService htglGsService;
+
+    @Autowired
+    private IHtglHtService htglHtService;
+
+    @Autowired
+    private IHtglHtmxService htglHtmxService;
 
     /**
      * Dscription: 搜索项和前置内容
@@ -231,11 +250,15 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
      */
     @RequestMapping(value = "saveSr", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveSr(String mx1, String mx2, String jz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveSr(String ht, String mx1, String mx2, String jz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
         if (money==null){
             money = "0";
         }
-        float moneyf = Float.parseFloat(money);
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
+
         //排序时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -245,10 +268,56 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         String n = dateArray[0];
         String y = dateArray[1];
         String r = dateArray[2];
+        float moneyf = Float.parseFloat(money);
+        money = df.format(moneyf);
         String jzArray[] = jz.split("-");
         String zjcx = jzArray[0];
         String zjmc = jzArray[1];
         String xxmx = mx1 + " 转入 " + money + " 到 "+zjmc;
+        String htmc = "";
+        if (ht!=""){
+           htmc = htglHtService.selectById(ht).getHtmc();
+            mx2 = htmc+","+mx2;
+        }
+    String htmxid = null;
+        //联动合同管理里面的合同功能
+        //如果合同ID不为空
+        if (ht!=""){
+            HtglHtmx h = new HtglHtmx();
+            String uuid  = UUID.randomUUID().toString().replaceAll("-","");
+            htmxid = uuid;
+            h.setId(uuid);
+            h.setHtid(ht);
+            h.setLx("0");
+            h.setBz(mx2);
+            h.setJe(money);
+            h.setYf(zjmc);
+            h.setRq(rq);
+            h.setRq2(jtsj);
+            htglHtmxService.insert(h);
+            //然后需要减少对应的合同金额
+            //首先是该合同的数额
+            HtglHt htglHt2 = htglHtService.selectById(ht);
+            Float jee = getNumber(htglHt2.getJe()) - moneyf;
+            htglHt2.setJe(df.format(jee));
+            htglHtService.updateById(htglHt2);
+            //然后是公司的数额
+            HtglGs htglGs = htglGsService.selectById(htglHt2.getGsid());
+            Float jeee = getNumber(htglGs.getJe()) - moneyf;
+            htglGs.setJe(df.format(jeee));
+            htglGsService.updateById(htglGs);
+            //最后进行判断，该合同是否是总资金
+            if (!htglHt2.getRq().equals("2999-12-31 23:59:59")){
+                EntityWrapper<HtglHt> wrapper = new EntityWrapper<HtglHt>();
+                wrapper.eq("GSID", htglHt2.getGsid());
+                wrapper.eq("RQ", "2999-12-31 23:59:59");
+                HtglHt htglHt3 = htglHtService.selectOne(wrapper);
+                Float jeeee = getNumber(htglHt3.getJe()) - moneyf;
+                htglHt3.setJe(df.format(jeeee));
+                htglHtService.updateById(htglHt3);
+            }
+        }
+
 
         //得到所有数据,然后放到实体类中
         ZzglZzgl z = new ZzglZzgl();
@@ -276,6 +345,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         if (zjcx.equals("8")){
             z.setEight(money);
         }
+        z.setHtmxid(htmxid);
         z.setLx(lx);
         z.setXxmx(xxmx);
         z.setRq(rq);
@@ -342,39 +412,40 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         else {
             float xs = 0;
             if (zjcx.equals("1")){
-                xs = Float.parseFloat(jcszZzse.getOne()) + moneyf;
-                jcszZzse.setOne(xs+"");
+                xs = getNumber(jcszZzse.getOne()) + moneyf;
+                jcszZzse.setOne(df.format(xs));
             }
             if (zjcx.equals("2")){
-                xs = Float.parseFloat(jcszZzse.getTwo()) + moneyf;
-                jcszZzse.setTwo(xs+"");
+                xs = getNumber(jcszZzse.getTwo()) + moneyf;
+                jcszZzse.setTwo(df.format(xs));
             }
             if (zjcx.equals("3")){
-                xs = Float.parseFloat(jcszZzse.getThree()) + moneyf;
-                jcszZzse.setThree(xs+"");
+                xs = getNumber(jcszZzse.getThree()) + moneyf;
+                jcszZzse.setThree(df.format(xs));
             }
             if (zjcx.equals("4")){
-                xs = Float.parseFloat(jcszZzse.getFour()) + moneyf;
-                jcszZzse.setFour(xs+"");
+                xs = getNumber(jcszZzse.getFour()) + moneyf;
+                jcszZzse.setFour(df.format(xs));
             }
             if (zjcx.equals("5")){
-                xs = Float.parseFloat(jcszZzse.getFive()) + moneyf;
-                jcszZzse.setFive(xs+"");
+                xs = getNumber(jcszZzse.getFive()) + moneyf;
+                jcszZzse.setFive(df.format(xs));
             }
             if (zjcx.equals("6")){
-                xs = Float.parseFloat(jcszZzse.getSix()) + moneyf;
-                jcszZzse.setSix(xs+"");
+                xs = getNumber(jcszZzse.getSix()) + moneyf;
+                jcszZzse.setSix(df.format(xs));
             }
             if (zjcx.equals("7")){
-                xs = Float.parseFloat(jcszZzse.getSeven()) + moneyf;
-                jcszZzse.setSeven(xs+"");
+                xs = getNumber(jcszZzse.getSeven()) + moneyf;
+                jcszZzse.setSeven(df.format(xs));
             }
             if (zjcx.equals("8")){
-                xs = Float.parseFloat(jcszZzse.getEight()) + moneyf;
-                jcszZzse.setEight(xs+"");
+                xs = getNumber(jcszZzse.getEight()) + moneyf;
+                jcszZzse.setEight(df.format(xs));
             }
             jcszZzseService.updateById(jcszZzse);
         }
+
     }
 
     /**
@@ -385,14 +456,17 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
      */
     @RequestMapping(value = "saveZc", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveZc(String mx1, String mx2, String cz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveZc(String mx1, String mx2, String cz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         if (money==null){
             money = "0";
         }
         String m = money;
         //支出是减去的钱
-        float moneyf = 0 - Float.parseFloat(money);
-        money = moneyf+"";
+        float moneyf = 0 - getNumber(money);
+        money = df.format(moneyf);
         //排序时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -499,36 +573,36 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         else {
             float xs = 0;
             if (zjcx.equals("2")){
-                xs = Float.parseFloat(jcszZzse.getTwo()) + moneyf;
-                jcszZzse.setTwo(xs+"");
+                xs = getNumber(jcszZzse.getTwo()) + moneyf;
+                jcszZzse.setTwo(df.format(xs));
             }
             if (zjcx.equals("3")){
-                xs = Float.parseFloat(jcszZzse.getThree()) + moneyf;
-                jcszZzse.setThree(xs+"");
+                xs = getNumber(jcszZzse.getThree()) + moneyf;
+                jcszZzse.setThree(df.format(xs));
             }
             if (zjcx.equals("1")){
-                xs = Float.parseFloat(jcszZzse.getOne()) + moneyf;
-                jcszZzse.setOne(xs+"");
+                xs = getNumber(jcszZzse.getOne()) + moneyf;
+                jcszZzse.setOne(df.format(xs));
             }
             if (zjcx.equals("4")){
-                xs = Float.parseFloat(jcszZzse.getFour()) + moneyf;
-                jcszZzse.setFour(xs+"");
+                xs = getNumber(jcszZzse.getFour()) + moneyf;
+                jcszZzse.setFour(df.format(xs));
             }
             if (zjcx.equals("5")){
-                xs = Float.parseFloat(jcszZzse.getFive()) + moneyf;
-                jcszZzse.setFive(xs+"");
+                xs = getNumber(jcszZzse.getFive()) + moneyf;
+                jcszZzse.setFive(df.format(xs));
             }
             if (zjcx.equals("6")){
-                xs = Float.parseFloat(jcszZzse.getSix()) + moneyf;
-                jcszZzse.setSix(xs+"");
+                xs = getNumber(jcszZzse.getSix()) + moneyf;
+                jcszZzse.setSix(df.format(xs));
             }
             if (zjcx.equals("7")){
-                xs = Float.parseFloat(jcszZzse.getSeven()) + moneyf;
-                jcszZzse.setSeven(xs+"");
+                xs = getNumber(jcszZzse.getSeven()) + moneyf;
+                jcszZzse.setSeven(df.format(xs));
             }
             if (zjcx.equals("8")){
-                xs = Float.parseFloat(jcszZzse.getEight()) + moneyf;
-                jcszZzse.setEight(xs+"");
+                xs = getNumber(jcszZzse.getEight()) + moneyf;
+                jcszZzse.setEight(df.format(xs));
             }
             jcszZzseService.updateById(jcszZzse);
         }
@@ -542,13 +616,17 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
      */
     @RequestMapping(value = "saveDd", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveDd(String mx2, String jz, String cz, String money, String lx, String jtsj, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveDd(String mx2, String jz, String cz, String money, String lx, String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         if (money==null){
             money = "0";
         }
-        float jmoney = Float.parseFloat(money);
-        float cmoney = 0 - Float.parseFloat(money);
-        String czMoney = cmoney+"";
+        float jmoney = getNumber(money);
+        float cmoney = 0 - getNumber(money);
+        String czMoney = df.format(cmoney);
+        money = df.format(jmoney);
 
         //排序时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -702,70 +780,70 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         else {
             float xs = 0;
             if (jzcx.equals("2")){
-                xs = Float.parseFloat(jcszZzse.getTwo()) + jmoney;
-                jcszZzse.setTwo(xs+"");
+                xs = getNumber(jcszZzse.getTwo()) + jmoney;
+                jcszZzse.setTwo(df.format(xs));
             }
             if (jzcx.equals("1")){
-                xs = Float.parseFloat(jcszZzse.getOne()) + jmoney;
-                jcszZzse.setOne(xs+"");
+                xs = getNumber(jcszZzse.getOne()) + jmoney;
+                jcszZzse.setOne(df.format(xs));
             }
             if (jzcx.equals("3")){
-                xs = Float.parseFloat(jcszZzse.getThree()) + jmoney;
-                jcszZzse.setThree(xs+"");
+                xs = getNumber(jcszZzse.getThree()) + jmoney;
+                jcszZzse.setThree(df.format(xs));
             }
             if (jzcx.equals("4")){
-                xs = Float.parseFloat(jcszZzse.getFour()) + jmoney;
-                jcszZzse.setFour(xs+"");
+                xs = getNumber(jcszZzse.getFour()) + jmoney;
+                jcszZzse.setFour(df.format(xs));
             }
             if (jzcx.equals("5")){
-                xs = Float.parseFloat(jcszZzse.getFive()) + jmoney;
-                jcszZzse.setFive(xs+"");
+                xs = getNumber(jcszZzse.getFive()) + jmoney;
+                jcszZzse.setFive(df.format(xs));
             }
             if (jzcx.equals("6")){
-                xs = Float.parseFloat(jcszZzse.getSix()) + jmoney;
-                jcszZzse.setSix(xs+"");
+                xs = getNumber(jcszZzse.getSix()) + jmoney;
+                jcszZzse.setSix(df.format(xs));
             }
             if (jzcx.equals("8")){
-                xs = Float.parseFloat(jcszZzse.getEight()) + jmoney;
-                jcszZzse.setEight(xs+"");
+                xs = getNumber(jcszZzse.getEight()) + jmoney;
+                jcszZzse.setEight(df.format(xs));
             }
             if (jzcx.equals("7")){
-                xs = Float.parseFloat(jcszZzse.getSeven()) + jmoney;
-                jcszZzse.setSeven(xs+"");
+                xs = getNumber(jcszZzse.getSeven()) + jmoney;
+                jcszZzse.setSeven(df.format(xs));
             }
 
             float cxs = 0;
             if (czcx.equals("2")){
-                cxs = Float.parseFloat(jcszZzse.getTwo()) + cmoney;
-                jcszZzse.setTwo(cxs+"");
+                cxs = getNumber(jcszZzse.getTwo()) + cmoney;
+                jcszZzse.setTwo(df.format(cxs));
             }
             if (czcx.equals("1")){
-                cxs = Float.parseFloat(jcszZzse.getOne()) + cmoney;
-                jcszZzse.setOne(cxs+"");
+                cxs = getNumber(jcszZzse.getOne()) + cmoney;
+                jcszZzse.setOne(df.format(cxs));
             }
             if (czcx.equals("3")){
-                cxs = Float.parseFloat(jcszZzse.getThree()) + cmoney;
-                jcszZzse.setThree(cxs+"");
+                cxs = getNumber(jcszZzse.getThree()) + cmoney;
+                jcszZzse.setThree(df.format(cxs));
             }
             if (czcx.equals("4")){
-                cxs = Float.parseFloat(jcszZzse.getFour()) + cmoney;
-                jcszZzse.setFour(cxs+"");
+                cxs = getNumber(jcszZzse.getFour()) + cmoney;
+                jcszZzse.setFour(df.format(cxs));
             }
             if (czcx.equals("5")){
-                cxs = Float.parseFloat(jcszZzse.getFive()) + cmoney;
-                jcszZzse.setFive(cxs+"");
+                cxs = getNumber(jcszZzse.getFive()) + cmoney;
+                jcszZzse.setFive(df.format(cxs));
             }
             if (czcx.equals("6")){
-                cxs = Float.parseFloat(jcszZzse.getSix()) + cmoney;
-                jcszZzse.setSix(cxs+"");
+                cxs = getNumber(jcszZzse.getSix()) + cmoney;
+                jcszZzse.setSix(df.format(cxs));
             }
             if (czcx.equals("8")){
-                cxs = Float.parseFloat(jcszZzse.getEight()) + cmoney;
-                jcszZzse.setEight(cxs+"");
+                cxs = getNumber(jcszZzse.getEight()) + cmoney;
+                jcszZzse.setEight(df.format(cxs));
             }
             if (czcx.equals("7")){
-                cxs = Float.parseFloat(jcszZzse.getSeven()) + cmoney;
-                jcszZzse.setSeven(cxs+"");
+                cxs = getNumber(jcszZzse.getSeven()) + cmoney;
+                jcszZzse.setSeven(df.format(cxs));
             }
 
             jcszZzseService.updateById(jcszZzse);
@@ -780,7 +858,10 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
      */
     @RequestMapping(value = "deleteZzgl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void deleteZzgl(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void deleteZzgl(String ids, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         String idsArray[] = ids.split(",");
         for (int i = 0; i <idsArray.length ; i++) {
             String id = idsArray[i];
@@ -794,42 +875,42 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             float seven = 0;
             float eight = 0;
             if (zzglZzgl.getOne()!=null&&!zzglZzgl.getOne().equals("")){
-                one = Float.parseFloat(zzglZzgl.getOne());
+                one = getNumber(zzglZzgl.getOne());
             }
             if (zzglZzgl.getTwo()!=null&&!zzglZzgl.getTwo().equals("")){
-                two = Float.parseFloat(zzglZzgl.getTwo());
+                two = getNumber(zzglZzgl.getTwo());
             }
             if (zzglZzgl.getThree()!=null&&!zzglZzgl.getThree().equals("")){
-                three = Float.parseFloat(zzglZzgl.getThree());
+                three = getNumber(zzglZzgl.getThree());
             }
             if (zzglZzgl.getFour()!=null&&!zzglZzgl.getFour().equals("")){
-                four = Float.parseFloat(zzglZzgl.getFour());
+                four = getNumber(zzglZzgl.getFour());
             }
             if (zzglZzgl.getFive()!=null&&!zzglZzgl.getFive().equals("")){
-                five = Float.parseFloat(zzglZzgl.getFive());
+                five = getNumber(zzglZzgl.getFive());
             }
             if (zzglZzgl.getSix()!=null&&!zzglZzgl.getSix().equals("")){
-                six = Float.parseFloat(zzglZzgl.getSix());
+                six = getNumber(zzglZzgl.getSix());
             }
             if (zzglZzgl.getSeven()!=null&&!zzglZzgl.getSeven().equals("")){
-                seven = Float.parseFloat(zzglZzgl.getSeven());
+                seven = getNumber(zzglZzgl.getSeven());
             }
             if (zzglZzgl.getEight()!=null&&!zzglZzgl.getEight().equals("")){
-                eight = Float.parseFloat(zzglZzgl.getEight());
+                eight = getNumber(zzglZzgl.getEight());
             }
 
             //得到jcszzzse信息
             EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
             wrapper2.eq("TYPE", "2");
             JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
-            float oldOne = Float.parseFloat(jcszZzse.getOne());
-            float oldTwo = Float.parseFloat(jcszZzse.getTwo());
-            float oldThree = Float.parseFloat(jcszZzse.getThree());
-            float oldFour = Float.parseFloat(jcszZzse.getFour());
-            float oldFive = Float.parseFloat(jcszZzse.getFive());
-            float oldSix = Float.parseFloat(jcszZzse.getSix());
-            float oldSeven = Float.parseFloat(jcszZzse.getSeven());
-            float oldEight = Float.parseFloat(jcszZzse.getEight());
+            float oldOne = getNumber(jcszZzse.getOne());
+            float oldTwo = getNumber(jcszZzse.getTwo());
+            float oldThree = getNumber(jcszZzse.getThree());
+            float oldFour = getNumber(jcszZzse.getFour());
+            float oldFive = getNumber(jcszZzse.getFive());
+            float oldSix = getNumber(jcszZzse.getSix());
+            float oldSeven = getNumber(jcszZzse.getSeven());
+            float oldEight = getNumber(jcszZzse.getEight());
             oldOne = oldOne - one;
             oldTwo = oldTwo - two;
             oldThree = oldThree - three;
@@ -838,18 +919,50 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             oldSix = oldSix - six;
             oldSeven = oldSeven - seven;
             oldEight = oldEight - eight;
-            jcszZzse.setOne(oldOne+"");
-            jcszZzse.setTwo(oldTwo+"");
-            jcszZzse.setThree(oldThree+"");
-            jcszZzse.setFour(oldFour+"");
-            jcszZzse.setFive(oldFive+"");
-            jcszZzse.setSix(oldSix+"");
-            jcszZzse.setSeven(oldSeven+"");
-            jcszZzse.setEight(oldEight+"");
+            jcszZzse.setOne(df.format(oldOne));
+            jcszZzse.setTwo(df.format(oldTwo));
+            jcszZzse.setThree(df.format(oldThree));
+            jcszZzse.setFour(df.format(oldFour));
+            jcszZzse.setFive(df.format(oldFive));
+            jcszZzse.setSix(df.format(oldSix));
+            jcszZzse.setSeven(df.format(oldSeven));
+            jcszZzse.setEight(df.format(oldEight));
             jcszZzseService.updateById(jcszZzse);
 
             //然后删除资金管理数据
             zzglZzglService.deleteById(id);
+
+            if (zzglZzgl.getLx().equals("0")){
+                //如果是合同收入或者支出的话，需要同样删掉合同明细
+                String htmxid = zzglZzgl.getHtmxid();
+                if (htmxid!=null&&!htmxid.equals("")){
+                    HtglHtmx htglHtmx = htglHtmxService.selectById(htmxid);
+                    float je = getNumber(htglHtmx.getJe());
+                    String htid = htglHtmx.getHtid();
+                    HtglHt htglHt = htglHtService.selectById(htid);
+                    String gsid = htglHt.getGsid();
+                    HtglGs htglGs = htglGsService.selectById(gsid);
+                    //先把合同je加上
+                    htglHt.setJe(df.format(getNumber(htglHt.getJe()) + je));
+                    htglHtService.updateById(htglHt);
+                    //再把公司je加上
+                    htglGs.setJe(df.format(getNumber(htglGs.getJe()) + je));
+                    htglGsService.updateById(htglGs);
+                    //如果不是总资金，就从总资金也减去
+                    EntityWrapper<HtglHt> wrapper = new EntityWrapper<HtglHt>();
+                    wrapper.eq("RQ", "2999-12-31 23:59:59");
+                    wrapper.eq("GSID", gsid);
+                    HtglHt htglHt1 = htglHtService.selectOne(wrapper);
+                    if (htglHt1!=null){
+                        float jeee = getNumber(htglHt1.getJe()) + je;
+                        htglHt1.setJe(df.format(jeee));
+                        htglHtService.updateById(htglHt1);
+                    }
+                    //然后删除合同明细
+                    htglHtmxService.deleteById(htmxid);
+                }
+            }
+
         }
     }
 
@@ -864,10 +977,16 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
      */
     @RequestMapping(value = "changeValue", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public ValueDTO changeValue(HttpServletRequest request, HttpServletResponse response, Model model){
+    public ValueDTO changeValue(HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+        DecimalFormat df = new DecimalFormat("#,###.00");
         ValueDTO valueDTO = new ValueDTO();
         EntityWrapper<JcszZzse> wrapper1 = new EntityWrapper<JcszZzse>();
         wrapper1.eq("TYPE", "1");
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         JcszZzse j1 = jcszZzseService.selectOne(wrapper1);
         if (j1==null){
             j1 = new JcszZzse();
@@ -894,32 +1013,33 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             j2.setTwo("0");
             j2.setOne("0");
         }
-        float one = Float.parseFloat(j1.getOne())+Float.parseFloat(j2.getOne());
-        float two = Float.parseFloat(j1.getTwo())+Float.parseFloat(j2.getTwo());
-        float three = Float.parseFloat(j1.getThree())+Float.parseFloat(j2.getThree());
-        float four = Float.parseFloat(j1.getFour())+Float.parseFloat(j2.getFour());
-        float five = Float.parseFloat(j1.getFive())+Float.parseFloat(j2.getFive());
-        float six = Float.parseFloat(j1.getSix())+Float.parseFloat(j2.getSix());
-        float seven = Float.parseFloat(j1.getSeven())+Float.parseFloat(j2.getSeven());
-        float eight = Float.parseFloat(j1.getEight())+Float.parseFloat(j2.getEight());
+        float one = getNumber(j1.getOne())+getNumber(j2.getOne());
+        float two = getNumber(j1.getTwo())+getNumber(j2.getTwo());
+        float three = getNumber(j1.getThree())+getNumber(j2.getThree());
+        float four = getNumber(j1.getFour())+getNumber(j2.getFour());
+        float five = getNumber(j1.getFive())+getNumber(j2.getFive());
+        float six = getNumber(j1.getSix())+getNumber(j2.getSix());
+        float seven = getNumber(j1.getSeven())+getNumber(j2.getSeven());
+        float eight = getNumber(j1.getEight())+getNumber(j2.getEight());
         float sum = one + two + three + four + five + six + seven + eight;
 
         //sum还需要加上借款
         EntityWrapper<ZzglJh> wrapper = new EntityWrapper<ZzglJh>();
         List<ZzglJh> zzglJhs = zzglJhService.selectList(wrapper);
-        for (ZzglJh z : zzglJhs) {
-            sum = sum + Float.parseFloat(z.getMoney());
+        if (zzglJhs.size()>0){
+            for (ZzglJh z : zzglJhs) {
+                sum = sum + getNumber(z.getMoney());
+            }
         }
-
-        valueDTO.setEight(eight+"");
-        valueDTO.setFive(five+"");
-        valueDTO.setFour(four+"");
-        valueDTO.setOne(one+"");
-        valueDTO.setTwo(two+"");
-        valueDTO.setThree(three+"");
-        valueDTO.setSix(six+"");
-        valueDTO.setSeven(seven+"");
-        valueDTO.setSum(sum+"");
+        valueDTO.setEight(df.format(eight));
+        valueDTO.setFive(df.format(five));
+        valueDTO.setFour(df.format(four));
+        valueDTO.setOne(df.format(one));
+        valueDTO.setTwo(df.format(two));
+        valueDTO.setThree(df.format(three));
+        valueDTO.setSix(df.format(six));
+        valueDTO.setSeven(df.format(seven));
+        valueDTO.setSum(df.format(sum));
         return valueDTO;
     }
 
@@ -1060,5 +1180,31 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         fileOut.close();
     }
 
+/**
+ * Dscription: 资金管理 - 加载合同
+ * @author : Kevin Du
+ * @version : 1.0
+ * @date : 2019/1/11 15:05
+ */
+    @RequestMapping(value = "loadHt", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public List<HtglHt> loadHt(String mx, HttpServletRequest request, HttpServletResponse response, Model model){
+        List<HtglHt> htList = new ArrayList<HtglHt>();
+        EntityWrapper<HtglGs> wrapper = new EntityWrapper<HtglGs>();
+        wrapper.eq("JF", mx);
+        HtglGs htglGs = htglGsService.selectOne(wrapper);
+        if (htglGs!=null){
+            EntityWrapper<HtglHt> wrapper2 = new EntityWrapper<HtglHt>();
+            wrapper2.eq("GSID", htglGs.getId());
+            wrapper2.orderBy("RQ", false);
+            htList = htglHtService.selectList(wrapper2);
+        }
+        return htList;
+    }
+
+    public float getNumber(String number) throws ParseException {
+        float d1 = new DecimalFormat().parse(number).floatValue();
+        return d1;
+    }
 
 }

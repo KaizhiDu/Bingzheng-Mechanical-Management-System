@@ -34,7 +34,7 @@ public class HtglGs extends AbstractEntity<String> {
     private String yfxl;
     /** 金额 */
     @TableField(value = "JE")
-    private float je;
+    private String je;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -75,11 +75,11 @@ public class HtglGs extends AbstractEntity<String> {
         this.yf = yf;
     }
 
-    public float getJe() {
+    public String getJe() {
         return je;
     }
 
-    public void setJe(float je) {
+    public void setJe(String je) {
         this.je = je;
     }
 

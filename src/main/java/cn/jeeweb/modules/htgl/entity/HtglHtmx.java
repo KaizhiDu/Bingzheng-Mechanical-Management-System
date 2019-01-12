@@ -1,6 +1,5 @@
 package cn.jeeweb.modules.htgl.entity;
 
-import cn.jeeweb.core.common.entity.AbstractEntity;
 import cn.jeeweb.modules.sys.entity.User;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -11,45 +10,42 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * Dscription: 合同管理 - 合同
+ * Dscription: 合同管理 - 合同明细
  * @author : Kevin Du
  * @version : 1.0
- * @date : 2019/1/10 13:37
+ * @date : 2019/1/11 13:40
  */
-@TableName("T_HTGL_HT")
+@TableName("T_HTGL_HTMX")
 @SuppressWarnings("serial")
-public class HtglHt extends AbstractEntity<String> {
+public class HtglHtmx {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 公司ID */
-    @TableField(value = "GSID")
-    private String gsid;
-    /** 合同名称 */
-    @TableField(value = "HTMC")
-    private String htmc;
-    /** 金额 */
-    @TableField(value = "JE")
-    private String je;
-    /** 合同总金额 */
-    @TableField(value = "ZJE")
-    private String zje;
-    /** 返款 */
-    @TableField(value = "FK")
-    private String fk;
-    /** 返款余款 */
-    @TableField(value = "FKYK")
-    private String fkyk;
-    /** 发票 */
-    @TableField(value = "FP")
-    private String fp;
+    /** 合同ID */
+    @TableField(value = "HTID")
+    private String htid;
+    /** 类型 */
+    @TableField(value = "LX")
+    private String lx;
+    /** 次序 */
+    @TableField(value = "CX")
+    private int cx;
     /** 备注 */
     @TableField(value = "BZ")
     private String bz;
+    /** 金额 */
+    @TableField(value = "JE")
+    private String je;
     /** 日期 */
     @TableField(value = "RQ")
     private String rq;
+    /** 日期2 */
+    @TableField(value = "RQ2")
+    private String rq2;
+    /** 乙方 */
+    @TableField(value = "YF")
+    private String yf;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -64,38 +60,36 @@ public class HtglHt extends AbstractEntity<String> {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
-    public String getFkyk() {
-        return fkyk;
-    }
-
-    public void setFkyk(String fkyk) {
-        this.fkyk = fkyk;
-    }
-
-    @Override
     public String getId() {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getGsid() {
-        return gsid;
+    public String getHtid() {
+        return htid;
     }
 
-    public void setGsid(String gsid) {
-        this.gsid = gsid;
+    public void setHtid(String htid) {
+        this.htid = htid;
     }
 
-    public String getHtmc() {
-        return htmc;
+    public String getLx() {
+        return lx;
     }
 
-    public void setHtmc(String htmc) {
-        this.htmc = htmc;
+    public void setLx(String lx) {
+        this.lx = lx;
+    }
+
+    public int getCx() {
+        return cx;
+    }
+
+    public void setCx(int cx) {
+        this.cx = cx;
     }
 
     public String getBz() {
@@ -104,6 +98,30 @@ public class HtglHt extends AbstractEntity<String> {
 
     public void setBz(String bz) {
         this.bz = bz;
+    }
+
+    public String getJe() {
+        return je;
+    }
+
+    public void setJe(String je) {
+        this.je = je;
+    }
+
+    public String getRq() {
+        return rq;
+    }
+
+    public void setRq(String rq) {
+        this.rq = rq;
+    }
+
+    public String getRq2() {
+        return rq2;
+    }
+
+    public void setRq2(String rq2) {
+        this.rq2 = rq2;
     }
 
     public User getUpdateBy() {
@@ -138,43 +156,11 @@ public class HtglHt extends AbstractEntity<String> {
         this.updateDate = updateDate;
     }
 
-    public String getRq() {
-        return rq;
+    public String getYf() {
+        return yf;
     }
 
-    public void setRq(String rq) {
-        this.rq = rq;
-    }
-
-    public String getJe() {
-        return je;
-    }
-
-    public void setJe(String je) {
-        this.je = je;
-    }
-
-    public String getZje() {
-        return zje;
-    }
-
-    public void setZje(String zje) {
-        this.zje = zje;
-    }
-
-    public String getFk() {
-        return fk;
-    }
-
-    public void setFk(String fk) {
-        this.fk = fk;
-    }
-
-    public String getFp() {
-        return fp;
-    }
-
-    public void setFp(String fp) {
-        this.fp = fp;
+    public void setYf(String yf) {
+        this.yf = yf;
     }
 }

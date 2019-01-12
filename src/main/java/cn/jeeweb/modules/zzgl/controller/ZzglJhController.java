@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -122,9 +124,12 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
      */
     @RequestMapping(value = "saveJh", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveJh(String rq, String name, String money, String jkzh, String mx, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveJh(String rq, String name, String money, String jkzh, String mx, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 
-        float moneyf = Float.parseFloat(money);
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
+        float moneyf = getNumber(money);
+        money = df.format(moneyf);
 
         String[] jkzhArray = jkzh.split("-");
         String zhcx = jkzhArray[0];
@@ -211,36 +216,36 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         else {
             float xs = 0;
             if (zhcx.equals("1")){
-                xs = Float.parseFloat(jcszZzse.getOne()) - moneyf;
-                jcszZzse.setOne(xs+"");
+                xs = getNumber(jcszZzse.getOne()) - moneyf;
+                jcszZzse.setOne(df.format(xs));
             }
             if (zhcx.equals("2")){
-                xs = Float.parseFloat(jcszZzse.getTwo()) - moneyf;
-                jcszZzse.setTwo(xs+"");
+                xs = getNumber(jcszZzse.getTwo()) - moneyf;
+                jcszZzse.setTwo(df.format(xs));
             }
             if (zhcx.equals("3")){
-                xs = Float.parseFloat(jcszZzse.getThree()) - moneyf;
-                jcszZzse.setThree(xs+"");
+                xs = getNumber(jcszZzse.getThree()) - moneyf;
+                jcszZzse.setThree(df.format(xs));
             }
             if (zhcx.equals("4")){
-                xs = Float.parseFloat(jcszZzse.getFour()) - moneyf;
-                jcszZzse.setFour(xs+"");
+                xs = getNumber(jcszZzse.getFour()) - moneyf;
+                jcszZzse.setFour(df.format(xs));
             }
             if (zhcx.equals("8")){
-                xs = Float.parseFloat(jcszZzse.getEight()) - moneyf;
-                jcszZzse.setEight(xs+"");
+                xs = getNumber(jcszZzse.getEight()) - moneyf;
+                jcszZzse.setEight(df.format(xs));
             }
             if (zhcx.equals("5")){
-                xs = Float.parseFloat(jcszZzse.getFive()) - moneyf;
-                jcszZzse.setFive(xs+"");
+                xs = getNumber(jcszZzse.getFive()) - moneyf;
+                jcszZzse.setFive(df.format(xs));
             }
             if (zhcx.equals("6")){
-                xs = Float.parseFloat(jcszZzse.getSix()) - moneyf;
-                jcszZzse.setSix(xs+"");
+                xs = getNumber(jcszZzse.getSix()) - moneyf;
+                jcszZzse.setSix(df.format(xs));
             }
             if (zhcx.equals("7")){
-                xs = Float.parseFloat(jcszZzse.getSeven()) - moneyf;
-                jcszZzse.setSeven(xs+"");
+                xs = getNumber(jcszZzse.getSeven()) - moneyf;
+                jcszZzse.setSeven(df.format(xs));
             }
             jcszZzseService.updateById(jcszZzse);
         }
@@ -253,7 +258,10 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
      * @date : 2019/1/7 17:46
      */
     @RequestMapping(value = "hk", method={RequestMethod.GET, RequestMethod.POST})
-    public String hk(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+    public String hk(String id, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         ZzglJh zzglJh = zzglJhService.selectById(id);
         model.addAttribute("zzglJh", zzglJh);
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
@@ -265,6 +273,11 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         Date date0 = new Date();
         String currentDate = sdf0.format(date0);
         model.addAttribute("day", currentDate);
+
+        float moneyf = getNumber(zzglJh.getMoney());
+        String money = moneyf+"";
+        model.addAttribute("money", money);
+
         return display("hk");
     }
 
@@ -276,11 +289,15 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
      */
     @RequestMapping(value = "saveHk", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveHk(String id, String rq, String money, String hkzh, String mx, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveHk(String id, String rq, String money, String hkzh, String mx, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         if (money==null){
             money = "0";
         }
-
+        float hk = getNumber(money);
+        money = df.format(hk);
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
         Date date0 = new Date();
         String currentDate = sdf0.format(date0);
@@ -295,7 +312,6 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         Date date = new Date();
         String currentTime = sdf.format(date);
 
-        float hk = Float.parseFloat(money);
         String hkzhArray[] = hkzh.split("-");
         String hkcx = hkzhArray[0];
         String hkmc = hkzhArray[1];
@@ -304,10 +320,10 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         ZzglJh zzglJh = zzglJhService.selectById(id);
         float yjk = 0;
         if (zzglJh.getMoney()!=null&&!zzglJh.getMoney().equals("")){
-            yjk = Float.parseFloat(zzglJh.getMoney());
+            yjk = getNumber(zzglJh.getMoney());
         }
         float xjk = yjk - hk;
-        zzglJh.setMoney(xjk+"");
+        zzglJh.setMoney(df.format(xjk));
         zzglJhService.updateById(zzglJh);
 
         //然后需要记录明细
@@ -329,36 +345,36 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
         float xs = 0;
         if (hkcx.equals("2")){
-            xs = Float.parseFloat(jcszZzse.getTwo()) + hk;
-            jcszZzse.setTwo(xs+"");
+            xs = getNumber(jcszZzse.getTwo()) + hk;
+            jcszZzse.setTwo(df.format(xs));
         }
         if (hkcx.equals("1")){
-            xs = Float.parseFloat(jcszZzse.getOne()) + hk;
-            jcszZzse.setOne(xs+"");
+            xs = getNumber(jcszZzse.getOne()) + hk;
+            jcszZzse.setOne(df.format(xs));
         }
         if (hkcx.equals("3")){
-            xs = Float.parseFloat(jcszZzse.getThree()) + hk;
-            jcszZzse.setThree(xs+"");
+            xs = getNumber(jcszZzse.getThree()) + hk;
+            jcszZzse.setThree(df.format(xs));
         }
         if (hkcx.equals("4")){
-            xs = Float.parseFloat(jcszZzse.getFour()) + hk;
-            jcszZzse.setFour(xs+"");
+            xs = getNumber(jcszZzse.getFour()) + hk;
+            jcszZzse.setFour(df.format(xs));
         }
         if (hkcx.equals("5")){
-            xs = Float.parseFloat(jcszZzse.getFive()) + hk;
-            jcszZzse.setFive(xs+"");
+            xs = getNumber(jcszZzse.getFive()) + hk;
+            jcszZzse.setFive(df.format(xs));
         }
         if (hkcx.equals("6")){
-            xs = Float.parseFloat(jcszZzse.getSix()) + hk;
-            jcszZzse.setSix(xs+"");
+            xs = getNumber(jcszZzse.getSix()) + hk;
+            jcszZzse.setSix(df.format(xs));
         }
         if (hkcx.equals("8")){
-            xs = Float.parseFloat(jcszZzse.getEight()) + hk;
-            jcszZzse.setEight(xs+"");
+            xs = getNumber(jcszZzse.getEight()) + hk;
+            jcszZzse.setEight(df.format(xs));
         }
         if (hkcx.equals("7")){
-            xs = Float.parseFloat(jcszZzse.getSeven()) + hk;
-            jcszZzse.setSeven(xs+"");
+            xs = getNumber(jcszZzse.getSeven()) + hk;
+            jcszZzse.setSeven(df.format(xs));
         }
         jcszZzseService.updateById(jcszZzse);
     }
@@ -371,7 +387,10 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
      */
     @RequestMapping(value = "deleteJh", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void deleteJh(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void deleteJh(String ids, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         String idsArray[] = ids.split(",");
         for (int i = 0; i <idsArray.length ; i++) {
             String id = idsArray[i];
@@ -381,7 +400,7 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
             String zjcx = zzglJh.getZjzh();
             float moneyf = 0;
             if (!money.equals("")&&money!=null){
-                moneyf = Float.parseFloat(money);
+                moneyf = getNumber(money);
             }
 
             EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
@@ -389,36 +408,36 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
             JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
             float xs = 0;
             if (zjcx.equals("1")){
-                xs = Float.parseFloat(jcszZzse.getOne()) + moneyf;
-                jcszZzse.setOne(xs+"");
+                xs = getNumber(jcszZzse.getOne()) + moneyf;
+                jcszZzse.setOne(df.format(xs));
             }
             if (zjcx.equals("2")){
-                xs = Float.parseFloat(jcszZzse.getTwo()) + moneyf;
-                jcszZzse.setTwo(xs+"");
+                xs = getNumber(jcszZzse.getTwo()) + moneyf;
+                jcszZzse.setTwo(df.format(xs));
             }
             if (zjcx.equals("3")){
-                xs = Float.parseFloat(jcszZzse.getThree()) + moneyf;
-                jcszZzse.setThree(xs+"");
+                xs = getNumber(jcszZzse.getThree()) + moneyf;
+                jcszZzse.setThree(df.format(xs));
             }
             if (zjcx.equals("4")){
-                xs = Float.parseFloat(jcszZzse.getFour()) + moneyf;
-                jcszZzse.setFour(xs+"");
+                xs = getNumber(jcszZzse.getFour()) + moneyf;
+                jcszZzse.setFour(df.format(xs));
             }
             if (zjcx.equals("8")){
-                xs = Float.parseFloat(jcszZzse.getEight()) + moneyf;
-                jcszZzse.setEight(xs+"");
+                xs = getNumber(jcszZzse.getEight()) + moneyf;
+                jcszZzse.setEight(df.format(xs));
             }
             if (zjcx.equals("5")){
-                xs = Float.parseFloat(jcszZzse.getFive()) + moneyf;
-                jcszZzse.setFive(xs+"");
+                xs = getNumber(jcszZzse.getFive()) + moneyf;
+                jcszZzse.setFive(df.format(xs));
             }
             if (zjcx.equals("6")){
-                xs = Float.parseFloat(jcszZzse.getSix()) + moneyf;
-                jcszZzse.setSix(xs+"");
+                xs = getNumber(jcszZzse.getSix()) + moneyf;
+                jcszZzse.setSix(df.format(xs));
             }
             if (zjcx.equals("7")){
-                xs = Float.parseFloat(jcszZzse.getSeven()) + moneyf;
-                jcszZzse.setSeven(xs+"");
+                xs = getNumber(jcszZzse.getSeven()) + moneyf;
+                jcszZzse.setSeven(df.format(xs));
             }
             jcszZzseService.updateById(jcszZzse);
 
@@ -445,5 +464,8 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         model.addAttribute("zzglJhmxes", zzglJhmxes);
         return display("ckmx");
     }
-
+    public float getNumber(String number) throws ParseException {
+        float d1 = new DecimalFormat().parse(number).floatValue();
+        return d1;
+    }
 }

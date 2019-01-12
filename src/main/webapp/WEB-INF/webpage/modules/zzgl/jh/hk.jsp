@@ -32,7 +32,7 @@
 <body class="container">
 
 <div class="row">
-    <input type="hidden" id="sqje" name="sqje" value="${zzglJh.money}">
+    <input type="hidden" id="sqje" name="sqje" value="${money}">
     <input type="hidden" id="jhid" name="jhid" value="${zzglJh.id}">
     <div class="col-md-3">
 
@@ -114,7 +114,6 @@
     //检查数量
     function checkJe(){
        var sqje = $("#sqje").val();
-       var money = $("#money").val();
         var money = $("#money").val();
         // var r = yjkc.match(/^[0-9]*$/);
         var r = money.match(/^\d+(\.\d+)?$/);
@@ -126,7 +125,7 @@
         else {
             //所欠金额不能高于要还金额
             if (parseFloat(sqje)<parseFloat(money)){
-                top.layer.alert("所欠金额不能高于要还金额");
+                top.layer.alert("要还金额不能高于所欠金额");
                 $("#money").val("");
             }
 

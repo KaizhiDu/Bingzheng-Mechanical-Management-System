@@ -23,6 +23,9 @@ public class ZzglZzgl extends AbstractEntity<String> {
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
+    /** 合同明细ID */
+    @TableField(value = "HTMXID")
+    private String htmxid;
     /** 1 */
     @TableField(value = "ONE")
     private String one;
@@ -254,5 +257,13 @@ public class ZzglZzgl extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getHtmxid() {
+        return htmxid;
+    }
+
+    public void setHtmxid(String htmxid) {
+        this.htmxid = htmxid;
     }
 }

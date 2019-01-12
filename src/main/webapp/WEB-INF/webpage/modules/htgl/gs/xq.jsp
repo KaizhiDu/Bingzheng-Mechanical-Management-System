@@ -30,9 +30,9 @@
     </style>
 </head>
 <body>
-<input type="hidden" id="gsid" name="gsid" value="${htglGs.id}">
+<input type="hidden" id="htid" name="htid" value="${htglHt.id}">
 <div class="row">
-    <div id="RcrwfpGridQuery" class="col-md-12">
+    <div id="HtmxGridQuery" class="col-md-12">
         <%--<div class="form-inline">--%>
         <%--<div class="form-group col-md-3" style="margin-bottom: 10px">--%>
         <%--<label class="control-label">日期：</label>--%>
@@ -41,27 +41,25 @@
         <%--</div>--%>
     </div>
 </div>
-<h2>${htglGs.jf}</h2>
-<grid:grid id="Ht" url="${adminPath}/htgl/gs/ajaxHtList?id=${htglGs.id}" pageable="true">
+<h2>${htglHt.htmc}</h2>
+<grid:grid id="Htmx" url="${adminPath}/htgl/gs/ajaxHtmxList?id=${htglHt.id}" pageable="true">
 
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="150"/>
-    <grid:button title="开发票" groupname="opt" function="kfp"
-                 outclass="btn-info" url="${adminPath}/htgl/gs/kfp?id=\"+row.id+\"" />
-    <grid:button title="合同详情" groupname="opt" function="xq"
-                 outclass="btn-success" url="${adminPath}/htgl/gs/xq?id=\"+row.id+\"" />
+    <%--<grid:column label="sys.common.opt" name="opt" formatter="button" width="50"/>--%>
+    <%--<grid:button title="合同详情" groupname="opt" function="xq"--%>
+                 <%--outclass="btn-success" url="${adminPath}/htgl/gs/xq?id=\"+row.id+\"" />--%>
+    <%--<grid:button title="修改" groupname="opt" function="xg"--%>
+    <%--outclass="btn-primary" url="${adminPath}/htgl/gs/htxg?id=\"+row.id+\"" />--%>
 
-    <grid:column label="合同名称" name="htmc"/>
-    <grid:column label="合同总额" name="zje"/>
-    <grid:column label="尾款" name="je"/>
-    <grid:column label="剩余发票" name="fp"/>
-    <grid:column label="返款总额" name="fk"/>
-    <grid:column label="返款余款" name="fkyk"/>
+    <grid:column label="类型" name="lx"/>
+    <grid:column label="日期" name="rq2"/>
+    <grid:column label="金额" name="je"/>
+    <grid:column label="乙方" name="yf"/>
     <grid:column label="备注" name="bz"/>
 
-    <grid:toolbar function="createHt" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
-    <grid:toolbar function="deleteHt" icon="fa fa-trash" btnclass="btn btn-sm btn-danger" title="删除"/>
+    <%--<grid:toolbar function="createFp" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加发票"/>--%>
+    <%--<grid:toolbar function="deleteFp" icon="fa fa-trash" btnclass="btn btn-sm btn-danger" title="删除"/>--%>
 
 </grid:grid>
 
@@ -102,8 +100,8 @@
 
                 }
             );
-    }
-    else {
+        }
+        else {
             top.layer.alert('请选择需要删除的数据!', {icon: 0, title:'警告'});
             return;
 

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -68,7 +70,27 @@ public class JcszZzseController extends BaseCRUDController<JcszZzse, String> {
      */
     @RequestMapping(value = "saveZzse", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveZzse(String name1, String name2, String name3, String name4, String name5, String name6, String name7, String name8, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveZzse(String name1, String name2, String name3, String name4, String name5, String name6, String name7, String name8, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
+        float value11 = getNumber(value1);
+        float value22 = getNumber(value2);
+        float value33 = getNumber(value3);
+        float value44 = getNumber(value4);
+        float value55 = getNumber(value5);
+        float value66 = getNumber(value6);
+        float value77 = getNumber(value7);
+        float value88 = getNumber(value8);
+
+        value1 = df.format(value11);
+        value2 = df.format(value22);
+        value3 = df.format(value33);
+        value4 = df.format(value44);
+        value5 = df.format(value55);
+        value6 = df.format(value66);
+        value7 = df.format(value77);
+        value8 = df.format(value88);
         EntityWrapper<JcszZzse> wrapper1 = new EntityWrapper<JcszZzse>();
         wrapper1.eq("TYPE", "0");
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
@@ -130,6 +152,11 @@ public class JcszZzseController extends BaseCRUDController<JcszZzse, String> {
             jcszZzseValue.setType("1");
             jcszZzseService.updateById(jcszZzseValue);
         }
+    }
+
+    public float getNumber(String number) throws ParseException {
+        float d1 = new DecimalFormat().parse(number).floatValue();
+        return d1;
     }
 
 }

@@ -8,8 +8,10 @@ import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.grgl.entity.Grgl;
 import cn.jeeweb.modules.htgl.entity.HtglGs;
 import cn.jeeweb.modules.htgl.entity.HtglHt;
+import cn.jeeweb.modules.htgl.entity.HtglHtmx;
 import cn.jeeweb.modules.htgl.service.IHtglGsService;
 import cn.jeeweb.modules.htgl.service.IHtglHtService;
+import cn.jeeweb.modules.htgl.service.IHtglHtmxService;
 import cn.jeeweb.modules.jcsz.entity.JcszZzse;
 import cn.jeeweb.modules.jcsz.service.IJcszMxmbService;
 import cn.jeeweb.modules.jcsz.service.IJcszZzseService;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -48,6 +52,9 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
 
     @Autowired
     private IHtglHtService htglHtService;
+
+    @Autowired
+    private IHtglHtmxService htglHtmxService;
 
     /**
      * Dscription: 转到添加公司页面
@@ -89,13 +96,13 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
         htglGs.setJf(jf);
         htglGs.setYf(yfmc);
         htglGs.setYfxl(yfxl);
-        htglGs.setJe(0);
+        htglGs.setJe("0");
         htglGsService.insert(htglGs);
 
         //创建一个公司首先要创建一个合同（此合同名为总资金）
         HtglHt htglHt = new HtglHt();
         htglHt.setGsid(uuid);
-        htglHt.setJe(0);
+        htglHt.setJe("0");
         htglHt.setHtmc("总资金");
         htglHt.setRq("2999-12-31 23:59:59");
         htglHt.setBz("适用于无合同的回款");
@@ -172,33 +179,49 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
 
     @RequestMapping(value = "saveHt", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveHt(String htmc, String je, String bz, String gsid, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveHt(String fk, String htmc, String je, String bz, String gsid, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date0 = new Date();
         String rq = sdf0.format(date0);
 
+        DecimalFormat df = new DecimalFormat("#,###.00");
+
         float jee = 0;
         if (je!=null&&!je.equals("")){
-            jee = Float.parseFloat(je);
+            jee = getNumber(je);
         }
+
+        float fkk = 0;
+        if (fk!=null&&!fk.equals("")){
+            fkk = getNumber(fk);
+        }
+
+        je = df.format(jee);
+        fk = df.format(fkk);
+
         HtglHt htglHt = new HtglHt();
         htglHt.setBz(bz);
         htglHt.setHtmc(htmc);
-        htglHt.setJe(jee);
+        htglHt.setZje(je);
+        htglHt.setJe(je);
+        htglHt.setFp(je);
+        htglHt.setFk(fk);
+        htglHt.setFkyk(fk);
         htglHt.setGsid(gsid);
         htglHt.setRq(rq);
         htglHtService.insert(htglHt);
 
         //还要加上总金额 和 工资总金额
         HtglGs htglGs = htglGsService.selectById(gsid);
-        htglGs.setJe(htglGs.getJe()+jee);
+
+        htglGs.setJe(df.format(getNumber(htglGs.getJe())+jee));
         htglGsService.updateById(htglGs);
 
         EntityWrapper<HtglHt> wrapper = new EntityWrapper<HtglHt>();
         wrapper.eq("RQ","2999-12-31 23:59:59");
         HtglHt htglHt1 = htglHtService.selectOne(wrapper);
-        htglHt1.setJe(htglHt1.getJe()+jee);
+        htglHt1.setJe(df.format(getNumber(htglHt1.getJe())+jee));
         htglHtService.updateById(htglHt1);
 
     }
@@ -225,26 +248,59 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
      */
     @RequestMapping(value = "deleteHt", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void deleteHt(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void deleteHt(String ids, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+        DecimalFormat df = new DecimalFormat("#,###.00");
         String idsArray[] = ids.split(",");
         for (int i = 0; i <idsArray.length ; i++) {
             String htid = idsArray[i];
             HtglHt htglHt = htglHtService.selectById(htid);
-            float je = htglHt.getJe();
+            String je = htglHt.getJe();
             //要减去两个地方的je
             String gsid = htglHt.getGsid();
             HtglGs htglGs = htglGsService.selectById(gsid);
-            htglGs.setJe(htglGs.getJe() - je);
+           float jee = getNumber(htglGs.getJe()) - getNumber(je);
+            htglGs.setJe(df.format(jee));
             htglGsService.updateById(htglGs);
             EntityWrapper<HtglHt> wrapper = new EntityWrapper<HtglHt>();
             wrapper.eq("RQ", "2999-12-31 23:59:59");
             wrapper.eq("GSID", gsid);
             HtglHt htglHt1 = htglHtService.selectOne(wrapper);
-            htglHt1.setJe(htglHt1.getJe() - je);
-            htglHtService.updateById(htglHt1);
+            if (htglHt1!=null){
+                float jeee = getNumber(htglHt1.getJe()) - getNumber(je);
+                htglHt1.setJe(df.format(jeee));
+                htglHtService.updateById(htglHt1);
+            }
             //最后删掉该信息
             htglHtService.deleteById(htid);
         }
+    }
+
+    /**
+     * Dscription: 转到详情页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/1/11 18:51
+     */
+    @RequestMapping(value = "xq", method={RequestMethod.GET, RequestMethod.POST})
+    public String xq(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        HtglHt htglHt = htglHtService.selectById(id);
+        model.addAttribute("htglHt", htglHt);
+        return display("xq");
+    }
+
+    @RequestMapping(value = "ajaxHtmxList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<HtglHtmx> ajaxHtmxList(String id, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model){
+        HtglHtmx htglHtmx = new HtglHtmx();
+        htglHtmx.setHtid(id);
+        PageJson<HtglHtmx> pageJson = htglHtmxService.ajaxHtmxList(queryable,htglHtmx);
+        return pageJson;
+    }
+
+
+    public float getNumber(String number) throws ParseException {
+        float d1 = new DecimalFormat().parse(number).floatValue();
+        return d1;
     }
 
 

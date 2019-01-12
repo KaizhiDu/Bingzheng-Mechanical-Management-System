@@ -52,15 +52,13 @@
                         <label>收入明细：</label>
                     </td>
                     <td>
-                        <select name="mx1" class="form-control" id="mx1">
+                        <select name="mx1" class="form-control" id="mx1" onchange="loadHt()">
                             <c:forEach items="${jcszMxmbs}" var="srmx">
                                 <option value="${srmx.name}">${srmx.name}</option>
                             </c:forEach>
                         </select>
                     </td>
-                    <td>
-                        <input name="mx2" id="mx2" htmlEscape="false" class="form-control" placeholder="请对明细进行补充"/>
-                    </td>
+
                 </tr>
                 <tr class="form-group">
                     <td>
@@ -70,6 +68,15 @@
                         <select name="ht" class="form-control" id="ht">
                             <option value="">不是合同收入</option>
                         </select>
+                    </td>
+
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>备注：</label>
+                    </td>
+                    <td>
+                        <input name="mx2" id="mx2" htmlEscape="false" class="form-control" placeholder="请输入备注"/>
                     </td>
 
                 </tr>
@@ -109,6 +116,30 @@
 
 <script type="text/javascript">
 
+    window.onload =function() {
+        loadHt();
+    }
+
+    function loadHt(){
+        var mx = $("#mx1").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/zzgl/zzgl/loadHt",
+            data: {
+                mx: mx
+            },
+            success: function (data) {
+                //console.log(data);
+                $('#ht').html("");
+                $("#ht").append("<option value=''>不是合同收入</option>");
+                for(var i=0;i<data.length;i++){
+                    var ht = data[i];
+                    $("#ht").append("<option value='"+ht.id+"'>"+ht.htmc+"</option>");
+                }
+            }
+        });
+    }
+
     //检查数量
     function checkJe(){
         var money = $("#money").val();
@@ -117,7 +148,6 @@
         //先判断是不是数字
         if(r == null){
             top.layer.alert("请输入数字");
-            $("#money").val("");
         }
     }
 
@@ -128,6 +158,7 @@
         var mx2 = $("#mx2").val();
         var jz = $("#jz").val();
         var rq = $("#rq").val();
+        var ht = $("#ht").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/zzgl/zzgl/saveSr",
@@ -137,7 +168,8 @@
                 mx2: mx2,
                 jz: jz,
                 lx: "0",
-                jtsj: rq
+                jtsj: rq,
+                ht: ht
             },
             success: function (data) {
 
