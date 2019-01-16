@@ -80,11 +80,28 @@
                         <label>支出明细：</label>
                     </td>
                     <td>
-                        <select name="mx1" class="form-control" id="mx1">
+                        <select name="mx1" class="form-control" id="mx1" onchange="loadHt()">
                             <c:forEach items="${jcszMxmbs}" var="srmx">
                                 <option value="${srmx.name}">${srmx.name}</option>
                             </c:forEach>
                         </select>
+                    </td>
+                </tr>
+
+                <tr class="form-group">
+                    <td>
+                        <label>合同：</label>
+                    </td>
+                    <td>
+                        <select name="ht" class="form-control" id="ht">
+                            <option value="">不是合同支出</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr class="form-group">
+                    <td>
+                        <label>备注：</label>
                     </td>
                     <td>
                         <input name="mx2" id="mx2" htmlEscape="false" class="form-control" placeholder="请对明细进行补充"/>
@@ -100,6 +117,30 @@
 
 
 <script type="text/javascript">
+
+    window.onload =function() {
+        loadHt();
+    }
+
+    function loadHt(){
+        var mx = $("#mx1").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/zzgl/zzgl/loadHt",
+            data: {
+                mx: mx
+            },
+            success: function (data) {
+                //console.log(data);
+                $('#ht').html("");
+                $("#ht").append("<option value=''>不是合同收入</option>");
+                for(var i=0;i<data.length;i++){
+                    var ht = data[i];
+                    $("#ht").append("<option value='"+ht.id+"'>"+ht.htmc+"</option>");
+                }
+            }
+        });
+    }
 
     //检查数量
     function checkJe(){
@@ -120,6 +161,7 @@
         var money = $("#money").val();
         var mx1 = $("#mx1").val();
         var mx2 = $("#mx2").val();
+        var ht = $("#ht").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/zzgl/zzgl/saveZc",
@@ -129,7 +171,8 @@
                 money: money,
                 mx1: mx1,
                 mx2: mx2,
-                lx: "1"
+                lx: "1",
+                ht: ht
             },
             success: function (data) {
 

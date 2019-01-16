@@ -22,6 +22,9 @@
         FROM T_HTGL_HTMX
         WHERE 1=1
         AND HTID = #{htid}
+        <if test="lx!=null and lx!=''">
+            AND LX = #{lx}
+        </if>
         ORDER BY RQ DESC
 
     </select>

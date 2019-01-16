@@ -29,7 +29,7 @@ public class HtglHtmxServiceImpl extends CommonServiceImpl<HtglHtmxMapper, HtglH
     public PageJson<HtglHtmx> ajaxHtmxList(Queryable queryable, HtglHtmx htglHtmx) {
         Pageable pageable = queryable.getPageable();
         Page<HtglHtmx> page = new Page<HtglHtmx>(pageable.getPageNumber(), pageable.getPageSize());
-        page.setRecords(htglHtmxMapper.ajaxHtmxList(page, htglHtmx.getHtid()));
+        page.setRecords(htglHtmxMapper.ajaxHtmxList(page, htglHtmx.getHtid(), htglHtmx.getLx()));
         PageJson<HtglHtmx> pagejson = new PageJson<HtglHtmx>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }

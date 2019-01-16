@@ -290,9 +290,10 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
 
     @RequestMapping(value = "ajaxHtmxList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<HtglHtmx> ajaxHtmxList(String id, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model){
+    public PageJson<HtglHtmx> ajaxHtmxList(String id, String type, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model){
         HtglHtmx htglHtmx = new HtglHtmx();
         htglHtmx.setHtid(id);
+        htglHtmx.setLx(type);
         PageJson<HtglHtmx> pageJson = htglHtmxService.ajaxHtmxList(queryable,htglHtmx);
         return pageJson;
     }
@@ -303,5 +304,82 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
         return d1;
     }
 
+    /**
+     * Dscription: 转到开发票页面
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/1/12 14:43
+     */
+    @RequestMapping(value = "kfp", method={RequestMethod.GET, RequestMethod.POST})
+    public String kfp(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        HtglHt htglHt = htglHtService.selectById(id);
+        model.addAttribute("htglHt", htglHt);
+        return display("kfp");
+    }
+    
+    /**
+     * Dscription: 模块功能
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/1/12 16:28
+     */
+    @RequestMapping(value = "createFp", method={RequestMethod.GET, RequestMethod.POST})
+    public String createFp(String htid, HttpServletRequest request, HttpServletResponse response, Model model){
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String currentDate = sdf0.format(date0);
+        model.addAttribute("day", currentDate);
+        model.addAttribute("htid", htid);
+        return display("createFp");
+    }
 
+    @RequestMapping(value = "saveFp", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveFp(String htid, String bz, String rq, String fp, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date0 = new Date();
+        String currentDate = sdf0.format(date0);
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        float fpf = getNumber(fp);
+        fp = df.format(fpf);
+        //首先加入明细
+        HtglHtmx htglHtmx = new HtglHtmx();
+        htglHtmx.setJe(fp);
+        htglHtmx.setRq2(rq);
+        htglHtmx.setRq(currentDate);
+        htglHtmx.setBz(bz);
+        htglHtmx.setLx("1");
+        htglHtmx.setHtid(htid);
+        htglHtmxService.insert(htglHtmx);
+        //然后是减去合同里面的发票
+        HtglHt htglHt = htglHtService.selectById(htid);
+        float oldfpf = getNumber(htglHt.getFp());
+        oldfpf = oldfpf - fpf;
+        String newfp = df.format(oldfpf);
+        htglHt.setFp(newfp);
+        htglHtService.updateById(htglHt);
+    }
+
+/**
+ * Dscription: 删除发票信息
+ * @author : Kevin Du
+ * @version : 1.0
+ * @date : 2019/1/12 17:04
+ */
+    @RequestMapping(value = "deleteFp", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void deleteFp(String id, String htid, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        HtglHtmx htglHtmx = htglHtmxService.selectById(id);
+        float je = getNumber(htglHtmx.getJe());
+        //然后是减去合同里面的发票
+        HtglHt htglHt = htglHtService.selectById(htid);
+        float oldfpf = getNumber(htglHt.getFp());
+        oldfpf = oldfpf + je;
+        String newfp = df.format(oldfpf);
+        htglHt.setFp(newfp);
+        htglHtService.updateById(htglHt);
+        //最后删除明细信息
+        htglHtmxService.deleteById(id);
+    }
 }

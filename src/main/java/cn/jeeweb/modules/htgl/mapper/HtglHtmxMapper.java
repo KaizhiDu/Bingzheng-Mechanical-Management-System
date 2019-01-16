@@ -15,5 +15,5 @@ import java.util.List;
  */
 public interface HtglHtmxMapper extends BaseMapper<HtglHtmx>{
 
-    public List<HtglHtmx> ajaxHtmxList(Pagination page, @Param("htid") String htid);
+    public List<HtglHtmx> ajaxHtmxList(Pagination page, @Param("htid") String htid, @Param("lx") String lx);
 }

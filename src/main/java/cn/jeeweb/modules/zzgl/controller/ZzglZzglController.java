@@ -141,6 +141,13 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     @RequestMapping(value = "ajaxZzglList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<ZzglZzgl> ajaxZzglList(String n, String y, String lx, String px, String r, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         if (px==null){
             px = "0";
         }
@@ -275,14 +282,14 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         String zjmc = jzArray[1];
         String xxmx = mx1 + " 转入 " + money + " 到 "+zjmc;
         String htmc = "";
-        if (ht!=""){
+        if (!ht.equals("")){
            htmc = htglHtService.selectById(ht).getHtmc();
             mx2 = htmc+","+mx2;
         }
     String htmxid = null;
         //联动合同管理里面的合同功能
         //如果合同ID不为空
-        if (ht!=""){
+        if (!ht.equals("")){
             HtglHtmx h = new HtglHtmx();
             String uuid  = UUID.randomUUID().toString().replaceAll("-","");
             htmxid = uuid;
@@ -456,7 +463,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
      */
     @RequestMapping(value = "saveZc", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveZc(String mx1, String mx2, String cz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+    public void saveZc(String ht, String mx1, String mx2, String cz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 
         DecimalFormat df = new DecimalFormat("#,###.00");
 
@@ -479,6 +486,30 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         String zjcx = jzArray[0];
         String zjmc = jzArray[1];
         String xxmx = "从 "+ zjmc + " 转出 " + m + " 用于 "+mx1;
+
+        String htmxid = null;
+        //联动合同管理里面的合同功能
+        //如果合同ID不为空
+        if (!ht.equals("")){
+            HtglHtmx h = new HtglHtmx();
+            String uuid  = UUID.randomUUID().toString().replaceAll("-","");
+            htmxid = uuid;
+            h.setId(uuid);
+            h.setHtid(ht);
+            h.setLx("2");
+            h.setJe(money);
+            h.setBz(mx2);
+            h.setYf(zjmc);
+            h.setRq(rq);
+            h.setRq2(jtsj);
+            htglHtmxService.insert(h);
+            //然后需要减少对应的合同金额
+            //首先是该合同的数额
+            HtglHt htglHt2 = htglHtService.selectById(ht);
+            Float jee = getNumber(htglHt2.getFkyk()) + moneyf;
+            htglHt2.setFkyk(df.format(jee));
+            htglHtService.updateById(htglHt2);
+        }
 
         //得到所有数据,然后放到实体类中
         ZzglZzgl z = new ZzglZzgl();
@@ -514,7 +545,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         z.setY(y);
         z.setMx(mx1);
         z.setMxbc(mx2);
-
+        z.setHtmxid(htmxid);
         //然后插入一条
         zzglZzglService.insert(z);
 
@@ -963,6 +994,22 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 }
             }
 
+            if (zzglZzgl.getLx().equals("1")){
+                //如果是合同收入或者支出的话，需要同样删掉合同明细
+                String htmxid = zzglZzgl.getHtmxid();
+                if (htmxid!=null&&!htmxid.equals("")){
+                    HtglHtmx htglHtmx = htglHtmxService.selectById(htmxid);
+                    float je = getNumber(htglHtmx.getJe());
+                    String htid = htglHtmx.getHtid();
+                    HtglHt htglHt = htglHtService.selectById(htid);
+                    //先把合同je加上
+                    htglHt.setFkyk(df.format(getNumber(htglHt.getFkyk()) - je));
+                    htglHtService.updateById(htglHt);
+                    //然后删除合同明细
+                    htglHtmxService.deleteById(htmxid);
+                }
+            }
+
         }
     }
 
@@ -983,7 +1030,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         EntityWrapper<JcszZzse> wrapper1 = new EntityWrapper<JcszZzse>();
         wrapper1.eq("TYPE", "1");
         try {
-            Thread.currentThread().sleep(100);
+            Thread.currentThread().sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
