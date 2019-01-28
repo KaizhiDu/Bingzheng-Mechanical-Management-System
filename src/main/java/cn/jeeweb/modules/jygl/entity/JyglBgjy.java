@@ -43,6 +43,18 @@ public class JyglBgjy extends AbstractEntity<String> {
     /** 注释 */
     @TableField(value = "ZS")
     private String zs;
+    /** 是否未达标完成 */
+    @TableField(value = "SFWDBWC")
+    private String sfwdbwc;
+    /** 单价 */
+    @TableField(value = "DJ")
+    private String dj;
+    /** 剩余工序数量 */
+    @TableField(value = "SYGXSL")
+    private String sygxsl;
+    /** 计划ID */
+    @TableField(value = "JHID")
+    private String jhid;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -153,5 +165,37 @@ public class JyglBgjy extends AbstractEntity<String> {
 
     public void setBfl(String bfl) {
         this.bfl = bfl;
+    }
+
+    public String getSfwdbwc() {
+        return sfwdbwc;
+    }
+
+    public void setSfwdbwc(String sfwdbwc) {
+        this.sfwdbwc = sfwdbwc;
+    }
+
+    public String getDj() {
+        return dj;
+    }
+
+    public void setDj(String dj) {
+        this.dj = dj;
+    }
+
+    public String getSygxsl() {
+        return sygxsl;
+    }
+
+    public void setSygxsl(String sygxsl) {
+        this.sygxsl = sygxsl;
+    }
+
+    public String getJhid() {
+        return jhid;
+    }
+
+    public void setJhid(String jhid) {
+        this.jhid = jhid;
     }
 }

@@ -61,7 +61,7 @@
                         <label>承包金额：</label>
                     </td>
                     <td>
-                        <input name="cbje" id="cbje" htmlEscape="false" class="form-control" placeholder="请输入承包金额" value="${scglBgmx.cbje}" onchange="checkCbje()"/>
+                        ${scglBgmx.cbje}
                     </td>
                 </tr>
 
@@ -103,7 +103,6 @@
         }
         else{
             var bgmc = $("#bgmc").val();
-            var cbje = $("#cbje").val();
             var id = $("#bgmxid").val();
             var rq = $("#rq").val();
             var bgrwfpid = $("#bgrwfpid").val();
@@ -115,7 +114,6 @@
                     zs: zs,
                     rq: rq,
                     bgmc: bgmc,
-                    cbje: cbje,
                     bgrwfpid: bgrwfpid
                 },
                 success: function (data) {

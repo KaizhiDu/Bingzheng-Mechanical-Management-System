@@ -38,7 +38,7 @@
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">计划名称：</label>
-                <select name="htid" class="form-control" id="htid" onchange="cxlj()">
+                <select name="htid" class="form-control" id="htid">
                     <option value="">请选择</option>
                     <c:forEach items="${htList}" var="ht">
                         <option value="${ht.id}">${ht.htbh}</option>
@@ -46,10 +46,12 @@
                 </select>
             </div>
             <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">零部件图号：</label>
+                <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
+            </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">零部件名称：</label>
-                <select name="id" class="form-control" id="id">
-                    <option value="">请选择</option>
-                </select>
+                <input name="ljmc" id="ljmc" htmlEscape="false" class="form-control" placeholder="请输入零部件名称"/>
             </div>
         </div>
     </div>

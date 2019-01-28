@@ -1,6 +1,8 @@
 package cn.jeeweb.modules.ckgl.service;
 
 import cn.jeeweb.core.common.service.ICommonService;
+import cn.jeeweb.core.model.PageJson;
+import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.ckgl.entity.CkglCp;
 
 /**
@@ -10,4 +12,6 @@ import cn.jeeweb.modules.ckgl.entity.CkglCp;
  * @date : 2018/10/11 18:31
  */
 public interface ICkglCpService extends ICommonService<CkglCp> {
+
+    public PageJson<CkglCp> ajaxCpList(Queryable queryable, CkglCp ckglCp);
 }

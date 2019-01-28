@@ -10,6 +10,7 @@ public class RgjyDTO {
     private String xm;
     private String zw;
     private String rq;
+    private String htid;
     private String jhbh;
     private String ljmc;
     private String ljth;
@@ -19,6 +20,14 @@ public class RgjyDTO {
     private String ywcl;
     private String sjwcl;
     private String bfl;
+
+    public String getHtid() {
+        return htid;
+    }
+
+    public void setHtid(String htid) {
+        this.htid = htid;
+    }
 
     public String getLjth() {
         return ljth;

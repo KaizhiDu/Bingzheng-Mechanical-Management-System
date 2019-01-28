@@ -48,24 +48,13 @@
                     </c:forEach>
                 </select>
             </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">零部件名称：</label>
-                <select name="lbjmc" class="form-control" id="lbjmc">
-                    <option value="">请选择</option>
-                    <c:forEach items="${bcpList}" var="lbj">
-                        <option value="${lbj.lbjmc}">${lbj.lbjmc}</option>
-                    </c:forEach>
-                </select>
-            </div>
-
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">零部件图号：</label>
-                <select name="lbjth" class="form-control" id="lbjth">
-                    <option value="">请选择</option>
-                    <c:forEach items="${bcpList}" var="lbj">
-                        <option value="${lbj.lbjth}">${lbj.lbjth}</option>
-                    </c:forEach>
-                </select>
+                <input name="lbjth" id="lbjth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
+            </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">零部件名称：</label>
+                <input name="lbjmc" id="lbjmc" htmlEscape="false" class="form-control" placeholder="请输入零部件名称"/>
             </div>
         </div>
     </div>

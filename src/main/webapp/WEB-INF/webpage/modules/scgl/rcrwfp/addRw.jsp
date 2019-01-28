@@ -73,6 +73,7 @@
            url="${adminPath}/scgl/gybzgl/ajaxGybzglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
+    <grid:column label="sys.common.key" hidden="true" name="jhid"/>
 
     <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="ljmc"/>
@@ -163,11 +164,12 @@
         if (idsArray.length > 0) {
             var ids = "";
             for (var i = 0; i < idsArray.length; i++) {
+                var val = $("#GybzglGrid").jqGrid("getRowData",idsArray[i]).jhid;
                 if (i == 0) {
-                    ids = idsArray[i];
+                    ids = idsArray[i]+"@"+val;
                 }
                 else {
-                    ids = ids + "," + idsArray[i];
+                    ids = ids + "," + idsArray[i]+"@"+val;
                 }
             }
         }

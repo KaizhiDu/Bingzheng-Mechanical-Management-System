@@ -136,6 +136,11 @@ public class ScjhglBzjglController extends BaseCRUDController<ScjhglBzjgl, Strin
     @RequestMapping(value = "ajaxBzjList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<ScjhglBzjgl> ajaxBzjList(Queryable queryable, ScjhglBzjgl scjhglBzjgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         PageJson<ScjhglBzjgl> pageJson = scjhglBzjglService.ajaxBzjList(queryable, scjhglBzjgl);
         return pageJson;
     }

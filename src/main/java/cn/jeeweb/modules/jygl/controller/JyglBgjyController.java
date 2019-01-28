@@ -18,6 +18,7 @@ import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.*;
 import cn.jeeweb.modules.scgl.service.*;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBjzc;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglBjzcService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
@@ -118,6 +119,11 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
         List<YgsjDTO> ygsjList = scglRcrwfpService.getYgsj();
         model.addAttribute("ygsjList", ygsjList);
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("rq", false);
+        wrapper.eq("SFWC","0");
+        List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
+        model.addAttribute("htList", list);
     }
 
     /**
@@ -129,6 +135,11 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     @RequestMapping(value = "ajaxBgjyList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<BgjyDTO> ajaxBgjyList(Queryable queryable, BgjyDTO bgjyDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         PageJson<BgjyDTO> pageJson = jyglBgjyService.ajaxBgjyList(queryable,bgjyDTO);
         return pageJson;
     }
@@ -159,6 +170,9 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         model.addAttribute("bfl", jyglBgjy.getBfl());
         //日工任务ID
         model.addAttribute("bgrwid", id);
+
+        model.addAttribute("sfwdbwc", jyglBgjy.getSfwdbwc());
+
         return display("jy");
     }
 
@@ -183,9 +197,72 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
      */
     @RequestMapping(value = "saveWcl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveWcl(String bgrwid, String bgrwfpid, String ljgybzid, String sjwcl, String bfl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveWcl(String sfwdbwc, String bgrwid, String bgrwfpid, String ljgybzid, String sjwcl, String bfl, HttpServletRequest request, HttpServletResponse response, Model model){
+        String fpsbid2 = scglBgrwService.selectById(bgrwid).getFpsbid();
+        String bgrwfpid2 = scglBgsbService.selectById(fpsbid2).getBgrwfpid();
+        //如果是否未达标完成为1，需要减去
+        JyglBgjy jyglBgjyJe = jyglBgjyService.selectById(bgrwid);
+        if (sfwdbwc.equals("1")){
+            float sjwclf = 0;
+            float ywclf = 0;
+            float djf = 0;
 
+            if (sjwcl!=null&&!sjwcl.equals("")){
+                sjwclf = Float.parseFloat(sjwcl);
+            }
+            if (jyglBgjyJe.getYwcl()!=null&&!jyglBgjyJe.getYwcl().equals("")){
+                ywclf = Float.parseFloat(jyglBgjyJe.getYwcl());
+            }
+            if (jyglBgjyJe.getDj()!=null&&!jyglBgjyJe.getDj().equals("")){
+                djf = Float.parseFloat(jyglBgjyJe.getDj());
+            }
+            float yjqcbje = (ywclf - sjwclf) * djf;
+            EntityWrapper<ScglBgmx> wrapper1 = new EntityWrapper<ScglBgmx>();
+            wrapper1.eq("BGRWFPID", bgrwfpid2);
+            ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper1);
+            float oldcbje = 0;
+            if (scglBgmx.getCbje()!=null&&!scglBgmx.getCbje().equals("")){
+                oldcbje = Float.parseFloat(scglBgmx.getCbje());
+            }
+            oldcbje = oldcbje - yjqcbje;
+            scglBgmx.setCbje(oldcbje+"");
+            scglBgmxService.updateById(scglBgmx);
+        }
+        if (jyglBgjyJe.getSfwdbwc().equals("1")){
+            if (sfwdbwc.equals("0")){
+                float sjwclf = 0;
+                float ywclf = 0;
+                float djf = 0;
+                if (jyglBgjyJe.getSjwcl()!=null&&!jyglBgjyJe.getSjwcl().equals("")){
+                    sjwclf = Float.parseFloat(jyglBgjyJe.getSjwcl());
+                }
+                if (jyglBgjyJe.getYwcl()!=null&&!jyglBgjyJe.getYwcl().equals("")){
+                    ywclf = Float.parseFloat(jyglBgjyJe.getYwcl());
+                }
+                if (jyglBgjyJe.getDj()!=null&&!jyglBgjyJe.getDj().equals("")){
+                    djf = Float.parseFloat(jyglBgjyJe.getDj());
+                }
+                float yjqcbje = (ywclf - sjwclf) * djf;
+                EntityWrapper<ScglBgmx> wrapper1 = new EntityWrapper<ScglBgmx>();
+                wrapper1.eq("BGRWFPID", bgrwfpid2);
+                ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper1);
+                float oldcbje = 0;
+                if (scglBgmx.getCbje()!=null&&!scglBgmx.getCbje().equals("")){
+                    oldcbje = Float.parseFloat(scglBgmx.getCbje());
+                }
+                oldcbje = oldcbje + yjqcbje;
+                scglBgmx.setCbje(oldcbje+"");
+                scglBgmxService.updateById(scglBgmx);
+
+            }
+        }
+
+
+
+        //先修改是否未达标完成
         JyglBgjy preJyglBgjy = jyglBgjyService.selectById(bgrwid);
+        preJyglBgjy.setSfwdbwc(sfwdbwc);
+        jyglBgjyService.updateById(preJyglBgjy);
         String gydlbzid = scglLjgybzService.selectById(ljgybzid).getGydlbzid();
         String ljid = scglGydlbzService.selectById(gydlbzid).getLjid();
 
@@ -536,19 +613,26 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             //0为未满足检验完成条件；1未满足检验完成条件
             int flag = 1;
             for (ScglBgrw s : bgrwByBgrwfpid) {
-                int ywcll = 0;
-                if (s.getYwcl()!=null&&!s.getYwcl().equals("")){
-                    ywcll = Integer.parseInt(s.getYwcl());
+                if (s.getSfwdbwc().equals("1")){
+
                 }
-                int sjwcll = 0;
-                if (s.getSjwcl()!=null&&!s.getSjwcl().equals("")){
-                    sjwcll = Integer.parseInt(s.getSjwcl());
+                else{
+                    int ywcll = 0;
+                    if (s.getYwcl()!=null&&!s.getYwcl().equals("")){
+                        ywcll = Integer.parseInt(s.getYwcl());
+                    }
+                    int sjwcll = 0;
+                    if (s.getSjwcl()!=null&&!s.getSjwcl().equals("")){
+                        sjwcll = Integer.parseInt(s.getSjwcl());
+                    }
+                    if (sjwcll < (ywcll-bfll)){
+                        flag = 0;
+                        break;
+                    }
                 }
-                if (sjwcll < (ywcll-bfll)){
-                    flag = 0;
-                    break;
-                }
+
             }
+
             //flag是1的话
            if (flag == 1){
                 //首先判断bgrwfp里面sfwc是否为1

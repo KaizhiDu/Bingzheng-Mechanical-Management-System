@@ -44,6 +44,9 @@ public class ScglRgrw extends AbstractEntity<String> {
     /** 注释 */
     @TableField(value = "ZS")
     private String zs;
+    /** 计划ID */
+    @TableField(value = "JHID")
+    private String jhid;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -57,6 +60,14 @@ public class ScglRgrw extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getJhid() {
+        return jhid;
+    }
+
+    public void setJhid(String jhid) {
+        this.jhid = jhid;
+    }
 
     public String getZs() {
         return zs;

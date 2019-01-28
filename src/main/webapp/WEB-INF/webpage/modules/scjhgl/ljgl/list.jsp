@@ -69,7 +69,7 @@
            url="${adminPath}/scjhgl/ljgl/ajaxljglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="180"/>
 
     <grid:button title="修改零部件" groupname="opt" function="modifySl"
                  outclass="btn-success" url="${adminPath}/scjhgl/ljgl/modifySl?id=\"+row.id+\"" />
@@ -77,9 +77,9 @@
                  outclass="btn-info" url="${adminPath}/scjhgl/ljgl/zjsl?id=\"+row.id+\"" />
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
                  <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
-    <grid:column label="计划名称" name="htid"/>
-    <grid:column label="零部件名称" name="ljmc"/>
-    <grid:column label="零部件图号" name="ljth"/>
+    <grid:column label="计划名称" name="htid" width="180"/>
+    <grid:column label="零部件名称" name="ljmc" width="180"/>
+    <grid:column label="零部件图号" name="ljth" width="180"/>
     <grid:column label="单用量" name="dyl"/>
     <grid:column label="数量" name="sl"/>
     <grid:column label="追加数量" name="bcsl"/>

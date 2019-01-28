@@ -36,6 +36,15 @@
     <div id="RgjyGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">计划名称：</label>
+                <select name="htid" class="form-control" id="htid">
+                    <option value="">请选择</option>
+                    <c:forEach items="${htList}" var="ht">
+                        <option value="${ht.id}">${ht.htbh}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">工人：</label>
                 <select name="xm" class="form-control" id="xm">
                     <option value="">请选择</option>
@@ -62,16 +71,16 @@
     <grid:button title="注释" groupname="opt" function="zs"
                  outclass="btn-primary" url="${adminPath}/jygl/rgjy/zs?id=\"+row.id+\"" />
 
-    <grid:column label="姓名" name="xm"/>
+    <grid:column label="姓名" name="xm" width="50"/>
     <grid:column label="日期" name="rq"/>
-    <grid:column label="零部件图号" name="ljth"/>
-    <grid:column label="零部件名称" name="ljmc"/>
+    <grid:column label="零部件图号" name="ljth" width="150"/>
+    <grid:column label="零部件名称" name="ljmc" width="150"/>
     <grid:column label="工艺大类名称" name="gydlmc"/>
-    <grid:column label="工艺小类名称" name="gyxlmc"/>
+    <grid:column label="工艺小类名称" name="gyxlmc" width="50"/>
     <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="应完成量" name="ywcl"/>
     <grid:column label="实际完成量" name="sjwcl"/>
-    <grid:column label="报废量" name="bfl"/>
+    <grid:column label="报废量" name="bfl" width="50"/>
 
     <grid:toolbar function="exportRgjyd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="导出日工检验单"/>
 

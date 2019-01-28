@@ -463,6 +463,9 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
     public void saveRw(String ids ,String fpsbid ,HttpServletRequest request, HttpServletResponse response, Model model){
         String idsArray[] = ids.split(",");
         for (int i=0;i<idsArray.length;i++){
+            String aaa[] = idsArray[i].split("@");
+            String ljgybzid = aaa[0];
+            String jhid = aaa[1];
             EntityWrapper<ScglBgrw> wrapper = new EntityWrapper<ScglBgrw>();
             wrapper.orderBy("PX");
             int index = scglBgrwService.selectList(wrapper).size();
@@ -470,16 +473,20 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 int px = 1;
                 ScglBgrw s = new ScglBgrw();
                 s.setPx(px);
-                s.setLjgybzid(idsArray[i]);
+                s.setLjgybzid(ljgybzid);
+                s.setJhid(jhid);
                 s.setFpsbid(fpsbid);
+                s.setSfwdbwc("0");
                 scglBgrwService.insert(s);
             }
             else{
                 int px = scglBgrwService.selectList(wrapper).get(index-1).getPx()+1;
                 ScglBgrw s = new ScglBgrw();
                 s.setPx(px);
-                s.setLjgybzid(idsArray[i]);
+                s.setLjgybzid(ljgybzid);
                 s.setFpsbid(fpsbid);
+                s.setJhid(jhid);
+                s.setSfwdbwc("0");
                 scglBgrwService.insert(s);
             }
 
@@ -566,6 +573,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         model.addAttribute("ljgybzid" ,ljgybzid);
         model.addAttribute("sysl", sysl);
         model.addAttribute("xygzl", xygzl);
+        model.addAttribute("dj", scglBgrw.getDj());
+        model.addAttribute("oldrwl", scglBgrw.getYwcl());
         return display("fpgzl");
     }
 
@@ -577,10 +586,47 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @RequestMapping(value = "saveGzl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveGzl(String bgrwid, String gzl, String xygzl, HttpServletRequest request, HttpServletResponse response, Model model){
-        ScglBgrw scglBgrw = new ScglBgrw();
+    public void saveGzl(String oldrwl, String sysl, String bgrwid, String gzl, String xygzl, String dj, HttpServletRequest request, HttpServletResponse response, Model model){
+        String fpsbid = scglBgrwService.selectById(bgrwid).getFpsbid();
+        String bgrwfpid = scglBgsbService.selectById(fpsbid).getBgrwfpid();
+
+        float slf = 0;
+        float gzlf = 0;
+        float oldrwlf = 0;
+        if (gzl!=null&&!gzl.equals("")){
+            gzlf = Float.parseFloat(gzl);
+        }
+        if (sysl!=null&&!sysl.equals("")){
+            slf = Float.parseFloat(sysl);
+        }
+        if (oldrwl!=null&&!oldrwl.equals("")){
+            oldrwlf = Float.parseFloat(oldrwl);
+        }
+
+        float sygxsl = slf + oldrwlf - gzlf;
+
+        float olddj = 0;
+        ScglBgrw scglBgrw = scglBgrwService.selectById(bgrwid);
+
+        if (scglBgrw.getDj()!=null&&!scglBgrw.getDj().equals("")){
+            olddj = Float.parseFloat(scglBgrw.getDj());
+        }
+        EntityWrapper<ScglBgmx> wrapper1 = new EntityWrapper<ScglBgmx>();
+        wrapper1.eq("BGRWFPID", bgrwfpid);
+        ScglBgmx scglBgmx1 = scglBgmxService.selectOne(wrapper1);
+        float jqcbje = gzlf * olddj;
+        float oldcbje = 0;
+        if (scglBgmx1.getCbje()!=null&&!scglBgmx1.getCbje().equals("")){
+            oldcbje = Float.parseFloat(scglBgmx1.getCbje());
+        }
+        oldcbje = oldcbje - jqcbje;
+        scglBgmx1.setCbje(oldcbje+"");
+        scglBgmxService.updateById(scglBgmx1);
+
         scglBgrw.setId(bgrwid);
         scglBgrw.setYwcl(gzl);
+        scglBgrw.setDj(dj);
+        scglBgrw.setSygxsl(sygxsl+"");
         scglBgrwService.updateById(scglBgrw);
         //并且要加到ljgybz下的jhscsl
         String ljgybzid = scglBgrwService.selectById(bgrwid).getLjgybzid();
@@ -593,8 +639,27 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         if (xygzl!=null&&!xygzl.equals("")){
             xygzli = Integer.parseInt(xygzl);
         }
-        scglLjgybz.setJhscsl(scglLjgybz.getJhscsl() + gzli -xygzli);
+        scglLjgybz.setJhscsl(scglLjgybz.getJhscsl() + gzli - xygzli);
         scglLjgybzService.updateById(scglLjgybz);
+
+        //还需要用工作量乘以单价，加到包工金额里面
+
+        float djf = 0;
+        if (dj!=null&&!dj.equals("")){
+            djf = Float.parseFloat(dj);
+        }
+        float tjcbje = djf * gzlf;
+        float cbje = 0;
+
+        EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<ScglBgmx>();
+        wrapper.eq("BGRWFPID", bgrwfpid);
+        ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper);
+        if (scglBgmx.getCbje()!=null&&!scglBgmx.getCbje().equals("")){
+            cbje = Float.parseFloat(scglBgmx.getCbje());
+        }
+        cbje = cbje + tjcbje;
+        scglBgmx.setCbje(cbje+"");
+        scglBgmxService.updateById(scglBgmx);
     }
 
     /**
@@ -1199,5 +1264,25 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         //输出流
         wb.write(fileOut);
         fileOut.close();
+    }
+
+    /**
+     * Dscription: 检查一下有没有包工明细信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/1/16 11:42
+     */
+    @RequestMapping(value = "checkBgmx",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public int checkBgmx(String bgid, HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<ScglBgmx>();
+        wrapper.eq("BGRWFPID", bgid);
+        ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper);
+        if (scglBgmx == null){
+            return 0;
+        }
+        else{
+            return 1;
+        }
     }
 }

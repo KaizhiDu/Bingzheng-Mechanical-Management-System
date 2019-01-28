@@ -32,6 +32,7 @@
 <body class="container">
 <input type="hidden" id="ljgybzid" name="ljgybzid" value="${ljgybzid}">
 <input type="hidden" id="sysl" name="sysl" value="${sysl}">
+<input type="hidden" id="oldrwl" name="oldrwl" value="${oldrwl}">
 <input type="hidden" id="bgrwid" name="bgrwid" value="${bgrwid}">
 <input type="hidden" id="xygzl" name="xygzl" value="${xygzl}">
 <div class="row">
@@ -57,6 +58,14 @@
                         <input name="rwl" id="rwl" htmlEscape="false" class="form-control" placeholder="请输入任务量" value="${xygzl}" onchange="checkRwl()"/>
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>单价：</label>
+                    </td>
+                    <td>
+                        <input name="dj" id="dj" htmlEscape="false" class="form-control" placeholder="请输入单价" onchange="checkSl()" value="${dj}"/>
+                    </td>
+                </tr>
 
 
             </table>
@@ -68,6 +77,18 @@
 
 
 <script type="text/javascript">
+
+    //检查数量
+    function checkSl(){
+        var dj = $("#dj").val();
+        // var r = yjkc.match(/^[0-9]*$/);
+        var r = dj.match(/^\d+(\.\d+)?$/);
+        //先判断是不是数字
+        if(r == null){
+            top.layer.alert("请输入数字");
+            $("#dj").val("");
+        }
+    }
 
     //校验任务量
     function checkRwl(){
@@ -98,14 +119,20 @@
     function check() {
         var bgrwid = $("#bgrwid").val();
         var gzl = $("#rwl").val();
+        var sysl = $("#sysl").val();
         var xygzl = $("#xygzl").val();
+        var dj = $("#dj").val();
+        var oldrwl = $("#oldrwl").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scgl/bgrwfp/saveGzl",
             data: {
                 bgrwid: bgrwid,
                 gzl: gzl,
-                xygzl: xygzl
+                xygzl: xygzl,
+                dj: dj,
+                sysl: sysl,
+                oldrwl: oldrwl
             },
             success: function (data) {
 

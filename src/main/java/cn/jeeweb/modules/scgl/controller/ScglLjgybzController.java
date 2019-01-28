@@ -89,6 +89,11 @@ public class ScglLjgybzController extends BaseCRUDController<ScglLjgybz, String>
     @RequestMapping(value = "ajaxJhglList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<ScjhglHtgl> ajaxJhglList(Queryable queryable, ScjhglHtgl scjhglHtgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         PageJson<ScjhglHtgl> pageJson = scjhglHtglService.ajaxJhglList(queryable,scjhglHtgl);
         return pageJson;
     }

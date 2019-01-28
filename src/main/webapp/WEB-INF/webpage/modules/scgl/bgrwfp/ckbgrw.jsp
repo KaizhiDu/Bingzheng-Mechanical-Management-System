@@ -155,32 +155,50 @@
 
     //分配日常任务
     function fpsb(title, url, gridId, id, width, height, tipMsg) {
-        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
-            width='auto';
-            height='auto';
-        }else{//如果是PC端，根据用户设置的width和height显示。
+        //alert(url);
+        //分配任务之前要先检查有没有包工明细
+        var bgid = url.split("=")[1];
+        $.ajax({
+            type: "get",
+            url: "${adminPath}/scgl/bgrwfp/checkBgmx?bgid="+bgid,
+            success: function (data) {
+                if (data==0){
+                    top.layer.alert("请先创建包工明细");
+                    return;
+                }
+                else {
 
-        }
-        top.layer.open({
-            type: 2,
-            area: ["95%", "90%"],
-            title: "包工任务分配",
-            maxmin: true, //开启最大化最小化按钮
-            content: url ,
-            success: function(layero, index){
-                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
-                $(":button").each(function () {
-                    $(this).blur();
-                });
-            },
-            btn: ['关闭'],
-            cancel: function(index){
-                refreshTable2(gridId);
-            },
-            end: function (index) {
-                refreshTable2(gridId);
+                    if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+                        width='auto';
+                        height='auto';
+                    }else{//如果是PC端，根据用户设置的width和height显示。
+
+                    }
+                    top.layer.open({
+                        type: 2,
+                        area: ["95%", "90%"],
+                        title: "包工任务分配",
+                        maxmin: true, //开启最大化最小化按钮
+                        content: url ,
+                        success: function(layero, index){
+                            //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                            $(":button").each(function () {
+                                $(this).blur();
+                            });
+                        },
+                        btn: ['关闭'],
+                        cancel: function(index){
+                            refreshTable2(gridId);
+                        },
+                        end: function (index) {
+                            refreshTable2(gridId);
+                        }
+                    });
+
+                }
             }
         });
+
     }
 
     function createBgrw(title, url, gridId, id, width, height, tipMsg){

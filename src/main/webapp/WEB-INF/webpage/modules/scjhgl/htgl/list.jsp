@@ -61,9 +61,9 @@
     <grid:button title="导出仓库比照表" groupname="opt" function="yckbz"
                  outclass="btn-info" url="${adminPath}/scjhgl/htgl/yckbz?id=\"+row.id+\"" />
 
-    <grid:column label="计划名称" name="htbh" width="30"/>
+    <grid:column label="计划名称" name="htbh" width="200"/>
     <grid:column label="描述" name="ms"/>
-    <grid:column label="数量" name="sl"/>
+    <grid:column label="数量" name="sl" width="40"/>
     <grid:column label="创建日期" name="rq"/>
 
     <grid:toolbar function="createHt" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>

@@ -65,6 +65,23 @@
                         <input name="bfl" id="bfl" htmlEscape="false" class="form-control" value="${bfl}" placeholder="请输入报废量" onchange="checkBfl()"/>
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>是否完成（未达到应完成量）：</label>
+                    </td>
+                    <td>
+                        <select id="sfwdbwc" name="sfwdbwc" class="form-control">
+                            <c:if test="${sfwdbwc==0}">
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </c:if>
+                            <c:if test="${sfwdbwc==1}">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </c:if>
+                        </select>
+                    </td>
+                </tr>
 
 
             </table>
@@ -125,6 +142,7 @@
         var bgrwid = $("#bgrwid").val();
         var bfl = $("#bfl").val();
         var bgrwfpid = $("#bgrwfpid").val();
+        var sfwdbwc = $("#sfwdbwc").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/jygl/bgjy/saveWcl",
@@ -133,7 +151,8 @@
                 ljgybzid: ljgybzid,
                 bgrwid: bgrwid,
                 bfl: bfl,
-                bgrwfpid: bgrwfpid
+                bgrwfpid: bgrwfpid,
+                sfwdbwc: sfwdbwc
             },
             success: function (data) {
 

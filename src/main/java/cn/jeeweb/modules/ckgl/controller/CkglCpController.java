@@ -312,4 +312,18 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         PageJson<CkglCpCkjl> pageJson = ckglCpCkjlService.ajaxCpxqList(queryable,ckglCpCkjl);
         return pageJson;
     }
+
+    /**
+     * Dscription: 展示所有成品信息
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2018/11/12 16:52
+     */
+    @RequestMapping(value = "ajaxCpList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<CkglCp> ajaxCpList(Queryable queryable, CkglCp ckglCp, HttpServletRequest request, HttpServletResponse response, Model model){
+        PageJson<CkglCp> pageJson = ckglCpService.ajaxCpList(queryable,ckglCp);
+        return pageJson;
+    }
+
 }

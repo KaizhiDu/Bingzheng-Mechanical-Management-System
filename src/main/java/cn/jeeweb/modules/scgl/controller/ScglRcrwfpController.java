@@ -851,6 +851,9 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
     public void saveRw(String ids ,String fpsbid ,HttpServletRequest request, HttpServletResponse response, Model model){
         String idsArray[] = ids.split(",");
         for (int i=0;i<idsArray.length;i++){
+            String aaa[] = idsArray[i].split("@");
+            String ljgybzid = aaa[0];
+            String jhid = aaa[1];
             EntityWrapper<ScglRgrw> wrapper = new EntityWrapper<ScglRgrw>();
             wrapper.orderBy("PX");
             int index = scglRgrwService.selectList(wrapper).size();
@@ -858,16 +861,18 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                 int px = 1;
                 ScglRgrw s = new ScglRgrw();
                 s.setPx(px);
-                s.setLjgybzid(idsArray[i]);
+                s.setLjgybzid(ljgybzid);
                 s.setFpsbid(fpsbid);
+                s.setJhid(jhid);
                 scglRgrwService.insert(s);
             }
             else{
                 int px = scglRgrwService.selectList(wrapper).get(index-1).getPx()+1;
                 ScglRgrw s = new ScglRgrw();
                 s.setPx(px);
-                s.setLjgybzid(idsArray[i]);
+                s.setLjgybzid(ljgybzid);
                 s.setFpsbid(fpsbid);
+                s.setJhid(jhid);
                 scglRgrwService.insert(s);
             }
 

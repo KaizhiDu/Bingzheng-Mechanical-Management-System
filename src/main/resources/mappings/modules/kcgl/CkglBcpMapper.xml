@@ -15,10 +15,10 @@ WHERE 1=1
             AND JHBH = #{entity.jhbh}
         </if>
         <if test="entity.lbjmc!=null and entity.lbjmc!=''">
-            AND LBJMC = #{entity.lbjmc}
+            AND LBJMC LIKE "%"#{entity.lbjmc}"%"
         </if>
         <if test="entity.lbjth!=null and entity.lbjth!=''">
-            AND LBJTH = #{entity.lbjth}
+            AND LBJTH LIKE "%"#{entity.lbjth}"%"
         </if>
         ORDER BY UPDATE_DATE DESC
     </select>
@@ -36,10 +36,10 @@ WHERE 1=1
             AND JHBH = #{entity.jhbh}
         </if>
         <if test="entity.lbjmc!=null and entity.lbjmc!=''">
-            AND LBJMC = #{entity.lbjmc}
+            AND LBJMC LIKE "%"#{entity.lbjmc}"%"
         </if>
         <if test="entity.lbjth!=null and entity.lbjth!=''">
-            AND LBJTH = #{entity.lbjth}
+            AND LBJTH LIKE "%"#{entity.lbjth}"%"
         </if>
     </select>
 

@@ -16,6 +16,7 @@ import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
 import cn.jeeweb.modules.scgl.service.IScglLjgybzService;
 import cn.jeeweb.modules.scgl.service.IScglRcrwfpService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBjzc;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglBjzcService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
@@ -92,6 +93,11 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
      */
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
+        EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("rq", false);
+        wrapper.eq("SFWC","0");
+        List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
+        model.addAttribute("htList", list);
         List<YgsjDTO> ygsjList = scglRcrwfpService.getYgsj();
         model.addAttribute("ygsjList", ygsjList);
     }
@@ -105,6 +111,11 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
     @RequestMapping(value = "ajaxRgjyList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<JyglRgjy> ajaxRgjyList(Queryable queryable, RgjyDTO rgjyDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         PageJson<JyglRgjy> pageJson = jyglRgjyService.ajaxRgjyList(queryable,rgjyDTO);
         return pageJson;
     }

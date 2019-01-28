@@ -81,6 +81,8 @@ public class CkglBcpWwcController extends BaseCRUDController<CkglBcpWwc, String>
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
         //计划
         EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("rq", false);
+        wrapper.eq("SFWC","0");
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
         model.addAttribute("htList", list);
         //图号和名称

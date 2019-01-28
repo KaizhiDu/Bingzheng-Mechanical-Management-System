@@ -87,6 +87,8 @@ public class JyglLbjrkController extends BaseCRUDController<JyglLbjrk, String> {
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
         EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("rq", false);
+        wrapper.eq("SFWC","0");
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
         model.addAttribute("htList", list);
     }

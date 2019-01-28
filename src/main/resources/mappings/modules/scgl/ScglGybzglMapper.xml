@@ -4,6 +4,7 @@
     <select id="ajaxGybzglList" resultType="cn.jeeweb.modules.scgl.dto.GybzglDTO">
 SELECT T.ID ID,
        T3.HTBH JHBH,
+		T3.ID JHID,
 			 T2.LJMC LJMC,
 			 T2.LJTH LJTH,
 			 T1.GYDLMC GYDLMC,

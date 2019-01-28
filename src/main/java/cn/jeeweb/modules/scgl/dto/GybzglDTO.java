@@ -7,6 +7,7 @@ package cn.jeeweb.modules.scgl.dto;
  */
 public class GybzglDTO {
     private String id;
+    private String jhid;
     private String jhbh;
     private String ljmc;
     private String ljth;
@@ -20,6 +21,14 @@ public class GybzglDTO {
     private int yfpsl;
     private int kfpsl;
     private String zzjg;
+
+    public String getJhid() {
+        return jhid;
+    }
+
+    public void setJhid(String jhid) {
+        this.jhid = jhid;
+    }
 
     public String getZzjg() {
         return zzjg;

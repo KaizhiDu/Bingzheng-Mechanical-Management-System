@@ -72,6 +72,7 @@
            url="${adminPath}/scgl/gybzgl/ajaxGybzglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
+    <grid:column label="sys.common.key" hidden="true" name="jhid"/>
 
     <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="ljmc"/>
@@ -158,17 +159,23 @@
 <script type="text/javascript">
     function check(title, url, gridId, id, width, height, tipMsg) {
         //获取选中行的id数组
-        var idsArray = $("#GybzglGrid").jqGrid("getGridParam", "selarrrow")
+        var idsArray = $("#GybzglGrid").jqGrid("getGridParam", "selarrrow");
+
+//        var rowData = $("#GybzglGrid").jqGrid("getRowData",id);//根据上面的id获得本行的所有数据
+//        var val= rowData.jhbh; //获得制定列的值 （auditStatus 为colModel的name）
+
         if (idsArray.length > 0) {
             var ids = "";
             for (var i = 0; i < idsArray.length; i++) {
+                var val = $("#GybzglGrid").jqGrid("getRowData",idsArray[i]).jhid;
                 if (i == 0) {
-                    ids = idsArray[i];
+                    ids = idsArray[i]+"@"+val;
                 }
                 else {
-                    ids = ids + "," + idsArray[i];
+                    ids = ids + "," + idsArray[i]+"@"+val;
                 }
             }
+            //console.log(ids);
         }
         $.ajax({
             type: "GET",

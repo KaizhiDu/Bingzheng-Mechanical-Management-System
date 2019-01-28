@@ -68,7 +68,7 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="200"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="250"/>
     <grid:button title="入库" groupname="opt" function="rk"
                  outclass="btn-success" url="${adminPath}/ckgl/bzj/rk?id=\"+row.id+\"" />
     <grid:button title="出库" groupname="opt" function="ck"
@@ -78,10 +78,10 @@
     <grid:button title="修改" groupname="opt" function="xg"
                  outclass="btn-info" url="${adminPath}/ckgl/bzj/xg?id=\"+row.id+\"" />
 
-    <grid:column label="大类" name="fldl"/>
+    <grid:column label="大类" name="fldl" width="50"/>
     <grid:column label="小类" name="flxl"/>
-    <grid:column label="规格" name="gg"/>
-    <grid:column label="单位" name="dw"/>
+    <grid:column label="规格" name="gg" width="180"/>
+    <grid:column label="单位" name="dw" width="50"/>
     <grid:column label="库存" name="kc"/>
     <grid:column label="预警量" name="yjkc"/>
     <grid:column label="备注" name="bz"/>

@@ -8,6 +8,7 @@
         T2.XM,
         T2.ZW,
         T2.RQ,
+        T7.ID HTID,
         T7.HTBH JHBH,
         T6.LJMC,
         T6.LJTH,
@@ -28,6 +29,9 @@
         WHERE 1=1
         AND T.FPSBID = T1.ID
         AND T1.BGRWFPID = T2.ID
+        <if test="entity.htid!=null and entity.htid!=''">
+            AND T7.ID = #{entity.htid}
+        </if>
         <if test="entity.xm!=null and entity.xm!=''">
             AND T2.XM = #{entity.xm}
         </if>

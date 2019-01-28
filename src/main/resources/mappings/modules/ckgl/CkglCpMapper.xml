@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.ckgl.mapper.CkglCpMapper" >
+
+    <select id="ajaxCpList" resultType="cn.jeeweb.modules.ckgl.entity.CkglCp">
+        SELECT * FROM T_CKGL_CP
+        WHERE 1=1
+        <!--<if test="entity.rq!=null and entity.rq!=''">-->
+            <!--AND RQ = #{entity.rq}-->
+        <!--</if>-->
+        <if test="entity.lbjmc!=null and entity.lbjmc!=''">
+            AND LBJMC LIKE "%"#{entity.lbjmc}"%"
+        </if>
+        <if test="entity.lbjth!=null and entity.lbjth!=''">
+            AND LBJTH LIKE "%"#{entity.lbjth}"%"
+        </if>
+    </select>
+
+</mapper>

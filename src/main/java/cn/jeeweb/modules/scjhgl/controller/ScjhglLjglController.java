@@ -392,6 +392,8 @@ public String zjsl(String id, HttpServletRequest request, HttpServletResponse re
     public String copyLj(String ids, HttpServletRequest request, HttpServletResponse response, Model model){
         model.addAttribute("ids", ids);
         EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
+        wrapper.orderBy("rq", false);
+        wrapper.eq("SFWC","0");
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
         model.addAttribute("htList", list);
         return display("copyLj");

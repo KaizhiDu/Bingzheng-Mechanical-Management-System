@@ -91,6 +91,11 @@ public class ScglGybzglController extends BaseCRUDController<ScglGybzgl, String>
     @RequestMapping(value = "ajaxGybzglList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<GybzglDTO> ajaxGybzglList(Queryable queryable, GybzglDTO gybzglDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         PageJson<GybzglDTO> pageJson = scglGybzglService.ajaxGybzglList(queryable,gybzglDTO);
         return pageJson;
     }
