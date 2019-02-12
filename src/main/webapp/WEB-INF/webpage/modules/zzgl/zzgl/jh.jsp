@@ -114,6 +114,7 @@
     <grid:column label="日" name="r" width="60"/>
     <grid:column label="姓名" name="name" />
     <grid:column label="钱款" name="money" />
+    <grid:column label="备注" name="bz" />
 
     <grid:toolbar function="jk" btnclass="btn btn-sm btn-primary" title="借款"/>
     <grid:toolbar function="deleteJh" icon="fa fa-trash" title="删除" btnclass="btn btn-sm btn-danger"/>

@@ -27,7 +27,19 @@
          T.FIVE,
          T.SIX,
          T.SEVEN,
-         T.EIGHT
+         T.EIGHT,
+        T.NINE,
+        T.TEN,
+        T.ELEVEN,
+        T.TWELVE,
+        T.THIRTEEN,
+        T.FOURTEEN,
+        T.FIFTEEN,
+        T.SIXTEEN,
+        T.SEVENTEEN,
+        T.EIGHTEEN,
+        T.NINETEEN,
+        T.TWENTY
           FROM T_ZZGL_ZZGL T
           WHERE 1=1
         <if test="n!=null and n!=''">
@@ -41,6 +53,9 @@
         </if>
         <if test="lx!=null and lx!=''">
             AND T.LX = #{lx}
+        </if>
+        <if test="mx!=null and mx!=''">
+            AND T.MX LIKE "%"#{mx}"%"
         </if>
         <if test="px==0">
             ORDER BY RQ DESC
@@ -67,21 +82,25 @@
          END LX FROM T_ZZGL_ZZGL
 	)S
 	WHERE 1=1
-        <if test="n!=null and n!=''">
-            AND S.N = #{n}
+        <if test="n1!=null and n1!=''">
+            AND S.N &gt;= #{n1}
         </if>
-        <if test="y!=null and y!=''">
-            AND S.Y = #{y}
+        <if test="y1!=null and y1!=''">
+            AND S.Y &gt;= #{y1}
         </if>
-        <if test="r!=null and r!=''">
-            AND S.R = #{r}
+        <if test="r1!=null and r1!=''">
+            AND S.R &gt;= #{r1}
         </if>
-        <if test="px==0">
-            ORDER BY S.RQ DESC
+        <if test="n2!=null and n2!=''">
+            AND S.N &lt;= #{n2}
         </if>
-        <if test="px==1">
-            ORDER BY S.LX,S.RQ
+        <if test="y2!=null and y2!=''">
+            AND S.Y &lt;= #{y2}
         </if>
+        <if test="r2!=null and r2!=''">
+            AND S.R &lt;= #{r2}
+        </if>
+            ORDER BY S.N,S.Y,S.R DESC
 
     </select>
 

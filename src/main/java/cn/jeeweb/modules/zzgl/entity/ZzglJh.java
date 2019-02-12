@@ -47,6 +47,9 @@ public class ZzglJh extends AbstractEntity<String> {
     /**资金名称*/
     @TableField(value = "ZJMC")
     private String zjmc;
+    /**备注*/
+    @TableField(value = "BZ")
+    private String bz;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -60,6 +63,14 @@ public class ZzglJh extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getBz() {
+        return bz;
+    }
+
+    public void setBz(String bz) {
+        this.bz = bz;
+    }
 
     public String getId() {
         return id;

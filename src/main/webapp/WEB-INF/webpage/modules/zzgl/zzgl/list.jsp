@@ -36,107 +36,19 @@
 <div class="row">
     <div id="zjfx" class="col-md-12">
         <div class="form-inline">
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">${jcszZzseName.one}:</font></label>
-                </div>
-                <div class="form-group col-md-7" style="margin-bottom: 10px">
-                    <div id="value1">
-
+            <c:forEach var="each" items="${qyList}">
+                <div class="form-group col-md-4" style="margin-bottom: 10px">
+                    <div class="form-group col-md-5" style="margin-bottom: 10px">
+                        <label class="control-label"><font size="6">${each.name}:</font></label>
                     </div>
+                    <div class="form-group col-md-7" style="margin-bottom: 10px">
+                        <div id="value${each.zjy}">
 
-                </div>
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">${jcszZzseName.two}:</font></label>
-                </div>
-                <div class="form-group col-md-7" style="margin-bottom: 10px">
-                    <div id="value2">
-
+                        </div>
                     </div>
                 </div>
+            </c:forEach>
 
-
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">${jcszZzseName.three}:</font></label>
-                </div>
-                <div class="form-group col-md-7" style="margin-bottom: 10px">
-                    <div id="value3">
-
-                    </div>
-
-                </div>
-
-
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">${jcszZzseName.four}:</font></label>
-                </div>
-                <div class="form-group col-md-7" style="margin-bottom: 10px">
-                    <div id="value4">
-
-                    </div>
-
-                </div>
-
-
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">${jcszZzseName.five}:</font></label>
-                </div>
-                <div class="form-group col-md-7" style="margin-bottom: 10px">
-                    <div id="value5">
-
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">${jcszZzseName.six}:</font></label>
-                </div>
-                <div class="form-group col-md-7" style="margin-bottom: 10px">
-                    <div id="value6">
-
-                    </div>
-
-                </div>
-
-
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">${jcszZzseName.seven}:</font></label>
-                </div>
-                <div class="form-group col-md-7" style="margin-bottom: 10px">
-                    <div id="value7">
-
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">${jcszZzseName.eight}:</font></label>
-                </div>
-                <div class="form-group col-md-7" style="margin-bottom: 10px">
-                    <div id="value8">
-
-                    </div>
-
-                </div>
-            </div>
-            <%--<div class="form-group col-md-3" style="margin-bottom: 10px">--%>
-                <%--<label class="control-label"><font size="6">总计：</font></label>--%>
-                <%--<font size="6">${zz1.one+zz1.two+zz1.three+zz1.four+zz1.five+zz1.six+zz1.seven+zz1.eight+zz2.one+zz2.two+zz2.three+zz2.four+zz2.five+zz2.six+zz2.seven+zz2.eight}</font>--%>
-            <%--</div>--%>
         </div>
     </div>
 </div>
@@ -223,7 +135,13 @@
                     <option value="31">31</option>
                 </select>
             </div>
+
             <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">单位：</label>
+                <input name="mx" id="mx" htmlEscape="false" class="form-control" placeholder="请输入单位名称"/>
+            </div>
+
+            <div class="form-group col-md-2" style="margin-bottom: 10px">
                 <label class="control-label">资金流动类型：</label>
                 <select name="lx" class="form-control" id="lx">
                     <option value="">全部</option>
@@ -232,13 +150,13 @@
                     <option value="2">调动</option>
                 </select>
             </div>
-            <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">排序：</label>
-                <select name="px" class="form-control" id="px">
-                    <option value="0">时间</option>
-                    <option value="1">类型</option>
-                </select>
-            </div>
+            <%--<div class="form-group col-md-2" style="margin-bottom: 10px">--%>
+                <%--<label class="control-label">排序：</label>--%>
+                <%--<select name="px" class="form-control" id="px">--%>
+                    <%--<option value="0">时间</option>--%>
+                    <%--<option value="1">类型</option>--%>
+                <%--</select>--%>
+            <%--</div>--%>
         </div>
     </div>
 </div>
@@ -252,18 +170,24 @@
     outclass="btn-success" url="${adminPath}/zzgl/zzgl/xgsj?id=\"+row.id+\"" />
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
     <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
+
     <grid:column label="日" name="r" width="30"/>
     <grid:column label="类型" name="lx" width="45"/>
     <grid:column label="单位" name="mx" width="150"/>
     <grid:column label="明细" name="mxbc" width="150"/>
-    <grid:column label="${jcszZzseName.one}" name="one"/>
-    <grid:column label="${jcszZzseName.two}" name="two"/>
-    <grid:column label="${jcszZzseName.three}" name="three"/>
-    <grid:column label="${jcszZzseName.four}" name="four"/>
-    <grid:column label="${jcszZzseName.five}" name="five"/>
-    <grid:column label="${jcszZzseName.six}" name="six"/>
-    <grid:column label="${jcszZzseName.seven}" name="seven"/>
-    <grid:column label="${jcszZzseName.eight}" name="eight"/>
+
+<c:forEach var="each" items="${qyList}">
+    <grid:column label="${each.name}" name="${each.ywzjy}"/>
+</c:forEach>
+
+    <%--<grid:column label="${jcszZzseName.one}" name="one"/>--%>
+    <%--<grid:column label="${jcszZzseName.two}" name="two"/>--%>
+    <%--<grid:column label="${jcszZzseName.three}" name="three"/>--%>
+    <%--<grid:column label="${jcszZzseName.four}" name="four"/>--%>
+    <%--<grid:column label="${jcszZzseName.five}" name="five"/>--%>
+    <%--<grid:column label="${jcszZzseName.six}" name="six"/>--%>
+    <%--<grid:column label="${jcszZzseName.seven}" name="seven"/>--%>
+    <%--<grid:column label="${jcszZzseName.eight}" name="eight"/>--%>
 
     <grid:toolbar function="sr" btnclass="btn btn-sm btn-primary" title="收入"/>
     <grid:toolbar function="zc" btnclass="btn btn-sm btn-success" title="支出"/>
@@ -280,19 +204,62 @@
 <script type="text/javascript">
 
     //导出
-    function exprortZzgl(){
-        var n = $("#n").val();
-        var y = $("#y").val();
-        var r = $("#r").val();
-        var lx = $("#lx").val();
-        var px = $("#px").val();
-        $.ajax({
-            type: "get",
-            url: "${adminPath}/zzgl/zzgl/exprortZzgl?n="+n+"&y="+y+"&r="+r+"&lx="+lx+"&px="+px,
-            success: function (data) {
+    function exprortZzgl(title, url, gridId, id, width, height, tipMsg){
+        url = "${adminPath}/zzgl/zzgl/dcym";
+
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["40%", "40%"],
+            title: "导出资金流动单",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['导出', '关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+//                layer.alert("保存成功！！", {icon: 0, title: '提示'});
+
+            },
+            cancel: function(index){
+                refreshTable2(gridId);
+            },
+            end: function (index) {
+                refreshTable2(gridId);
                 top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+                //location.reload();
             }
         });
+
+        //openDia("导出资金流动单",url,gridId,"40%","30%");
+        <%--var n = $("#n").val();--%>
+        <%--var y = $("#y").val();--%>
+        <%--var r = $("#r").val();--%>
+        <%--var lx = $("#lx").val();--%>
+        <%--var px = $("#px").val();--%>
+        <%--$.ajax({--%>
+            <%--type: "get",--%>
+            <%--url: "${adminPath}/zzgl/zzgl/exprortZzgl?n="+n+"&y="+y+"&r="+r+"&lx="+lx+"&px="+px,--%>
+            <%--success: function (data) {--%>
+                <%--top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});--%>
+            <%--}--%>
+        <%--});--%>
     }
 
     //借还
@@ -338,19 +305,19 @@
     //收入
     function sr(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/zzgl/zzgl/sr";
-        openDia("收入",url,gridId,"40%","50%");
+        openDia("收入",url,gridId,"40%","70%");
     }
 
     //支出
     function zc(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/zzgl/zzgl/zc";
-        openDia("支出",url,gridId,"40%","50%");
+        openDia("支出",url,gridId,"40%","70%");
     }
 
     //调动
     function dd(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/zzgl/zzgl/dd";
-        openDia("调动",url,gridId,"40%","50%");
+        openDia("调动",url,gridId,"40%","70%");
     }
 
     //删除部件
@@ -476,25 +443,77 @@
             url: "${adminPath}/zzgl/zzgl/changeValue",
             success: function (data) {
                 //console.log(data);
-                $('#value1').html("");
-                $('#value2').html("");
-                $('#value3').html("");
-                $('#value4').html("");
-                $('#value5').html("");
-                $('#value6').html("");
-                $('#value7').html("");
-                $('#value8').html("");
+                var qyList = data.qyList;
+                for(var i=0;i<qyList.length;i++){
+                    var each = qyList[i];
+                    //alert(each.zjy);
+                    $('#value'+each.zjy).html("");
+                    var num = each.ywzjy;
+                    var value = "";
+                    if (num=="one"){
+                        value = data.one;
+                    }
+                    if (num=="two"){
+                        value = data.two;
+                    }
+                    if (num=="three"){
+                        value = data.three;
+                    }
+                    if (num=="four"){
+                        value = data.four;
+                    }
+                    if (num=="five"){
+                        value = data.five;
+                    }
+                    if (num=="six"){
+                        value = data.six;
+                    }
+                    if (num=="seven"){
+                        value = data.seven;
+                    }
+                    if (num=="eight"){
+                        value = data.eight;
+                    }
+                    if (num=="nine"){
+                        value = data.nine;
+                    }
+                    if (num=="ten"){
+                        value = data.ten;
+                    }
+                    if (num=="eleven"){
+                        value = data.eleven;
+                    }
+                    if (num=="twelve"){
+                        value = data.twelve;
+                    }
+                    if (num=="thirteen"){
+                        value = data.thirteen;
+                    }
+                    if (num=="fourteen"){
+                        value = data.fourteen;
+                    }
+                    if (num=="fifteen"){
+                        value = data.fifteen;
+                    }
+                    if (num=="sixteen"){
+                        value = data.sixteen;
+                    }
+                    if (num=="seventeen"){
+                        value = data.seventeen;
+                    }
+                    if (num=="eighteen"){
+                        value = data.eighteen;
+                    }
+                    if (num=="nineteen"){
+                        value = data.nineteen;
+                    }
+                    if (num=="twenty"){
+                        value = data.twenty;
+                    }
+                    $("#value"+each.zjy).append("<font size='6'>"+value+"</font>");
+                }
                 $('#valueSum').html("");
-                $("#value1").append("<font size='6'>"+data.one+"</font>");
-                $("#value2").append("<font size='6'>"+data.two+"</font>");
-                $("#value3").append("<font size='6'>"+data.three+"</font>");
-                $("#value4").append("<font size='6'>"+data.four+"</font>");
-                $("#value5").append("<font size='6'>"+data.five+"</font>");
-                $("#value6").append("<font size='6'>"+data.six+"</font>");
-                $("#value7").append("<font size='6'>"+data.seven+"</font>");
-                $("#value8").append("<font size='6'>"+data.eight+"</font>");
                 $("#valueSum").append("<label class='control-label'><font size='8'>总计：</font></label><font size='8'>"+data.sum+"</font>");
-
 
             }
         });

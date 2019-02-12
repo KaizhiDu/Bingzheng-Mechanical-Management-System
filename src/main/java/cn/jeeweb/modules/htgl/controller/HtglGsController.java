@@ -220,6 +220,7 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
 
         EntityWrapper<HtglHt> wrapper = new EntityWrapper<HtglHt>();
         wrapper.eq("RQ","2999-12-31 23:59:59");
+        wrapper.eq("GSID", gsid);
         HtglHt htglHt1 = htglHtService.selectOne(wrapper);
         htglHt1.setJe(df.format(getNumber(htglHt1.getJe())+jee));
         htglHtService.updateById(htglHt1);

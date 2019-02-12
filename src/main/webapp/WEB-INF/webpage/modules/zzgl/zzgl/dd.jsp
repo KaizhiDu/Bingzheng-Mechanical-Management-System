@@ -53,14 +53,17 @@
                     </td>
                     <td>
                         <select name="cz" class="form-control" id="cz">
-                            <option value="1-${jcszZzseName.one}">${jcszZzseName.one}</option>
-                            <option value="2-${jcszZzseName.two}">${jcszZzseName.two}</option>
-                            <option value="3-${jcszZzseName.three}">${jcszZzseName.three}</option>
-                            <option value="4-${jcszZzseName.four}">${jcszZzseName.four}</option>
-                            <option value="5-${jcszZzseName.five}">${jcszZzseName.five}</option>
-                            <option value="6-${jcszZzseName.six}">${jcszZzseName.six}</option>
-                            <option value="7-${jcszZzseName.seven}">${jcszZzseName.seven}</option>
-                            <option value="8-${jcszZzseName.eight}">${jcszZzseName.eight}</option>
+                            <c:forEach var="each" items="${qyList}">
+                                <option value="${each.zjy}-${each.name}">${each.name}</option>
+                            </c:forEach>
+                            <%--<option value="1-${jcszZzseName.one}">${jcszZzseName.one}</option>--%>
+                            <%--<option value="2-${jcszZzseName.two}">${jcszZzseName.two}</option>--%>
+                            <%--<option value="3-${jcszZzseName.three}">${jcszZzseName.three}</option>--%>
+                            <%--<option value="4-${jcszZzseName.four}">${jcszZzseName.four}</option>--%>
+                            <%--<option value="5-${jcszZzseName.five}">${jcszZzseName.five}</option>--%>
+                            <%--<option value="6-${jcszZzseName.six}">${jcszZzseName.six}</option>--%>
+                            <%--<option value="7-${jcszZzseName.seven}">${jcszZzseName.seven}</option>--%>
+                            <%--<option value="8-${jcszZzseName.eight}">${jcszZzseName.eight}</option>--%>
 
                         </select>
                     </td>
@@ -81,14 +84,17 @@
                     </td>
                     <td>
                         <select name="jz" class="form-control" id="jz">
-                            <option value="2-${jcszZzseName.two}">${jcszZzseName.two}</option>
-                            <option value="1-${jcszZzseName.one}">${jcszZzseName.one}</option>
-                            <option value="3-${jcszZzseName.three}">${jcszZzseName.three}</option>
-                            <option value="4-${jcszZzseName.four}">${jcszZzseName.four}</option>
-                            <option value="5-${jcszZzseName.five}">${jcszZzseName.five}</option>
-                            <option value="6-${jcszZzseName.six}">${jcszZzseName.six}</option>
-                            <option value="7-${jcszZzseName.seven}">${jcszZzseName.seven}</option>
-                            <option value="8-${jcszZzseName.eight}">${jcszZzseName.eight}</option>
+                            <c:forEach var="each" items="${qyList}">
+                                <option value="${each.zjy}-${each.name}">${each.name}</option>
+                            </c:forEach>
+                            <%--<option value="2-${jcszZzseName.two}">${jcszZzseName.two}</option>--%>
+                            <%--<option value="1-${jcszZzseName.one}">${jcszZzseName.one}</option>--%>
+                            <%--<option value="3-${jcszZzseName.three}">${jcszZzseName.three}</option>--%>
+                            <%--<option value="4-${jcszZzseName.four}">${jcszZzseName.four}</option>--%>
+                            <%--<option value="5-${jcszZzseName.five}">${jcszZzseName.five}</option>--%>
+                            <%--<option value="6-${jcszZzseName.six}">${jcszZzseName.six}</option>--%>
+                            <%--<option value="7-${jcszZzseName.seven}">${jcszZzseName.seven}</option>--%>
+                            <%--<option value="8-${jcszZzseName.eight}">${jcszZzseName.eight}</option>--%>
 
                         </select>
                     </td>
@@ -96,10 +102,10 @@
 
                 <tr class="form-group">
                     <td>
-                        <label>支出明细：</label>
+                        <label>备注：</label>
                     </td>
                     <td>
-                        <input name="mx" id="mx" htmlEscape="false" class="form-control" placeholder="请输入调动明细"/>
+                        <input name="mx" id="mx" htmlEscape="false" class="form-control" placeholder="请输入备注"/>
                     </td>
                 </tr>
 

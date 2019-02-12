@@ -47,6 +47,42 @@ public class JcszZzse extends AbstractEntity<String> {
     /** 8 */
     @TableField(value = "EIGHT")
     private String eight;
+    /** 9 */
+    @TableField(value = "NINE")
+    private String nine;
+    /** 10 */
+    @TableField(value = "TEN")
+    private String ten;
+    /** 11 */
+    @TableField(value = "ELEVEN")
+    private String eleven;
+    /** 12 */
+    @TableField(value = "TWELVE")
+    private String twelve;
+    /** 13 */
+    @TableField(value = "THIRTEEN")
+    private String thirteen;
+    /** 14 */
+    @TableField(value = "FOURTEEN")
+    private String fourteen;
+    /** 15 */
+    @TableField(value = "FIFTEEN")
+    private String fifteen;
+    /** 16 */
+    @TableField(value = "SIXTEEN")
+    private String sixteen;
+    /** 17 */
+    @TableField(value = "SEVENTEEN")
+    private String seventeen;
+    /** 18 */
+    @TableField(value = "EIGHTEEN")
+    private String eighteen;
+    /** 19 */
+    @TableField(value = "NINETEEN")
+    private String nineteen;
+    /** 20 */
+    @TableField(value = "TWENTY")
+    private String twenty;
     /** 类型 */
     @TableField(value = "TYPE")
     private String type;
@@ -176,5 +212,101 @@ public class JcszZzse extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getNine() {
+        return nine;
+    }
+
+    public void setNine(String nine) {
+        this.nine = nine;
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
+    public String getEleven() {
+        return eleven;
+    }
+
+    public void setEleven(String eleven) {
+        this.eleven = eleven;
+    }
+
+    public String getTwelve() {
+        return twelve;
+    }
+
+    public void setTwelve(String twelve) {
+        this.twelve = twelve;
+    }
+
+    public String getThirteen() {
+        return thirteen;
+    }
+
+    public void setThirteen(String thirteen) {
+        this.thirteen = thirteen;
+    }
+
+    public String getFourteen() {
+        return fourteen;
+    }
+
+    public void setFourteen(String fourteen) {
+        this.fourteen = fourteen;
+    }
+
+    public String getFifteen() {
+        return fifteen;
+    }
+
+    public void setFifteen(String fifteen) {
+        this.fifteen = fifteen;
+    }
+
+    public String getSixteen() {
+        return sixteen;
+    }
+
+    public void setSixteen(String sixteen) {
+        this.sixteen = sixteen;
+    }
+
+    public String getSeventeen() {
+        return seventeen;
+    }
+
+    public void setSeventeen(String seventeen) {
+        this.seventeen = seventeen;
+    }
+
+    public String getEighteen() {
+        return eighteen;
+    }
+
+    public void setEighteen(String eighteen) {
+        this.eighteen = eighteen;
+    }
+
+    public String getNineteen() {
+        return nineteen;
+    }
+
+    public void setNineteen(String nineteen) {
+        this.nineteen = nineteen;
+    }
+
+    public String getTwenty() {
+        return twenty;
+    }
+
+    public void setTwenty(String twenty) {
+        this.twenty = twenty;
     }
 }

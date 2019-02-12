@@ -1,5 +1,7 @@
 package cn.jeeweb.modules.zzgl.dto;
 
+import java.util.List;
+
 public class ValueDTO {
     private String one;
     private String two;
@@ -9,7 +11,29 @@ public class ValueDTO {
     private String six;
     private String seven;
     private String eight;
+    private String nine;
+    private String ten;
+    private String eleven;
+    private String twelve;
+    private String thirteen;
+    private String fourteen;
+    private String fifteen;
+    private String sixteen;
+    private String seventeen;
+    private String eighteen;
+    private String nineteen;
+    private String twenty;
     private String sum;
+
+    private List<QyzjyDTO> qyList;
+
+    public List<QyzjyDTO> getQyList() {
+        return qyList;
+    }
+
+    public void setQyList(List<QyzjyDTO> qyList) {
+        this.qyList = qyList;
+    }
 
     public String getOne() {
         return one;
@@ -81,5 +105,101 @@ public class ValueDTO {
 
     public void setSum(String sum) {
         this.sum = sum;
+    }
+
+    public String getNine() {
+        return nine;
+    }
+
+    public void setNine(String nine) {
+        this.nine = nine;
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
+    public String getEleven() {
+        return eleven;
+    }
+
+    public void setEleven(String eleven) {
+        this.eleven = eleven;
+    }
+
+    public String getTwelve() {
+        return twelve;
+    }
+
+    public void setTwelve(String twelve) {
+        this.twelve = twelve;
+    }
+
+    public String getThirteen() {
+        return thirteen;
+    }
+
+    public void setThirteen(String thirteen) {
+        this.thirteen = thirteen;
+    }
+
+    public String getFourteen() {
+        return fourteen;
+    }
+
+    public void setFourteen(String fourteen) {
+        this.fourteen = fourteen;
+    }
+
+    public String getFifteen() {
+        return fifteen;
+    }
+
+    public void setFifteen(String fifteen) {
+        this.fifteen = fifteen;
+    }
+
+    public String getSixteen() {
+        return sixteen;
+    }
+
+    public void setSixteen(String sixteen) {
+        this.sixteen = sixteen;
+    }
+
+    public String getSeventeen() {
+        return seventeen;
+    }
+
+    public void setSeventeen(String seventeen) {
+        this.seventeen = seventeen;
+    }
+
+    public String getEighteen() {
+        return eighteen;
+    }
+
+    public void setEighteen(String eighteen) {
+        this.eighteen = eighteen;
+    }
+
+    public String getNineteen() {
+        return nineteen;
+    }
+
+    public void setNineteen(String nineteen) {
+        this.nineteen = nineteen;
+    }
+
+    public String getTwenty() {
+        return twenty;
+    }
+
+    public void setTwenty(String twenty) {
+        this.twenty = twenty;
     }
 }

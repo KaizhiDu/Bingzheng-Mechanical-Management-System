@@ -6,6 +6,15 @@ public class ZzglDTO {
     private String lx;
     private String px;
     private String r;
+    private String mx;
+
+    public String getMx() {
+        return mx;
+    }
+
+    public void setMx(String mx) {
+        this.mx = mx;
+    }
 
     public String getR() {
         return r;

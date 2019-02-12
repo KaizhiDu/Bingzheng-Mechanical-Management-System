@@ -7,6 +7,7 @@ import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.jcsz.entity.JcszZzse;
 import cn.jeeweb.modules.jcsz.service.IJcszZzseService;
+import cn.jeeweb.modules.zzgl.dto.QyzjyDTO;
 import cn.jeeweb.modules.zzgl.entity.ZzglJh;
 import cn.jeeweb.modules.zzgl.entity.ZzglJhmx;
 import cn.jeeweb.modules.zzgl.service.IZzglJhService;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -113,6 +115,10 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         wrapper2.eq("TYPE","0");
         JcszZzse jcszZzseName = jcszZzseService.selectOne(wrapper2);
         model.addAttribute("jcszZzseName", jcszZzseName);
+
+        List<QyzjyDTO> qyList = getyxList();
+        model.addAttribute("qyList", qyList);
+
         return display("jk");
     }
 
@@ -154,6 +160,7 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         zzglJh.setMoney(money);
         zzglJh.setZjzh(zhcx);
         zzglJh.setZjmc(zhmc);
+        zzglJh.setBz(mx);
         zzglJhService.insert(zzglJh);
 
         //然后添加一条借还明细
@@ -185,6 +192,18 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
             j.setSeven("0");
             j.setEight("0");
             j.setFive("0");
+            j.setNine("0");
+            j.setTen("0");
+            j.setEleven("0");
+            j.setTwelve("0");
+            j.setThirteen("0");
+            j.setFourteen("0");
+            j.setFifteen("0");
+            j.setSixteen("0");
+            j.setSeventeen("0");
+            j.setEighteen("0");
+            j.setNineteen("0");
+            j.setTwenty("0");
 
             if (zhcx.equals("1")){
                 j.setOne("-"+money);
@@ -209,6 +228,42 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
             }
             if (zhcx.equals("8")){
                 j.setEight("-"+money);
+            }
+            if (zhcx.equals("9")){
+                j.setNine("-"+money);
+            }
+            if (zhcx.equals("10")){
+                j.setTen("-"+money);
+            }
+            if (zhcx.equals("11")){
+                j.setEleven("-"+money);
+            }
+            if (zhcx.equals("12")){
+                j.setTwelve("-"+money);
+            }
+            if (zhcx.equals("13")){
+                j.setThirteen("-"+money);
+            }
+            if (zhcx.equals("14")){
+                j.setFourteen("-"+money);
+            }
+            if (zhcx.equals("15")){
+                j.setFifteen("-"+money);
+            }
+            if (zhcx.equals("16")){
+                j.setSixteen("-"+money);
+            }
+            if (zhcx.equals("17")){
+                j.setSeventeen("-"+money);
+            }
+            if (zhcx.equals("18")){
+                j.setEighteen("-"+money);
+            }
+            if (zhcx.equals("19")){
+                j.setNineteen("-"+money);
+            }
+            if (zhcx.equals("20")){
+                j.setTwenty("-"+money);
             }
             jcszZzseService.insert(j);
         }
@@ -247,6 +302,55 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
                 xs = getNumber(jcszZzse.getSeven()) - moneyf;
                 jcszZzse.setSeven(df.format(xs));
             }
+
+            if (zhcx.equals("9")){
+                xs = getNumber(jcszZzse.getNine()) - moneyf;
+                jcszZzse.setNine(df.format(xs));
+            }
+            if (zhcx.equals("10")){
+                xs = getNumber(jcszZzse.getTen()) - moneyf;
+                jcszZzse.setTen(df.format(xs));
+            }
+            if (zhcx.equals("11")){
+                xs = getNumber(jcszZzse.getEleven()) - moneyf;
+                jcszZzse.setEleven(df.format(xs));
+            }
+            if (zhcx.equals("12")){
+                xs = getNumber(jcszZzse.getTwelve()) - moneyf;
+                jcszZzse.setTwelve(df.format(xs));
+            }
+            if (zhcx.equals("13")){
+                xs = getNumber(jcszZzse.getThirteen()) - moneyf;
+                jcszZzse.setThirteen(df.format(xs));
+            }
+            if (zhcx.equals("14")){
+                xs = getNumber(jcszZzse.getFourteen()) - moneyf;
+                jcszZzse.setFourteen(df.format(xs));
+            }
+            if (zhcx.equals("15")){
+                xs = getNumber(jcszZzse.getFifteen()) - moneyf;
+                jcszZzse.setFifteen(df.format(xs));
+            }
+            if (zhcx.equals("16")){
+                xs = getNumber(jcszZzse.getSixteen()) - moneyf;
+                jcszZzse.setSixteen(df.format(xs));
+            }
+            if (zhcx.equals("17")){
+                xs = getNumber(jcszZzse.getSeventeen()) - moneyf;
+                jcszZzse.setSeventeen(df.format(xs));
+            }
+            if (zhcx.equals("18")){
+                xs = getNumber(jcszZzse.getEighteen()) - moneyf;
+                jcszZzse.setEighteen(df.format(xs));
+            }
+            if (zhcx.equals("19")){
+                xs = getNumber(jcszZzse.getNineteen()) - moneyf;
+                jcszZzse.setNineteen(df.format(xs));
+            }
+            if (zhcx.equals("20")){
+                xs = getNumber(jcszZzse.getTwenty()) - moneyf;
+                jcszZzse.setTwenty(df.format(xs));
+            }
             jcszZzseService.updateById(jcszZzse);
         }
     }
@@ -277,6 +381,9 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         float moneyf = getNumber(zzglJh.getMoney());
         String money = moneyf+"";
         model.addAttribute("money", money);
+
+        List<QyzjyDTO> qyList = getyxList();
+        model.addAttribute("qyList", qyList);
 
         return display("hk");
     }
@@ -376,6 +483,55 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
             xs = getNumber(jcszZzse.getSeven()) + hk;
             jcszZzse.setSeven(df.format(xs));
         }
+
+        if (hkcx.equals("9")){
+            xs = getNumber(jcszZzse.getNine()) + hk;
+            jcszZzse.setNine(df.format(xs));
+        }
+        if (hkcx.equals("10")){
+            xs = getNumber(jcszZzse.getTen()) + hk;
+            jcszZzse.setTen(df.format(xs));
+        }
+        if (hkcx.equals("11")){
+            xs = getNumber(jcszZzse.getEleven()) + hk;
+            jcszZzse.setEleven(df.format(xs));
+        }
+        if (hkcx.equals("12")){
+            xs = getNumber(jcszZzse.getTwelve()) + hk;
+            jcszZzse.setTwelve(df.format(xs));
+        }
+        if (hkcx.equals("13")){
+            xs = getNumber(jcszZzse.getThirteen()) + hk;
+            jcszZzse.setThirteen(df.format(xs));
+        }
+        if (hkcx.equals("14")){
+            xs = getNumber(jcszZzse.getFourteen()) + hk;
+            jcszZzse.setFourteen(df.format(xs));
+        }
+        if (hkcx.equals("15")){
+            xs = getNumber(jcszZzse.getFifteen()) + hk;
+            jcszZzse.setFifteen(df.format(xs));
+        }
+        if (hkcx.equals("16")){
+            xs = getNumber(jcszZzse.getSixteen()) + hk;
+            jcszZzse.setSixteen(df.format(xs));
+        }
+        if (hkcx.equals("17")){
+            xs = getNumber(jcszZzse.getSeventeen()) + hk;
+            jcszZzse.setSeventeen(df.format(xs));
+        }
+        if (hkcx.equals("18")){
+            xs = getNumber(jcszZzse.getEighteen()) + hk;
+            jcszZzse.setEighteen(df.format(xs));
+        }
+        if (hkcx.equals("19")){
+            xs = getNumber(jcszZzse.getNineteen()) + hk;
+            jcszZzse.setNineteen(df.format(xs));
+        }
+        if (hkcx.equals("20")){
+            xs = getNumber(jcszZzse.getTwenty()) + hk;
+            jcszZzse.setTwenty(df.format(xs));
+        }
         jcszZzseService.updateById(jcszZzse);
     }
 
@@ -439,6 +595,55 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
                 xs = getNumber(jcszZzse.getSeven()) + moneyf;
                 jcszZzse.setSeven(df.format(xs));
             }
+
+            if (zjcx.equals("9")){
+                xs = getNumber(jcszZzse.getNine()) + moneyf;
+                jcszZzse.setNine(df.format(xs));
+            }
+            if (zjcx.equals("10")){
+                xs = getNumber(jcszZzse.getTen()) + moneyf;
+                jcszZzse.setTen(df.format(xs));
+            }
+            if (zjcx.equals("11")){
+                xs = getNumber(jcszZzse.getEleven()) + moneyf;
+                jcszZzse.setEleven(df.format(xs));
+            }
+            if (zjcx.equals("12")){
+                xs = getNumber(jcszZzse.getTwelve()) + moneyf;
+                jcszZzse.setTwelve(df.format(xs));
+            }
+            if (zjcx.equals("13")){
+                xs = getNumber(jcszZzse.getThirteen()) + moneyf;
+                jcszZzse.setThirteen(df.format(xs));
+            }
+            if (zjcx.equals("14")){
+                xs = getNumber(jcszZzse.getFourteen()) + moneyf;
+                jcszZzse.setFourteen(df.format(xs));
+            }
+            if (zjcx.equals("15")){
+                xs = getNumber(jcszZzse.getFifteen()) + moneyf;
+                jcszZzse.setFifteen(df.format(xs));
+            }
+            if (zjcx.equals("16")){
+                xs = getNumber(jcszZzse.getSixteen()) + moneyf;
+                jcszZzse.setSixteen(df.format(xs));
+            }
+            if (zjcx.equals("17")){
+                xs = getNumber(jcszZzse.getSeventeen()) + moneyf;
+                jcszZzse.setSeventeen(df.format(xs));
+            }
+            if (zjcx.equals("18")){
+                xs = getNumber(jcszZzse.getEighteen()) + moneyf;
+                jcszZzse.setEighteen(df.format(xs));
+            }
+            if (zjcx.equals("19")){
+                xs = getNumber(jcszZzse.getNineteen()) + moneyf;
+                jcszZzse.setNineteen(df.format(xs));
+            }
+            if (zjcx.equals("20")){
+                xs = getNumber(jcszZzse.getTwenty()) + moneyf;
+                jcszZzse.setTwenty(df.format(xs));
+            }
             jcszZzseService.updateById(jcszZzse);
 
             //然后再删除
@@ -464,8 +669,165 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         model.addAttribute("zzglJhmxes", zzglJhmxes);
         return display("ckmx");
     }
+
     public float getNumber(String number) throws ParseException {
         float d1 = new DecimalFormat().parse(number).floatValue();
         return d1;
     }
+
+    public List<QyzjyDTO> getyxList(){
+
+        //是否启用
+        EntityWrapper<JcszZzse> wrapper0 = new EntityWrapper<JcszZzse>();
+        wrapper0.eq("TYPE","3");
+        JcszZzse sfqy = jcszZzseService.selectOne(wrapper0);
+
+        EntityWrapper<JcszZzse> wrapper1 = new EntityWrapper<JcszZzse>();
+        wrapper1.eq("TYPE","0");
+        JcszZzse name = jcszZzseService.selectOne(wrapper1);
+
+        List<QyzjyDTO> qyList = new ArrayList<QyzjyDTO>();
+        if (sfqy.getOne().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("1");
+            qyzjyDTO.setYwzjy("one");
+            qyzjyDTO.setName(name.getOne());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getTwo().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("2");
+            qyzjyDTO.setYwzjy("two");
+            qyzjyDTO.setName(name.getTwo());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getThree().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("3");
+            qyzjyDTO.setYwzjy("three");
+            qyzjyDTO.setName(name.getThree());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getFour().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("4");
+            qyzjyDTO.setYwzjy("four");
+            qyzjyDTO.setName(name.getFour());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getFive().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("5");
+            qyzjyDTO.setYwzjy("five");
+            qyzjyDTO.setName(name.getFive());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getSix().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("6");
+            qyzjyDTO.setYwzjy("six");
+            qyzjyDTO.setName(name.getSix());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getSeven().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("7");
+            qyzjyDTO.setYwzjy("seven");
+            qyzjyDTO.setName(name.getSeven());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getEight().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("8");
+            qyzjyDTO.setYwzjy("eight");
+            qyzjyDTO.setName(name.getEight());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getNine().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("9");
+            qyzjyDTO.setYwzjy("nine");
+            qyzjyDTO.setName(name.getNine());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getTen().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("10");
+            qyzjyDTO.setYwzjy("ten");
+            qyzjyDTO.setName(name.getTen());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getEleven().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("11");
+            qyzjyDTO.setYwzjy("eleven");
+            qyzjyDTO.setName(name.getEleven());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getTwelve().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("12");
+            qyzjyDTO.setYwzjy("twelve");
+            qyzjyDTO.setName(name.getTwelve());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getThirteen().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("13");
+            qyzjyDTO.setYwzjy("thirteen");
+            qyzjyDTO.setName(name.getThirteen());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getFourteen().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("14");
+            qyzjyDTO.setYwzjy("fourteen");
+            qyzjyDTO.setName(name.getFourteen());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getFifteen().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("15");
+            qyzjyDTO.setYwzjy("fifteen");
+            qyzjyDTO.setName(name.getFifteen());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getSixteen().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("16");
+            qyzjyDTO.setYwzjy("sixteen");
+            qyzjyDTO.setName(name.getSixteen());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getSeventeen().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("17");
+            qyzjyDTO.setYwzjy("seventeen");
+            qyzjyDTO.setName(name.getSeventeen());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getEighteen().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("18");
+            qyzjyDTO.setYwzjy("eighteen");
+            qyzjyDTO.setName(name.getEighteen());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getNineteen().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("19");
+            qyzjyDTO.setYwzjy("nineteen");
+            qyzjyDTO.setName(name.getNineteen());
+            qyList.add(qyzjyDTO);
+        }
+        if (sfqy.getTwenty().equals("1")){
+            QyzjyDTO qyzjyDTO = new QyzjyDTO();
+            qyzjyDTO.setZjy("20");
+            qyzjyDTO.setYwzjy("twenty");
+            qyzjyDTO.setName(name.getTwenty());
+            qyList.add(qyzjyDTO);
+        }
+        return qyList;
+    }
+
 }

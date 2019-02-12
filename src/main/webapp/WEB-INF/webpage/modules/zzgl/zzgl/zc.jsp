@@ -53,14 +53,17 @@
                     </td>
                     <td>
                         <select name="cz" class="form-control" id="cz">
-                            <option value="1-${jcszZzseName.one}">${jcszZzseName.one}</option>
-                            <option value="2-${jcszZzseName.two}">${jcszZzseName.two}</option>
-                            <option value="3-${jcszZzseName.three}">${jcszZzseName.three}</option>
-                            <option value="4-${jcszZzseName.four}">${jcszZzseName.four}</option>
-                            <option value="5-${jcszZzseName.five}">${jcszZzseName.five}</option>
-                            <option value="6-${jcszZzseName.six}">${jcszZzseName.six}</option>
-                            <option value="7-${jcszZzseName.seven}">${jcszZzseName.seven}</option>
-                            <option value="8-${jcszZzseName.eight}">${jcszZzseName.eight}</option>
+                            <c:forEach var="each" items="${qyList}">
+                                <option value="${each.zjy}-${each.name}">${each.name}</option>
+                            </c:forEach>
+                            <%--<option value="1-${jcszZzseName.one}">${jcszZzseName.one}</option>--%>
+                            <%--<option value="2-${jcszZzseName.two}">${jcszZzseName.two}</option>--%>
+                            <%--<option value="3-${jcszZzseName.three}">${jcszZzseName.three}</option>--%>
+                            <%--<option value="4-${jcszZzseName.four}">${jcszZzseName.four}</option>--%>
+                            <%--<option value="5-${jcszZzseName.five}">${jcszZzseName.five}</option>--%>
+                            <%--<option value="6-${jcszZzseName.six}">${jcszZzseName.six}</option>--%>
+                            <%--<option value="7-${jcszZzseName.seven}">${jcszZzseName.seven}</option>--%>
+                            <%--<option value="8-${jcszZzseName.eight}">${jcszZzseName.eight}</option>--%>
 
                         </select>
                     </td>
@@ -80,11 +83,18 @@
                         <label>支出明细：</label>
                     </td>
                     <td>
+
+                        <input id="radio1" name="srmx" type="radio" value="radio1" checked onclick="changeStatus2()"/>选项
                         <select name="mx1" class="form-control" id="mx1" onchange="loadHt()">
                             <c:forEach items="${jcszMxmbs}" var="srmx">
                                 <option value="${srmx.name}">${srmx.name}</option>
                             </c:forEach>
                         </select>
+                        <br>
+                        <input id="radio2" name="srmx" type="radio" value="radio2" onclick="changeStatus()"/>手动输入
+                        <input name="mx12" id="mx12" htmlEscape="false" class="form-control" disabled="disabled"/>
+
+
                     </td>
                 </tr>
 
@@ -154,12 +164,29 @@
         }
     }
 
+    function changeStatus(){
+        $("#mx12").removeAttr("disabled");
+        $("#mx1").attr("disabled","disabled");
+    }
+
+    function changeStatus2(){
+        $("#mx1").removeAttr("disabled");
+        $("#mx12").attr("disabled","disabled");
+    }
+
     //点击保存，保存数据
     function check() {
         var rq = $("#rq").val();
         var cz = $("#cz").val();
         var money = $("#money").val();
-        var mx1 = $("#mx1").val();
+        var srmx = $("input[name='srmx']:checked").val();
+        var mx1 = "";
+        if (srmx=="radio1"){
+            mx1 = $("#mx1").val();
+        }
+        else{
+            mx1 = $("#mx12").val();
+        }
         var mx2 = $("#mx2").val();
         var ht = $("#ht").val();
         $.ajax({

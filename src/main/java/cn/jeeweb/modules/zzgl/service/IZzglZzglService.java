@@ -29,6 +29,6 @@ public interface IZzglZzglService extends ICommonService<ZzglZzgl>{
      * @version : 1.0
      * @date : 2019/1/7 22:17
      */
-    public List<ZzglZzgl> exportZzgl(String n, String y, String r, String lx, String px);
+    public List<ZzglZzgl> exportZzgl(String n1, String y1, String r1, String n2, String y2, String r2);
 
 }

@@ -49,7 +49,7 @@ public class ZzglZzglServiceImpl extends CommonServiceImpl<ZzglZzglMapper, ZzglZ
         }
         Pageable pageable = queryable.getPageable();
         Page<ZzglZzgl> page = new Page<ZzglZzgl>(pageable.getPageNumber(), pageable.getPageSize());
-        page.setRecords(zzglZzglMapper.ajaxZzglList(page, zzglDTO.getN(), zzglDTO.getY(), zzglDTO.getPx(), zzglDTO.getLx(), zzglDTO.getR()));
+        page.setRecords(zzglZzglMapper.ajaxZzglList(page, zzglDTO.getN(), zzglDTO.getY(), zzglDTO.getPx(), zzglDTO.getLx(), zzglDTO.getR(), zzglDTO.getMx()));
         PageJson<ZzglZzgl> pagejson = new PageJson<ZzglZzgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }
@@ -61,17 +61,30 @@ public class ZzglZzglServiceImpl extends CommonServiceImpl<ZzglZzglMapper, ZzglZ
      * @date : 2019/1/7 22:17
      */
     @Override
-    public List<ZzglZzgl> exportZzgl(String n, String y, String r, String lx, String px) {
-        if (y!=null){
-            if (!y.equals("10")&&!y.equals("11")&&!y.equals("12")){
-                y = "0"+y;
+    public List<ZzglZzgl> exportZzgl(String n1, String y1, String r1, String n2, String y2, String r2) {
+        if (y1!=null){
+            if (y1.equals("1")&&y1.equals("2")&&y1.equals("3")&&y1.equals("4")&&y1.equals("5")&&y1.equals("6")&&y1.equals("7")&&y1.equals("8")&&y1.equals("9")){
+                y1 = "0"+y1;
             }
         }
-        if (r!=null){
-            if (r.equals("1")||r.equals("2")||r.equals("3")||r.equals("4")||r.equals("5")||r.equals("6")||r.equals("7")||r.equals("8")||r.equals("9")){
-                r = "0"+r;
+        if (r1!=null){
+            if (r1.equals("1")||r1.equals("2")||r1.equals("3")||r1.equals("4")||r1.equals("5")||r1.equals("6")||r1.equals("7")||r1.equals("8")||r1.equals("9")){
+                r1 = "0"+r1;
             }
         }
-        return zzglZzglMapper.exportZzgl(n,y,r,px);
+
+        if (y2!=null){
+            if (y2.equals("1")&&y2.equals("2")&&y2.equals("3")&&y2.equals("4")&&y2.equals("5")&&y2.equals("6")&&y2.equals("7")&&y2.equals("8")&&y2.equals("9")){
+                y2 = "0"+y2;
+            }
+        }
+        if (r2!=null){
+            if (r2.equals("1")||r2.equals("2")||r2.equals("3")||r2.equals("4")||r2.equals("5")||r2.equals("6")||r2.equals("7")||r2.equals("8")||r2.equals("9")){
+                r2 = "0"+r2;
+            }
+        }
+
+        return zzglZzglMapper.exportZzgl(n1, y1, r1, n2, y2, r2);
     }
+
 }
