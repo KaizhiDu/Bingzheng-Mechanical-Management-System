@@ -37,12 +37,12 @@ public class ZzglZzglServiceImpl extends CommonServiceImpl<ZzglZzglMapper, ZzglZ
      */
     @Override
     public PageJson<ZzglZzgl> ajaxZzglList(Queryable queryable, ZzglDTO zzglDTO) {
-        if (zzglDTO.getY()!=null){
+        if (!zzglDTO.getY().equals("")){
             if (!zzglDTO.getY().equals("10")&&!zzglDTO.getY().equals("11")&&!zzglDTO.getY().equals("12")){
                 zzglDTO.setY("0"+zzglDTO.getY());
             }
         }
-        if (zzglDTO.getR()!=null){
+        if (!zzglDTO.getR().equals("")){
             if (zzglDTO.getR().equals("1")||zzglDTO.getR().equals("2")||zzglDTO.getR().equals("3")||zzglDTO.getR().equals("4")||zzglDTO.getR().equals("5")||zzglDTO.getR().equals("6")||zzglDTO.getR().equals("7")||zzglDTO.getR().equals("8")||zzglDTO.getR().equals("9")){
                 zzglDTO.setR("0"+zzglDTO.getR());
             }

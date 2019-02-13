@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -288,8 +289,12 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         String n = dateArray[0];
         String y = dateArray[1];
         String r = dateArray[2];
-        float moneyf = Float.parseFloat(money);
-        money = df.format(moneyf);
+        //float moneyf = Float.parseFloat(money);
+        double moneyd = Double.parseDouble(money);
+//        if (moneyf<1){
+//            moneyf = moneyf + 1;
+//        }
+        money = df.format(moneyd);
         String jzArray[] = jz.split("-");
         String zjcx = jzArray[0];
         String zjmc = jzArray[1];
@@ -318,12 +323,12 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             //然后需要减少对应的合同金额
             //首先是该合同的数额
             HtglHt htglHt2 = htglHtService.selectById(ht);
-            Float jee = getNumber(htglHt2.getJe()) - moneyf;
+            double jee = getNumber(htglHt2.getJe()) - moneyd;
             htglHt2.setJe(df.format(jee));
             htglHtService.updateById(htglHt2);
             //然后是公司的数额
             HtglGs htglGs = htglGsService.selectById(htglHt2.getGsid());
-            Float jeee = getNumber(htglGs.getJe()) - moneyf;
+            double jeee = getNumber(htglGs.getJe()) - moneyd;
             htglGs.setJe(df.format(jeee));
             htglGsService.updateById(htglGs);
             //最后进行判断，该合同是否是总资金
@@ -332,7 +337,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 wrapper.eq("GSID", htglHt2.getGsid());
                 wrapper.eq("RQ", "2999-12-31 23:59:59");
                 HtglHt htglHt3 = htglHtService.selectOne(wrapper);
-                Float jeeee = getNumber(htglHt3.getJe()) - moneyf;
+                double jeeee = getNumber(htglHt3.getJe()) - moneyd;
                 htglHt3.setJe(df.format(jeeee));
                 htglHtService.updateById(htglHt3);
             }
@@ -517,85 +522,91 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         }
         //累加上
         else {
-            float xs = 0;
+            double xs = 0;
             if (zjcx.equals("1")){
-                xs = getNumber(jcszZzse.getOne()) + moneyf;
-                jcszZzse.setOne(df.format(xs));
+//                BigDecimal b1 = new BigDecimal(Float.toString(getNumber(jcszZzse.getOne())));
+//                BigDecimal b2 = new BigDecimal(Float.toString(moneyf));
+//                xs = b1.add(b2).floatValue();
+//                jcszZzse.setOne(df.format(xs));
+                double d1 = getNumber2(jcszZzse.getOne());
+                double d2 = moneyd;
+                double xss = d1 + d2;
+                jcszZzse.setOne(df.format(xss));
             }
             if (zjcx.equals("2")){
-                xs = getNumber(jcszZzse.getTwo()) + moneyf;
+                xs = getNumber(jcszZzse.getTwo()) + moneyd;
                 jcszZzse.setTwo(df.format(xs));
             }
             if (zjcx.equals("3")){
-                xs = getNumber(jcszZzse.getThree()) + moneyf;
+                xs = getNumber(jcszZzse.getThree()) + moneyd;
                 jcszZzse.setThree(df.format(xs));
             }
             if (zjcx.equals("4")){
-                xs = getNumber(jcszZzse.getFour()) + moneyf;
+                xs = getNumber(jcszZzse.getFour()) + moneyd;
                 jcszZzse.setFour(df.format(xs));
             }
             if (zjcx.equals("5")){
-                xs = getNumber(jcszZzse.getFive()) + moneyf;
+                xs = getNumber(jcszZzse.getFive()) + moneyd;
                 jcszZzse.setFive(df.format(xs));
             }
             if (zjcx.equals("6")){
-                xs = getNumber(jcszZzse.getSix()) + moneyf;
+                xs = getNumber(jcszZzse.getSix()) + moneyd;
                 jcszZzse.setSix(df.format(xs));
             }
             if (zjcx.equals("7")){
-                xs = getNumber(jcszZzse.getSeven()) + moneyf;
+                xs = getNumber(jcszZzse.getSeven()) + moneyd;
                 jcszZzse.setSeven(df.format(xs));
             }
             if (zjcx.equals("8")){
-                xs = getNumber(jcszZzse.getEight()) + moneyf;
+                xs = getNumber(jcszZzse.getEight()) + moneyd;
                 jcszZzse.setEight(df.format(xs));
             }
             if (zjcx.equals("9")){
-                xs = getNumber(jcszZzse.getNine()) + moneyf;
+                xs = getNumber(jcszZzse.getNine()) + moneyd;
                 jcszZzse.setNine(df.format(xs));
             }
             if (zjcx.equals("10")){
-                xs = getNumber(jcszZzse.getTen()) + moneyf;
+                xs = getNumber(jcszZzse.getTen()) + moneyd;
                 jcszZzse.setTen(df.format(xs));
             }
             if (zjcx.equals("11")){
-                xs = getNumber(jcszZzse.getEleven()) + moneyf;
+                xs = getNumber(jcszZzse.getEleven()) + moneyd;
                 jcszZzse.setEleven(df.format(xs));
             }
             if (zjcx.equals("12")){
-                xs = getNumber(jcszZzse.getTwelve()) + moneyf;
+                xs = getNumber(jcszZzse.getTwelve()) + moneyd;
                 jcszZzse.setTwelve(df.format(xs));
             }
             if (zjcx.equals("13")){
-                xs = getNumber(jcszZzse.getThirteen()) + moneyf;
+                xs = getNumber(jcszZzse.getThirteen()) + moneyd;
                 jcszZzse.setThirteen(df.format(xs));
             }
             if (zjcx.equals("14")){
-                xs = getNumber(jcszZzse.getFourteen()) + moneyf;
+                xs = getNumber(jcszZzse.getFourteen()) + moneyd;
                 jcszZzse.setFourteen(df.format(xs));
             }
             if (zjcx.equals("15")){
-                xs = getNumber(jcszZzse.getFifteen()) + moneyf;
+                xs = getNumber(jcszZzse.getFifteen()) + moneyd;
                 jcszZzse.setFifteen(df.format(xs));
             }
             if (zjcx.equals("16")){
-                xs = getNumber(jcszZzse.getSixteen()) + moneyf;
+                xs = getNumber(jcszZzse.getSixteen()) + moneyd;
                 jcszZzse.setSixteen(df.format(xs));
             }
             if (zjcx.equals("17")){
-                xs = getNumber(jcszZzse.getSeventeen()) + moneyf;
+                xs = getNumber(jcszZzse.getSeventeen()) + moneyd;
                 jcszZzse.setSeventeen(df.format(xs));
             }
             if (zjcx.equals("18")){
-                xs = getNumber(jcszZzse.getEighteen()) + moneyf;
+                xs = getNumber(jcszZzse.getEighteen()) + moneyd;
                 jcszZzse.setEighteen(df.format(xs));
             }
             if (zjcx.equals("19")){
-                xs = getNumber(jcszZzse.getNineteen()) + moneyf;
+                xs = getNumber(jcszZzse.getNineteen()) + moneyd;
                 jcszZzse.setNineteen(df.format(xs));
             }
             if (zjcx.equals("20")){
-                xs = getNumber(jcszZzse.getTwenty()) + moneyf;
+                xs = getNumber(jcszZzse.getTwenty()) + moneyd;
                 jcszZzse.setTwenty(df.format(xs));
             }
             jcszZzseService.updateById(jcszZzse);
@@ -620,8 +631,8 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         }
         String m = money;
         //支出是减去的钱
-        float moneyf = 0 - getNumber(money);
-        money = df.format(moneyf);
+        double moneyd = 0 - getNumber(money);
+        money = df.format(moneyd);
         //排序时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -654,7 +665,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             //然后需要减少对应的合同金额
             //首先是该合同的数额
             HtglHt htglHt2 = htglHtService.selectById(ht);
-            Float jee = getNumber(htglHt2.getFkyk()) + moneyf;
+            double jee = getNumber(htglHt2.getFkyk()) + moneyd;
             htglHt2.setFkyk(df.format(jee));
             htglHtService.updateById(htglHt2);
         }
@@ -836,85 +847,85 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         }
         //累加上
         else {
-            float xs = 0;
+            double xs = 0;
             if (zjcx.equals("2")){
-                xs = getNumber(jcszZzse.getTwo()) + moneyf;
+                xs = getNumber(jcszZzse.getTwo()) + moneyd;
                 jcszZzse.setTwo(df.format(xs));
             }
             if (zjcx.equals("3")){
-                xs = getNumber(jcszZzse.getThree()) + moneyf;
+                xs = getNumber(jcszZzse.getThree()) + moneyd;
                 jcszZzse.setThree(df.format(xs));
             }
             if (zjcx.equals("1")){
-                xs = getNumber(jcszZzse.getOne()) + moneyf;
+                xs = getNumber(jcszZzse.getOne()) + moneyd;
                 jcszZzse.setOne(df.format(xs));
             }
             if (zjcx.equals("4")){
-                xs = getNumber(jcszZzse.getFour()) + moneyf;
+                xs = getNumber(jcszZzse.getFour()) + moneyd;
                 jcszZzse.setFour(df.format(xs));
             }
             if (zjcx.equals("5")){
-                xs = getNumber(jcszZzse.getFive()) + moneyf;
+                xs = getNumber(jcszZzse.getFive()) + moneyd;
                 jcszZzse.setFive(df.format(xs));
             }
             if (zjcx.equals("6")){
-                xs = getNumber(jcszZzse.getSix()) + moneyf;
+                xs = getNumber(jcszZzse.getSix()) + moneyd;
                 jcszZzse.setSix(df.format(xs));
             }
             if (zjcx.equals("7")){
-                xs = getNumber(jcszZzse.getSeven()) + moneyf;
+                xs = getNumber(jcszZzse.getSeven()) + moneyd;
                 jcszZzse.setSeven(df.format(xs));
             }
             if (zjcx.equals("8")){
-                xs = getNumber(jcszZzse.getEight()) + moneyf;
+                xs = getNumber(jcszZzse.getEight()) + moneyd;
                 jcszZzse.setEight(df.format(xs));
             }
             if (zjcx.equals("9")){
-                xs = getNumber(jcszZzse.getNine()) + moneyf;
+                xs = getNumber(jcszZzse.getNine()) + moneyd;
                 jcszZzse.setNine(df.format(xs));
             }
             if (zjcx.equals("10")){
-                xs = getNumber(jcszZzse.getTen()) + moneyf;
+                xs = getNumber(jcszZzse.getTen()) + moneyd;
                 jcszZzse.setTen(df.format(xs));
             }
             if (zjcx.equals("11")){
-                xs = getNumber(jcszZzse.getEleven()) + moneyf;
+                xs = getNumber(jcszZzse.getEleven()) + moneyd;
                 jcszZzse.setEleven(df.format(xs));
             }
             if (zjcx.equals("12")){
-                xs = getNumber(jcszZzse.getTwelve()) + moneyf;
+                xs = getNumber(jcszZzse.getTwelve()) + moneyd;
                 jcszZzse.setTwelve(df.format(xs));
             }
             if (zjcx.equals("13")){
-                xs = getNumber(jcszZzse.getThirteen()) + moneyf;
+                xs = getNumber(jcszZzse.getThirteen()) + moneyd;
                 jcszZzse.setThirteen(df.format(xs));
             }
             if (zjcx.equals("14")){
-                xs = getNumber(jcszZzse.getFourteen()) + moneyf;
+                xs = getNumber(jcszZzse.getFourteen()) + moneyd;
                 jcszZzse.setFourteen(df.format(xs));
             }
             if (zjcx.equals("15")){
-                xs = getNumber(jcszZzse.getFifteen()) + moneyf;
+                xs = getNumber(jcszZzse.getFifteen()) + moneyd;
                 jcszZzse.setFifteen(df.format(xs));
             }
             if (zjcx.equals("16")){
-                xs = getNumber(jcszZzse.getSixteen()) + moneyf;
+                xs = getNumber(jcszZzse.getSixteen()) + moneyd;
                 jcszZzse.setSixteen(df.format(xs));
             }
             if (zjcx.equals("17")){
-                xs = getNumber(jcszZzse.getSeventeen()) + moneyf;
+                xs = getNumber(jcszZzse.getSeventeen()) + moneyd;
                 jcszZzse.setSeventeen(df.format(xs));
             }
             if (zjcx.equals("18")){
-                xs = getNumber(jcszZzse.getEighteen()) + moneyf;
+                xs = getNumber(jcszZzse.getEighteen()) + moneyd;
                 jcszZzse.setEighteen(df.format(xs));
             }
             if (zjcx.equals("19")){
-                xs = getNumber(jcszZzse.getNineteen()) + moneyf;
+                xs = getNumber(jcszZzse.getNineteen()) + moneyd;
                 jcszZzse.setNineteen(df.format(xs));
             }
             if (zjcx.equals("20")){
-                xs = getNumber(jcszZzse.getTwenty()) + moneyf;
+                xs = getNumber(jcszZzse.getTwenty()) + moneyd;
                 jcszZzse.setTwenty(df.format(xs));
             }
             jcszZzseService.updateById(jcszZzse);
@@ -936,8 +947,8 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         if (money==null){
             money = "0";
         }
-        float jmoney = getNumber(money);
-        float cmoney = 0 - getNumber(money);
+        double jmoney = getNumber(money);
+        double cmoney = 0 - getNumber(money);
         String czMoney = df.format(cmoney);
         money = df.format(jmoney);
 
@@ -1248,7 +1259,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         }
         //累加上
         else {
-            float xs = 0;
+            double xs = 0;
             if (jzcx.equals("2")){
                 xs = getNumber(jcszZzse.getTwo()) + jmoney;
                 jcszZzse.setTwo(df.format(xs));
@@ -1331,7 +1342,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             }
 
 
-            float cxs = 0;
+            double cxs = 0;
             if (czcx.equals("2")){
                 cxs = getNumber(jcszZzse.getTwo()) + cmoney;
                 jcszZzse.setTwo(df.format(cxs));
@@ -1433,26 +1444,26 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         for (int i = 0; i <idsArray.length ; i++) {
             String id = idsArray[i];
             ZzglZzgl zzglZzgl = zzglZzglService.selectById(id);
-            float one = 0;
-            float two = 0;
-            float three = 0;
-            float four = 0;
-            float five = 0;
-            float six = 0;
-            float seven = 0;
-            float eight = 0;
-            float nine = 0;
-            float ten = 0;
-            float eleven = 0;
-            float twelve = 0;
-            float thirteen = 0;
-            float fourteen = 0;
-            float fifteen = 0;
-            float sixteen = 0;
-            float seventeen = 0;
-            float eighteen = 0;
-            float nineteen = 0;
-            float twenty = 0;
+            double one = 0;
+            double two = 0;
+            double three = 0;
+            double four = 0;
+            double five = 0;
+            double six = 0;
+            double seven = 0;
+            double eight = 0;
+            double nine = 0;
+            double ten = 0;
+            double eleven = 0;
+            double twelve = 0;
+            double thirteen = 0;
+            double fourteen = 0;
+            double fifteen = 0;
+            double sixteen = 0;
+            double seventeen = 0;
+            double eighteen = 0;
+            double nineteen = 0;
+            double twenty = 0;
             if (zzglZzgl.getOne()!=null&&!zzglZzgl.getOne().equals("")){
                 one = getNumber(zzglZzgl.getOne());
             }
@@ -1519,26 +1530,26 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
             wrapper2.eq("TYPE", "2");
             JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
-            float oldOne = getNumber(jcszZzse.getOne());
-            float oldTwo = getNumber(jcszZzse.getTwo());
-            float oldThree = getNumber(jcszZzse.getThree());
-            float oldFour = getNumber(jcszZzse.getFour());
-            float oldFive = getNumber(jcszZzse.getFive());
-            float oldSix = getNumber(jcszZzse.getSix());
-            float oldSeven = getNumber(jcszZzse.getSeven());
-            float oldEight = getNumber(jcszZzse.getEight());
-            float oldNine = getNumber(jcszZzse.getNine());
-            float oldTen = getNumber(jcszZzse.getTen());
-            float oldEleven = getNumber(jcszZzse.getEleven());
-            float oldTwelve = getNumber(jcszZzse.getTwelve());
-            float oldTirteen = getNumber(jcszZzse.getThirteen());
-            float oldFourteen = getNumber(jcszZzse.getFourteen());
-            float oldFifteen = getNumber(jcszZzse.getFifteen());
-            float oldSixteen = getNumber(jcszZzse.getSixteen());
-            float oldSeventeen = getNumber(jcszZzse.getSeventeen());
-            float oldEighteen = getNumber(jcszZzse.getEighteen());
-            float oldNineteen = getNumber(jcszZzse.getNineteen());
-            float oldTwenty = getNumber(jcszZzse.getTwenty());
+            double oldOne = getNumber(jcszZzse.getOne());
+            double oldTwo = getNumber(jcszZzse.getTwo());
+            double oldThree = getNumber(jcszZzse.getThree());
+            double oldFour = getNumber(jcszZzse.getFour());
+            double oldFive = getNumber(jcszZzse.getFive());
+            double oldSix = getNumber(jcszZzse.getSix());
+            double oldSeven = getNumber(jcszZzse.getSeven());
+            double oldEight = getNumber(jcszZzse.getEight());
+            double oldNine = getNumber(jcszZzse.getNine());
+            double oldTen = getNumber(jcszZzse.getTen());
+            double oldEleven = getNumber(jcszZzse.getEleven());
+            double oldTwelve = getNumber(jcszZzse.getTwelve());
+            double oldTirteen = getNumber(jcszZzse.getThirteen());
+            double oldFourteen = getNumber(jcszZzse.getFourteen());
+            double oldFifteen = getNumber(jcszZzse.getFifteen());
+            double oldSixteen = getNumber(jcszZzse.getSixteen());
+            double oldSeventeen = getNumber(jcszZzse.getSeventeen());
+            double oldEighteen = getNumber(jcszZzse.getEighteen());
+            double oldNineteen = getNumber(jcszZzse.getNineteen());
+            double oldTwenty = getNumber(jcszZzse.getTwenty());
 
             oldOne = oldOne - one;
             oldTwo = oldTwo - two;
@@ -1592,7 +1603,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 String htmxid = zzglZzgl.getHtmxid();
                 if (htmxid!=null&&!htmxid.equals("")){
                     HtglHtmx htglHtmx = htglHtmxService.selectById(htmxid);
-                    float je = getNumber(htglHtmx.getJe());
+                    double je = getNumber(htglHtmx.getJe());
                     String htid = htglHtmx.getHtid();
                     HtglHt htglHt = htglHtService.selectById(htid);
                     String gsid = htglHt.getGsid();
@@ -1609,7 +1620,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                     wrapper.eq("GSID", gsid);
                     HtglHt htglHt1 = htglHtService.selectOne(wrapper);
                     if (htglHt1!=null){
-                        float jeee = getNumber(htglHt1.getJe()) + je;
+                        double jeee = getNumber(htglHt1.getJe()) + je;
                         htglHt1.setJe(df.format(jeee));
                         htglHtService.updateById(htglHt1);
                     }
@@ -1623,7 +1634,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 String htmxid = zzglZzgl.getHtmxid();
                 if (htmxid!=null&&!htmxid.equals("")){
                     HtglHtmx htglHtmx = htglHtmxService.selectById(htmxid);
-                    float je = getNumber(htglHtmx.getJe());
+                    double je = getNumber(htglHtmx.getJe());
                     String htid = htglHtmx.getHtid();
                     HtglHt htglHt = htglHtService.selectById(htid);
                     //先把合同je加上
@@ -1659,206 +1670,40 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             e.printStackTrace();
         }
         JcszZzse j1 = jcszZzseService.selectOne(wrapper1);
-        if (j1==null){
-            j1 = new JcszZzse();
-            j1.setEight("0");
-            j1.setSeven("0");
-            j1.setSix("0");
-            j1.setFive("0");
-            j1.setFour("0");
-            j1.setThree("0");
-            j1.setTwo("0");
-            j1.setOne("0");
-            j1.setNine("0");
-            j1.setTen("0");
-            j1.setEleven("0");
-            j1.setTwelve("0");
-            j1.setThirteen("0");
-            j1.setFifteen("0");
-            j1.setFourteen("0");
-            j1.setSixteen("0");
-            j1.setSeventeen("0");
-            j1.setEighteen("0");
-            j1.setNineteen("0");
-            j1.setTwenty("0");
-        }
-        if (j1.getOne().equals("")||j1.getOne()==null){
-            j1.setOne("0");
-        }
-        if (j1.getTwo().equals("")||j1.getTwo()==null){
-            j1.setTwo("0");
-        }
-        if (j1.getThree().equals("")||j1.getThree()==null){
-            j1.setThree("0");
-        }
-        if (j1.getFour().equals("")||j1.getFour()==null){
-            j1.setFour("0");
-        }
-        if (j1.getFive().equals("")||j1.getFive()==null){
-            j1.setFive("0");
-        }
-        if (j1.getSix().equals("")||j1.getSix()==null){
-            j1.setSix("0");
-        }
-        if (j1.getSeven().equals("")||j1.getSeven()==null){
-            j1.setSeven("0");
-        }
-        if (j1.getEight().equals("")||j1.getEight()==null){
-            j1.setEight("0");
-        }
-        if (j1.getNine().equals("")||j1.getNine()==null){
-            j1.setNine("0");
-        }
-        if (j1.getTen().equals("")||j1.getTen()==null){
-            j1.setTen("0");
-        }
-        if (j1.getEleven().equals("")||j1.getEleven()==null){
-            j1.setEleven("0");
-        }
-        if (j1.getTwelve().equals("")||j1.getTwelve()==null){
-            j1.setTwelve("0");
-        }
-        if (j1.getThirteen().equals("")||j1.getThirteen()==null){
-            j1.setThirteen("0");
-        }
-        if (j1.getFourteen().equals("")||j1.getFourteen()==null){
-            j1.setFourteen("0");
-        }
-        if (j1.getFifteen().equals("")||j1.getFifteen()==null){
-            j1.setFifteen("0");
-        }
-        if (j1.getSixteen().equals("")||j1.getSixteen()==null){
-            j1.setSixteen("0");
-        }
-        if (j1.getSeventeen().equals("")||j1.getSeventeen()==null){
-            j1.setSeventeen("0");
-        }
-        if (j1.getEighteen().equals("")||j1.getEighteen()==null){
-            j1.setEighteen("0");
-        }
-        if (j1.getNineteen().equals("")||j1.getNineteen()==null){
-            j1.setNineteen("0");
-        }
-        if (j1.getTwenty().equals("")||j1.getTwenty()==null){
-            j1.setTwenty("0");
-        }
+
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
         wrapper2.eq("TYPE", "2");
         JcszZzse j2 = jcszZzseService.selectOne(wrapper2);
-        if (j2==null){
-            j2 = new JcszZzse();
-            j2.setEight("0");
-            j2.setSix("0");
-            j2.setFive("0");
-            j2.setSeven("0");
-            j2.setFour("0");
-            j2.setThree("0");
-            j2.setTwo("0");
-            j2.setOne("0");
-            j2.setNine("0");
-            j2.setTen("0");
-            j2.setEleven("0");
-            j2.setTwelve("0");
-            j2.setThirteen("0");
-            j2.setFifteen("0");
-            j2.setFourteen("0");
-            j2.setSixteen("0");
-            j2.setSeventeen("0");
-            j2.setEighteen("0");
-            j2.setNineteen("0");
-            j2.setTwenty("0");
-        }
-        if (j2.getOne().equals("")||j2.getOne()==null){
-            j2.setOne("0");
-        }
-        if (j2.getTwo().equals("")||j2.getTwo()==null){
-            j2.setTwo("0");
-        }
-        if (j2.getThree().equals("")||j2.getThree()==null){
-            j2.setThree("0");
-        }
-        if (j2.getFour().equals("")||j2.getFour()==null){
-            j2.setFour("0");
-        }
-        if (j2.getFive().equals("")||j2.getFive()==null){
-            j2.setFive("0");
-        }
-        if (j2.getSix().equals("")||j2.getSix()==null){
-            j2.setSix("0");
-        }
-        if (j2.getSeven().equals("")||j2.getSeven()==null){
-            j2.setSeven("0");
-        }
-        if (j2.getEight().equals("")||j2.getEight()==null){
-            j2.setEight("0");
-        }
-        if (j2.getNine().equals("")||j2.getNine()==null){
-            j2.setNine("0");
-        }
-        if (j2.getTen().equals("")||j2.getTen()==null){
-            j2.setTen("0");
-        }
-        if (j2.getEleven().equals("")||j2.getEleven()==null){
-            j2.setEleven("0");
-        }
-        if (j2.getTwelve().equals("")||j2.getTwelve()==null){
-            j2.setTwelve("0");
-        }
-        if (j2.getThirteen().equals("")||j2.getThirteen()==null){
-            j2.setThirteen("0");
-        }
-        if (j2.getFourteen().equals("")||j2.getFourteen()==null){
-            j2.setFourteen("0");
-        }
-        if (j2.getFifteen().equals("")||j2.getFifteen()==null){
-            j2.setFifteen("0");
-        }
-        if (j2.getSixteen().equals("")||j2.getSixteen()==null){
-            j2.setSixteen("0");
-        }
-        if (j2.getSeventeen().equals("")||j2.getSeventeen()==null){
-            j2.setSeventeen("0");
-        }
-        if (j2.getEighteen().equals("")||j2.getEighteen()==null){
-            j2.setEighteen("0");
-        }
-        if (j2.getNineteen().equals("")||j2.getNineteen()==null){
-            j2.setNineteen("0");
-        }
-        if (j2.getTwenty().equals("")||j2.getTwenty()==null){
-            j2.setTwenty("0");
-        }
 
+        double one = getNumber2(j1.getOne())+getNumber2(j2.getOne());
+        double two = getNumber2(j1.getTwo())+getNumber2(j2.getTwo());
+        double three = getNumber2(j1.getThree())+getNumber2(j2.getThree());
+        double four = getNumber2(j1.getFour())+getNumber2(j2.getFour());
+        double five = getNumber2(j1.getFive())+getNumber2(j2.getFive());
+        double six = getNumber2(j1.getSix())+getNumber2(j2.getSix());
+        double seven = getNumber2(j1.getSeven())+getNumber2(j2.getSeven());
+        double eight = getNumber2(j1.getEight())+getNumber2(j2.getEight());
+        double nine = getNumber2(j1.getNine())+getNumber2(j2.getNine());
+        double ten = getNumber2(j1.getTen())+getNumber2(j2.getTen());
+        double eleven = getNumber2(j1.getEleven())+getNumber2(j2.getEleven());
+        double twelve = getNumber2(j1.getTwelve())+getNumber2(j2.getTwelve());
+        double thirteen = getNumber2(j1.getThirteen())+getNumber2(j2.getThirteen());
+        double fourteen = getNumber2(j1.getFourteen())+getNumber2(j2.getFourteen());
+        double fifteen = getNumber2(j1.getFifteen())+getNumber2(j2.getFifteen());
+        double sixteen = getNumber2(j1.getSixteen())+getNumber2(j2.getSixteen());
+        double seventeen = getNumber2(j1.getSeventeen())+getNumber2(j2.getSeventeen());
+        double eighteen = getNumber2(j1.getEighteen())+getNumber2(j2.getEighteen());
+        double nineteen = getNumber2(j1.getNineteen())+getNumber2(j2.getNineteen());
+        double twenty = getNumber2(j1.getTwenty())+getNumber2(j2.getTwenty());
 
-        float one = getNumber(j1.getOne())+getNumber(j2.getOne());
-        float two = getNumber(j1.getTwo())+getNumber(j2.getTwo());
-        float three = getNumber(j1.getThree())+getNumber(j2.getThree());
-        float four = getNumber(j1.getFour())+getNumber(j2.getFour());
-        float five = getNumber(j1.getFive())+getNumber(j2.getFive());
-        float six = getNumber(j1.getSix())+getNumber(j2.getSix());
-        float seven = getNumber(j1.getSeven())+getNumber(j2.getSeven());
-        float eight = getNumber(j1.getEight())+getNumber(j2.getEight());
-        float nine = getNumber(j1.getNine())+getNumber(j2.getNine());
-        float ten = getNumber(j1.getTen())+getNumber(j2.getTen());
-        float eleven = getNumber(j1.getEleven())+getNumber(j2.getEleven());
-        float twelve = getNumber(j1.getTwelve())+getNumber(j2.getTwelve());
-        float thirteen = getNumber(j1.getThirteen())+getNumber(j2.getThirteen());
-        float fourteen = getNumber(j1.getFourteen())+getNumber(j2.getFourteen());
-        float fifteen = getNumber(j1.getFifteen())+getNumber(j2.getFifteen());
-        float sixteen = getNumber(j1.getSixteen())+getNumber(j2.getSixteen());
-        float seventeen = getNumber(j1.getSeventeen())+getNumber(j2.getSeventeen());
-        float eighteen = getNumber(j1.getEighteen())+getNumber(j2.getEighteen());
-        float nineteen = getNumber(j1.getNineteen())+getNumber(j2.getNineteen());
-        float twenty = getNumber(j1.getTwenty())+getNumber(j2.getTwenty());
-
-        float sum = one + two + three + four + five + six + seven + eight + nine + ten + eleven + twelve + thirteen + fourteen + fifteen + sixteen + seventeen + eighteen + nineteen + twenty;
+        double sum = one + two + three + four + five + six + seven + eight + nine + ten + eleven + twelve + thirteen + fourteen + fifteen + sixteen + seventeen + eighteen + nineteen + twenty;
 
         //sum还需要加上借款
         EntityWrapper<ZzglJh> wrapper = new EntityWrapper<ZzglJh>();
         List<ZzglJh> zzglJhs = zzglJhService.selectList(wrapper);
         if (zzglJhs.size()>0){
             for (ZzglJh z : zzglJhs) {
-                sum = sum + getNumber(z.getMoney());
+                sum = sum + getNumber2(z.getMoney());
             }
         }
 
@@ -1949,6 +1794,8 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         int r = Integer.parseInt(dateArray[2]);
         model.addAttribute("y", y);
         model.addAttribute("n", n);
+        int nArray[] = {n, n-1, n-2};
+        model.addAttribute("nArray", nArray);
         model.addAttribute("r", r);
         model.addAttribute("day", currentDate);
         return display("jh");
@@ -2083,8 +1930,13 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         return htList;
     }
 
-    public float getNumber(String number) throws ParseException {
-        float d1 = new DecimalFormat().parse(number).floatValue();
+    public double getNumber(String number) throws ParseException {
+        double d1 = new DecimalFormat().parse(number).doubleValue();
+        return d1;
+    }
+
+    public double getNumber2(String number) throws ParseException {
+        double d1 = new DecimalFormat().parse(number).doubleValue();
         return d1;
     }
 

@@ -99,7 +99,33 @@
 
     //详情
     function xq(title, url, gridId, id, width, height, tipMsg){
-        openDia("合同详情",url,gridId,"90%","90%");
+        //openDia("合同详情",url,gridId,"90%","90%");
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["90%", "90%"],
+            title: "合同详情",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable2(gridId);
+            },
+            end: function (index) {
+                refreshTable2(gridId);
+            }
+        });
     }
 
     //删除一条合同

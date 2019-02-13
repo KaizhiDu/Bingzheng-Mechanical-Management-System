@@ -187,12 +187,12 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
 
         DecimalFormat df = new DecimalFormat("#,###.00");
 
-        float jee = 0;
+        double jee = 0;
         if (je!=null&&!je.equals("")){
             jee = getNumber(je);
         }
 
-        float fkk = 0;
+        double fkk = 0;
         if (fk!=null&&!fk.equals("")){
             fkk = getNumber(fk);
         }
@@ -259,7 +259,7 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
             //要减去两个地方的je
             String gsid = htglHt.getGsid();
             HtglGs htglGs = htglGsService.selectById(gsid);
-           float jee = getNumber(htglGs.getJe()) - getNumber(je);
+           double jee = getNumber(htglGs.getJe()) - getNumber(je);
             htglGs.setJe(df.format(jee));
             htglGsService.updateById(htglGs);
             EntityWrapper<HtglHt> wrapper = new EntityWrapper<HtglHt>();
@@ -267,7 +267,7 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
             wrapper.eq("GSID", gsid);
             HtglHt htglHt1 = htglHtService.selectOne(wrapper);
             if (htglHt1!=null){
-                float jeee = getNumber(htglHt1.getJe()) - getNumber(je);
+                double jeee = getNumber(htglHt1.getJe()) - getNumber(je);
                 htglHt1.setJe(df.format(jeee));
                 htglHtService.updateById(htglHt1);
             }
@@ -300,11 +300,14 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
     }
 
 
-    public float getNumber(String number) throws ParseException {
-        float d1 = new DecimalFormat().parse(number).floatValue();
-        return d1;
-    }
-
+//    public float getNumber(String number) throws ParseException {
+//        float d1 = new DecimalFormat().parse(number).floatValue();
+//        return d1;
+//    }
+public double getNumber(String number) throws ParseException {
+    double d1 = new DecimalFormat().parse(number).doubleValue();
+    return d1;
+}
     /**
      * Dscription: 转到开发票页面
      * @author : Kevin Du
@@ -341,7 +344,7 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
         Date date0 = new Date();
         String currentDate = sdf0.format(date0);
         DecimalFormat df = new DecimalFormat("#,###.00");
-        float fpf = getNumber(fp);
+        double fpf = getNumber(fp);
         fp = df.format(fpf);
         //首先加入明细
         HtglHtmx htglHtmx = new HtglHtmx();
@@ -354,7 +357,7 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
         htglHtmxService.insert(htglHtmx);
         //然后是减去合同里面的发票
         HtglHt htglHt = htglHtService.selectById(htid);
-        float oldfpf = getNumber(htglHt.getFp());
+        double oldfpf = getNumber(htglHt.getFp());
         oldfpf = oldfpf - fpf;
         String newfp = df.format(oldfpf);
         htglHt.setFp(newfp);
@@ -372,10 +375,10 @@ public class HtglGsController extends BaseCRUDController<HtglGs, String> {
     public void deleteFp(String id, String htid, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
         DecimalFormat df = new DecimalFormat("#,###.00");
         HtglHtmx htglHtmx = htglHtmxService.selectById(id);
-        float je = getNumber(htglHtmx.getJe());
+        double je = getNumber(htglHtmx.getJe());
         //然后是减去合同里面的发票
         HtglHt htglHt = htglHtService.selectById(htid);
-        float oldfpf = getNumber(htglHt.getFp());
+        double oldfpf = getNumber(htglHt.getFp());
         oldfpf = oldfpf + je;
         String newfp = df.format(oldfpf);
         htglHt.setFp(newfp);

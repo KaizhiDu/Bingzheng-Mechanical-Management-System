@@ -143,7 +143,7 @@
             success: function (data) {
                 //console.log(data);
                 $('#ht').html("");
-                $("#ht").append("<option value=''>不是合同收入</option>");
+                $("#ht").append("<option value=''>不是合同返款</option>");
                 for(var i=0;i<data.length;i++){
                     var ht = data[i];
                     $("#ht").append("<option value='"+ht.id+"'>"+ht.htmc+"</option>");

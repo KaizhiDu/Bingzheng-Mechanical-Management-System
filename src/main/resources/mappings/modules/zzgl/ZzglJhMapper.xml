@@ -14,7 +14,7 @@
             AND T.R = #{r}
         </if>
         <if test="name!=null and name!=''">
-            AND T.NAME = #{name}
+            AND T.NAME LIKE "%"#{name}"%"
         </if>
             ORDER BY T.RQ DESC
     </select>

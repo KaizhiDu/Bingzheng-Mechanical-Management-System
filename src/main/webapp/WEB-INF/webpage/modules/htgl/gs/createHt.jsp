@@ -85,7 +85,7 @@
     function checkJe(){
         var money = $("#je").val();
         // var r = yjkc.match(/^[0-9]*$/);
-        var r = money.match(/^\d+(\.\d+)?$/);
+        var r = money.match(/-[0-9]+(.[0-9]+)?|[0-9]+(.[0-9]+)?/);
         //先判断是不是数字
         if(r == null){
             top.layer.alert("请输入数字");

@@ -36,7 +36,13 @@
         <div class="form-inline">
             <div class="form-group col-md-2" style="margin-bottom: 10px">
                 <label class="control-label">年：</label>
-                <input name="n" id="n" htmlEscape="false" class="form-control" value="${n}"/>
+                <select name="n" class="form-control" id="n">
+                    <option value="">全部</option>
+                    <c:forEach var="each" items="${nArray}">
+                        <option value="${each}">${each}</option>
+                    </c:forEach>
+                </select>
+                <%--<input name="n" id="n" htmlEscape="false" class="form-control" value="${n}"/>--%>
             </div>
             <div class="form-group col-md-2" style="margin-bottom: 10px">
                 <label class="control-label">月：</label>
@@ -110,6 +116,7 @@
                  outclass="btn-success" url="${adminPath}/zzgl/jh/hk?id=\"+row.id+\"" />
     <grid:button title="查看明细" groupname="opt" function="ckmx"
                 outclass="btn-warning" url="${adminPath}/zzgl/jh/ckmx?id=\"+row.id+\"" />
+    <grid:column label="年" name="n" width="60"/>
     <grid:column label="月" name="y" width="60"/>
     <grid:column label="日" name="r" width="60"/>
     <grid:column label="姓名" name="name" />

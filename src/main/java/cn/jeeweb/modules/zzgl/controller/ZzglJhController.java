@@ -134,8 +134,8 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
 
         DecimalFormat df = new DecimalFormat("#,###.00");
 
-        float moneyf = getNumber(money);
-        money = df.format(moneyf);
+        double moneyd = getNumber(money);
+        money = df.format(moneyd);
 
         String[] jkzhArray = jkzh.split("-");
         String zhcx = jkzhArray[0];
@@ -269,86 +269,86 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         }
         //累加上
         else {
-            float xs = 0;
+            double xs = 0;
             if (zhcx.equals("1")){
-                xs = getNumber(jcszZzse.getOne()) - moneyf;
+                xs = getNumber(jcszZzse.getOne()) - moneyd;
                 jcszZzse.setOne(df.format(xs));
             }
             if (zhcx.equals("2")){
-                xs = getNumber(jcszZzse.getTwo()) - moneyf;
+                xs = getNumber(jcszZzse.getTwo()) - moneyd;
                 jcszZzse.setTwo(df.format(xs));
             }
             if (zhcx.equals("3")){
-                xs = getNumber(jcszZzse.getThree()) - moneyf;
+                xs = getNumber(jcszZzse.getThree()) - moneyd;
                 jcszZzse.setThree(df.format(xs));
             }
             if (zhcx.equals("4")){
-                xs = getNumber(jcszZzse.getFour()) - moneyf;
+                xs = getNumber(jcszZzse.getFour()) - moneyd;
                 jcszZzse.setFour(df.format(xs));
             }
             if (zhcx.equals("8")){
-                xs = getNumber(jcszZzse.getEight()) - moneyf;
+                xs = getNumber(jcszZzse.getEight()) - moneyd;
                 jcszZzse.setEight(df.format(xs));
             }
             if (zhcx.equals("5")){
-                xs = getNumber(jcszZzse.getFive()) - moneyf;
+                xs = getNumber(jcszZzse.getFive()) - moneyd;
                 jcszZzse.setFive(df.format(xs));
             }
             if (zhcx.equals("6")){
-                xs = getNumber(jcszZzse.getSix()) - moneyf;
+                xs = getNumber(jcszZzse.getSix()) - moneyd;
                 jcszZzse.setSix(df.format(xs));
             }
             if (zhcx.equals("7")){
-                xs = getNumber(jcszZzse.getSeven()) - moneyf;
+                xs = getNumber(jcszZzse.getSeven()) - moneyd;
                 jcszZzse.setSeven(df.format(xs));
             }
 
             if (zhcx.equals("9")){
-                xs = getNumber(jcszZzse.getNine()) - moneyf;
+                xs = getNumber(jcszZzse.getNine()) - moneyd;
                 jcszZzse.setNine(df.format(xs));
             }
             if (zhcx.equals("10")){
-                xs = getNumber(jcszZzse.getTen()) - moneyf;
+                xs = getNumber(jcszZzse.getTen()) - moneyd;
                 jcszZzse.setTen(df.format(xs));
             }
             if (zhcx.equals("11")){
-                xs = getNumber(jcszZzse.getEleven()) - moneyf;
+                xs = getNumber(jcszZzse.getEleven()) - moneyd;
                 jcszZzse.setEleven(df.format(xs));
             }
             if (zhcx.equals("12")){
-                xs = getNumber(jcszZzse.getTwelve()) - moneyf;
+                xs = getNumber(jcszZzse.getTwelve()) - moneyd;
                 jcszZzse.setTwelve(df.format(xs));
             }
             if (zhcx.equals("13")){
-                xs = getNumber(jcszZzse.getThirteen()) - moneyf;
+                xs = getNumber(jcszZzse.getThirteen()) - moneyd;
                 jcszZzse.setThirteen(df.format(xs));
             }
             if (zhcx.equals("14")){
-                xs = getNumber(jcszZzse.getFourteen()) - moneyf;
+                xs = getNumber(jcszZzse.getFourteen()) - moneyd;
                 jcszZzse.setFourteen(df.format(xs));
             }
             if (zhcx.equals("15")){
-                xs = getNumber(jcszZzse.getFifteen()) - moneyf;
+                xs = getNumber(jcszZzse.getFifteen()) - moneyd;
                 jcszZzse.setFifteen(df.format(xs));
             }
             if (zhcx.equals("16")){
-                xs = getNumber(jcszZzse.getSixteen()) - moneyf;
+                xs = getNumber(jcszZzse.getSixteen()) - moneyd;
                 jcszZzse.setSixteen(df.format(xs));
             }
             if (zhcx.equals("17")){
-                xs = getNumber(jcszZzse.getSeventeen()) - moneyf;
+                xs = getNumber(jcszZzse.getSeventeen()) - moneyd;
                 jcszZzse.setSeventeen(df.format(xs));
             }
             if (zhcx.equals("18")){
-                xs = getNumber(jcszZzse.getEighteen()) - moneyf;
+                xs = getNumber(jcszZzse.getEighteen()) - moneyd;
                 jcszZzse.setEighteen(df.format(xs));
             }
             if (zhcx.equals("19")){
-                xs = getNumber(jcszZzse.getNineteen()) - moneyf;
+                xs = getNumber(jcszZzse.getNineteen()) - moneyd;
                 jcszZzse.setNineteen(df.format(xs));
             }
             if (zhcx.equals("20")){
-                xs = getNumber(jcszZzse.getTwenty()) - moneyf;
+                xs = getNumber(jcszZzse.getTwenty()) - moneyd;
                 jcszZzse.setTwenty(df.format(xs));
             }
             jcszZzseService.updateById(jcszZzse);
@@ -378,7 +378,7 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         String currentDate = sdf0.format(date0);
         model.addAttribute("day", currentDate);
 
-        float moneyf = getNumber(zzglJh.getMoney());
+        double moneyf = getNumber(zzglJh.getMoney());
         String money = moneyf+"";
         model.addAttribute("money", money);
 
@@ -403,7 +403,7 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         if (money==null){
             money = "0";
         }
-        float hk = getNumber(money);
+        double hk = getNumber(money);
         money = df.format(hk);
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
         Date date0 = new Date();
@@ -425,11 +425,11 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
 
         //首先把借还里面的数减出来
         ZzglJh zzglJh = zzglJhService.selectById(id);
-        float yjk = 0;
+        double yjk = 0;
         if (zzglJh.getMoney()!=null&&!zzglJh.getMoney().equals("")){
             yjk = getNumber(zzglJh.getMoney());
         }
-        float xjk = yjk - hk;
+        double xjk = yjk - hk;
         zzglJh.setMoney(df.format(xjk));
         zzglJhService.updateById(zzglJh);
 
@@ -450,7 +450,7 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
         wrapper2.eq("TYPE", "2");
         JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
-        float xs = 0;
+        double xs = 0;
         if (hkcx.equals("2")){
             xs = getNumber(jcszZzse.getTwo()) + hk;
             jcszZzse.setTwo(df.format(xs));
@@ -554,94 +554,94 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
             ZzglJh zzglJh = zzglJhService.selectById(id);
             String money = zzglJh.getMoney();
             String zjcx = zzglJh.getZjzh();
-            float moneyf = 0;
+            double moneyd = 0;
             if (!money.equals("")&&money!=null){
-                moneyf = getNumber(money);
+                moneyd = getNumber(money);
             }
 
             EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
             wrapper2.eq("TYPE", "2");
             JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
-            float xs = 0;
+            double xs = 0;
             if (zjcx.equals("1")){
-                xs = getNumber(jcszZzse.getOne()) + moneyf;
+                xs = getNumber(jcszZzse.getOne()) + moneyd;
                 jcszZzse.setOne(df.format(xs));
             }
             if (zjcx.equals("2")){
-                xs = getNumber(jcszZzse.getTwo()) + moneyf;
+                xs = getNumber(jcszZzse.getTwo()) + moneyd;
                 jcszZzse.setTwo(df.format(xs));
             }
             if (zjcx.equals("3")){
-                xs = getNumber(jcszZzse.getThree()) + moneyf;
+                xs = getNumber(jcszZzse.getThree()) + moneyd;
                 jcszZzse.setThree(df.format(xs));
             }
             if (zjcx.equals("4")){
-                xs = getNumber(jcszZzse.getFour()) + moneyf;
+                xs = getNumber(jcszZzse.getFour()) + moneyd;
                 jcszZzse.setFour(df.format(xs));
             }
             if (zjcx.equals("8")){
-                xs = getNumber(jcszZzse.getEight()) + moneyf;
+                xs = getNumber(jcszZzse.getEight()) + moneyd;
                 jcszZzse.setEight(df.format(xs));
             }
             if (zjcx.equals("5")){
-                xs = getNumber(jcszZzse.getFive()) + moneyf;
+                xs = getNumber(jcszZzse.getFive()) + moneyd;
                 jcszZzse.setFive(df.format(xs));
             }
             if (zjcx.equals("6")){
-                xs = getNumber(jcszZzse.getSix()) + moneyf;
+                xs = getNumber(jcszZzse.getSix()) + moneyd;
                 jcszZzse.setSix(df.format(xs));
             }
             if (zjcx.equals("7")){
-                xs = getNumber(jcszZzse.getSeven()) + moneyf;
+                xs = getNumber(jcszZzse.getSeven()) + moneyd;
                 jcszZzse.setSeven(df.format(xs));
             }
 
             if (zjcx.equals("9")){
-                xs = getNumber(jcszZzse.getNine()) + moneyf;
+                xs = getNumber(jcszZzse.getNine()) + moneyd;
                 jcszZzse.setNine(df.format(xs));
             }
             if (zjcx.equals("10")){
-                xs = getNumber(jcszZzse.getTen()) + moneyf;
+                xs = getNumber(jcszZzse.getTen()) + moneyd;
                 jcszZzse.setTen(df.format(xs));
             }
             if (zjcx.equals("11")){
-                xs = getNumber(jcszZzse.getEleven()) + moneyf;
+                xs = getNumber(jcszZzse.getEleven()) + moneyd;
                 jcszZzse.setEleven(df.format(xs));
             }
             if (zjcx.equals("12")){
-                xs = getNumber(jcszZzse.getTwelve()) + moneyf;
+                xs = getNumber(jcszZzse.getTwelve()) + moneyd;
                 jcszZzse.setTwelve(df.format(xs));
             }
             if (zjcx.equals("13")){
-                xs = getNumber(jcszZzse.getThirteen()) + moneyf;
+                xs = getNumber(jcszZzse.getThirteen()) + moneyd;
                 jcszZzse.setThirteen(df.format(xs));
             }
             if (zjcx.equals("14")){
-                xs = getNumber(jcszZzse.getFourteen()) + moneyf;
+                xs = getNumber(jcszZzse.getFourteen()) + moneyd;
                 jcszZzse.setFourteen(df.format(xs));
             }
             if (zjcx.equals("15")){
-                xs = getNumber(jcszZzse.getFifteen()) + moneyf;
+                xs = getNumber(jcszZzse.getFifteen()) + moneyd;
                 jcszZzse.setFifteen(df.format(xs));
             }
             if (zjcx.equals("16")){
-                xs = getNumber(jcszZzse.getSixteen()) + moneyf;
+                xs = getNumber(jcszZzse.getSixteen()) + moneyd;
                 jcszZzse.setSixteen(df.format(xs));
             }
             if (zjcx.equals("17")){
-                xs = getNumber(jcszZzse.getSeventeen()) + moneyf;
+                xs = getNumber(jcszZzse.getSeventeen()) + moneyd;
                 jcszZzse.setSeventeen(df.format(xs));
             }
             if (zjcx.equals("18")){
-                xs = getNumber(jcszZzse.getEighteen()) + moneyf;
+                xs = getNumber(jcszZzse.getEighteen()) + moneyd;
                 jcszZzse.setEighteen(df.format(xs));
             }
             if (zjcx.equals("19")){
-                xs = getNumber(jcszZzse.getNineteen()) + moneyf;
+                xs = getNumber(jcszZzse.getNineteen()) + moneyd;
                 jcszZzse.setNineteen(df.format(xs));
             }
             if (zjcx.equals("20")){
-                xs = getNumber(jcszZzse.getTwenty()) + moneyf;
+                xs = getNumber(jcszZzse.getTwenty()) + moneyd;
                 jcszZzse.setTwenty(df.format(xs));
             }
             jcszZzseService.updateById(jcszZzse);
@@ -670,10 +670,14 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         return display("ckmx");
     }
 
-    public float getNumber(String number) throws ParseException {
-        float d1 = new DecimalFormat().parse(number).floatValue();
-        return d1;
-    }
+//    public float getNumber(String number) throws ParseException {
+//        float d1 = new DecimalFormat().parse(number).floatValue();
+//        return d1;
+//    }
+public double getNumber(String number) throws ParseException {
+    double d1 = new DecimalFormat().parse(number).doubleValue();
+    return d1;
+}
 
     public List<QyzjyDTO> getyxList(){
 

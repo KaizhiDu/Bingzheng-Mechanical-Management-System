@@ -137,7 +137,7 @@
             </div>
 
             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">单位：</label>
+                <label class="control-label">名称单位：</label>
                 <input name="mx" id="mx" htmlEscape="false" class="form-control" placeholder="请输入单位名称"/>
             </div>
 
@@ -171,10 +171,10 @@
     <%--<grid:button title="删除" groupname="opt" function="deleteWorker"--%>
     <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
 
-    <grid:column label="日" name="r" width="30"/>
-    <grid:column label="类型" name="lx" width="45"/>
-    <grid:column label="单位" name="mx" width="150"/>
-    <grid:column label="明细" name="mxbc" width="150"/>
+    <grid:column label="日" name="r" width="60"/>
+    <grid:column label="类型" name="lx" width="60"/>
+    <grid:column label="名称单位" name="mx" width="150"/>
+    <grid:column label="详情" name="mxbc" width="150"/>
 
 <c:forEach var="each" items="${qyList}">
     <grid:column label="${each.name}" name="${each.ywzjy}"/>
@@ -299,7 +299,7 @@
 
     //修改时间
     function xgsj(title, url, gridId, id, width, height, tipMsg){
-        openDia("修改时间",url,gridId,"30%","30%");
+        openDia("修改时间",url,gridId,"30%","50%");
     }
 
     //收入

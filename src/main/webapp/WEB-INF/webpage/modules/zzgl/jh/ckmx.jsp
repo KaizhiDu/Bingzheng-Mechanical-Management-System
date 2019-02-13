@@ -44,6 +44,9 @@
                         <td>
                             <label>${jhmx.xxmx}</label>
                         </td>
+                        <td>
+                            <label>${jhmx.rq}</label>
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
