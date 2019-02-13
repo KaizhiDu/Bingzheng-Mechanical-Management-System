@@ -649,6 +649,10 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
             //然后再删除
             zzglJhService.deleteById(id);
 
+            //还要删除借还明细
+            EntityWrapper<ZzglJhmx> wrapper = new EntityWrapper<ZzglJhmx>();
+            wrapper.eq("JHID", id);
+            zzglJhmxService.delete(wrapper);
         }
     }
 

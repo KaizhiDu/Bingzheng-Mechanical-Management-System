@@ -1809,29 +1809,19 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
  */
     @RequestMapping(value = "exprortZzgl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void exprortZzgl(String rqq, String rqz, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-        String n1 = "";
-        String y1 = "";
-        String r1 = "";
-        String n2 = "";
-        String y2 = "";
-        String r2 = "";
-        if (!rqq.equals("")){
-            String rqqArray[] = rqq.split("-");
-            n1 = rqqArray[0];
-            y1 = rqqArray[1];
-            r1 = rqqArray[2];
+    public void exprortZzgl(String n, String y, String r, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+        if (!y.equals("")){
+            if (y.equals("1")||y.equals("2")||y.equals("3")||y.equals("4")||y.equals("5")||y.equals("6")||y.equals("7")||y.equals("8")||y.equals("9")){
+                y = "0"+y;
+            }
         }
-        if (!rqz.equals("")){
-            String rqzArray[] = rqz.split("-");
-            n2 = rqzArray[0];
-            r2 = rqzArray[2];
-            y2 = rqzArray[1];
-
+        if (!r.equals("")){
+            if (r.equals("1")||r.equals("2")||r.equals("3")||r.equals("4")||r.equals("5")||r.equals("6")||r.equals("7")||r.equals("8")||r.equals("9")){
+                r = "0"+r;
+            }
         }
-
 //        //首先根据搜索条件得到数据
-        List<ZzglZzgl> zzglZzgls = zzglZzglService.exportZzgl(n1,y1,r1,n2,y2,r2);
+        List<ZzglZzgl> zzglZzgls = zzglZzglService.exportZzgl(n,y,r);
         //新建一个工作簿
         Workbook wb = new XSSFWorkbook();
         //新建工作表
@@ -1890,16 +1880,16 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         }
 
         String rq = "";
+        if (!y.equals("")&&!r.equals("")){
+            rq = n+"年"+y+"月"+r+"日";
+        }
+        if (!y.equals("")&&r.equals("")){
+            rq = n+"年"+y+"月";
+        }
+        if (y.equals("")&&r.equals("")){
+            rq = n+"年";
+        }
 
-        if (!rqq.equals("")&&!rqz.equals("")){
-            rq = rqq+" 到 "+rqz;
-        }
-        if (!rqq.equals("")&&rqz.equals("")){
-            rq = rqq+" 至今 ";
-        }
-        if (rqq.equals("")&&!rqz.equals("")){
-            rq = " 截止到 "+rqz;
-        }
 
         //创建流
         FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+" 资金流动单.xlsx");

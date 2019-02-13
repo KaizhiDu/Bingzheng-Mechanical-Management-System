@@ -82,25 +82,34 @@
          END LX FROM T_ZZGL_ZZGL
 	)S
 	WHERE 1=1
-        <if test="n1!=null and n1!=''">
-            AND S.N &gt;= #{n1}
+        <if test="n!=null and n!=''">
+            AND S.N = #{n}
         </if>
-        <if test="y1!=null and y1!=''">
-            AND S.Y &gt;= #{y1}
+        <if test="y!=null and y!=''">
+            AND S.Y = #{y}
         </if>
-        <if test="r1!=null and r1!=''">
-            AND S.R &gt;= #{r1}
+        <if test="r!=null and r!=''">
+            AND S.R = #{r}
         </if>
-        <if test="n2!=null and n2!=''">
-            AND S.N &lt;= #{n2}
-        </if>
-        <if test="y2!=null and y2!=''">
-            AND S.Y &lt;= #{y2}
-        </if>
-        <if test="r2!=null and r2!=''">
-            AND S.R &lt;= #{r2}
-        </if>
-            ORDER BY S.N,S.Y,S.R DESC
+        <!--<if test="n1!=null and n1!=''">-->
+            <!--AND CAST(S.N as SIGNED) &gt;= #{n1}-->
+        <!--</if>-->
+        <!--<if test="y1!=null and y1!=''">-->
+            <!--AND CAST(S.Y as SIGNED) &gt;= #{y1}-->
+        <!--</if>-->
+        <!--<if test="r1!=null and r1!=''">-->
+            <!--AND CAST(S.R as SIGNED) &gt;= #{r1}-->
+        <!--</if>-->
+        <!--<if test="n2!=null and n2!=''">-->
+            <!--AND CAST(S.N as SIGNED) &lt;= #{n2}-->
+        <!--</if>-->
+        <!--<if test="y2!=null and y2!=''">-->
+            <!--AND CAST(S.Y as SIGNED) &lt;= #{y2}-->
+        <!--</if>-->
+        <!--<if test="r2!=null and r2!=''">-->
+            <!--AND CAST(S.R as SIGNED) &lt;= #{r2}-->
+        <!--</if>-->
+        ORDER BY S.N,S.Y,S.R,S.RQ DESC
 
     </select>
 

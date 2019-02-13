@@ -71,18 +71,24 @@
     function check() {
         var rqq = $("#rqq").val();
         var rqz = $("#rqz").val();
-        $.ajax({
-            type: "GET",
-            url: "${adminPath}/zzgl/zzgl/exprortZzgl",
-            data: {
-                rqq: rqq,
-                rqz: rqz
-            },
-            success: function (data) {
+        if (rqq==""||rqz==""){
+            top.layer.alert("必须填上日期", {icon: 0, title:'提示'});
+        }
+        else{
+            $.ajax({
+                type: "GET",
+                url: "${adminPath}/zzgl/zzgl/exprortZzgl",
+                data: {
+                    rqq: rqq,
+                    rqz: rqz
+                },
+                success: function (data) {
+                    top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
 
+                }
+            });
+        }
 
-            }
-        });
     }
 </script>
 
