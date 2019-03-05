@@ -1,4 +1,4 @@
-package cn.jeeweb.modules.scgl.entity;
+package cn.jeeweb.modules.zjls.entity;
 
 import cn.jeeweb.core.common.entity.AbstractEntity;
 import cn.jeeweb.modules.sys.entity.User;
@@ -11,42 +11,24 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * Dscription: 生产管理-日常任务分配
+ * Dscription: 资金流水 - 资金
  * @author : Kevin Du
  * @version : 1.0
- * @date : 2018/9/20 17:04
+ * @date : 2019/2/17 18:36
  */
-@TableName("T_SCGL_RCRWFP")
+@TableName("T_ZJLS_ZJ")
 @SuppressWarnings("serial")
-public class ScglRcrwfp extends AbstractEntity<String> {
+public class ZjlsZj extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
+    /**1*/
+    @TableField(value = "ONE")
+    private String one;
+    /**2*/
+    @TableField(value = "TWO")
+    private String two;
 
-    /** 员工ID */
-    @TableField(value = "ygid")
-    private String ygid;
-    /** 日期 */
-    @TableField(value = "RQ")
-    private String rq;
-    /** 姓名 */
-    @TableField(value = "XM")
-    private String xm;
-    /** 职位 */
-    @TableField(value = "ZW")
-    private String zw;
-    /** 性别 */
-    @TableField(value = "XB")
-    private String xb;
-    /** 总工时 */
-    @TableField(value = "GS")
-    private String gs;
-    /** 包工占用 */
-    @TableField(value = "BGZY")
-    private String bgzy;
-    /** 备注 */
-    @TableField(value = "BZ")
-    private String bz;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -61,14 +43,6 @@ public class ScglRcrwfp extends AbstractEntity<String> {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
-    public String getBgzy() {
-        return bgzy;
-    }
-
-    public void setBgzy(String bgzy) {
-        this.bgzy = bgzy;
-    }
-
     @Override
     public String getId() {
         return id;
@@ -79,36 +53,20 @@ public class ScglRcrwfp extends AbstractEntity<String> {
         this.id = id;
     }
 
-    public String getRq() {
-        return rq;
+    public String getOne() {
+        return one;
     }
 
-    public void setRq(String rq) {
-        this.rq = rq;
+    public void setOne(String one) {
+        this.one = one;
     }
 
-    public String getXm() {
-        return xm;
+    public String getTwo() {
+        return two;
     }
 
-    public void setXm(String xm) {
-        this.xm = xm;
-    }
-
-    public String getZw() {
-        return zw;
-    }
-
-    public void setZw(String zw) {
-        this.zw = zw;
-    }
-
-    public String getXb() {
-        return xb;
-    }
-
-    public void setXb(String xb) {
-        this.xb = xb;
+    public void setTwo(String two) {
+        this.two = two;
     }
 
     public User getUpdateBy() {
@@ -141,29 +99,5 @@ public class ScglRcrwfp extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public String getYgid() {
-        return ygid;
-    }
-
-    public void setYgid(String ygid) {
-        this.ygid = ygid;
-    }
-
-    public String getGs() {
-        return gs;
-    }
-
-    public void setGs(String gs) {
-        this.gs = gs;
-    }
-
-    public String getBz() {
-        return bz;
-    }
-
-    public void setBz(String bz) {
-        this.bz = bz;
     }
 }

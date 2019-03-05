@@ -1,4 +1,4 @@
-package cn.jeeweb.modules.scgl.entity;
+package cn.jeeweb.modules.zjls.entity;
 
 import cn.jeeweb.core.common.entity.AbstractEntity;
 import cn.jeeweb.modules.sys.entity.User;
@@ -11,42 +11,46 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * Dscription: 生产管理-日常任务分配
+ * Dscription: 资金流水
  * @author : Kevin Du
  * @version : 1.0
- * @date : 2018/9/20 17:04
+ * @date : 2019/2/17 18:36
  */
-@TableName("T_SCGL_RCRWFP")
+@TableName("T_ZJLS_ZJLS")
 @SuppressWarnings("serial")
-public class ScglRcrwfp extends AbstractEntity<String> {
+public class ZjlsZjls extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
 
-    /** 员工ID */
-    @TableField(value = "ygid")
-    private String ygid;
     /** 日期 */
     @TableField(value = "RQ")
     private String rq;
-    /** 姓名 */
-    @TableField(value = "XM")
-    private String xm;
-    /** 职位 */
-    @TableField(value = "ZW")
-    private String zw;
-    /** 性别 */
-    @TableField(value = "XB")
-    private String xb;
-    /** 总工时 */
-    @TableField(value = "GS")
-    private String gs;
-    /** 包工占用 */
-    @TableField(value = "BGZY")
-    private String bgzy;
-    /** 备注 */
-    @TableField(value = "BZ")
-    private String bz;
+    /**年*/
+    @TableField(value = "N")
+    private String n;
+    /**月*/
+    @TableField(value = "Y")
+    private String y;
+    /**日*/
+    @TableField(value = "R")
+    private String r;
+    /**明细*/
+    @TableField(value = "MX")
+    private String mx;
+    /**明细2*/
+    @TableField(value = "MX2")
+    private String mx2;
+    /**1*/
+    @TableField(value = "ONE")
+    private String one;
+    /**2*/
+    @TableField(value = "TWO")
+    private String two;
+    /**类型*/
+    @TableField(value = "LX")
+    private String lx;
+
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -61,20 +65,27 @@ public class ScglRcrwfp extends AbstractEntity<String> {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
-    public String getBgzy() {
-        return bgzy;
+
+    public String getMx2() {
+        return mx2;
     }
 
-    public void setBgzy(String bgzy) {
-        this.bgzy = bgzy;
+    public void setMx2(String mx2) {
+        this.mx2 = mx2;
     }
 
-    @Override
+    public String getLx() {
+        return lx;
+    }
+
+    public void setLx(String lx) {
+        this.lx = lx;
+    }
+
     public String getId() {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -87,28 +98,52 @@ public class ScglRcrwfp extends AbstractEntity<String> {
         this.rq = rq;
     }
 
-    public String getXm() {
-        return xm;
+    public String getN() {
+        return n;
     }
 
-    public void setXm(String xm) {
-        this.xm = xm;
+    public void setN(String n) {
+        this.n = n;
     }
 
-    public String getZw() {
-        return zw;
+    public String getY() {
+        return y;
     }
 
-    public void setZw(String zw) {
-        this.zw = zw;
+    public void setY(String y) {
+        this.y = y;
     }
 
-    public String getXb() {
-        return xb;
+    public String getR() {
+        return r;
     }
 
-    public void setXb(String xb) {
-        this.xb = xb;
+    public void setR(String r) {
+        this.r = r;
+    }
+
+    public String getMx() {
+        return mx;
+    }
+
+    public void setMx(String mx) {
+        this.mx = mx;
+    }
+
+    public String getOne() {
+        return one;
+    }
+
+    public void setOne(String one) {
+        this.one = one;
+    }
+
+    public String getTwo() {
+        return two;
+    }
+
+    public void setTwo(String two) {
+        this.two = two;
     }
 
     public User getUpdateBy() {
@@ -141,29 +176,5 @@ public class ScglRcrwfp extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public String getYgid() {
-        return ygid;
-    }
-
-    public void setYgid(String ygid) {
-        this.ygid = ygid;
-    }
-
-    public String getGs() {
-        return gs;
-    }
-
-    public void setGs(String gs) {
-        this.gs = gs;
-    }
-
-    public String getBz() {
-        return bz;
-    }
-
-    public void setBz(String bz) {
-        this.bz = bz;
     }
 }

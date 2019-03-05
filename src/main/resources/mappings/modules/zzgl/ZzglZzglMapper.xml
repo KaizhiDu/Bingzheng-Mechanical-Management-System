@@ -58,10 +58,10 @@
             AND T.MX LIKE "%"#{mx}"%"
         </if>
         <if test="px==0">
-            ORDER BY RQ DESC
+            ORDER BY N,Y,R,RQ DESC
         </if>
         <if test="px==1">
-            ORDER BY LX,RQ DESC
+            ORDER BY N,Y,R,LX,RQ DESC
         </if>
 
     </select>

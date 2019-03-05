@@ -341,26 +341,26 @@
                         <input name="px17" id="px17" htmlEscape="false" class="form-control"  placeholder="请输入排序" value="${sort.seventeen}" onchange="checkpx17()"/>
                     </td>
                 </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>资金18：</label>
-                    </td>
-                    <td>
-                        <input name="name18" id="name18" htmlEscape="false" class="form-control" placeholder="请输入资金12名称" value="${name.eighteen}"/>
-                    </td>
-                    <td>
-                        <input name="value18" id="value18" htmlEscape="false" class="form-control" placeholder="请输入资金12基本资金" onchange="check18()" value="${value.eighteen}"/>
-                    </td>
-                    <td>
-                        <input name="sf18" id="sf18" htmlEscape="false" class="form-control" type="checkbox" onchange="checksf18()"/>
-                    </td>
-                    <td>
+                    <tr class="form-group">
+                        <td>
+                            <label>资金18：(不计入总数)</label>
+                        </td>
+                        <td>
+                            <input name="name18" id="name18" htmlEscape="false" class="form-control" placeholder="请输入资金12名称" value="${name.eighteen}"/>
+                        </td>
+                        <td>
+                            <input name="value18" id="value18" htmlEscape="false" class="form-control" placeholder="请输入资金12基本资金" onchange="check18()" value="${value.eighteen}"/>
+                        </td>
+                        <td>
+                            <input name="sf18" id="sf18" htmlEscape="false" class="form-control" type="checkbox" onchange="checksf18()"/>
+                        </td>
+                        <td>
                         <input name="px18" id="px18" htmlEscape="false" class="form-control"  placeholder="请输入排序" value="${sort.eighteen}" onchange="checkpx18()"/>
                     </td>
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>资金19：</label>
+                        <label>资金19：(不计入总数)</label>
                     </td>
                     <td>
                         <input name="name19" id="name19" htmlEscape="false" class="form-control" placeholder="请输入资金12名称" value="${name.nineteen}"/>
@@ -377,7 +377,7 @@
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>资金20：</label>
+                        <label>资金20：(不计入总数)</label>
                     </td>
                     <td>
                         <input name="name20" id="name20" htmlEscape="false" class="form-control" placeholder="请输入资金20名称" value="${name.twenty}"/>

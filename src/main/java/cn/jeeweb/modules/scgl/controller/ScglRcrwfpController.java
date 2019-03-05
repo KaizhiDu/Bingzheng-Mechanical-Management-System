@@ -1458,4 +1458,30 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         scglBgmxService.updateById(scglBgmx);
     }
 
+    /**
+     * Dscription: 修改备注
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/3/5 7:18
+     */
+    @RequestMapping(value = "xgbz",method = {RequestMethod.GET,RequestMethod.POST})
+    public String xgbz(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglRcrwfp scglRcrwfp = scglRcrwfpService.selectById(id);
+        model.addAttribute("scglRcrwfp" ,scglRcrwfp);
+        return display("xgbz");
+    }
+
+    /**
+     * Dscription: 保存修改备注
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/3/5 7:39
+     */
+    @RequestMapping(value = "saveXgbz",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public void saveXgbz(String id, String bz, HttpServletRequest request, HttpServletResponse response, Model model){
+        ScglRcrwfp scglRcrwfp = scglRcrwfpService.selectById(id);
+        scglRcrwfp.setBz(bz);
+        scglRcrwfpService.updateById(scglRcrwfp);
+    }
 }

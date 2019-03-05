@@ -54,13 +54,15 @@
                  outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fpsb?id=\"+row.id+\"&rq=\"+row.rq+\"" />
     <grid:button title="详情" groupname="opt" function="rwxq"
                  outclass="btn-info" url="${adminPath}/scgl/rcrwfp/rwxq?id=\"+row.id+\"&rq=\"+row.rq+\"&xm=\"+row.xm+\"" />
+    <grid:button title="修改备注" groupname="opt" function="xgbz"
+                 outclass="btn-default" url="${adminPath}/scgl/rcrwfp/xgbz?id=\"+row.id+\"" />
 
     <grid:column label="工时" name="gs" width="30"/>
     <grid:column label="包工占用" name="bgzy" width="50"/>
     <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="xm"/>
     <grid:column label="职位" name="zw"/>
-    <grid:column label="性别" name="xb" dict="sex" dateformat=""/>
+    <grid:column label="备注" name="bz"/>
 
     <grid:column label="sys.common.opt" name="opt1" formatter="button" width="50"/>
     <grid:button title="导出派工单" groupname="opt1" function="exportGrpgd"
@@ -72,6 +74,47 @@
 </grid:grid>
 
 <script type="text/javascript">
+
+    function xgbz(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["30%", "50%"],
+            title: "修改备注",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['保存', '关闭'],
+            yes: function(index, layero){
+                var body = top.layer.getChildFrame('body', index);
+                var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                //文档地址
+                //http://www.layui.com/doc/modules/layer.html#use
+                iframeWin.contentWindow.check();
+                //判断逻辑并关闭
+                setTimeout(function(){top.layer.close(index)}, 200);//延时0.1秒，对应360 7.1版本bug
+                layer.msg("保存成功!",{ icon: 1, time: 1000 });
+                refreshTable2(gridId);
+                //StaticrefreshTable2();
+            },
+            cancel: function(index){
+                refreshTable2(gridId);
+
+            },end: function (index) {
+                refreshTable2(gridId);
+            }
+        });
+    }
 
     //任务详情
     function rwxq(title, url, gridId, id, width, height, tipMsg){

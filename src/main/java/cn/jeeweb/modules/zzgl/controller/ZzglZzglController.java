@@ -1696,7 +1696,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         double nineteen = getNumber2(j1.getNineteen())+getNumber2(j2.getNineteen());
         double twenty = getNumber2(j1.getTwenty())+getNumber2(j2.getTwenty());
 
-        double sum = one + two + three + four + five + six + seven + eight + nine + ten + eleven + twelve + thirteen + fourteen + fifteen + sixteen + seventeen + eighteen + nineteen + twenty;
+        double sum = one + two + three + four + five + six + seven + eight + nine + ten + eleven + twelve + thirteen + fourteen + fifteen + sixteen + seventeen;
 
         //sum还需要加上借款
         EntityWrapper<ZzglJh> wrapper = new EntityWrapper<ZzglJh>();
@@ -1820,7 +1820,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 r = "0"+r;
             }
         }
-//        //首先根据搜索条件得到数据
+        //首先根据搜索条件得到数据
         List<ZzglZzgl> zzglZzgls = zzglZzglService.exportZzgl(n,y,r);
         //新建一个工作簿
         Workbook wb = new XSSFWorkbook();
