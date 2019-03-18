@@ -136,15 +136,15 @@
 
     //点击保存，保存数据
     function check() {
-        var zybf = $('input:radio:checked').val();
+        var zybf = $("input[name='optionsRadios']:checked").val();
         var jb = $("#jb").val();
         var rcrwfpid = $("#rcrwfpid").val();
         var id = $("#rggsid").val();
         var rq = $("#rq").val();
         var gs = $("#gs").val();
-        if (zybf='undefined'){
-            zybf = '0';
-        }
+//        if (zybf='undefined'){
+//            zybf = '0';
+//        }
         $.ajax({
             type: "GET",
             url: "${adminPath}/scgl/rcrwfp/saveGs",
