@@ -56,6 +56,7 @@ public class SbglController extends BaseCRUDController<Sbgl, String> {
     */
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
+
         //设备分类
         EntityWrapper<SbglSbflgl> wrapper = new EntityWrapper();
         wrapper.orderBy("fldm");

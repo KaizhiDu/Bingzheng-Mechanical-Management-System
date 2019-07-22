@@ -51,7 +51,7 @@
            url="${adminPath}/scgl/ljgybz/ajaxJhglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="120"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="300"/>
     <grid:button title="修改" groupname="opt" function="updateHt"
     outclass="btn-success" url="${adminPath}/scjhgl/htgl/updateHt?id=\"+row.id+\"" />
     <grid:button title="删除" groupname="opt" function="deleteHt"
@@ -60,11 +60,14 @@
                  outclass="btn-warning" url="${adminPath}/scjhgl/htgl/copyHt?id=\"+row.id+\"" />
     <grid:button title="导出仓库比照表" groupname="opt" function="yckbz"
                  outclass="btn-info" url="${adminPath}/scjhgl/htgl/yckbz?id=\"+row.id+\"" />
+    <grid:button title="导出计划表" groupname="opt" function="dcjhb"
+                 outclass="btn-info" url="${adminPath}/scjhgl/htgl/dcjhb?id=\"+row.id+\"" />
 
-    <grid:column label="计划名称" name="htbh" width="200"/>
+    <grid:column label="计划名称" name="htbh" width="150"/>
     <grid:column label="描述" name="ms"/>
     <grid:column label="数量" name="sl" width="40"/>
     <grid:column label="创建日期" name="rq"/>
+    <grid:column label="计划完工时间" name="jhwgsj"/>
 
     <grid:toolbar function="createHt" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
     <grid:toolbar function="search"/>
@@ -72,6 +75,18 @@
 </grid:grid>
 
 <script type="text/javascript">
+
+    function dcjhb(title, url, gridId, id, width, height, tipMsg) {
+        $.ajax({
+            type: "get",
+            url: url,
+            success: function (data) {
+                layer.closeAll('dialog');  //加入这个信息点击确定 会关闭这个消息框
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+            }
+        });
+    }
+
     //导出仓库对照表
     function yckbz(title, url, gridId, id, width, height, tipMsg){
         $.ajax({

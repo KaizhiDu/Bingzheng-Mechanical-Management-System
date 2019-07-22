@@ -60,10 +60,12 @@ public class CkglBcp extends AbstractEntity<String> {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

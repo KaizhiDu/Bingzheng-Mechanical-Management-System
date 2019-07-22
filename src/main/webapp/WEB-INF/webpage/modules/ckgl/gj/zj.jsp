@@ -32,54 +32,70 @@
 <body class="container">
 
 <div class="row">
-    <div class="col-md-3">
-
-    </div>
-    <div class="col-md-6">
         <form>
             <table class="table">
+                <input type="hidden" id="gjid" name="gjid" value="${ckglGj.id}">
+                <tr class="form-group">
+                    <b style="font-size: 20px">${ckglGj.fldl} - ${ckglGj.flxl} - ${ckglGj.gg}</b>
+                </tr>
                 <tr class="form-group">
                     <td>
-                        <label>大类名称：</label>
+                        <label>员工：</label>
                     </td>
                     <td>
-                        <input name="dlmc" id="dlmc" htmlEscape="false" class="form-control" placeholder="请输入大类名称"/>
+                        <input type="text" name="yg" id="yg" htmlEscape="false" class="form-control" placeholder="请输入员工姓名" />
                     </td>
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>所属仓库：</label>
+                        <label>现有库存：</label>
                     </td>
                     <td>
-                        <select id="ssck" name="ssck" class="form-control">
-                            <option value="标准件">标准件</option>
-                            <option value="原材料">原材料</option>
-                            <option value="刃具">刃具</option>
-                            <option value="工具">工具</option>
-                            <option value="低值易耗品">低值易耗品</option>
-                        </select>
+                        <input disabled type="number" name="xykc" id="xykc" htmlEscape="false" class="form-control" value="${ckglGj.kc}" />
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>增/减：</label>
+                    </td>
+                    <td>
+                        <input type="number" name="zjsl" id="zjsl" htmlEscape="false" class="form-control" placeholder="请输入增减量" />
+                    </td>
+                </tr>
+
             </table>
         </form>
-    </div>
-    <div class="col-md-3">
-    </div>
 </div>
 
 
 <script type="text/javascript">
+
+    //检查预警量
+    function checkZjsl(){
+        var zjsl = $("#zjsl").val();
+        // var r = yjkc.match(/^[0-9]*$/);
+        var r = zjsl.match(/^\d+(\.\d+)?$/);
+        //先判断是不是数字
+        if(r == null){
+            top.layer.alert("请输入数字");
+            $("#zjsl").val("");
+        }
+    }
+
     //点击保存，保存数据
     function check() {
-        var dlmc = $("#dlmc").val();
-        var ssck = $("#ssck").val();
+        var gjid = $("#gjid").val();
+        var zjsl = $("#zjsl").val();
+        var yg = $("#yg").val();
+
         $.ajax({
             type: "GET",
-            url: "${adminPath}/ckgl/ckflsz/saveDl",
+            url: "${adminPath}/ckgl/gj/saveGjzj",
             data: {
-                id: null,
-                dlmc: dlmc,
-                ssck: ssck
+                id: gjid,
+                zjsl: zjsl,
+                yg: yg
+
             },
             success: function (data) {
 

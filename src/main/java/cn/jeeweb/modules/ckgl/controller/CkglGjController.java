@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * Dscription: 仓库管理 - 工具
+ *
  * @author : Kevin Du
  * @version : 1.0
  * @date : 2018/10/15 19:03
@@ -31,62 +32,76 @@ import java.util.List;
 @RequiresPathPermission("ckgl:gj")
 public class CkglGjController extends BaseCRUDController<CkglGj, String> {
 
-    /**仓库管理 - 工具*/
+    /**
+     * 仓库管理 - 工具
+     */
     @Autowired
     private ICkglGjService ckglGjService;
 
-    /**仓库管理 - 大类*/
+    /**
+     * 仓库管理 - 大类
+     */
     @Autowired
     private ICkglDlService ckglDlService;
 
-    /**仓库管理 - 小类*/
+    /**
+     * 仓库管理 - 小类
+     */
     @Autowired
     private ICkglXlService ckglXlService;
 
-    /**仓库管理 - 工具明细*/
+    /**
+     * 仓库管理 - 工具明细
+     */
     @Autowired
     private ICkglGjMxService ckglGjMxService;
 
+    @Autowired
+    private ICkglGjZjmxService ckglGjZjmxService;
+
     /**
      * Dscription: 搜索项和前置内容
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/2 16:15
      */
     @Override
-    public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
+    public void preList(Model model, HttpServletRequest request, HttpServletResponse response) {
         EntityWrapper<CkglDl> wrapper = new EntityWrapper<CkglDl>();
         wrapper.eq("SSCK", "工具");
         List<CkglDl> ckglDlList = ckglDlService.selectList(wrapper);
-        model.addAttribute("DlList" ,ckglDlList);
+        model.addAttribute("DlList", ckglDlList);
 
     }
 
     /**
      * Dscription: 转到添加工具页面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/13 14:30
      */
-    @RequestMapping(value = "createGj", method={RequestMethod.GET, RequestMethod.POST})
-    public String createBzj(HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "createGj", method = {RequestMethod.GET, RequestMethod.POST})
+    public String createBzj(HttpServletRequest request, HttpServletResponse response, Model model) {
         EntityWrapper<CkglDl> wrapper = new EntityWrapper<CkglDl>();
         wrapper.eq("SSCK", "工具");
         List<CkglDl> ckglDlList = ckglDlService.selectList(wrapper);
-        model.addAttribute("DlList" ,ckglDlList);
+        model.addAttribute("DlList", ckglDlList);
         return display("createGj");
     }
 
     /**
      * Dscription: 保存工具
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/13 16:59
      */
-    @RequestMapping(value = "saveGj", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveGj", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveBzj(CkglGj ckglGj, HttpServletRequest request, HttpServletResponse response, Model model){
-        if (ckglGj.getFldl()!=null&&!ckglGj.getFldl().equals("")){
+    public void saveBzj(CkglGj ckglGj, HttpServletRequest request, HttpServletResponse response, Model model) {
+        if (ckglGj.getFldl() != null && !ckglGj.getFldl().equals("")) {
             ckglGj.setFldl(ckglDlService.selectById(ckglGj.getFldl()).getDlmc());
         }
         ckglGj.setKc("0");
@@ -96,13 +111,14 @@ public class CkglGjController extends BaseCRUDController<CkglGj, String> {
 
     /**
      * Dscription: 根据大类ID得到所有下属小类信息
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/13 17:16
      */
-    @RequestMapping(value = "getFlxl", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "getFlxl", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public List<CkglXl> getFlxl(String fldl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public List<CkglXl> getFlxl(String fldl, HttpServletRequest request, HttpServletResponse response, Model model) {
         EntityWrapper<CkglXl> wrapper = new EntityWrapper<CkglXl>();
         wrapper.eq("DLID", fldl);
         List<CkglXl> ckglXlList = ckglXlService.selectList(wrapper);
@@ -111,28 +127,30 @@ public class CkglGjController extends BaseCRUDController<CkglGj, String> {
 
     /**
      * Dscription: 展示所有工具的信息
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/13 19:32
      */
-    @RequestMapping(value = "ajaxGjList", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "ajaxGjList", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<CkglGj> ajaxGjList(Queryable queryable, CkglGj ckglGj, HttpServletRequest request, HttpServletResponse response, Model model){
-        if (ckglGj.getFldl()!=null&&!ckglGj.getFldl().equals("")){
+    public PageJson<CkglGj> ajaxGjList(Queryable queryable, CkglGj ckglGj, HttpServletRequest request, HttpServletResponse response, Model model) {
+        if (ckglGj.getFldl() != null && !ckglGj.getFldl().equals("")) {
             ckglGj.setFldl(ckglDlService.selectById(ckglGj.getFldl()).getDlmc());
         }
-        PageJson<CkglGj> pageJson = ckglGjService.ajaxGjList(queryable,ckglGj);
+        PageJson<CkglGj> pageJson = ckglGjService.ajaxGjList(queryable, ckglGj);
         return pageJson;
     }
 
     /**
      * Dscription: 转到入库页面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/14 12:55
      */
-    @RequestMapping(value = "rk", method={RequestMethod.GET, RequestMethod.POST})
-    public String rk(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "rk", method = {RequestMethod.GET, RequestMethod.POST})
+    public String rk(String id, HttpServletRequest request, HttpServletResponse response, Model model) {
         CkglGj ckglGj = ckglGjService.selectById(id);
         model.addAttribute("ckglGj", ckglGj);
         return display("rk");
@@ -140,17 +158,18 @@ public class CkglGjController extends BaseCRUDController<CkglGj, String> {
 
     /**
      * Dscription: 保存库存，并且加入明细(入库)
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/14 13:12
      */
-    @RequestMapping(value = "saveGjkc", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveGjkc", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveBzjkc(String gjid, String cg, String rksl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveBzjkc(String gjid, String cg, String rksl, HttpServletRequest request, HttpServletResponse response, Model model) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDate = sdf.format(date);
-        String mx = "员工 "+cg+" 于 "+currentDate+" 还了 "+rksl+" 件";
+        String mx = "员工 " + cg + " 于 " + currentDate + " 还了 " + rksl + " 件";
         //插入明细表
         CkglGjMx ckglGjMx = new CkglGjMx();
         ckglGjMx.setGjid(gjid);
@@ -161,26 +180,27 @@ public class CkglGjController extends BaseCRUDController<CkglGj, String> {
         CkglGj ckglGj = ckglGjService.selectById(gjid);
         float kc = 0;
         float zjl = 0;
-        if (ckglGj.getKc()!=null&&!ckglGj.getKc().equals("")){
+        if (ckglGj.getKc() != null && !ckglGj.getKc().equals("")) {
             kc = Float.parseFloat(ckglGj.getKc());
         }
-        if (rksl!=null&&!rksl.equals("")){
+        if (rksl != null && !rksl.equals("")) {
             zjl = Float.parseFloat(rksl);
         }
         kc = kc + zjl;
-        ckglGj.setKc(kc+"");
+        ckglGj.setKc(kc + "");
         ckglGjService.updateById(ckglGj);
 
     }
 
     /**
      * Dscription: 转到出库页面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/14 12:55
      */
-    @RequestMapping(value = "ck", method={RequestMethod.GET, RequestMethod.POST})
-    public String ck(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "ck", method = {RequestMethod.GET, RequestMethod.POST})
+    public String ck(String id, HttpServletRequest request, HttpServletResponse response, Model model) {
         CkglGj ckglGj = ckglGjService.selectById(id);
         model.addAttribute("ckglGj", ckglGj);
         return display("ck");
@@ -188,17 +208,18 @@ public class CkglGjController extends BaseCRUDController<CkglGj, String> {
 
     /**
      * Dscription: 保存库存，并且加入明细(出库)
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/14 14:04
      */
-    @RequestMapping(value = "saveGjkcck", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveGjkcck", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveBzjkcck(String gjid, String ly, String cksl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveBzjkcck(String gjid, String ly, String cksl, HttpServletRequest request, HttpServletResponse response, Model model) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String currentDate = sdf.format(date);
-        String mx = "员工 "+ly+" 于 "+currentDate+" 借了 "+cksl+" 件";
+        String mx = "员工 " + ly + " 于 " + currentDate + " 借了 " + cksl + " 件";
         //插入明细表
         CkglGjMx ckglGjMx = new CkglGjMx();
         ckglGjMx.setGjid(gjid);
@@ -209,29 +230,30 @@ public class CkglGjController extends BaseCRUDController<CkglGj, String> {
         CkglGj ckglGj = ckglGjService.selectById(gjid);
         float kc = 0;
         float zjl = 0;
-        if (ckglGj.getKc()!=null&&!ckglGj.getKc().equals("")){
+        if (ckglGj.getKc() != null && !ckglGj.getKc().equals("")) {
             kc = Float.parseFloat(ckglGj.getKc());
         }
-        if (cksl!=null&&!cksl.equals("")){
+        if (cksl != null && !cksl.equals("")) {
             zjl = Float.parseFloat(cksl);
         }
         kc = kc - zjl;
-        ckglGj.setKc(kc+"");
+        ckglGj.setKc(kc + "");
         ckglGjService.updateById(ckglGj);
     }
 
     /**
      * Dscription: 转到查看详情页面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/14 14:18
      */
-    @RequestMapping(value = "ckxq", method={RequestMethod.GET, RequestMethod.POST})
-    public String ckxq(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "ckxq", method = {RequestMethod.GET, RequestMethod.POST})
+    public String ckxq(String id, HttpServletRequest request, HttpServletResponse response, Model model) {
         CkglGj ckglGj = ckglGjService.selectById(id);
         model.addAttribute("ckglGj", ckglGj);
         EntityWrapper<CkglGjMx> wrapper = new EntityWrapper<CkglGjMx>();
-        wrapper.orderBy("SJ",false);
+        wrapper.orderBy("SJ", false);
         wrapper.eq("GJID", id);
         List<CkglGjMx> ckglGjMxList = ckglGjMxService.selectList(wrapper);
         model.addAttribute("GjMxList", ckglGjMxList);
@@ -239,29 +261,88 @@ public class CkglGjController extends BaseCRUDController<CkglGj, String> {
     }
 
     /**
+     * Dscription: 跳转增减页面
+     *
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 7/1/2019 2:45 PM
+     */
+    @RequestMapping(value = "zj", method = {RequestMethod.GET, RequestMethod.POST})
+    public String zj(String id, HttpServletRequest request, HttpServletResponse response, Model model) {
+
+        CkglGj ckglGj = ckglGjService.selectById(id);
+        model.addAttribute("ckglGj", ckglGj);
+        return display("zj");
+    }
+
+    @RequestMapping(value = "ckzjxq", method = {RequestMethod.GET, RequestMethod.POST})
+    public String ckzjxq(String id, HttpServletRequest request, HttpServletResponse response, Model model) {
+        CkglGj ckglGj = ckglGjService.selectById(id);
+        model.addAttribute("ckglGj", ckglGj);
+        EntityWrapper<CkglGjZjmx> wrapper = new EntityWrapper<CkglGjZjmx>();
+        wrapper.orderBy("SJ", false);
+        wrapper.eq("GJID", id);
+        List<CkglGjZjmx> ckglGjZjmx = ckglGjZjmxService.selectList(wrapper);
+        model.addAttribute("GjZjmx", ckglGjZjmx);
+        return display("ckzjxq");
+    }
+
+
+
+    @RequestMapping(value = "saveGjzj", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void zj(String id, String zjsl, String yg, HttpServletRequest request, HttpServletResponse response, Model model) {
+        CkglGj ckglGj = ckglGjService.selectById(id);
+        String zsl = ckglGj.getZsl();
+        String kc = ckglGj.getKc();
+        float newZsl = Float.parseFloat(zsl) + Float.parseFloat(zjsl);
+        float newKc = Float.parseFloat(zjsl) + Float.parseFloat(kc);
+        ckglGj.setZsl(newZsl + "");
+        ckglGj.setKc(newKc + "");
+        ckglGjService.updateById(ckglGj);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
+        String mx = "";
+        if (Float.parseFloat(zjsl) < 0) mx = "员工 " + yg + " 于 " + currentDate + " 减少 " + (0-Float.parseFloat(zjsl)) + " 件";
+        else mx = "员工 " + yg + " 于 " + currentDate + " 增加 " + Float.parseFloat(zjsl) + " 件";
+
+        //插入明细表
+        CkglGjZjmx ckglGjZjmx = new CkglGjZjmx();
+        ckglGjZjmx.setGjid(id);
+        ckglGjZjmx.setMx(mx);
+        ckglGjZjmx.setSj(date);
+        ckglGjZjmxService.insert(ckglGjZjmx);
+
+    }
+
+
+    /**
      * Dscription: 查看是否 归还数量+库存<=总数量
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/15 19:38
      */
-    @RequestMapping(value = "saveCheckZsl", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveCheckZsl", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public int saveCheckZsl(String gjid, String rksl, String zsl, String kc, HttpServletRequest request, HttpServletResponse response, Model model){
+    public int saveCheckZsl(String gjid, String rksl, String zsl, String kc, HttpServletRequest request, HttpServletResponse response, Model model) {
         // 1是小于等于 0是大于
         int flag = 0;
         float rkslf = 0;
         float zslf = 0;
         float kcf = 0;
-        if (zsl!=null&&!zsl.equals("")){
+        if (zsl != null && !zsl.equals("")) {
             zslf = Float.parseFloat(zsl);
         }
-        if (rksl!=null&&!rksl.equals("")){
+        if (rksl != null && !rksl.equals("")) {
             rkslf = Float.parseFloat(rksl);
         }
-        if (kc!=null&&!kc.equals("")){
+        if (kc != null && !kc.equals("")) {
             kcf = Float.parseFloat(kc);
         }
-        if ((rkslf+kcf)<=zslf){
+        if ((rkslf + kcf) <= zslf) {
             flag = 1;
         }
 

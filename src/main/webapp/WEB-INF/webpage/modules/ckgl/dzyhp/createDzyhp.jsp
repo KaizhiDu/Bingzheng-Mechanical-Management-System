@@ -40,7 +40,30 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>名称：</label>
+                        <label>分类大类：</label>
+                    </td>
+                    <td>
+                        <select id="fldl" name="fldl" class="form-control" onchange="getFlxl()">
+                            <option value="">请选择</option>
+                            <c:forEach var="dl" items="${DlList}">
+                                <option value="${dl.id}">${dl.dlmc}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>分类小类：</label>
+                    </td>
+                    <td>
+                        <select id="flxl" name="flxl" class="form-control">
+                            <option value="">请选择</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>规格：</label>
                     </td>
                     <td>
                         <input name="gg" id="gg" htmlEscape="false" class="form-control" placeholder="请输入办公用品名"/>
@@ -81,6 +104,28 @@
 
 <script type="text/javascript">
 
+    //根据大类id拿到所有小类名
+    function getFlxl() {
+        var fldl = $("#fldl").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/ckgl/bzj/getFlxl?fldl="+fldl,
+            success : function (data) {
+                $("#flxl").text("");
+                $("#flxl").append(
+                    "<option value=''>请选择</option>"
+                );
+                for (var i=0;i<data.length;i++){
+                    var xl = data[i];
+                    $("#flxl").append(
+                        "<option value='"+xl.xlmc+"'>"+xl.xlmc+"</option>"
+                    );
+                }
+
+            }
+        });
+    }
+
     //检查预警量
     function checkYjkc(){
         var yjkc = $("#yjkc").val();
@@ -95,6 +140,8 @@
 
     //点击保存，保存数据
     function check() {
+        var fldl = $("#fldl").val();
+        var flxl = $("#flxl").val();
         var gg = $("#gg").val();
         var dw = $("#dw").val();
         var yjkc = $("#yjkc").val();
@@ -104,6 +151,8 @@
             url: "${adminPath}/ckgl/dzyhp/saveDzyhp",
             data: {
                 id: null,
+                fldl: fldl,
+                flxl: flxl,
                 gg: gg,
                 dw: dw,
                 yjkc: yjkc,

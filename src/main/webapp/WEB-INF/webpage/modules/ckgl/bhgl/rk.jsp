@@ -30,7 +30,11 @@
     </style>
 </head>
 <body class="container">
+<input type="hidden" id="id" name="id" value="${id}">
+<input type="hidden" id="ck" name="ck" value="${ck}">
+<h2> ${title} </h2>
 
+<hr>
 <div class="row">
     <div class="col-md-3">
 
@@ -40,36 +44,37 @@
             <table class="table">
                 <tr class="form-group">
                     <td>
-                        <label>计划名称：</label>
+                        <label>进货人：</label>
                     </td>
                     <td>
-                        <input name="htbh" id="htbh" htmlEscape="false" class="form-control" placeholder="请输入计划名称"/>
+                        <input name="jhr" id="jhr" htmlEscape="false" class="form-control" placeholder="请输入采购员姓名"/>
                     </td>
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>描述：</label>
+                        <label>入库数量：</label>
                     </td>
                     <td>
-                        <textarea id="ms" name="ms" class="form-control" rows="3" cols="20" placeholder="请对该计划进行描述"></textarea>
+                        <input name="rksl" id="rksl" htmlEscape="false" class="form-control" placeholder="请输入入库数量"
+                               onchange="checkSl()"/>
                     </td>
                 </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>数量：</label>
-                    </td>
-                    <td>
-                        <input name="sl" id="sl" htmlEscape="false" class="form-control" placeholder="请输入计划生产数量" onchange="checkSl()"/>
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>计划完工时间：</label>
-                    </td>
-                    <td>
-                        <input name="jhwgsj" id="jhwgsj" htmlEscape="false" class="form-control layer-date" value="<fmt:formatDate value='${grgl.enterdate}' pattern='yyyy-MM-dd'/>" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*" />
-                    </td>
-                </tr>
+
+                <c:if test="${hasJhs}">
+                    <tr class="form-group">
+                        <td>
+                            <label>进货商：</label>
+                        </td>
+                        <td>
+                            <select id="jhs" name="jhs" class="form-control">
+                                <c:forEach var="jhs" items="${ckglJhs}">
+                                    <option value="${jhs.jhs}">${jhs.jhs}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                    </tr>
+                </c:if>
+
 
             </table>
         </form>
@@ -83,31 +88,34 @@
 
     //检查数量
     function checkSl(){
-        var sl = $("#sl").val();
+        var rksl = $("#rksl").val();
         // var r = yjkc.match(/^[0-9]*$/);
-        var r = sl.match(/^\d+(\.\d+)?$/);
+        var r = rksl.match(/^\d+(\.\d+)?$/);
         //先判断是不是数字
         if(r == null){
             top.layer.alert("请输入数字");
-            $("#sl").val("");
+            $("#rksl").val("");
         }
     }
 
+
+
     //点击保存，保存数据
     function check() {
-        var htbh = $("#htbh").val();
-        var ms = $("#ms").val();
-        var sl = $("#sl").val();
-        var jhwgsj = $("#jhwgsj").val();
+        var jhr = $("#jhr").val();
+        var rksl = $("#rksl").val();
+        var jhs = $("#jhs").val();
+        var id = $("#id").val();
+        var ck = $("#ck").val();
         $.ajax({
             type: "GET",
-            url: "${adminPath}/scjhgl/htgl/saveHt",
+            url: "${adminPath}/ckgl/bhgl/saveRk",
             data: {
-                id: null,
-                htbh: htbh,
-                ms: ms,
-                sl:sl,
-                jhwgsj: jhwgsj
+                cg: jhr,
+                rksl: rksl,
+                jhs: jhs,
+                id: id,
+                ck: ck
             },
             success: function (data) {
 

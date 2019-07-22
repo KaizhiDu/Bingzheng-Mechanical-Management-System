@@ -3,10 +3,11 @@ package cn.jeeweb.modules.ckgl.controller;
 import cn.jeeweb.core.common.controller.BaseCRUDController;
 import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
+import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.dto.CkglBhglDTO;
-import cn.jeeweb.modules.ckgl.entity.CkglBhgl;
-import cn.jeeweb.modules.ckgl.service.ICkglBhglService;
+import cn.jeeweb.modules.ckgl.entity.*;
+import cn.jeeweb.modules.ckgl.service.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
@@ -43,6 +44,30 @@ public class CkglBhglController extends BaseCRUDController<CkglBhgl, String> {
     @Autowired
     private ICkglBhglService ckglBhglService;
 
+    /**仓库管理 - 进货商*/
+    @Autowired
+    private ICkglJhsService ckglJhsService;
+    @Autowired
+    private ICkglDzyhpService ckglDzyhpService;
+    @Autowired
+    private ICkglDzyhpMxService ckglDzyhpMxService;
+    @Autowired
+    private ICkglBzjService ckglBzjService;
+    @Autowired
+    private ICkglBzjMxSevice ckglBzjMxService;
+    @Autowired
+    private ICkglYclService ckglYclService;
+    @Autowired
+    private ICkglYclMxService ckglYclMxService;
+    @Autowired
+    private ICkglRjService ckglRjService;
+    @Autowired
+    private ICkglRjMxService ckglRjMxService;
+    @Autowired
+    private ICkglBgypService ckglBgypService;
+    @Autowired
+    private ICkglBgypMxService ckglBgypMxService;
+
     /**
      * Dscription: 展示所有需要补货的信息
      * @author : Kevin Du
@@ -57,11 +82,232 @@ public class CkglBhglController extends BaseCRUDController<CkglBhgl, String> {
     }
 
     /**
-     * Dscription: 导出补货单
+     * Dscription: 显示入库页面
      * @author : Kevin Du
      * @version : 1.0
-     * @date : 2018/10/16 10:41
+     * @date : 7/7/2019 11:13 AM
      */
+    @RequestMapping(value = "rk", method={RequestMethod.GET, RequestMethod.POST})
+    public String rk(String fldl, String flxl, String gg, String id, String ck, HttpServletRequest request, HttpServletResponse response, Model model){
+        boolean hasJhs = false;
+        if (ck.equals("标准件") || ck.equals("原材料") || ck.equals("刃具")) {
+            hasJhs = true;
+        }
+        EntityWrapper<CkglJhs> wrapper = new EntityWrapper<CkglJhs>();
+        List<CkglJhs> ckglJhs = ckglJhsService.selectList(wrapper);
+        model.addAttribute("ckglJhs", ckglJhs);
+        model.addAttribute("title", fldl+" - "+flxl+" - "+gg);
+        model.addAttribute("id", id);
+        model.addAttribute("ck", ck);
+        model.addAttribute("hasJhs", hasJhs);
+        return display("rk");
+    }
+
+    @RequestMapping(value = "saveRk", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public void saveRk(String cg, String rksl, String jhs, String id, String ck, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+        switch (ck){
+            case "标准件": bzjrk(jhs, id, cg, rksl);
+                break;
+            case "原材料": yclrk(jhs, id, cg, rksl);
+                break;
+            case "刃具": rjrk(jhs, id, cg, rksl);
+                break;
+            case "办公用品":bgyprk(id, cg, rksl);
+                break;
+            case "低值易耗品":dzyhprk(id, cg, rksl);
+                break;
+        }
+    }
+
+    public void bzjrk(String jhs, String bzjid, String cg, String rksl){
+        CkglBzj ckglBzj0 = ckglBzjService.selectById(bzjid);
+
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String datee = sdf0.format(date0);
+        String dateArray[] = datee.split("-");
+        String n = dateArray[0];
+        String y = dateArray[1];
+        String r = dateArray[2];
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
+        String mx = "采购员 "+cg+" 于 "+currentDate+" 入库 "+rksl+" 件";
+        //插入明细表
+        CkglBzjMx ckglBzjMx = new CkglBzjMx();
+        ckglBzjMx.setFldl(ckglBzj0.getFldl());
+        ckglBzjMx.setFlxl(ckglBzj0.getFlxl());
+        ckglBzjMx.setGg(ckglBzj0.getGg());
+        ckglBzjMx.setBzjid(bzjid);
+        ckglBzjMx.setMx(mx);
+        ckglBzjMx.setSj(date);
+        ckglBzjMx.setN(n);
+        ckglBzjMx.setY(y);
+        ckglBzjMx.setR(r);
+        ckglBzjMx.setJhs(jhs);
+        ckglBzjMx.setJx("0");
+        ckglBzjMxService.insert(ckglBzjMx);
+        //更改标准件表
+        CkglBzj ckglBzj = ckglBzjService.selectById(bzjid);
+        float kc = 0;
+        float zjl = 0;
+        if (ckglBzj.getKc()!=null&&!ckglBzj.getKc().equals("")){
+            kc = Float.parseFloat(ckglBzj.getKc());
+        }
+        if (rksl!=null&&!rksl.equals("")){
+            zjl = Float.parseFloat(rksl);
+        }
+        kc = kc + zjl;
+        ckglBzj.setKc(kc+"");
+        ckglBzjService.updateById(ckglBzj);
+    }
+
+    public void yclrk(String jhs, String yclid, String cg, String rksl) {
+        CkglYcl ckglYcl0 = ckglYclService.selectById(yclid);
+
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String datee = sdf0.format(date0);
+        String dateArray[] = datee.split("-");
+        String n = dateArray[0];
+        String y = dateArray[1];
+        String r = dateArray[2];
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
+        String mx = "采购员 "+cg+" 于 "+currentDate+" 入库 "+rksl+" 件";
+        //插入明细表
+        CkglYclMx ckglYclMx = new CkglYclMx();
+        ckglYclMx.setFldl(ckglYcl0.getFldl());
+        ckglYclMx.setFlxl(ckglYcl0.getFlxl());
+        ckglYclMx.setGg(ckglYcl0.getGg());
+        ckglYclMx.setYclid(yclid);
+        ckglYclMx.setMx(mx);
+        ckglYclMx.setSj(date);
+        ckglYclMx.setN(n);
+        ckglYclMx.setY(y);
+        ckglYclMx.setR(r);
+        ckglYclMx.setJhs(jhs);
+        ckglYclMx.setJx("0");
+        ckglYclMxService.insert(ckglYclMx);
+        //更改标准件表
+        CkglYcl ckglYcl = ckglYclService.selectById(yclid);
+        float kc = 0;
+        float zjl = 0;
+        if (ckglYcl.getKc()!=null&&!ckglYcl.getKc().equals("")){
+            kc = Float.parseFloat(ckglYcl.getKc());
+        }
+        if (rksl!=null&&!rksl.equals("")){
+            zjl = Float.parseFloat(rksl);
+        }
+        kc = kc + zjl;
+        ckglYcl.setKc(kc+"");
+        ckglYclService.updateById(ckglYcl);
+    }
+
+    public void rjrk(String jhs, String rjid, String cg, String rksl) {
+        CkglRj ckglRj0 = ckglRjService.selectById(rjid);
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String datee = sdf0.format(date0);
+        String dateArray[] = datee.split("-");
+        String n = dateArray[0];
+        String y = dateArray[1];
+        String r = dateArray[2];
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
+        String mx = "采购员 "+cg+" 于 "+currentDate+" 入库 "+rksl+" 件";
+        //插入明细表
+        CkglRjMx ckglRjMx = new CkglRjMx();
+        ckglRjMx.setFldl(ckglRj0.getFldl());
+        ckglRjMx.setFlxl(ckglRj0.getFlxl());
+        ckglRjMx.setGg(ckglRj0.getGg());
+        ckglRjMx.setRjid(rjid);
+        ckglRjMx.setMx(mx);
+        ckglRjMx.setSj(date);
+        ckglRjMx.setN(n);
+        ckglRjMx.setY(y);
+        ckglRjMx.setR(r);
+        ckglRjMx.setJhs(jhs);
+        ckglRjMx.setJx("0");
+        ckglRjMxService.insert(ckglRjMx);
+        //更改标准件表
+        CkglRj ckglRj = ckglRjService.selectById(rjid);
+        float kc = 0;
+        float zjl = 0;
+        if (ckglRj.getKc()!=null&&!ckglRj.getKc().equals("")){
+            kc = Float.parseFloat(ckglRj.getKc());
+        }
+        if (rksl!=null&&!rksl.equals("")){
+            zjl = Float.parseFloat(rksl);
+        }
+        kc = kc + zjl;
+        ckglRj.setKc(kc+"");
+        ckglRjService.updateById(ckglRj);
+    }
+
+    public void bgyprk(String bgypid, String cg, String rksl) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
+        String mx = "采购员 "+cg+" 于 "+currentDate+" 入库 "+rksl+" 件";
+        //插入明细表
+        CkglBgypMx ckglBgypMx = new CkglBgypMx();
+        ckglBgypMx.setBgypid(bgypid);
+        ckglBgypMx.setMx(mx);
+        ckglBgypMx.setSj(date);
+        ckglBgypMxService.insert(ckglBgypMx);
+        //更改标准件表
+        CkglBgyp ckglBgyp = ckglBgypService.selectById(bgypid);
+        float kc = 0;
+        float zjl = 0;
+        if (ckglBgyp.getKc()!=null&&!ckglBgyp.getKc().equals("")){
+            kc = Float.parseFloat(ckglBgyp.getKc());
+        }
+        if (rksl!=null&&!rksl.equals("")){
+            zjl = Float.parseFloat(rksl);
+        }
+        kc = kc + zjl;
+        ckglBgyp.setKc(kc+"");
+        ckglBgypService.updateById(ckglBgyp);
+    }
+
+    public void dzyhprk(String dzyhpid, String cg, String rksl){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDate = sdf.format(date);
+        String mx = "采购员 "+cg+" 于 "+currentDate+" 入库 "+rksl+" 件";
+        //插入明细表
+        CkglDzyhpMx ckglDzyhpMx = new CkglDzyhpMx();
+        ckglDzyhpMx.setDzyhpid(dzyhpid);
+        ckglDzyhpMx.setMx(mx);
+        ckglDzyhpMx.setSj(date);
+        ckglDzyhpMxService.insert(ckglDzyhpMx);
+        //更改标准件表
+        CkglDzyhp ckglDzyhp = ckglDzyhpService.selectById(dzyhpid);
+        float kc = 0;
+        float zjl = 0;
+        if (ckglDzyhp.getKc()!=null&&!ckglDzyhp.getKc().equals("")){
+            kc = Float.parseFloat(ckglDzyhp.getKc());
+        }
+        if (rksl!=null&&!rksl.equals("")){
+            zjl = Float.parseFloat(rksl);
+        }
+        kc = kc + zjl;
+        ckglDzyhp.setKc(kc+"");
+        ckglDzyhpService.updateById(ckglDzyhp);
+    }
+
+        /**
+         * Dscription: 导出补货单
+         * @author : Kevin Du
+         * @version : 1.0
+         * @date : 2018/10/16 10:41
+         */
     @RequestMapping(value = "exportBhd", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void exportBhd(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {

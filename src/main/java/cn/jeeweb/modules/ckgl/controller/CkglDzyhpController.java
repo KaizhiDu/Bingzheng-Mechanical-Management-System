@@ -5,14 +5,8 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
-import cn.jeeweb.modules.ckgl.entity.CkglBgyp;
-import cn.jeeweb.modules.ckgl.entity.CkglBgypMx;
-import cn.jeeweb.modules.ckgl.entity.CkglDzyhp;
-import cn.jeeweb.modules.ckgl.entity.CkglDzyhpMx;
-import cn.jeeweb.modules.ckgl.service.ICkglBgypMxService;
-import cn.jeeweb.modules.ckgl.service.ICkglBgypService;
-import cn.jeeweb.modules.ckgl.service.ICkglDzyhpMxService;
-import cn.jeeweb.modules.ckgl.service.ICkglDzyhpService;
+import cn.jeeweb.modules.ckgl.entity.*;
+import cn.jeeweb.modules.ckgl.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +39,10 @@ public class CkglDzyhpController extends BaseCRUDController<CkglDzyhp, String> {
     @Autowired
     private ICkglDzyhpMxService ckglDzyhpxMxService;
 
+    /**仓库管理 - 大类*/
+    @Autowired
+    private ICkglDlService ckglDlService;
+
     /**
      * Dscription: 搜索项和前置内容
      * @author : Kevin Du
@@ -53,7 +51,10 @@ public class CkglDzyhpController extends BaseCRUDController<CkglDzyhp, String> {
      */
     @Override
     public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
-
+        EntityWrapper<CkglDl> wrapper = new EntityWrapper<CkglDl>();
+        wrapper.eq("SSCK", "低值易耗品");
+        List<CkglDl> ckglDlList = ckglDlService.selectList(wrapper);
+        model.addAttribute("DlList" ,ckglDlList);
     }
 
     /**
@@ -64,6 +65,10 @@ public class CkglDzyhpController extends BaseCRUDController<CkglDzyhp, String> {
      */
     @RequestMapping(value = "createDzyhp", method={RequestMethod.GET, RequestMethod.POST})
     public String createBzj(HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<CkglDl> wrapper = new EntityWrapper<CkglDl>();
+        wrapper.eq("SSCK", "低值易耗品");
+        List<CkglDl> ckglDlList = ckglDlService.selectList(wrapper);
+        model.addAttribute("DlList" ,ckglDlList);
         return display("createDzyhp");
     }
 
@@ -76,6 +81,8 @@ public class CkglDzyhpController extends BaseCRUDController<CkglDzyhp, String> {
     @RequestMapping(value = "saveDzyhp", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveBzj(CkglDzyhp ckglDzyhp, HttpServletRequest request, HttpServletResponse response, Model model){
+        String dlid = ckglDzyhp.getFldl();
+        ckglDzyhp.setFldl(ckglDlService.selectById(dlid).getDlmc());
         ckglDzyhp.setKc("0");
         ckglDzyhpService.insert(ckglDzyhp);
     }
@@ -89,6 +96,9 @@ public class CkglDzyhpController extends BaseCRUDController<CkglDzyhp, String> {
     @RequestMapping(value = "ajaxDzyhpList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<CkglDzyhp> ajaxDzyhpList(Queryable queryable, CkglDzyhp ckglDzyhp, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (ckglDzyhp.getFldl()!=null&&!ckglDzyhp.getFldl().equals("")){
+            ckglDzyhp.setFldl(ckglDlService.selectById(ckglDzyhp.getFldl()).getDlmc());
+        }
         PageJson<CkglDzyhp> pageJson = ckglDzyhpService.ajaxDzyhpList(queryable,ckglDzyhp);
         return pageJson;
     }

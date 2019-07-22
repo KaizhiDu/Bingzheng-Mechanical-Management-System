@@ -39,6 +39,12 @@ public class CkglBhglServiceImpl extends CommonServiceImpl<CkglBhglMapper, CkglB
     public PageJson<CkglBhglDTO> ajaxBhglList(Queryable queryable, CkglBhglDTO ckglBhglDTO) {
         Pageable pageable = queryable.getPageable();
         Page<CkglBhglDTO> page = new Page<CkglBhglDTO>(pageable.getPageNumber(), pageable.getPageSize());
+//        List<CkglBhglDTO> list = ckglBhglMapper.ajaxBhglList(page, ckglBhglDTO);
+//        for (CkglBhglDTO c : list) {
+//            if (Float.parseFloat(c.getYbsl())<0) {
+//                list.remove(c);
+//            }
+//        }
         page.setRecords(ckglBhglMapper.ajaxBhglList(page, ckglBhglDTO));
         PageJson<CkglBhglDTO> pagejson = new PageJson<CkglBhglDTO>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;

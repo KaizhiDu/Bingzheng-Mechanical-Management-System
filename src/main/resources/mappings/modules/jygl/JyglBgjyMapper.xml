@@ -38,6 +38,12 @@
         <if test="entity.rq!=null and entity.rq!=''">
             AND T2.RQ = #{entity.rq}
         </if>
+        <if test="entity.ljth!=null and entity.ljth!=''">
+            AND T6.LJTH LIKE "%"#{entity.ljth}"%"
+        </if>
+        <if test="entity.ljmc!=null and entity.ljmc!=''">
+            AND T6.LJMC LIKE "%"#{entity.ljmc}"%"
+        </if>
         AND T.YWCL IS NOT NULL
         AND T1.SBID = T3.ID
         AND T.LJGYBZID = T4.ID

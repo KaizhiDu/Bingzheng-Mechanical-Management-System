@@ -68,13 +68,17 @@
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
-    <grid:column label="sys.common.opt" name="opt" formatter="button" width="140"/>
+    <grid:column label="sys.common.opt" name="opt" formatter="button" width="300"/>
     <grid:button title="归还" groupname="opt" function="rk"
                  outclass="btn-success" url="${adminPath}/ckgl/gj/rk?id=\"+row.id+\"" />
     <grid:button title="借出" groupname="opt" function="ck"
                  outclass="btn-primary" url="${adminPath}/ckgl/gj/ck?id=\"+row.id+\"" />
     <grid:button title="查看借还详情" groupname="opt" function="ckxq"
                  outclass="btn-warning" url="${adminPath}/ckgl/gj/ckxq?id=\"+row.id+\"" />
+    <grid:button title="增/减" groupname="opt" function="zj"
+                 outclass="btn-info" url="${adminPath}/ckgl/gj/zj?id=\"+row.id+\"" />
+    <grid:button title="查看增减详情" groupname="opt" function="ckzjxq"
+                 outclass="btn-warning" url="${adminPath}/ckgl/gj/ckzjxq?id=\"+row.id+\"" />
 
     <grid:column label="大类" name="fldl"/>
     <grid:column label="小类" name="flxl"/>
@@ -92,6 +96,40 @@
 </grid:grid>
 
 <script type="text/javascript">
+
+    function ckzjxq(title, url, gridId, id, width, height, tipMsg) {
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["30%", "80%"],
+            title: "查看增减详情",
+            maxmin: true, //开启最大化最小化按钮
+            content: url ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
+            cancel: function(index){
+                refreshTable2(gridId);
+            },
+            end: function (index) {
+                refreshTable2(gridId);
+            }
+        });
+    }
+
+    function zj(title, url, gridId, id, width, height, tipMsg) {
+        openDia("增/减",url,gridId,"40%","60%");
+    }
+
     //添加标准件
     function createGj(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/ckgl/gj/createGj";

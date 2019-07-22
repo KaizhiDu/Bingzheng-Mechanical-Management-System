@@ -44,6 +44,18 @@
                     </c:forEach>
                 </select>
             </div>
+
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">零部件图号：</label>
+                <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="支持按照关键字查询">
+
+            </div>
+
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">零部件名称：</label>
+                <input name="ljmc" id="ljmc" htmlEscape="false" class="form-control" placeholder="支持按照关键字查询">
+            </div>
+
              <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">工人：</label>
                 <select name="xm" class="form-control" id="xm">
@@ -53,6 +65,7 @@
                     </c:forEach>
                 </select>
             </div>
+
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">日期：</label>
                 <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>

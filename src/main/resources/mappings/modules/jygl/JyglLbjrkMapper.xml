@@ -3,16 +3,18 @@
 <mapper namespace="cn.jeeweb.modules.jygl.mapper.JyglLbjrkMapper" >
 
     <select id="ajaxlbjglList" resultType="cn.jeeweb.modules.jygl.entity.JyglLbjrk">
-        SELECT ID,
-        (SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.HTID) HTID,
-        LJTH,
-        LJMC,
-        DYL,
-        SL,
-        WRKSL,
-        SYSL
-        FROM T_SCJHGL_LJGL T
+        SELECT T.ID,
+        T1.HTBH HTID,
+        T.LJTH,
+        T.LJMC,
+        T.DYL,
+        T.SL,
+        T.WRKSL,
+        T.SYSL
+        FROM T_SCJHGL_LJGL T,
+        T_SCJHGL_HTGL T1
         WHERE 1=1
+            AND T1.SFWC = 0
         <if test="entity.htid!=null and entity.htid!=''">
             AND T.HTID = #{entity.htid}
         </if>

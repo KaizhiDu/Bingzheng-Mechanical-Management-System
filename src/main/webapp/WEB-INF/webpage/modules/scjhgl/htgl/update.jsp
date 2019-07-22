@@ -64,6 +64,14 @@
                 </tr>
                 <tr class="form-group">
                     <td>
+                        <label>计划完工时间：</label>
+                    </td>
+                    <td>
+                        <input name="jhwgsj" id="jhwgsj" htmlEscape="false" class="form-control layer-date" value="${scjhglHtgl.jhwgsj}" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*" />
+                    </td>
+                </tr>
+                <tr class="form-group">
+                    <td>
                         <label>是否完成：</label>
                     </td>
                     <td>
@@ -79,6 +87,7 @@
                         </select>
                     </td>
                 </tr>
+
 
             </table>
         </form>
@@ -109,6 +118,7 @@
         var ms = $("#ms").val();
         var sl = $("#sl").val();
         var sfwc = $("#sfwc").val();
+        var jhwgsj = $("#jhwgsj").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/scjhgl/htgl/saveHt",
@@ -117,7 +127,8 @@
                 htbh: htbh,
                 ms: ms,
                 sl: sl,
-                sfwc: sfwc
+                sfwc: sfwc,
+                jhwgsj: jhwgsj
             },
             success: function (data) {
 

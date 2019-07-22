@@ -40,7 +40,23 @@
     <div id="DzyhpGridQuery" class="col-md-12">
         <div class="form-inline">
             <div class="form-group col-md-4" style="margin-bottom: 10px">
-                <label class="control-label">低值易耗品名称：</label>
+                <label class="control-label">仓库大类：</label>
+                <select id="fldl" name="fldl" class="form-control" onchange="getFlxl()">
+                    <option value="">请选择</option>
+                    <c:forEach var="dl" items="${DlList}">
+                        <option value="${dl.id}">${dl.dlmc}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">仓库小类：</label>
+                <select id="flxl" name="flxl" class="form-control">
+                    <option value="">请选择</option>
+
+                </select>
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">规格：</label>
                 <input name="gg" id="gg" htmlEscape="false" class="form-control" placeholder="支持按照关键字查询">
             </div>
         </div>
@@ -49,6 +65,8 @@
 
 <grid:grid id="Dzyhp"
            url="${adminPath}/ckgl/dzyhp/ajaxDzyhpList" pageable="true">
+
+
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
@@ -60,7 +78,9 @@
     <grid:button title="查看进销详情" groupname="opt" function="ckxq"
                  outclass="btn-warning" url="${adminPath}/ckgl/dzyhp/ckxq?id=\"+row.id+\"" />
 
-    <grid:column label="名称" name="gg"/>
+    <grid:column label="大类" name="fldl" width="50"/>
+    <grid:column label="小类" name="flxl"/>
+    <grid:column label="规格" name="gg"/>
     <grid:column label="单位" name="dw"/>
     <grid:column label="库存" name="kc"/>
     <grid:column label="预警量" name="yjkc"/>
@@ -74,6 +94,29 @@
 </grid:grid>
 
 <script type="text/javascript">
+
+    //根据大类id拿到所有小类名
+    function getFlxl() {
+        var fldl = $("#fldl").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/ckgl/bzj/getFlxl?fldl="+fldl,
+            success : function (data) {
+                $("#flxl").text("");
+                $("#flxl").append(
+                    "<option value=''>请选择</option>"
+                );
+                for (var i=0;i<data.length;i++){
+                    var xl = data[i];
+                    $("#flxl").append(
+                        "<option value='"+xl.xlmc+"'>"+xl.xlmc+"</option>"
+                    );
+                }
+
+            }
+        });
+    }
+
     //添加标准件
     function createDzyhp(title, url, gridId, id, width, height, tipMsg) {
         var url = "${adminPath}/ckgl/dzyhp/createDzyhp";
