@@ -28,7 +28,7 @@ WHERE 1=1
 		</if>
 		AND T.SFSBJ = '0'
 		<if test="pxfs==1">
-			ORDER BY T.HTID,T.LJTH
+			ORDER BY T.HTID,T.LJMC
 		</if>
 		<if test="pxfs==2">
 			ORDER BY T.RQ DESC
@@ -52,7 +52,7 @@ WHERE 1=1
 		</if>
 		AND T.SFSBJ = '0'
 		<if test="pxfs==1">
-			ORDER BY T.HTID,T.LJTH
+			ORDER BY T.HTID,T.LJMC
 		</if>
 		<if test="pxfs==2">
 			ORDER BY T.RQ DESC

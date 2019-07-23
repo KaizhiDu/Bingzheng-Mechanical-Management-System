@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
 * @Description:    生产计划管理-零部件管理
@@ -398,6 +399,25 @@ public String zjsl(String id, HttpServletRequest request, HttpServletResponse re
         model.addAttribute("htList", list);
         return display("copyLj");
     }
+
+    public static String getRandomString(int length){
+        //定义一个字符串（A-Z，a-z，0-9）即62位；
+        String str="zxcvbnmlkjhgfdsaqwertyuiopQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+        //由Random生成随机数
+        Random random=new Random();
+        StringBuffer sb=new StringBuffer();
+        //长度为几就循环几次
+        for(int i=0; i<length; ++i){
+            //产生0-61的数字
+            int number=random.nextInt(62);
+            //将产生的数字通过length次承载到sb中
+            sb.append(str.charAt(number));
+        }
+        //将承载的字符转换成字符串
+        return sb.toString();
+    }
+
+
     @RequestMapping(value = "saveCopyLj", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveCopyLj(String htid, String ids, HttpServletRequest request, HttpServletResponse response, Model model){
@@ -417,9 +437,10 @@ public String zjsl(String id, HttpServletRequest request, HttpServletResponse re
             ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(idsArray[i]);
             int dyl = Integer.parseInt(scjhglLjgl.getDyl());
             int sl = htsl * dyl;
+            String addId = getRandomString(5);
             //添加一套新的零件数据
             ScjhglLjgl s = new ScjhglLjgl();
-            s.setId(scjhglLjgl.getId()+"-ddd");
+            s.setId(scjhglLjgl.getId()+addId);
             s.setHtid(htid);
             s.setLjth(scjhglLjgl.getLjth());
             s.setLjmc(scjhglLjgl.getLjmc());
@@ -438,8 +459,8 @@ public String zjsl(String id, HttpServletRequest request, HttpServletResponse re
             List<ScglGydlbz> scglGydlbzs = scglGydlbzService.selectList(wrapper);
             for (ScglGydlbz ss : scglGydlbzs) {
                 ScglGydlbz scglGydlbz = new ScglGydlbz();
-                scglGydlbz.setId(ss.getId()+"-ddd");
-                scglGydlbz.setLjid(idsArray[i]+"-ddd");
+                scglGydlbz.setId(ss.getId()+addId);
+                scglGydlbz.setLjid(idsArray[i]+addId);
                 scglGydlbz.setGydlid(ss.getGydlid());
                 scglGydlbz.setGydlmc(ss.getGydlmc());
                 scglGydlbz.setPx(ss.getPx());
@@ -448,8 +469,8 @@ public String zjsl(String id, HttpServletRequest request, HttpServletResponse re
             List<ScglLjgybz> ljgybzByLjid = scglLjgybzService.getLjgybzByLjid(idsArray[i]);
             for (ScglLjgybz ss : ljgybzByLjid) {
                 ScglLjgybz scglLjgybz = new ScglLjgybz();
-                scglLjgybz.setId(ss.getId()+"-ddd");
-                scglLjgybz.setGydlbzid(ss.getGydlbzid()+"-ddd");
+                scglLjgybz.setId(ss.getId()+addId);
+                scglLjgybz.setGydlbzid(ss.getGydlbzid()+addId);
                 scglLjgybz.setGyxlid(ss.getGyxlid());
                 scglLjgybz.setGyxlmc(ss.getGyxlmc());
                 scglLjgybz.setMs(ss.getMs());
@@ -461,6 +482,7 @@ public String zjsl(String id, HttpServletRequest request, HttpServletResponse re
                 scglLjgybz.setScsfxs(ss.getScsfxs());
                 scglLjgybzService.insert(scglLjgybz);
             }
+            int a = 1;
         }
     }
 

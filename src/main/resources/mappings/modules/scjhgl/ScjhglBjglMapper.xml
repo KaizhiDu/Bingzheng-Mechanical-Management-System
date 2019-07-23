@@ -21,7 +21,7 @@
             AND T.LJTH = #{entity.ljth}
         </if>
         AND T.SFSBJ = '1'
-        ORDER BY T.HTID
+        ORDER BY T.HTID,T.LJMC
     </select>
 
 

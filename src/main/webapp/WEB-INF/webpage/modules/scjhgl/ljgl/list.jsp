@@ -150,7 +150,7 @@
 
         }
         else {
-            top.layer.alert('请选择要删除的数据!', {icon: 0, title:'警告'});
+            top.layer.alert('请选择需要复制的数据!', {icon: 0, title:'警告'});
         }
     }
 
