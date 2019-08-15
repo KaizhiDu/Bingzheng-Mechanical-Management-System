@@ -22,44 +22,38 @@ ORDER BY T1.ZWID DESC
     </select>
 
     <select id="getRgpgJcxx" resultType="cn.jeeweb.modules.scgl.dto.RgpgJcxxDTO">
-SELECT T.ID,
-			 T.ZW,
-			 T.XM,
-       T.RQ,
-			 T1.GSMC,
-			 T1.GS,
-			 T1.JB,
-			 T3.SBMC,
-			 T8.HTBH JHBH,
-			 T7.LJMC,
-		T7.LJTH,
-			 T6.GYDLMC,
-			 T5.GYXLMC,
-			 T4.YWCL
-FROM T_SCGL_RCRWFP T,
-		 T_SCGL_RCRWFP_RG_GS T1,
-		 T_SCGL_RCRWFP_RG_SB T2,
-		 T_SBGL_SBGL T3,
-		 T_SCGL_RCRWFP_RG_RW T4,
-		 T_SCGL_LJGYBZ T5,
-		 T_SCGL_GYDLBZ T6,
-		 T_SCJHGL_LJGL T7,
-		 T_SCJHGL_HTGL T8
-WHERE 1=1
+		select
+		a.ygid,
+		A.XM,
+		h.sbmc,
+		g.htbh jhbh,
+		f.ljth,
+		f.ljmc,
+		e.gydlmc,
+		d.gyxlmc,
+		c.YWCL,
+		a.bz
+		from t_scgl_rcrwfp a,
+		t_scgl_rcrwfp_rg_sb b,
+		t_scgl_rcrwfp_rg_rw c,
+		T_SCGL_LJGYBZ d,
+		T_SCGL_GYDLBZ e,
+		t_scjhgl_ljgl f,
+		t_scjhgl_htgl g,
+		t_sbgl_sbgl h
+		where a.id = b.rcrwfpid
+		AND b.id = c.fpsbid
+		and h.id = b.sbid
+		and c.ljgybzid = d.id
+		and e.id = d.gydlbzid
+		and e.ljid = f.id
+		and g.id = f.htid
+		and a.RQ = #{RQ}
 		<if test="ID!=null and ID!=''">
-			AND T.ID = #{ID}
+			AND a.ygID = #{ID}
 		</if>
-      AND T.ID = T1.RCRWFPID
-			AND T.ID = T2.RCRWFPID
-      AND T2.SBID = T3.ID
-			AND T4.FPSBID = T2.ID
-			AND T4.LJGYBZID = T5.ID
-			AND T5.GYDLBZID = T6.ID
-			AND T6.LJID = T7.ID
-			AND T7.HTID = T8.ID
-			AND T.RQ = #{RQ}
-ORDER BY T.ZW,T.XM,T3.SBMC,T8.HTBH,T7.LJMC,T6.GYDLMC,T5.GYXLMC
-    </select>
+		order by a.xm,h.sbmc,g.htbh,f.ljmc,e.gydlmc,d.gyxlmc
+	</select>
 
     <select id="getRgpgd" resultType="cn.jeeweb.modules.scgl.dto.RgpgdDTO">
         SELECT T.ID,

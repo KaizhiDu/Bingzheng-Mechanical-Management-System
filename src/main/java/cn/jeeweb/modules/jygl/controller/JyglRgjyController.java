@@ -537,13 +537,16 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         //新建工作表
         Sheet sheet1 = wb.createSheet("日工检验单");
         //设置单元格宽度
-        sheet1.setColumnWidth(0, 3700);
-        sheet1.setColumnWidth(1, 2000);
-        sheet1.setColumnWidth(2, 4700);
-        sheet1.setColumnWidth(3, 3700);
+        sheet1.setColumnWidth(0, 3000);
+        sheet1.setColumnWidth(1, 2300);
+        sheet1.setColumnWidth(2, 4500);
+        sheet1.setColumnWidth(3, 4500);
         sheet1.setColumnWidth(4, 3500);
-        sheet1.setColumnWidth(5, 3500);
+        sheet1.setColumnWidth(5, 4000);
         sheet1.setColumnWidth(6, 3500);
+        sheet1.setColumnWidth(7, 2000);
+        sheet1.setColumnWidth(8, 2000);
+        sheet1.setColumnWidth(9, 2000);
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);

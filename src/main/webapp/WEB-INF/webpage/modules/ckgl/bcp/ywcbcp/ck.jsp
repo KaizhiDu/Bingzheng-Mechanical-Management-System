@@ -72,6 +72,14 @@
                         <input name="cksl" id="cksl" htmlEscape="false" class="form-control" placeholder="请输入出库数量" onchange="checkSl()"/>
                     </td>
                 </tr>
+                <tr class="form-group">
+                    <td>
+                        <label>领用人：</label>
+                    </td>
+                    <td>
+                        <input name="lyr" id="lyr" htmlEscape="false" class="form-control" placeholder="请输入领用人姓名"/>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -105,12 +113,14 @@
     function check() {
         var bcpid = $("#bcpid").val();
         var cksl = $("#cksl").val();
+        var lyr = $("#lyr").val();
         $.ajax({
             type: "GET",
             url: "${adminPath}/ckgl/bcp/ywcbcp/saveCk",
             data: {
                 id: bcpid,
-                cksl: cksl
+                cksl: cksl,
+                lyr: lyr
             },
             success: function (data) {
 

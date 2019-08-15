@@ -55,7 +55,7 @@
                         <label>零部件图号：</label>
                     </td>
                     <td>
-                        <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
+                        <button class="btn btn-default" type="button" onclick="zdsclbjth()">自动生成零部件图号</button> &nbsp;&nbsp;&nbsp; <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="请输入零部件图号"/>
                     </td>
                 </tr>
                 <tr class="form-group">
@@ -83,6 +83,17 @@
 
 
 <script type="text/javascript">
+
+    // 自动生成零部件图号
+    function zdsclbjth() {
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/scjhgl/ljgl/zdsclbjth",
+            success: function (data) {
+                $("#ljth").val(data);
+            }
+        });
+    }
 
     //检查数量
     function checkSl(){

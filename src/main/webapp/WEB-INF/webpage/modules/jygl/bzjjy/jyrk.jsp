@@ -48,7 +48,7 @@
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>入库数量：</label>
+                        <label>入库人：</label>
                     </td>
                     <td>
                         <select name="rksl" class="form-control" id="rksl">

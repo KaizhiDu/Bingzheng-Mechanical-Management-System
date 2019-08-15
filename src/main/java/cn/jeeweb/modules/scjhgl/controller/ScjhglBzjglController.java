@@ -141,7 +141,7 @@ public class ScjhglBzjglController extends BaseCRUDController<ScjhglBzjgl, Strin
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        PageJson<ScjhglBzjgl> pageJson = scjhglBzjglService.ajaxBzjList(queryable, scjhglBzjgl);
+        PageJson<ScjhglBzjgl> pageJson = scjhglBzjglService.ajaxBzjGlList(queryable, scjhglBzjgl);
         return pageJson;
     }
 

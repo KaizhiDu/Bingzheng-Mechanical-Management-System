@@ -63,7 +63,6 @@ public class CkglBzjController extends BaseCRUDController<CkglBzj, String> {
         wrapper.eq("SSCK", "标准件");
         List<CkglDl> ckglDlList = ckglDlService.selectList(wrapper);
         model.addAttribute("DlList" ,ckglDlList);
-
     }
 
     /**

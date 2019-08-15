@@ -1,6 +1,8 @@
 package cn.jeeweb.modules.jygl.controller;
 
 import cn.jeeweb.core.common.controller.BaseCRUDController;
+import cn.jeeweb.core.model.PageJson;
+import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglBzj;
@@ -14,6 +16,7 @@ import cn.jeeweb.modules.jygl.entity.JyglBzjjy;
 import cn.jeeweb.modules.jygl.service.IJyglBzjjyService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBzjgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
+import cn.jeeweb.modules.scjhgl.service.IScjhglBzjglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -69,6 +72,9 @@ public class JyglBzjjyController extends BaseCRUDController<JyglBzjjy, String> {
     @Autowired
     private ICkglJhsService ckglJhsService;
 
+    @Autowired
+    private IScjhglBzjglService scjhglBzjglService;
+
     /**
      * @Description:    搜索项
      * @Author:         杜凯之
@@ -83,6 +89,19 @@ public class JyglBzjjyController extends BaseCRUDController<JyglBzjjy, String> {
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
         model.addAttribute("htList", list);
     }
+
+    @RequestMapping(value = "ajaxBzjList", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<ScjhglBzjgl> ajaxBzjList(Queryable queryable, ScjhglBzjgl scjhglBzjgl, HttpServletRequest request, HttpServletResponse response, Model model){
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        PageJson<ScjhglBzjgl> pageJson = scjhglBzjglService.ajaxBzjList(queryable, scjhglBzjgl);
+        return pageJson;
+    }
+
 
     /**
      * Dscription: 转到检验入库页面

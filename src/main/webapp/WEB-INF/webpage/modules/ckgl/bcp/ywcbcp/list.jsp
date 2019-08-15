@@ -68,7 +68,7 @@
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="100"/>
     <grid:button title="入成品库" groupname="opt" function="rcpk"
                  outclass="btn-success" url="${adminPath}/ckgl/bcp/ywcbcp/rcpk?id=\"+row.id+\"" />
-    <grid:button title="出库" groupname="opt" function="ck"
+    <grid:button title="出库领用" groupname="opt" function="ck"
                  outclass="btn-danger" url="${adminPath}/ckgl/bcp/ywcbcp/ck?id=\"+row.id+\"" />
 
     <grid:column label="计划名称" name="jhbh"/>
@@ -78,6 +78,8 @@
 
     <grid:toolbar function="createBcp" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="手动添加"/>
     <grid:toolbar function="checkRcpkxq" icon="fa fa-edit" btnclass="btn btn-sm btn-warning" title="查看入成品详情"/>
+    <grid:toolbar function="checkCklyxq" icon="fa fa-edit" btnclass="btn btn-sm btn-warning" title="查看出库领用详情"/>
+
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
@@ -117,6 +119,37 @@
                 layer.msg("添加!",{ icon: 1, time: 1000 });
                 refreshTable2(gridId);
             },
+            cancel: function(index){
+                refreshTable2(gridId);
+            },
+            end: function (index) {
+                refreshTable2(gridId);
+            }
+        });
+    }
+
+
+    //查看出库领用详情
+    function checkCklyxq(title, url, gridId, id, width, height, tipMsg){
+        if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+            width='auto';
+            height='auto';
+        }else{//如果是PC端，根据用户设置的width和height显示。
+
+        }
+        top.layer.open({
+            type: 2,
+            area: ["40%", "80%"],
+            title: "出库领用详情",
+            maxmin: true, //开启最大化最小化按钮
+            content: "${adminPath}/ckgl/bcp/ywcbcp/checkCklyxq" ,
+            success: function(layero, index){
+                //遍历父页面的button,使其失去焦点，再按enter键就不会弹框了
+                $(":button").each(function () {
+                    $(this).blur();
+                });
+            },
+            btn: ['关闭'],
             cancel: function(index){
                 refreshTable2(gridId);
             },

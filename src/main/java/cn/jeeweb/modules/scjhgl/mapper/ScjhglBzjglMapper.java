@@ -23,6 +23,8 @@ public interface ScjhglBzjglMapper extends BaseMapper<ScjhglBzjgl>{
      */
     public List<ScjhglBzjgl> ajaxBzjList(Pagination page, @Param("entity") ScjhglBzjgl entity);
 
+    public List<ScjhglBzjgl> ajaxBzjGlList(Pagination page, @Param("entity") ScjhglBzjgl entity);
+
     /**
      * Dscription: 导出标准件
      * @author : Kevin Du
@@ -31,4 +33,8 @@ public interface ScjhglBzjglMapper extends BaseMapper<ScjhglBzjgl>{
      */
     public List<ScjhglBzjgl> exportBzj(@Param("entity") ScjhglBzjgl entity);
 
+
+
 }
+
+

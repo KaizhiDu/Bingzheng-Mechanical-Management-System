@@ -1170,13 +1170,17 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         //新建工作表
         Sheet sheet1 = wb.createSheet("包工派工单");
         //设置单元格宽度
-        sheet1.setColumnWidth(0, 2500);
+        sheet1.setColumnWidth(0, 2800);
         sheet1.setColumnWidth(1, 2500);
-        sheet1.setColumnWidth(2, 2500);
-        sheet1.setColumnWidth(3, 2500);
-        sheet1.setColumnWidth(4, 3200);
-        sheet1.setColumnWidth(5, 3200);
-        sheet1.setColumnWidth(6, 3200);
+        sheet1.setColumnWidth(2, 3500);
+        sheet1.setColumnWidth(3, 3500);
+        sheet1.setColumnWidth(4, 3500);
+        sheet1.setColumnWidth(5, 4000);
+        sheet1.setColumnWidth(6, 4000);
+        sheet1.setColumnWidth(7, 2500);
+        sheet1.setColumnWidth(8, 2500);
+        sheet1.setColumnWidth(9, 2000);
+        sheet1.setColumnWidth(10, 2000);
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
@@ -1186,7 +1190,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 
         //表头
         Row row0 = sheet1.createRow(0);
-        row0.setHeightInPoints(20);
+        row0.setHeightInPoints(60);
         Cell cell00 = row0.createCell(0);
         Cell cell01 = row0.createCell(1);
         Cell cell02 = row0.createCell(2);
@@ -1196,16 +1200,20 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         Cell cell06 = row0.createCell(6);
         Cell cell07 = row0.createCell(7);
         Cell cell08 = row0.createCell(8);
+        Cell cell09 = row0.createCell(9);
+        Cell cell10 = row0.createCell(10);
 
-        cell00.setCellValue("包工名称");
-        cell01.setCellValue("设备名称");
-        cell02.setCellValue("计划编号");
-        cell03.setCellValue("零件图号");
-        cell04.setCellValue("零件名称");
-        cell05.setCellValue("工艺大类名称");
-        cell06.setCellValue("工艺小类名称");
-        cell07.setCellValue("应完成量");
-        cell08.setCellValue("已完成量");
+        cell00.setCellValue("日期");
+        cell01.setCellValue("姓名");
+        cell02.setCellValue("包工名称");
+        cell03.setCellValue("设备名称");
+        cell04.setCellValue("计划编号");
+        cell05.setCellValue("零件图号");
+        cell06.setCellValue("零件名称");
+        cell07.setCellValue("工艺大类名称");
+        cell08.setCellValue("工艺小类名称");
+        cell09.setCellValue("应完成量");
+        cell10.setCellValue("已完成量");
         cell00.setCellStyle(style);
         cell01.setCellStyle(style);
         cell02.setCellStyle(style);
@@ -1215,6 +1223,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         cell06.setCellStyle(style);
         cell07.setCellStyle(style);
         cell08.setCellStyle(style);
+        cell09.setCellStyle(style);
+        cell10.setCellStyle(style);
 
 
         if (bgpgJcxxList!=null){
@@ -1222,7 +1232,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 BgpgJcxxDTO c = bgpgJcxxList.get(i);
                 //创建一行
                 Row row = sheet1.createRow(i+1);
-                row.setHeightInPoints(20);
+                row.setHeightInPoints(60);
 
                 //创建单元格
                 Cell cell0 = row.createCell(0);
@@ -1234,17 +1244,22 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 Cell cell6 = row.createCell(6);
                 Cell cell7 = row.createCell(7);
                 Cell cell8 = row.createCell(8);
+                Cell cell9 = row.createCell(9);
+                Cell cell010 = row.createCell(10);
 
                 //给单元格设值
-                cell0.setCellValue(c.getBgmc());
-                cell1.setCellValue(c.getSbmc());
-                cell2.setCellValue(c.getJhbh());
-                cell3.setCellValue(c.getLjth());
-                cell4.setCellValue(c.getLjmc());
-                cell5.setCellValue(c.getGydlmc());
-                cell6.setCellValue(c.getGyxlmc());
-                cell7.setCellValue(c.getYwcl());
-                cell8.setCellValue(c.getSjwcl());
+                cell0.setCellValue(c.getRq());
+                cell1.setCellValue(c.getXm());
+                cell2.setCellValue(c.getBgmc());
+                cell3.setCellValue(c.getSbmc());
+                cell4.setCellValue(c.getJhbh());
+                cell5.setCellValue(c.getLjth());
+                cell6.setCellValue(c.getLjmc());
+                cell7.setCellValue(c.getGydlmc());
+                cell8.setCellValue(c.getGyxlmc());
+                cell9.setCellValue(c.getYwcl());
+                cell010.setCellValue(c.getSjwcl());
+
                 cell0.setCellStyle(style);
                 cell1.setCellStyle(style);
                 cell2.setCellStyle(style);
@@ -1254,6 +1269,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 cell6.setCellStyle(style);
                 cell7.setCellStyle(style);
                 cell8.setCellStyle(style);
+                cell9.setCellStyle(style);
+                cell010.setCellStyle(style);
             }
         }
 

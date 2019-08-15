@@ -43,6 +43,15 @@ public class ScjhglBzjglServiceImpl extends CommonServiceImpl<ScjhglBzjglMapper,
         return pagejson;
     }
 
+    @Override
+    public PageJson<ScjhglBzjgl> ajaxBzjGlList(Queryable queryable, ScjhglBzjgl scjhglBzjgl) {
+        Pageable pageable = queryable.getPageable();
+        Page<ScjhglBzjgl> page = new Page<ScjhglBzjgl>(pageable.getPageNumber(), pageable.getPageSize());
+        page.setRecords(scjhglBzjglMapper.ajaxBzjGlList(page, scjhglBzjgl));
+        PageJson<ScjhglBzjgl> pagejson = new PageJson<ScjhglBzjgl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
+        return pagejson;
+    }
+
     /**
      * Dscription: 导出标准件
      * @author : Kevin Du

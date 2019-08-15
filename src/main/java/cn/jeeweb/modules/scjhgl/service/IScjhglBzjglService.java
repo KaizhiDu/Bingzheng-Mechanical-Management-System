@@ -24,6 +24,8 @@ public interface IScjhglBzjglService extends ICommonService<ScjhglBzjgl>{
      */
     public PageJson<ScjhglBzjgl> ajaxBzjList(Queryable queryable, ScjhglBzjgl scjhglBzjgl);
 
+    public PageJson<ScjhglBzjgl> ajaxBzjGlList(Queryable queryable, ScjhglBzjgl scjhglBzjgl);
+
     /**
      * Dscription: 导出标准件
      * @author : Kevin Du

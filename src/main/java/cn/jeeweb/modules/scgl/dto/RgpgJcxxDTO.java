@@ -7,13 +7,8 @@ package cn.jeeweb.modules.scgl.dto;
  */
 public class RgpgJcxxDTO {
 
-    private String id;
-    private String zw;
+
     private String xm;
-    private String rq;
-    private String gsmc;
-    private String gs;
-    private String jb;
     private String sbmc;
     private String jhbh;
     private String ljmc;
@@ -21,29 +16,14 @@ public class RgpgJcxxDTO {
     private String gydlmc;
     private String gyxlmc;
     private String ywcl;
+    private String bz;
 
-    public String getLjth() {
-        return ljth;
+    public String getBz() {
+        return bz;
     }
 
-    public void setLjth(String ljth) {
-        this.ljth = ljth;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getZw() {
-        return zw;
-    }
-
-    public void setZw(String zw) {
-        this.zw = zw;
+    public void setBz(String bz) {
+        this.bz = bz;
     }
 
     public String getXm() {
@@ -52,38 +32,6 @@ public class RgpgJcxxDTO {
 
     public void setXm(String xm) {
         this.xm = xm;
-    }
-
-    public String getRq() {
-        return rq;
-    }
-
-    public void setRq(String rq) {
-        this.rq = rq;
-    }
-
-    public String getGsmc() {
-        return gsmc;
-    }
-
-    public void setGsmc(String gsmc) {
-        this.gsmc = gsmc;
-    }
-
-    public String getGs() {
-        return gs;
-    }
-
-    public void setGs(String gs) {
-        this.gs = gs;
-    }
-
-    public String getJb() {
-        return jb;
-    }
-
-    public void setJb(String jb) {
-        this.jb = jb;
     }
 
     public String getSbmc() {
@@ -108,6 +56,14 @@ public class RgpgJcxxDTO {
 
     public void setLjmc(String ljmc) {
         this.ljmc = ljmc;
+    }
+
+    public String getLjth() {
+        return ljth;
+    }
+
+    public void setLjth(String ljth) {
+        this.ljth = ljth;
     }
 
     public String getGydlmc() {
