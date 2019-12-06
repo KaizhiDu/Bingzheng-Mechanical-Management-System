@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglBgsbMapper" >
+    <select id="ajaxBgrwfpSbList" resultType="cn.jeeweb.modules.scgl.dto.BgsbDTO">
+        SELECT T.ID,
+        T.SBID,
+        T1.SBBH,
+        T1.SBMC,
+        (SELECT FLMC FROM T_SBGL_SBFLGL T3 WHERE T1.SSDL = T3.ID) SSDL,
+        T.PX
+        FROM T_SCGL_BGRWFP_BG_SB T,
+        T_SBGL_SBGL T1
+        WHERE 1=1
+        AND T.SBID = T1.ID
+        AND T.BGRWFPID = #{entity.bgrwfpid}
+        ORDER BY PX
+    </select>
+
+</mapper>

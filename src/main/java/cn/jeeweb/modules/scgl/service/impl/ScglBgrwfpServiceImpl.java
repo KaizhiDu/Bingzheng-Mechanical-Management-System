@@ -81,7 +81,12 @@ public class ScglBgrwfpServiceImpl extends CommonServiceImpl<ScglBgrwfpMapper, S
      * @date : 2018/9/30 10:55
      */
     @Override
-    public List<BgpgJcxxDTO> getBgpgJcxx(String rq, String ygid) {
-        return scglBgrwfpMapper.getBgpgJcxx(rq, ygid);
+    public List<BgpgJcxxDTO> getBgpgJcxx(String id) {
+        return scglBgrwfpMapper.getBgpgJcxx(id);
+    }
+
+    @Override
+    public List<BgpgJcxxDTO> getjyxx(String id) {
+        return scglBgrwfpMapper.getjyxx(id);
     }
 }

@@ -314,7 +314,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      * @date : 2018/9/28 13:14
      */
     @RequestMapping(value = "fpsb", method={RequestMethod.GET, RequestMethod.POST})
-    public String fpsb(String id ,HttpServletRequest request, HttpServletResponse response, Model model){
+    public String fpsb(String id, HttpServletRequest request, HttpServletResponse response, Model model){
         ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(id);
         model.addAttribute("bgrwfp",scglBgrwfp);
         return display("fpsb");
@@ -427,11 +427,12 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      * @date : 2018/9/27 12:30
      */
     @RequestMapping(value = "fprw", method={RequestMethod.GET, RequestMethod.POST})
-    public String fprw(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+    public String fprw(String id, String bgrg, HttpServletRequest request, HttpServletResponse response, Model model){
         String sbid = scglBgsbService.selectById(id).getSbid();
         String sbmc = sbglService.selectById(sbid).getSbmc();
         model.addAttribute("fpsbid" ,id);
         model.addAttribute("sbmc" ,sbmc);
+        model.addAttribute("bgrg" ,bgrg);
         return display("fprw");
     }
 
@@ -560,7 +561,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      * @date : 2018/9/27 16:04
      */
     @RequestMapping(value = "fpgzl", method={RequestMethod.GET, RequestMethod.POST})
-    public String fpgzl(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+    public String fpgzl(String id, String bgrg, HttpServletRequest request, HttpServletResponse response, Model model){
 
         ScglBgrw scglBgrw = scglBgrwService.selectById(id);
         String ljgybzid = scglBgrw.getLjgybzid();
@@ -575,6 +576,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         model.addAttribute("xygzl", xygzl);
         model.addAttribute("dj", scglBgrw.getDj());
         model.addAttribute("oldrwl", scglBgrw.getYwcl());
+        model.addAttribute("bgrg", bgrg);
+        model.addAttribute("mtrwl", scglBgrw.getMtrwl());
         return display("fpgzl");
     }
 
@@ -586,7 +589,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
      */
     @RequestMapping(value = "saveGzl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveGzl(String oldrwl, String sysl, String bgrwid, String gzl, String xygzl, String dj, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveGzl(String oldrwl, String sysl, String bgrwid, String gzl, String xygzl, String dj, String mtrwl, HttpServletRequest request, HttpServletResponse response, Model model){
         String fpsbid = scglBgrwService.selectById(bgrwid).getFpsbid();
         String bgrwfpid = scglBgsbService.selectById(fpsbid).getBgrwfpid();
 
@@ -626,6 +629,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         scglBgrw.setId(bgrwid);
         scglBgrw.setYwcl(gzl);
         scglBgrw.setDj(dj);
+        scglBgrw.setMtrwl(mtrwl);
         scglBgrw.setSygxsl(sygxsl+"");
         scglBgrwService.updateById(scglBgrw);
         //并且要加到ljgybz下的jhscsl
@@ -695,6 +699,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(bgrwfpid);
         scglBgrwfp.setRq(rq);
         scglBgrwfp.setBgmc(scglBgmx.getBgmc());
+        scglBgrwfp.setBgrg(scglBgmx.getBgrg());
         scglBgrwfpService.updateById(scglBgrwfp);
         //插入
         if (scglBgmx.getId().equals("")||scglBgmx.getId()==null){
@@ -903,7 +908,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
     public List<BgpgdDTO> getBgpgxx(String rq){
         List<BgpgdDTO> bgpgdDTOList = scglBgrwfpService.getBgpgd(rq);
         //从数据库里面得到原始数据
-        List<BgpgJcxxDTO> bgpgJcxxList = scglBgrwfpService.getBgpgJcxx(rq,"123");
+        List<BgpgJcxxDTO> bgpgJcxxList = scglBgrwfpService.getBgpgJcxx("123");
         //如果没有任何数据的话，直接返回null
         if (bgpgJcxxList.size()==0){
             return null;
@@ -1162,25 +1167,41 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         }
     }
 
-    @RequestMapping(value = "exprortBgpgd",method = {RequestMethod.GET,RequestMethod.POST})
-    public void exprortBgpgd(String rq, String ygid, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-        List<BgpgJcxxDTO> bgpgJcxxList = scglBgrwfpService.getBgpgJcxx(rq,ygid);
+
+    @RequestMapping(value = "exportPgd",method = {RequestMethod.GET,RequestMethod.POST})
+    public void exportPgd(String ids, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+        String idArray[] = ids.split(",");
+        for (int i=0;i<idArray.length;i++) {
+            String id = idArray[i];
+            List<BgpgJcxxDTO> bgpgJcxx = scglBgrwfpService.getBgpgJcxx(id);
+            exportExcel(bgpgJcxx);
+        }
+    }
+
+    public void exportExcel(List<BgpgJcxxDTO> bgpgJcxxList) throws IOException {
+
+        String xm = bgpgJcxxList.get(0).getXm();
+        String rq = bgpgJcxxList.get(0).getRq();
+        String bgrg = bgpgJcxxList.get(0).getBgrg();
+
+
         //新建一个工作簿
         Workbook wb = new XSSFWorkbook();
         //新建工作表
-        Sheet sheet1 = wb.createSheet("包工派工单");
+        Sheet sheet1 = wb.createSheet("派工单");
         //设置单元格宽度
         sheet1.setColumnWidth(0, 2800);
-        sheet1.setColumnWidth(1, 2500);
-        sheet1.setColumnWidth(2, 3500);
+        sheet1.setColumnWidth(1, 2000);
+        sheet1.setColumnWidth(2, 3000);
         sheet1.setColumnWidth(3, 3500);
         sheet1.setColumnWidth(4, 3500);
-        sheet1.setColumnWidth(5, 4000);
-        sheet1.setColumnWidth(6, 4000);
+        sheet1.setColumnWidth(5, 3500);
+        sheet1.setColumnWidth(6, 3500);
         sheet1.setColumnWidth(7, 2500);
         sheet1.setColumnWidth(8, 2500);
         sheet1.setColumnWidth(9, 2000);
         sheet1.setColumnWidth(10, 2000);
+        sheet1.setColumnWidth(11, 2000);
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
@@ -1202,6 +1223,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         Cell cell08 = row0.createCell(8);
         Cell cell09 = row0.createCell(9);
         Cell cell10 = row0.createCell(10);
+        Cell cell11 = row0.createCell(11);
 
         cell00.setCellValue("日期");
         cell01.setCellValue("姓名");
@@ -1213,7 +1235,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         cell07.setCellValue("工艺大类名称");
         cell08.setCellValue("工艺小类名称");
         cell09.setCellValue("应完成量");
-        cell10.setCellValue("已完成量");
+        cell10.setCellValue("每天任务量");
+        cell11.setCellValue("已完成量");
         cell00.setCellStyle(style);
         cell01.setCellStyle(style);
         cell02.setCellStyle(style);
@@ -1225,6 +1248,8 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         cell08.setCellStyle(style);
         cell09.setCellStyle(style);
         cell10.setCellStyle(style);
+        cell11.setCellStyle(style);
+
 
 
         if (bgpgJcxxList!=null){
@@ -1246,6 +1271,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 Cell cell8 = row.createCell(8);
                 Cell cell9 = row.createCell(9);
                 Cell cell010 = row.createCell(10);
+                Cell cell011 = row.createCell(11);
 
                 //给单元格设值
                 cell0.setCellValue(c.getRq());
@@ -1258,7 +1284,12 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 cell7.setCellValue(c.getGydlmc());
                 cell8.setCellValue(c.getGyxlmc());
                 cell9.setCellValue(c.getYwcl());
-                cell010.setCellValue(c.getSjwcl());
+                if (bgrg.equals("包工")) {
+                    cell010.setCellValue("无");
+                } else {
+                    cell010.setCellValue(c.getMtrwl());
+                }
+                cell011.setCellValue(c.getSjwcl());
 
                 cell0.setCellStyle(style);
                 cell1.setCellStyle(style);
@@ -1271,13 +1302,12 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
                 cell8.setCellStyle(style);
                 cell9.setCellStyle(style);
                 cell010.setCellStyle(style);
+                cell011.setCellStyle(style);
             }
         }
 
-        //员工姓名
-        String xm = grglService.selectById(ygid).getName();
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+rq+xm+"包工派工单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+rq+" "+xm+" "+bgrg+" 派工单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

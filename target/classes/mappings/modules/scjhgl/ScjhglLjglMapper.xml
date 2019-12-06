@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scjhgl.mapper.ScjhglLjglMapper" >
+    <select id="ajaxljglList" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
+         SELECT T.ID,
+			 T1.HTBH HTID,
+			 T1.SFWC,
+			 T.LJTH,
+			 T.LJMC,
+			 T.DYL,
+			 T.WRKSL,
+			 T.SL,
+			 T.bcsl,
+		     T.SYSL
+FROM T_SCJHGL_LJGL T,
+	 T_SCJHGL_HTGL T1
+WHERE 1=1
+		    AND T1.ID = T.HTID
+			AND T1.SFWC = 0
+		<if test="entity.htid!=null and entity.htid!=''">
+			AND T.HTID = #{entity.htid}
+		</if>
+		<if test="entity.ljth!=null and entity.ljth!=''">
+			AND T.LJTH LIKE "%"#{entity.ljth}"%"
+		</if>
+		<if test="entity.ljmc!=null and entity.ljmc!=''">
+			AND T.LJMC LIKE "%"#{entity.ljmc}"%"
+		</if>
+		AND T.SFSBJ = '0'
+		<if test="pxfs==1">
+			ORDER BY T.HTID,T.LJMC
+		</if>
+		<if test="pxfs==2">
+			ORDER BY T.RQ DESC
+		</if>
+
+    </select>
+
+	<select id="exportLj" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
+		SELECT ID,
+		(SELECT HTBH FROM T_SCJHGL_HTGL T1 WHERE T1.ID = T.HTID) HTID,
+		LJTH,
+		LJMC,
+		DYL,
+		WRKSL,
+		SL,
+		SYSL
+		FROM T_SCJHGL_LJGL T
+		WHERE 1=1
+		<if test="entity.htid!=null and entity.htid!=''">
+			AND T.HTID = #{entity.htid}
+		</if>
+		AND T.SFSBJ = '0'
+		<if test="pxfs==1">
+			ORDER BY T.HTID,T.LJMC
+		</if>
+		<if test="pxfs==2">
+			ORDER BY T.RQ DESC
+		</if>
+
+	</select>
+
+	<select id="ajaxlbjglList" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
+		SELECT T.ID,
+		T1.HTBH HTID,
+		T.LJTH,
+		T.LJMC,
+		T.DYL,
+		T.SL,
+		T.WRKSL,
+		T.SYSL
+		FROM T_SCJHGL_LJGL T,
+			 T_SCJHGL_HTGL T1
+		WHERE 1=1
+			AND T1.SFWC = 0
+			AND T.HTID = T1.ID
+		<if test="entity.htid!=null and entity.htid!=''">
+			AND T.HTID = #{entity.htid}
+		</if>
+		<if test="entity.ljth!=null and entity.ljth!=''">
+			AND T.LJTH LIKE "%"#{entity.ljth}"%"
+		</if>
+		<if test="entity.ljmc!=null and entity.ljmc!=''">
+			AND T.LJMC LIKE "%"#{entity.ljmc}"%"
+		</if>
+		ORDER BY T.HTID
+	</select>
+
+	<select id="cxLj" resultType="cn.jeeweb.modules.scgl.dto.SsxDTO">
+		SELECT T3.ID JHID,
+		T2.ID LJID,
+		T2.LJMC
+		FROM T_SCGL_LJGYBZ T,
+		T_SCGL_GYDLBZ T1,
+		T_SCJHGL_LJGL T2,
+		T_SCJHGL_HTGL T3
+		WHERE 1=1
+		AND T.GYDLBZID = T1.ID
+		AND T1.LJID = T2.ID
+		AND T2.HTID = T3.ID
+		<if test="jhid!=null and jhid!=''">
+			AND T2.HTID = #{jhid}
+		</if>
+		GROUP BY LJID
+
+	</select>
+
+	<select id="getLjByjhid" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl">
+		SELECT T1.*
+		FROM T_SCJHGL_HTGL T,
+		T_SCJHGL_LJGL T1
+		WHERE 1=1
+		AND T1.HTID = T.ID
+		<if test="jhid!=null and jhid!=''">
+		AND T1.HTID = #{jhid}
+		</if>
+		ORDER BY T1.LJMC
+
+	</select>
+
+</mapper>

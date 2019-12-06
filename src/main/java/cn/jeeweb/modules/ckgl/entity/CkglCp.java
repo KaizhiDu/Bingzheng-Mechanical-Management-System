@@ -41,6 +41,14 @@ public class CkglCp extends AbstractEntity<String> {
     /** 入库数量 */
     @TableField(value = "RKSL")
     private String rksl;
+
+    /** 分类大类 */
+    @TableField(value = "FLDL")
+    private String fldl;
+    /** 分类小类 */
+    @TableField(value = "FLXL")
+    private String flxl;
+
     /** 库存种类 */
 
     /** 更新者 */
@@ -142,5 +150,21 @@ public class CkglCp extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getFldl() {
+        return fldl;
+    }
+
+    public void setFldl(String fldl) {
+        this.fldl = fldl;
+    }
+
+    public String getFlxl() {
+        return flxl;
+    }
+
+    public void setFlxl(String flxl) {
+        this.flxl = flxl;
     }
 }

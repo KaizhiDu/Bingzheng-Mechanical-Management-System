@@ -5,6 +5,8 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.ckgl.entity.CkglBzj;
+import cn.jeeweb.modules.ckgl.entity.CkglCp;
 import cn.jeeweb.modules.ckgl.entity.CkglDl;
 import cn.jeeweb.modules.ckgl.entity.CkglJhs;
 import cn.jeeweb.modules.ckgl.service.ICkglBzjService;
@@ -13,6 +15,7 @@ import cn.jeeweb.modules.ckgl.service.ICkglJhsService;
 import cn.jeeweb.modules.ckgl.service.ICkglXlService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglBzjgl;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
+import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglBzjglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.apache.poi.ss.usermodel.*;
@@ -67,6 +70,23 @@ public class ScjhglBzjglController extends BaseCRUDController<ScjhglBzjgl, Strin
     /**仓库管理 - 进货商Service*/
     @Autowired
     private ICkglJhsService ckglJhsService;
+
+    @RequestMapping(value = "drbzjk", method = {RequestMethod.GET, RequestMethod.POST})
+    public void drbzjk(HttpServletRequest request, HttpServletResponse response, Model model, String id) {
+        ScjhglBzjgl scjhglBzjgl = scjhglBzjglService.selectById(id);
+        EntityWrapper<CkglBzj> wrapper = new EntityWrapper<CkglBzj>();
+        wrapper.eq("GG", scjhglBzjgl.getGg());
+        int i = ckglBzjService.selectCount(wrapper);
+        if (i == 0) {
+            CkglBzj ckglBzj = new CkglBzj();
+            ckglBzj.setFldl(ckglDlService.selectById(scjhglBzjgl.getFldl()).getDlmc());
+            ckglBzj.setFlxl(scjhglBzjgl.getFlxl());
+            ckglBzj.setGg(scjhglBzjgl.getGg());
+            ckglBzj.setDw(scjhglBzjgl.getDw());
+            ckglBzj.setKc("0");
+            ckglBzjService.insert(ckglBzj);
+        }
+    }
 
     /**
      * @Description:    搜索项

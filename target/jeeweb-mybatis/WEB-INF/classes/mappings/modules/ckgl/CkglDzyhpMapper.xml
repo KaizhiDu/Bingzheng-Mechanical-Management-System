@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.ckgl.mapper.CkglDzyhpMapper" >
+
+    <select id="ajaxDzyhpList" resultType="cn.jeeweb.modules.ckgl.entity.CkglDzyhp">
+        SELECT *
+        FROM T_CKGL_DZYHP
+        WHERE 1=1
+        <if test="entity.fldl!=null and entity.fldl!=''">
+            AND FLDL = #{entity.fldl}
+        </if>
+        <if test="entity.flxl!=null and entity.flxl!=''">
+            AND FLXL = #{entity.flxl}
+        </if>
+        <if test="entity.gg!=null and entity.gg!=''">
+            AND GG LIKE "%"#{entity.gg}"%"
+        </if>
+        ORDER BY FLDL,FLXL,GG
+    </select>
+
+</mapper>

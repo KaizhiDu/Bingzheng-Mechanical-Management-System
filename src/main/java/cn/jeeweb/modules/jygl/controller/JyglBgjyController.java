@@ -7,13 +7,18 @@ import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglBcp;
 import cn.jeeweb.modules.ckgl.service.ICkglBcpService;
+import cn.jeeweb.modules.grgl.entity.Grgl;
 import cn.jeeweb.modules.grgl.entity.GrglYgxzgl;
+import cn.jeeweb.modules.grgl.service.IGrglService;
 import cn.jeeweb.modules.grgl.service.IGrglYgxzglService;
 import cn.jeeweb.modules.jygl.dto.BgjyDTO;
 import cn.jeeweb.modules.jygl.dto.BgjyxqDTO;
 import cn.jeeweb.modules.jygl.dto.RgjyDTO;
 import cn.jeeweb.modules.jygl.entity.JyglBgjy;
+import cn.jeeweb.modules.jygl.entity.JyglRgjl;
 import cn.jeeweb.modules.jygl.service.IJyglBgjyService;
+import cn.jeeweb.modules.jygl.service.IJyglRgjlService;
+import cn.jeeweb.modules.scgl.dto.BgpgJcxxDTO;
 import cn.jeeweb.modules.scgl.dto.YgsjDTO;
 import cn.jeeweb.modules.scgl.entity.*;
 import cn.jeeweb.modules.scgl.service.*;
@@ -109,6 +114,13 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     @Autowired
     private IScglBgrwService scglBgrwService;
 
+    @Autowired
+    private IJyglRgjlService jyglRgjlService;
+
+    /** 员工管理Service*/
+    @Autowired
+    private IGrglService grglService;
+
     /**
      * Dscription: 搜索项
      * @author : Kevin Du
@@ -124,6 +136,27 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         wrapper.eq("SFWC","0");
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
         model.addAttribute("htList", list);
+    }
+
+    @RequestMapping(value = "ckrgjyqk", method={RequestMethod.GET, RequestMethod.POST})
+    public String ckrgjyqk(HttpServletRequest request, HttpServletResponse response, Model model){
+        EntityWrapper<Grgl> wrapper0 = new EntityWrapper<Grgl>();
+        List<Grgl> ygsjList = grglService.selectList(wrapper0);
+        model.addAttribute("ygsjList", ygsjList);
+        return display("ckrgjyqk");
+    }
+
+
+    @RequestMapping(value = "ajaxRgjl", method={RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PageJson<JyglRgjl> ajaxRgjl(Queryable queryable, JyglRgjl jyglRgjl, HttpServletRequest request, HttpServletResponse response, Model model){
+        try {
+            Thread.currentThread().sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        PageJson<JyglRgjl> pageJson = jyglBgjyService.ajaxRgjl(queryable, jyglRgjl);
+        return pageJson;
     }
 
     /**
@@ -151,11 +184,18 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
      * @date : 2018/10/1 11:41
      */
     @RequestMapping(value = "jy", method={RequestMethod.GET, RequestMethod.POST})
-    public String jy(String id, String bgrwfpid, HttpServletRequest request, HttpServletResponse response, Model model){
+    public String jy(String id, String bgrwfpid, String bgrg, HttpServletRequest request, HttpServletResponse response, Model model){
         JyglBgjy jyglBgjy = jyglBgjyService.selectById(id);
+
+        model.addAttribute("bgrg", bgrg);
 
         //包工任务分配ID
         model.addAttribute("bgrwfpid", bgrwfpid);
+
+        SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date0 = new Date();
+        String currentDate = sdf0.format(date0);
+        model.addAttribute("currentDate", currentDate);
 
         //实际完成量
         String sjwcl = jyglBgjy.getSjwcl();
@@ -197,7 +237,29 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
      */
     @RequestMapping(value = "saveWcl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveWcl(String sfwdbwc, String bgrwid, String bgrwfpid, String ljgybzid, String sjwcl, String bfl, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveWcl(String sfwdbwc, String bgrwid, String bgrwfpid, String ljgybzid, String sjwcl, String bfl, String jyrq, String bgrg, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        if (bgrg.equals("日工")) {
+            List<BgpgJcxxDTO> getjyxx = scglBgrwfpService.getjyxx(bgrwid);
+            BgpgJcxxDTO jyxx = getjyxx.get(0);
+            JyglRgjl jyglRgjl = new JyglRgjl();
+            jyglRgjl.setXm(jyxx.getXm());
+            jyglRgjl.setCjrq(jyxx.getRq());
+            jyglRgjl.setMc(jyxx.getBgmc());
+            jyglRgjl.setJyrq(jyrq);
+            jyglRgjl.setSbmc(jyxx.getSbmc());
+            jyglRgjl.setJhbh(jyxx.getJhbh());
+            jyglRgjl.setLjmc(jyxx.getLjmc());
+            jyglRgjl.setLjth(jyxx.getLjth());
+            jyglRgjl.setGydlmc(jyxx.getGydlmc());
+            jyglRgjl.setGyxlmc(jyxx.getGyxlmc());
+            jyglRgjl.setYwcl(jyxx.getYwcl());
+            jyglRgjl.setMtrwl(jyxx.getMtrwl());
+            jyglRgjl.setBfl(jyxx.getBfl());
+            jyglRgjl.setSjwcl(sjwcl);
+            jyglRgjlService.insert(jyglRgjl);
+        }
+
         String fpsbid2 = scglBgrwService.selectById(bgrwid).getFpsbid();
         String bgrwfpid2 = scglBgsbService.selectById(fpsbid2).getBgrwfpid();
         //如果是否未达标完成为1，需要减去
@@ -809,9 +871,9 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
      */
     @RequestMapping(value = "exportBgjyd", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void exportBgjyd(String xm, String rq, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+    public void exportBgjyd(String xm, String rq, String bgrg, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 
-        List<BgjyDTO> bgjyDTOSS = jyglBgjyService.exportBgjyd(xm, rq);
+        List<BgjyDTO> bgjyDTOSS = jyglBgjyService.exportBgjyd(xm, rq, bgrg);
 
         List<BgjyDTO> bgjyDTOS = new ArrayList<BgjyDTO>();
         for (BgjyDTO b : bgjyDTOSS) {
@@ -830,18 +892,20 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         //新建一个工作簿
         Workbook wb = new XSSFWorkbook();
         //新建工作表
-        Sheet sheet1 = wb.createSheet("包工检验单");
+        Sheet sheet1 = wb.createSheet("检验单");
         //设置单元格宽度
         sheet1.setColumnWidth(0, 3000);
         sheet1.setColumnWidth(1, 2300);
-        sheet1.setColumnWidth(2, 4500);
-        sheet1.setColumnWidth(3, 4500);
+        sheet1.setColumnWidth(2, 4000);
+        sheet1.setColumnWidth(3, 4000);
         sheet1.setColumnWidth(4, 3500);
-        sheet1.setColumnWidth(5, 4000);
-        sheet1.setColumnWidth(6, 3500);
+        sheet1.setColumnWidth(5, 3500);
+        sheet1.setColumnWidth(6, 3000);
         sheet1.setColumnWidth(7, 2000);
         sheet1.setColumnWidth(8, 2000);
         sheet1.setColumnWidth(9, 2000);
+        sheet1.setColumnWidth(10, 2000);
+
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
@@ -862,6 +926,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         Cell cell07 = row0.createCell(7);
         Cell cell08 = row0.createCell(8);
         Cell cell09 = row0.createCell(9);
+        Cell cell010 = row0.createCell(10);
         cell00.setCellValue("日期");
         cell01.setCellValue("姓名");
         // cell02.setCellValue("计划编号");
@@ -871,8 +936,9 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         cell05.setCellValue("工艺大类名称");
         cell06.setCellValue("工艺小类名称");
         cell07.setCellValue("应完成量");
-        cell08.setCellValue("实完成量");
-        cell09.setCellValue("报废量");
+        cell08.setCellValue("每天任务量");
+        cell09.setCellValue("实完成量");
+        cell010.setCellValue("报废量");
         cell00.setCellStyle(style);
         cell01.setCellStyle(style);
         cell02.setCellStyle(style);
@@ -883,7 +949,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         cell07.setCellStyle(style);
         cell08.setCellStyle(style);
         cell09.setCellStyle(style);
-
+        cell010.setCellStyle(style);
 
         if (bgjyDTOS!=null){
             for (int i = 0; i < bgjyDTOS.size(); i++) {
@@ -902,6 +968,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 Cell cell7 = row.createCell(7);
                 Cell cell8 = row.createCell(8);
                 Cell cell9 = row.createCell(9);
+                Cell cell10 = row.createCell(10);
 
                 //给单元格设值
                 cell0.setCellValue(c.getRq());
@@ -912,8 +979,13 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 cell5.setCellValue(c.getGydlmc());
                 cell6.setCellValue(c.getGyxlmc());
                 cell7.setCellValue(c.getYwcl());
-                cell8.setCellValue(c.getSjwcl());
-                cell9.setCellValue(c.getBfl());
+                if (bgrg.equals("包工")){
+                    cell8.setCellValue("无");
+                } else {
+                    cell8.setCellValue(c.getMtrwl());
+                }
+                cell9.setCellValue(c.getSjwcl());
+                cell10.setCellValue(c.getBfl());
                 cell0.setCellStyle(style);
                 cell1.setCellStyle(style);
                 cell2.setCellStyle(style);
@@ -924,11 +996,12 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 cell7.setCellStyle(style);
                 cell8.setCellStyle(style);
                 cell9.setCellStyle(style);
+                cell10.setCellStyle(style);
 
             }
         }
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\检验\\"+rq+"-"+xm+"包工检验单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\检验\\"+rq+" "+xm+" "+bgrg+" 检验单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();

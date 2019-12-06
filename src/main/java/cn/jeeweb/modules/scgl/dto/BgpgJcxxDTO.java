@@ -22,6 +22,33 @@ public class BgpgJcxxDTO {
     private String bgmc;
     private String ljth;
     private String sjwcl;
+    private String bgrg;
+    private String mtrwl;
+    private String bfl;
+
+    public String getBfl() {
+        return bfl;
+    }
+
+    public void setBfl(String bfl) {
+        this.bfl = bfl;
+    }
+
+    public String getMtrwl() {
+        return mtrwl;
+    }
+
+    public void setMtrwl(String mtrwl) {
+        this.mtrwl = mtrwl;
+    }
+
+    public String getBgrg() {
+        return bgrg;
+    }
+
+    public void setBgrg(String bgrg) {
+        this.bgrg = bgrg;
+    }
 
     public String getSjwcl() {
         return sjwcl;

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.grgl.mapper.GrglXzzwfpMapper" >
+
+    <select id="xzzwfpList" resultType="cn.jeeweb.modules.grgl.dto.YgzxxDTO">
+SELECT
+					T1.ID,
+	        T.NAME,
+          T1.ZWID ZW,
+					T1.ZWGZ,
+					T1.DX,
+				  T1.SX,
+					T1.FB,
+					T1.JTF,
+					T1.BT,
+					T1.BX,
+					T1.KK,
+					T1.BGQM
+      FROM
+	        T_GRGL T,
+	        T_GRGL_XZZWFP T1
+      WHERE 1=1
+	        AND T.ID = T1.YGID
+		<if test="entity.zw!=null and entity.zw!=''">
+			AND T1.ZWID = #{entity.zw}
+		</if>
+		<if test="entity.name!=null and entity.name!=''">
+			AND T.NAME = #{entity.name}
+		</if>
+		ORDER BY ZW DESC
+
+  </select>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scjhgl.mapper.ScjhglHtglMapper" >
+    <select id="ajaxJhglList" resultType="cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl">
+        SELECT *
+        FROM T_SCJHGL_HTGL
+        WHERE 1=1
+        <if test="entity.id!=null and entity.id!=''">
+            AND ID = #{entity.id}
+        </if>
+        <if test="entity.sfwc!=null and entity.sfwc!=''">
+            AND SFWC = #{entity.sfwc}
+        </if>
+        ORDER BY RQ DESC
+    </select>
+
+    <select id="getJhList" resultType="cn.jeeweb.modules.scgl.dto.SsxDTO">
+        SELECT T3.ID JHID,
+       T3.HTBH JHBH
+FROM T_SCGL_LJGYBZ T,
+     T_SCGL_GYDLBZ T1,
+		 T_SCJHGL_LJGL T2,
+		 T_SCJHGL_HTGL T3
+WHERE 1=1
+      AND T.GYDLBZID = T1.ID
+			AND T1.LJID = T2.ID
+			AND T2.HTID = T3.ID
+GROUP BY JHID
+    </select>
+</mapper>

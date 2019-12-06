@@ -5,6 +5,8 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.ckgl.entity.CkglCp;
+import cn.jeeweb.modules.ckgl.service.ICkglCpService;
 import cn.jeeweb.modules.scgl.entity.ScglGydlbz;
 import cn.jeeweb.modules.scgl.entity.ScglLjgybz;
 import cn.jeeweb.modules.scgl.service.IScglGydlbzService;
@@ -71,6 +73,9 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
     @Autowired
     private IScglGydlbzService scglGydlbzService;
 
+    @Autowired
+    private ICkglCpService ckglCpService;
+
     /**
      * @Description: 搜索项
      * @Author: 杜凯之
@@ -102,12 +107,33 @@ public class ScjhglLjglController extends BaseCRUDController<ScjhglLjgl, String>
         return display("create");
     }
 
-    /**
-     * @Description: 添加一条零部件信息
-     * @Author: 杜凯之
-     * @CreateDate: 2018/9/4 17:49
-     * @Version: 1.0
-     */
+    @RequestMapping(value = "drcpk", method = {RequestMethod.GET, RequestMethod.POST})
+    public void saveLj(HttpServletRequest request, HttpServletResponse response, Model model, String id) {
+        ScjhglLjgl scjhglLjgl = scjhglLjglService.selectById(id);
+        EntityWrapper<CkglCp> wrapper = new EntityWrapper<CkglCp>();
+        wrapper.eq("LBJTH", scjhglLjgl.getLjth());
+        int i = ckglCpService.selectCount(wrapper);
+        if (i == 0) {
+            String jhbh = scjhglHtglService.selectById(scjhglLjgl.getHtid()).getHtbh();
+            CkglCp ckglCp = new CkglCp();
+            ckglCp.setRksl("0");
+            ckglCp.setJhid(scjhglLjgl.getHtid());
+            ckglCp.setJhbh(jhbh);
+            ckglCp.setLbjid(scjhglLjgl.getId());
+            ckglCp.setLbjmc(scjhglLjgl.getLjmc());
+            ckglCp.setLbjth(scjhglLjgl.getLjth());
+            ckglCpService.insert(ckglCp);
+        }
+    }
+
+
+
+        /**
+         * @Description: 添加一条零部件信息
+         * @Author: 杜凯之
+         * @CreateDate: 2018/9/4 17:49
+         * @Version: 1.0
+         */
     @RequestMapping(value = "saveLj", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveLj(HttpServletRequest request, HttpServletResponse response, Model model, ScjhglLjgl scjhglLjgl) {

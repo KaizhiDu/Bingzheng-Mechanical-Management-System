@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.zzgl.mapper.ZzglZzglMapper" >
+    <select id="ajaxZzglList" resultType="cn.jeeweb.modules.zzgl.entity.ZzglZzgl">
+          SELECT T.ID,
+          T.RQ,
+          T.N,
+          T.Y,
+          T.R,
+          T.MX,
+          T.MXBC,
+          T.XXMX,
+          CASE
+        WHEN T.LX = '0'
+         THEN '收入'
+         WHEN T.LX = '1'
+         THEN ' 支出'
+         WHEN T.LX = '2'
+         THEN ' 调动'
+         WHEN T.LX = '3'
+         THEN ' 借还'
+         END LX,
+         T.ONE,
+         T.TWO,
+         T.THREE,
+         T.FOUR,
+         T.FIVE,
+         T.SIX,
+         T.SEVEN,
+         T.EIGHT,
+        T.NINE,
+        T.TEN,
+        T.ELEVEN,
+        T.TWELVE,
+        T.THIRTEEN,
+        T.FOURTEEN,
+        T.FIFTEEN,
+        T.SIXTEEN,
+        T.SEVENTEEN,
+        T.EIGHTEEN,
+        T.NINETEEN,
+        T.TWENTY
+          FROM T_ZZGL_ZZGL T
+          WHERE 1=1
+        <if test="n!=null and n!=''">
+            AND T.N = #{n}
+        </if>
+        <if test="y!=null and y!=''">
+            AND T.Y = #{y}
+        </if>
+        <if test="r!=null and r!=''">
+            AND T.R = #{r}
+        </if>
+        <if test="lx!=null and lx!=''">
+            AND T.LX = #{lx}
+        </if>
+        <if test="mx!=null and mx!=''">
+            AND T.MX LIKE "%"#{mx}"%"
+        </if>
+        <if test="px==0">
+            ORDER BY N,Y,R,RQ DESC
+        </if>
+        <if test="px==1">
+            ORDER BY N,Y,R,LX,RQ DESC
+        </if>
+
+    </select>
+
+    <select id="exportZzgl" resultType="cn.jeeweb.modules.zzgl.entity.ZzglZzgl">
+        SELECT N,Y,R,RQ,LX,XXMX,MX FROM(
+		SELECT N,Y,R,RQ,XXMX,MX,'借还' LX FROM T_ZZGL_JHMX
+	UNION
+	SELECT N,Y,R,RQ,XXMX,MXBC,CASE
+        WHEN LX = '0'
+         THEN '收入'
+         WHEN LX = '1'
+         THEN '支出'
+         WHEN LX = '2'
+         THEN '调动'
+         WHEN LX = '3'
+         THEN '借还'
+         END LX FROM T_ZZGL_ZZGL
+	)S
+	WHERE 1=1
+        <if test="n!=null and n!=''">
+            AND S.N = #{n}
+        </if>
+        <if test="y!=null and y!=''">
+            AND S.Y = #{y}
+        </if>
+        <if test="r!=null and r!=''">
+            AND S.R = #{r}
+        </if>
+        <!--<if test="n1!=null and n1!=''">-->
+            <!--AND CAST(S.N as SIGNED) &gt;= #{n1}-->
+        <!--</if>-->
+        <!--<if test="y1!=null and y1!=''">-->
+            <!--AND CAST(S.Y as SIGNED) &gt;= #{y1}-->
+        <!--</if>-->
+        <!--<if test="r1!=null and r1!=''">-->
+            <!--AND CAST(S.R as SIGNED) &gt;= #{r1}-->
+        <!--</if>-->
+        <!--<if test="n2!=null and n2!=''">-->
+            <!--AND CAST(S.N as SIGNED) &lt;= #{n2}-->
+        <!--</if>-->
+        <!--<if test="y2!=null and y2!=''">-->
+            <!--AND CAST(S.Y as SIGNED) &lt;= #{y2}-->
+        <!--</if>-->
+        <!--<if test="r2!=null and r2!=''">-->
+            <!--AND CAST(S.R as SIGNED) &lt;= #{r2}-->
+        <!--</if>-->
+        ORDER BY S.N,S.Y,S.R,S.RQ DESC
+
+    </select>
+
+</mapper>

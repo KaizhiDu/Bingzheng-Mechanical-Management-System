@@ -7,6 +7,7 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.jygl.dto.BgjyDTO;
 import cn.jeeweb.modules.jygl.dto.BgjyxqDTO;
 import cn.jeeweb.modules.jygl.entity.JyglBgjy;
+import cn.jeeweb.modules.jygl.entity.JyglRgjl;
 import cn.jeeweb.modules.jygl.entity.JyglRgjy;
 import cn.jeeweb.modules.jygl.mapper.JyglBgjyMapper;
 import cn.jeeweb.modules.jygl.service.IJyglBgjyService;
@@ -46,6 +47,15 @@ public class JyglBgjyServiceImpl extends CommonServiceImpl<JyglBgjyMapper, JyglB
         return pagejson;
     }
 
+    @Override
+    public PageJson<JyglRgjl> ajaxRgjl(Queryable queryable, JyglRgjl jyglRgjl) {
+        Pageable pageable = queryable.getPageable();
+        Page<JyglRgjl> page = new Page<JyglRgjl>(pageable.getPageNumber(), pageable.getPageSize());
+        page.setRecords(jyglBgjyMapper.ajaxRgjl(page, jyglRgjl));
+        PageJson<JyglRgjl> pagejson = new PageJson<JyglRgjl>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
+        return pagejson;
+    }
+
     /**
      * Dscription: 导出检验单
      * @author : Kevin Du
@@ -53,8 +63,8 @@ public class JyglBgjyServiceImpl extends CommonServiceImpl<JyglBgjyMapper, JyglB
      * @date : 2018/11/8 12:53
      */
     @Override
-    public List<BgjyDTO> exportBgjyd(String xm, String rq) {
-        return jyglBgjyMapper.exportBgjyd(xm, rq);
+    public List<BgjyDTO> exportBgjyd(String xm, String rq, String bgrg) {
+        return jyglBgjyMapper.exportBgjyd(xm, rq, bgrg);
     }
 
     /**

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.zjls.mapper.ZjlsZjlsMapper" >
+    <select id="ajaxZjlsList" resultType="cn.jeeweb.modules.zjls.entity.ZjlsZjls">
+        SELECT T.ID,
+        T.RQ,
+        T.N,
+        T.Y,
+        T.R,
+        T.MX,
+        T.MX2,
+        CASE
+        WHEN T.LX = '0'
+        THEN '收入'
+        WHEN T.LX = '1'
+        THEN '支出'
+        END LX,
+        T.ONE,
+        T.TWO
+        FROM T_ZJLS_ZJLS T
+        WHERE 1=1
+        <if test="n!=null and n!=''">
+            AND T.N = #{n}
+        </if>
+        <if test="y!=null and y!=''">
+            AND T.Y = #{y}
+        </if>
+        <if test="r!=null and r!=''">
+            AND T.R = #{r}
+        </if>
+        <if test="lx!=null and lx!=''">
+            AND T.LX = #{lx}
+        </if>
+        <if test="mx2!=null and mx2!=''">
+            AND T.MX2 = #{mx2}
+        </if>
+        ORDER BY T.RQ DESC
+
+    </select>
+
+</mapper>

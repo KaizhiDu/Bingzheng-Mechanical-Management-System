@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglBgrwMapper" >
+    <select id="ajaxBgrwfpRwList" resultType="cn.jeeweb.modules.scgl.dto.BgrwDTO">
+        SELECT T.ID,
+        T4.HTBH JHBH,
+        T3.LJMC,
+        T2.GYDLMC,
+        T1.GYXLMC,
+        T.YWCL,
+        T.SJWCL,
+        T1.SL,
+        T1.SYSL - T1.JHSCSL SYSL,
+        T.PX
+        FROM T_SCGL_BGRWFP_BG_RW T,
+        T_SCGL_LJGYBZ T1,
+        T_SCGL_GYDLBZ T2,
+        T_SCJHGL_LJGL T3,
+        T_SCJHGL_HTGL T4
+        WHERE 1=1
+        AND T.LJGYBZID = T1.ID
+        AND T1.GYDLBZID = T2.ID
+        AND T2.LJID = T3.ID
+        AND T3.HTID = T4.ID
+        AND T.FPSBID = #{entity.fpsbid}
+        ORDER BY T.PX
+    </select>
+
+    <select id="getBgrwByBgrwfpid" resultType="cn.jeeweb.modules.scgl.entity.ScglBgrw">
+        select t.*
+        from t_scgl_bgrwfp_bg_rw t,
+        t_scgl_bgrwfp_bg_sb t1,
+        t_scgl_bgrwfp t2
+        where 1=1
+        and t2.id = t1.bgrwfpid
+        and t1.id = t.fpsbid
+        and t2.id=#{bgrwfpid}
+    </select>
+
+</mapper>

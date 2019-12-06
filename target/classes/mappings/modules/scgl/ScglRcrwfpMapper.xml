@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.scgl.mapper.ScglRcrwfpMapper" >
+    <select id="getYgsj" resultType="cn.jeeweb.modules.scgl.dto.YgsjDTO">
+SELECT T.ID YGID,
+       T.NAME XM,
+       T1.ZWID ZW,
+       T.GENDER XB
+FROM T_GRGL T,
+     t_grgl_xzzwfp T1
+WHERE 1=1
+      AND T.ID = T1.YGID
+      AND T1.ZWID IN('数控','数控领班','钳工','钳工领班','车工','铣工','外协勤务','外协采购','司机采购')
+ORDER BY T1.ZWID DESC
+    </select>
+
+    <select id="ajaxRcrwfpList" resultType="cn.jeeweb.modules.scgl.entity.ScglRcrwfp">
+        SELECT *
+        FROM T_SCGL_RCRWFP
+        WHERE RQ = #{RQ}
+        ORDER BY ZW DESC
+    </select>
+
+    <select id="getRgpgJcxx" resultType="cn.jeeweb.modules.scgl.dto.RgpgJcxxDTO">
+		select
+		a.ygid,
+		A.XM,
+		h.sbmc,
+		g.htbh jhbh,
+		f.ljth,
+		f.ljmc,
+		e.gydlmc,
+		d.gyxlmc,
+		c.YWCL,
+		a.bz
+		from t_scgl_rcrwfp a,
+		t_scgl_rcrwfp_rg_sb b,
+		t_scgl_rcrwfp_rg_rw c,
+		T_SCGL_LJGYBZ d,
+		T_SCGL_GYDLBZ e,
+		t_scjhgl_ljgl f,
+		t_scjhgl_htgl g,
+		t_sbgl_sbgl h
+		where a.id = b.rcrwfpid
+		AND b.id = c.fpsbid
+		and h.id = b.sbid
+		and c.ljgybzid = d.id
+		and e.id = d.gydlbzid
+		and e.ljid = f.id
+		and g.id = f.htid
+		and a.RQ = #{RQ}
+		<if test="ID!=null and ID!=''">
+			AND a.ygID = #{ID}
+		</if>
+		order by a.xm,h.sbmc,g.htbh,f.ljmc,e.gydlmc,d.gyxlmc
+	</select>
+
+    <select id="getRgpgd" resultType="cn.jeeweb.modules.scgl.dto.RgpgdDTO">
+        SELECT T.ID,
+			 T.ZW,
+			 T.XM,
+       T.RQ,
+			 T1.GSMC,
+			 T1.GS,
+			 T1.JB
+FROM T_SCGL_RCRWFP T,
+		 T_SCGL_RCRWFP_RG_GS T1
+WHERE 1=1
+		<if test="ID!=null and ID!=''">
+			AND T.ID = #{ID}
+		</if>
+      AND T.ID = T1.RCRWFPID
+      AND T.RQ = #{RQ}
+ORDER BY T.ZW,T.XM
+
+
+    </select>
+
+</mapper>

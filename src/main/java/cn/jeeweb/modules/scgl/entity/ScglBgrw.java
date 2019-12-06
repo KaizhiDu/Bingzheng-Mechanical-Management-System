@@ -32,6 +32,9 @@ public class ScglBgrw extends AbstractEntity<String> {
     /** 应完成量 */
     @TableField(value = "YWCL")
     private String ywcl;
+    /** 每天任务量 */
+    @TableField(value = "MTRWL")
+    private String mtrwl;
     /** 实际完成量 */
     @TableField(value = "SJWCL")
     private String sjwcl;
@@ -69,6 +72,14 @@ public class ScglBgrw extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getMtrwl() {
+        return mtrwl;
+    }
+
+    public void setMtrwl(String mtrwl) {
+        this.mtrwl = mtrwl;
+    }
 
     public String getZs() {
         return zs;

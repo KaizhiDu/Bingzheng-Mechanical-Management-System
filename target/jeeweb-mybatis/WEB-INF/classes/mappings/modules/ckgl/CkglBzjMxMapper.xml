@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.ckgl.mapper.CkglBzjMxMapper" >
+
+    <select id="ajaxXqList" resultType="cn.jeeweb.modules.ckgl.entity.CkglBzjMx">
+       SELECT * FROM T_CKGL_BZJ_MX
+       WHERE 1=1
+        <if test="entity.n!=null and entity.n!=''">
+            AND N = #{entity.n}
+        </if>
+        <if test="entity.y!=null and entity.y!=''">
+            AND Y = #{entity.y}
+        </if>
+        <if test="entity.r!=null and entity.r!=''">
+            AND R = #{entity.r}
+        </if>
+        <if test="entity.jhs!=null and entity.jhs!=''">
+            AND JHS = #{entity.jhs}
+        </if>
+        <if test="entity.jx!=null and entity.jx!=''">
+            AND JX = #{entity.jx}
+        </if>
+        <if test="entity.fldl!=null and entity.fldl!=''">
+            AND FLDL LIKE "%"#{entity.fldl}"%"
+        </if>
+        <if test="entity.flxl!=null and entity.flxl!=''">
+            AND FLXL LIKE "%"#{entity.flxl}"%"
+        </if>
+        <if test="entity.gg!=null and entity.gg!=''">
+            AND GG LIKE "%"#{entity.gg}"%"
+        </if>
+        ORDER BY SJ DESC
+    </select>
+
+</mapper>

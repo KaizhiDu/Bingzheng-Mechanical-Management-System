@@ -3,6 +3,7 @@ package cn.jeeweb.modules.jygl.mapper;
 import cn.jeeweb.modules.jygl.dto.BgjyDTO;
 import cn.jeeweb.modules.jygl.dto.BgjyxqDTO;
 import cn.jeeweb.modules.jygl.entity.JyglBgjy;
+import cn.jeeweb.modules.jygl.entity.JyglRgjl;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import org.apache.ibatis.annotations.Param;
@@ -24,7 +25,9 @@ public interface JyglBgjyMapper extends BaseMapper<JyglBgjy> {
      */
     public List<BgjyDTO> ajaxBgjyList(Pagination page, @Param("entity") BgjyDTO entity);
 
-    public List<BgjyDTO> exportBgjyd(@Param("xm") String xm, @Param("rq") String rq);
+    public List<JyglRgjl> ajaxRgjl(Pagination page, @Param("entity") JyglRgjl entity);
+
+    public List<BgjyDTO> exportBgjyd(@Param("xm") String xm, @Param("rq") String rq, @Param("bgrg") String bgrg);
 
     /**
      * Dscription: 展示所有包工详情信息（展示）

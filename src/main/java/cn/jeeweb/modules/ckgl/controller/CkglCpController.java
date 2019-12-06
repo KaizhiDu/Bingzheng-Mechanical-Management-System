@@ -8,9 +8,11 @@ import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.modules.ckgl.entity.CkglBcp;
 import cn.jeeweb.modules.ckgl.entity.CkglCp;
 import cn.jeeweb.modules.ckgl.entity.CkglCpCkjl;
+import cn.jeeweb.modules.ckgl.entity.CkglDl;
 import cn.jeeweb.modules.ckgl.service.ICkglBcpService;
 import cn.jeeweb.modules.ckgl.service.ICkglCpCkjlService;
 import cn.jeeweb.modules.ckgl.service.ICkglCpService;
+import cn.jeeweb.modules.ckgl.service.ICkglDlService;
 import cn.jeeweb.modules.scjhgl.entity.ScjhglHtgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import org.apache.poi.ss.usermodel.*;
@@ -57,6 +59,10 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
     @Autowired
     private ICkglCpCkjlService ckglCpCkjlService;
 
+    /**仓库管理 - 大类*/
+    @Autowired
+    private ICkglDlService ckglDlService;
+
     /**
      * Dscription: 搜索项和前置内容
      * @author : Kevin Du
@@ -73,6 +79,11 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         EntityWrapper<CkglCp> wrapper1 = new EntityWrapper<CkglCp>();
         List<CkglCp> ckglCps = ckglCpService.selectList(wrapper1);
         model.addAttribute("cpList", ckglCps);
+
+        EntityWrapper<CkglDl> wrapper2 = new EntityWrapper<CkglDl>();
+        wrapper2.eq("SSCK", "成品");
+        List<CkglDl> ckglDlList = ckglDlService.selectList(wrapper2);
+        model.addAttribute("DlList" ,ckglDlList);
     }
 
     /**
@@ -143,15 +154,14 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         //xsl 就是需要更新的数值
         int xsl = zsl - cks;
         //删除
-        if (xsl==0){
-            ckglCpService.deleteById(ckglCp.getId());
-
-        }
+        //if (xsl==0){
+           // ckglCpService.deleteById(ckglCp.getId());
+        //}
         //更新
-        else{
+        //else{
             ckglCp.setRksl(xsl+"");
             ckglCpService.updateById(ckglCp);
-        }
+        //}
     }
 
     /**
@@ -246,6 +256,10 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
         EntityWrapper<ScjhglHtgl> wrapper = new EntityWrapper<ScjhglHtgl>();
         List<ScjhglHtgl> list = scjhglHtglService.selectList(wrapper);
         model.addAttribute("htList", list);
+        EntityWrapper<CkglDl> wrapper1 = new EntityWrapper<CkglDl>();
+        wrapper1.eq("SSCK", "成品");
+        List<CkglDl> ckglDlList = ckglDlService.selectList(wrapper1);
+        model.addAttribute("DlList" ,ckglDlList);
         return display("createCp");
     }
 
@@ -258,6 +272,9 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
     @RequestMapping(value = "saveCp", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveCp(CkglCp ckglCp, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        String dlmc = ckglDlService.selectById(ckglCp.getFldl()).getDlmc();
+        ckglCp.setFldl(dlmc);
         //先判断半成品库里有没有该图号的零部件存在
         EntityWrapper<CkglCp> wrapper = new EntityWrapper<CkglCp>();
         wrapper.eq("LBJTH", ckglCp.getLbjth());
@@ -284,8 +301,9 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
             ckgl.setLbjmc(ckglCp.getLbjmc());
             ckgl.setLbjth(ckglCp.getLbjth());
             ckgl.setRksl(ckglCp.getRksl());
+            ckgl.setFldl(ckglCp.getFldl());
+            ckgl.setFlxl(ckglCp.getFlxl());
             ckglCpService.insert(ckgl);
-
         }
     }
 
@@ -322,6 +340,10 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
     @RequestMapping(value = "ajaxCpList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<CkglCp> ajaxCpList(Queryable queryable, CkglCp ckglCp, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (ckglCp.getFldl() != null) {
+            String dlmc = ckglDlService.selectById(ckglCp.getFldl()).getDlmc();
+            ckglCp.setFldl(dlmc);
+        }
         PageJson<CkglCp> pageJson = ckglCpService.ajaxCpList(queryable,ckglCp);
         return pageJson;
     }

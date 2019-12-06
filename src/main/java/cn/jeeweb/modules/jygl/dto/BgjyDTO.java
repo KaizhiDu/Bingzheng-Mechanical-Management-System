@@ -21,6 +21,25 @@ public class BgjyDTO {
     private String bfl;
     private String bgrwfpid;
     private String ljth;
+    private String bgrg;
+    private String mtrwl;
+
+
+    public String getBgrg() {
+        return bgrg;
+    }
+
+    public void setBgrg(String bgrg) {
+        this.bgrg = bgrg;
+    }
+
+    public String getMtrwl() {
+        return mtrwl;
+    }
+
+    public void setMtrwl(String mtrwl) {
+        this.mtrwl = mtrwl;
+    }
 
     public String getHtid() {
         return htid;

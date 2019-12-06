@@ -38,6 +38,9 @@ public class ScglBgmx extends AbstractEntity<String> {
     /** 包工名称 */
     @TableField(value = "BGMC")
     private String bgmc;
+    /** 包工日工 */
+    @TableField(value = "BGRG")
+    private String bgrg;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -51,6 +54,14 @@ public class ScglBgmx extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getBgrg() {
+        return bgrg;
+    }
+
+    public void setBgrg(String bgrg) {
+        this.bgrg = bgrg;
+    }
 
     public String getId() {
         return id;

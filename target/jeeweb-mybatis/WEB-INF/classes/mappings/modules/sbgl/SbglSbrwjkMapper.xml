@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.sbgl.mapper.SbglSbrwjkMapper" >
+    <select id="ajaxListSbrwjk" resultType="cn.jeeweb.modules.sbgl.entity.SbglSbzy">
+        SELECT SS.ID,SS.SBBH,SS.SBMC,SS.SSDL,SS.ZT,SS.RQ,CASE
+        WHEN SS.SFKY = '1' THEN ''
+        WHEN SS.SFKY = '0' THEN '已占用'
+        END AS SFKY FROM(
+        SELECT T.ID,
+        T.RQ,
+        T.SBBH,
+        T.SBMC,
+        T.SSDL SSDLDM,
+        (SELECT FLMC FROM T_SBGL_SBFLGL T1 WHERE T.SSDL = T1.ID) SSDL,
+        T.SFKY,
+        T.ZT
+        FROM T_SBGL_SBZY T
+
+        )SS
+WHERE 1=1
+        <if test="entity.ssdl!=null and entity.ssdl!=''">
+            AND SS.SSDLDM = #{entity.ssdl}
+        </if>
+        <if test="entity.sbmc!=null and entity.sbmc!=''">
+            AND SS.SBMC = #{entity.sbmc}
+        </if>
+        <if test="entity.rq!=null and entity.rq!=''">
+            AND SS.RQ = #{entity.rq}
+        </if>
+        AND SS.ZT = '1'
+
+
+ORDER BY SS.SBBH
+    </select>
+
+</mapper>

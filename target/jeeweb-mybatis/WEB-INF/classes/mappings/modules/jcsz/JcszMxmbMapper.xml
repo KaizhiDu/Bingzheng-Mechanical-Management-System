@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.jcsz.mapper.JcszMxmbMapper" >
+
+    <select id="ajaxMxmbList" resultType="cn.jeeweb.modules.jcsz.entity.JcszMxmb">
+        SELECT ID,
+                NAME,
+                SORT,
+        CASE
+        WHEN TYPE = '0'
+         THEN '收入'
+         WHEN TYPE = '1'
+         THEN ' 支出'
+         WHEN TYPE = '2'
+         THEN ' 调动'
+         WHEN TYPE = '3'
+         THEN ' 借还'
+         END TYPE
+        FROM T_JCSZ_MXMB
+        WHERE 1=1
+        <if test="entity.type!=null and entity.type!=''">
+            AND TYPE = #{entity.type}
+        </if>
+        ORDER BY SORT DESC
+    </select>
+
+</mapper>

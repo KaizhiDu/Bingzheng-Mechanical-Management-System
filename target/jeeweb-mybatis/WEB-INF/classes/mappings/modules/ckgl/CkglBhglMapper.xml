@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.ckgl.mapper.CkglBhglMapper" >
+
+    <select id="ajaxBhglList" resultType="cn.jeeweb.modules.ckgl.dto.CkglBhglDTO">
+    SELECT * FROM (
+        SELECT ID,
+        '标准件' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_BZJ
+        where 1=1
+        AND yjkc!=''
+        <if test="entity.gg!=null and entity.gg!=''">
+            AND GG LIKE "%"#{entity.gg}"%"
+        </if>
+
+        UNION
+
+        SELECT ID,
+        '原材料' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_YCL
+        where 1=1
+        AND yjkc!=''
+        <if test="entity.gg!=null and entity.gg!=''">
+            AND GG LIKE "%"#{entity.gg}"%"
+        </if>
+
+        UNION
+
+        SELECT ID,
+        '刃具' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_RJ
+        where 1=1
+        AND yjkc!=''
+        <if test="entity.gg!=null and entity.gg!=''">
+            AND GG LIKE "%"#{entity.gg}"%"
+        </if>
+
+        UNION
+        SELECT ID,
+        '办公用品' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_BGYP
+        where 1=1
+        AND yjkc!=''
+        <if test="entity.gg!=null and entity.gg!=''">
+            AND GG LIKE "%"#{entity.gg}"%"
+        </if>
+
+        UNION
+
+        SELECT ID,
+        '低值易耗品' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_DZYHP
+        where 1=1
+        AND yjkc!=''
+        <if test="entity.gg!=null and entity.gg!=''">
+            AND GG LIKE "%"#{entity.gg}"%"
+        </if>
+        ) O
+        WHERE 1=1
+        AND O.YBSL&gt;0
+        ORDER BY O.ck, O.FLDL, O.FLXL
+
+
+</select>
+
+    <select id="bhglList" resultType="cn.jeeweb.modules.ckgl.dto.CkglBhglDTO">
+        SELECT * FROM (
+        SELECT ID,
+        '标准件' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_BZJ
+        where 1=1
+        AND yjkc!=''
+
+        UNION
+
+        SELECT ID,
+        '原材料' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_YCL
+        where 1=1
+        AND yjkc!=''
+
+        UNION
+
+        SELECT ID,
+        '刃具' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_RJ
+        where 1=1
+        AND yjkc!=''
+
+        UNION
+        SELECT ID,
+        '办公用品' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_BGYP
+        where 1=1
+        AND yjkc!=''
+
+        UNION
+
+        SELECT ID,
+        '低值易耗品' ck,
+        FLDL,
+        FLXL,
+        GG,
+        DW,
+        KC,
+        YJKC,
+        YJKC - KC YBSL,
+        BZ
+        from T_CKGL_DZYHP
+        where 1=1
+        AND yjkc!=''
+
+        ) O
+        WHERE 1=1
+        AND O.YBSL&gt;0
+        ORDER BY O.ck, O.FLDL, O.FLXL
+    </select>
+
+</mapper>

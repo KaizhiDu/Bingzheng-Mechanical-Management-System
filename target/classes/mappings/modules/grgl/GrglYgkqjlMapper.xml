@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.grgl.mapper.GrglYgkqjlMapper" >
+
+    <select id="ajaxGrglYgkqjlList" resultType="cn.jeeweb.modules.grgl.dto.YgkqjlDTO">
+        SELECT T.ID,
+			 T.YGID,
+			 T.RQ,
+			 T1.NAME,
+			 T1.GENDER,
+			 T.SW,
+			 T.XW,
+			 T.JB,
+			 T.QQYY
+FROM T_GRGL_YGKQJL T,
+     T_GRGL T1
+WHERE 1=1
+      AND T.YGID = T1.ID
+	  AND T.RQ = #{entity.rq}
+		<if test="entity.name!=null and entity.name!=''">
+			AND T1.NAME = #{entity.name}
+		</if>
+    </select>
+</mapper>

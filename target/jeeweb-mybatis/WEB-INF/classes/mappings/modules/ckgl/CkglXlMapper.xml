@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.ckgl.mapper.CkglXlMapper" >
+
+    <select id="ajaxCkxlList" resultType="cn.jeeweb.modules.ckgl.entity.CkglXl">
+        SELECT * FROM T_CKGL_CKFL_XL WHERE DLID = #{entity.dlid} ORDER BY XLMC
+    </select>
+
+</mapper>

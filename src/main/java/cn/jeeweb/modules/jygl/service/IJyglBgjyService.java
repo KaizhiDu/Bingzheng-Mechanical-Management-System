@@ -6,6 +6,7 @@ import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.modules.jygl.dto.BgjyDTO;
 import cn.jeeweb.modules.jygl.dto.BgjyxqDTO;
 import cn.jeeweb.modules.jygl.entity.JyglBgjy;
+import cn.jeeweb.modules.jygl.entity.JyglRgjl;
 
 import java.util.List;
 
@@ -25,7 +26,9 @@ public interface IJyglBgjyService extends ICommonService<JyglBgjy> {
      */
     public PageJson<BgjyDTO> ajaxBgjyList(Queryable queryable, BgjyDTO bgjyDTO);
 
-    public List<BgjyDTO> exportBgjyd(String xm, String rq);
+    public PageJson<JyglRgjl> ajaxRgjl(Queryable queryable, JyglRgjl jyglRgjl);
+
+    public List<BgjyDTO> exportBgjyd(String xm, String rq, String bgrg);
 
     /**
      * Dscription: 展示所有包工详情信息（展示）
