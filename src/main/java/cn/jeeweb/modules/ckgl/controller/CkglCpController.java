@@ -340,8 +340,9 @@ public class CkglCpController extends BaseCRUDController<CkglCp, String> {
     @RequestMapping(value = "ajaxCpList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<CkglCp> ajaxCpList(Queryable queryable, CkglCp ckglCp, HttpServletRequest request, HttpServletResponse response, Model model){
-        if (ckglCp.getFldl() != null) {
-            String dlmc = ckglDlService.selectById(ckglCp.getFldl()).getDlmc();
+        String fldl = ckglCp.getFldl();
+        if (fldl != null && !fldl.equals("")) {
+            String dlmc = ckglDlService.selectById(fldl).getDlmc();
             ckglCp.setFldl(dlmc);
         }
         PageJson<CkglCp> pageJson = ckglCpService.ajaxCpList(queryable,ckglCp);
