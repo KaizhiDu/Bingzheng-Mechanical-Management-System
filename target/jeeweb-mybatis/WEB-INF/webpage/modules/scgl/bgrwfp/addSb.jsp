@@ -44,10 +44,7 @@
                     </c:forEach>
                 </select>
             </div>
-            <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">设备名称：</label>
-                <input htmlEscape="false" class="form-control" placeholder="请输入设备名称"  maxlength="20" id="sbmc" name="sbmc"/>
-            </div>
+
         </div>
     </div>
 </div>
@@ -57,7 +54,6 @@
     <grid:column label="sys.common.key" hidden="true" name="id"/>
 
     <grid:column label="设备编号" name="sbbh"/>
-    <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="设备类型" name="ssdl"/>
 
     <grid:toolbar function="search"/>

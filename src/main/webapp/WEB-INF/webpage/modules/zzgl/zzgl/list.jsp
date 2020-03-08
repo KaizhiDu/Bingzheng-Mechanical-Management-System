@@ -33,6 +33,7 @@
 <%--<div class="container-fiuled">--%>
     <%--占满视口,但两边有15px空白.在手机上显示的话不好--%>
 <%--</div>--%>
+<input type="hidden" id="zongji">
 <div class="row">
     <div id="zjfx" class="col-md-12">
         <div class="form-inline">
@@ -251,11 +252,11 @@
         var n = $("#n").val();
         var y = $("#y").val();
         var r = $("#r").val();
-        var lx = $("#lx").val();
+        var zongji = $("#zongji").val();
         <%--var px = $("#px").val();--%>
         $.ajax({
             type: "get",
-            url: "${adminPath}/zzgl/zzgl/exprortZzgl?n="+n+"&y="+y+"&r="+r+"&lx="+lx,
+            url: "${adminPath}/zzgl/zzgl/exprortZzgl?n="+n+"&y="+y+"&r="+r+"&zongji="+zongji,
             success: function (data) {
                 top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
             }
@@ -514,7 +515,7 @@
                 }
                 $('#valueSum').html("");
                 $("#valueSum").append("<label class='control-label'><font size='8'>总计：</font></label><font size='8'>"+data.sum+"</font>");
-
+                $("#zongji").val(data.sum);
             }
         });
     }

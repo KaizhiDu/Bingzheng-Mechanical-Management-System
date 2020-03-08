@@ -572,7 +572,6 @@ public class JyglRgjyController extends BaseCRUDController<JyglRgjy, String> {
         // cell02.setCellValue("计划编号");
         cell02.setCellValue("零部件图号");
         cell03.setCellValue("零部件名称");
-        cell04.setCellValue("设备名称");
         cell05.setCellValue("工艺大类名称");
         cell06.setCellValue("工艺小类名称");
         cell07.setCellValue("应完成量");

@@ -48,14 +48,6 @@
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>设备名称：</label>
-                    </td>
-                    <td>
-                        <input name="sbmc" id="sbmc" htmlEscape="false" class="form-control" placeholder="请输入设备名称" value="${sbgl.sbmc}"/>
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
                         <label>所属分类：</label>
                     </td>
                     <td>

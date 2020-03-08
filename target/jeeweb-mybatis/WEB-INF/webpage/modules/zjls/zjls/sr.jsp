@@ -85,9 +85,8 @@
                     </td>
                     <td>
                         <select name="zjly" class="form-control" id="zjly">
-                            <option value="1">资金</option>
-                            <option value="2">报销</option>
-
+                            <option value="1">流动资金</option>
+                            <option value="2">占用资金</option>
                         </select>
                     </td>
 

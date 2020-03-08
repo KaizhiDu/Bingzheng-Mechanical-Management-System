@@ -27,9 +27,9 @@
       <tr>
         <td class="width-15 active text-right">
           <label>
-            <font color="red">*</font>邮箱:</label></td>
+            <font color="red">*</font>身份证号:</label></td>
         <td class="width-35">
-          <form:input path="email" class="form-control" datatype="e" nullmsg="请输入姓名！" htmlEscape="false" />
+          <form:input path="email" class="form-control" datatype="e" nullmsg="请输入身份证号！" htmlEscape="false" />
           <label class="Validform_checktip"></label>
         </td>
         <td class="width-15 active text-right">

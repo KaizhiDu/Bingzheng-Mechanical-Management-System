@@ -65,6 +65,8 @@
                             <option value="午餐">午餐</option>
                             <option value="维修">维修</option>
                             <option value="运输">运输</option>
+                            <option value="转出">转出</option>
+                            <option value="社保">社保</option>
                             <option value="其他">其他</option>
 
                         </select>
@@ -94,8 +96,8 @@
                     </td>
                     <td>
                         <select name="zjly" class="form-control" id="zjly">
-                            <option value="2">报销</option>
-                            <option value="1">资金</option>
+                            <option value="1">流动资金</option>
+                            <option value="2">占用资金</option>
                         </select>
                     </td>
 

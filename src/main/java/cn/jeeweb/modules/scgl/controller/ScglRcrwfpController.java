@@ -441,14 +441,15 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         float yszybff = 0;
         float xzybff = 0;
         if (ysRggs1!=null){
-            if (!ysRggs1.getZybf().equals("")&&ysRggs1.getZybf()!=null){
+            if (ysRggs1.getZybf()!=null&&!ysRggs1.getZybf().equals("")){
                 yszybff = Float.parseFloat(ysRggs1.getZybf());
             }
-
         }
-        if (!scglRggs.getZybf().equals("")&&scglRggs.getZybf()!=null){
+
+        if (scglRggs.getZybf()!=null&&!scglRggs.getZybf().equals("")){
             xzybff = Float.parseFloat(scglRggs.getZybf());
         }
+
         //得到年月
         String[] dateArray = rq.split("-");
         int nd = Integer.parseInt(dateArray[0]);
@@ -864,6 +865,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                 s.setLjgybzid(ljgybzid);
                 s.setFpsbid(fpsbid);
                 s.setJhid(jhid);
+                s.setSjwcl("0");
                 scglRgrwService.insert(s);
             }
             else{
@@ -873,6 +875,7 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
                 s.setLjgybzid(ljgybzid);
                 s.setFpsbid(fpsbid);
                 s.setJhid(jhid);
+                s.setSjwcl("0");
                 scglRgrwService.insert(s);
             }
 
@@ -887,7 +890,6 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
      */
     @RequestMapping(value = "fpgzl", method={RequestMethod.GET, RequestMethod.POST})
     public String fpgzl(String id, HttpServletRequest request, HttpServletResponse response, Model model){
-
         ScglRgrw scglRgrw = scglRgrwService.selectById(id);
         String ljgybzid = scglRgrw.getLjgybzid();
         String xygzl = scglRgrw.getYwcl();
@@ -926,7 +928,6 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         if (xygzl!=null&&!xygzl.equals("")){
             xygzli = Integer.parseInt(xygzl);
         }
-
         scglLjgybz.setJhscsl(scglLjgybz.getJhscsl() + gzli - xygzli);
         scglLjgybzService.updateById(scglLjgybz);
     }

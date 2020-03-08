@@ -26,8 +26,8 @@ public class JyglBgjy extends AbstractEntity<String> {
     @TableField(value = "LJGYBZID")
     private String ljgybzid;
     /** 分配设备ID */
-    @TableField(value = "FPSBID")
-    private String fpsbid;
+    @TableField(value = "BGRWFPID")
+    private String bgrwfpid;
     /** 应完成量 */
     @TableField(value = "YWCL")
     private String ywcl;
@@ -95,12 +95,12 @@ public class JyglBgjy extends AbstractEntity<String> {
         this.ljgybzid = ljgybzid;
     }
 
-    public String getFpsbid() {
-        return fpsbid;
+    public String getBgrwfpid() {
+        return bgrwfpid;
     }
 
-    public void setFpsbid(String fpsbid) {
-        this.fpsbid = fpsbid;
+    public void setBgrwfpid(String bgrwfpid) {
+        this.bgrwfpid = bgrwfpid;
     }
 
     public String getYwcl() {

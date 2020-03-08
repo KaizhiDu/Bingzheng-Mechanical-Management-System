@@ -51,7 +51,7 @@
     <grid:button title="明细" groupname="opt" function="bgmx"
                  outclass="btn-primary" url="${adminPath}/scgl/bgrwfp/bgmx?id=\"+row.id+\"" />
     <grid:button title="分配任务" groupname="opt" function="fpsb"
-                 outclass="btn-success" url="${adminPath}/scgl/bgrwfp/fpsb?id=\"+row.id+\"" />
+                 outclass="btn-success" url="${adminPath}/scgl/bgrwfp/fprw?id=\"+row.id+\"&&bgrg=\"+row.bgrg+\"" />
     <grid:button title="删除" groupname="opt" function="deleteBgrw"
                  outclass="btn-danger" url="${adminPath}/scgl/bgrwfp/deleteBgrw?id=\"+row.id+\"" />
 
@@ -151,7 +151,7 @@
         }
         top.layer.open({
             type: 2,
-            area: ["30%", "50%"],
+            area: ["70%", "80%"],
             title: "任务明细",
             maxmin: true, //开启最大化最小化按钮
             content: url ,

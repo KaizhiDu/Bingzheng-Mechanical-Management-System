@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <div class="input-icon right"><i class="fa fa-key"></i>
-                        <input name="password" class="form-control" placeholder="<spring:message code="sys.login.password.placeholder"/>" required="">
+                        <input type="password" name="password" class="form-control" placeholder="<spring:message code="sys.login.password.placeholder"/>" required="">
                     </div>
                 </div>
                 <c:if test="${showCaptcha eq 1}">

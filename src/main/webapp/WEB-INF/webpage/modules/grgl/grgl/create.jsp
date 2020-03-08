@@ -67,10 +67,10 @@
                 </tr>
                 <tr class="form-group">
                     <td>
-                        <label>邮箱：</label>
+                        <label>身份证号：</label>
                     </td>
                     <td>
-                        <input name="email" id="email" htmlEscape="false" class="form-control" placeholder="邮箱"/>
+                        <input name="email" id="email" htmlEscape="false" class="form-control" placeholder="身份证号"/>
                     </td>
                 </tr>
                 <tr class="form-group">

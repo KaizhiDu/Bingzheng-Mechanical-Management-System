@@ -26,8 +26,8 @@ public class BgrwDTO {
     private String sysl;
     /**数量*/
     private int px;
-    /**分配设备ID*/
-    private String fpsbid;
+    /**任务分配ID*/
+    private String bgrwfpid;
 
     public String getId() {
         return id;
@@ -109,11 +109,11 @@ public class BgrwDTO {
         this.px = px;
     }
 
-    public String getFpsbid() {
-        return fpsbid;
+    public String getBgrwfpid() {
+        return bgrwfpid;
     }
 
-    public void setFpsbid(String fpsbid) {
-        this.fpsbid = fpsbid;
+    public void setBgrwfpid(String bgrwfpid) {
+        this.bgrwfpid = bgrwfpid;
     }
 }

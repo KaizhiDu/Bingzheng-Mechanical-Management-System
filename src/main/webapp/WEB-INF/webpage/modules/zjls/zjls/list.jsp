@@ -33,12 +33,16 @@
 <%--<div class="container-fiuled">--%>
 <%--占满视口,但两边有15px空白.在手机上显示的话不好--%>
 <%--</div>--%>
+<input type="hidden" id="yi">
+<input type="hidden" id="er">
+<input type="hidden" id="zongji">
+
 <div class="row">
     <div id="zjls" class="col-md-12">
         <div class="form-inline">
                 <div class="form-group col-md-4" style="margin-bottom: 10px">
                     <div class="form-group col-md-5" style="margin-bottom: 10px">
-                        <label class="control-label"><font size="6">资金:</font></label>
+                        <label class="control-label"><font size="6">流动资金:</font></label>
                     </div>
                     <div class="form-group col-md-7" style="margin-bottom: 10px">
                         <div id="one">
@@ -49,7 +53,7 @@
 
             <div class="form-group col-md-4" style="margin-bottom: 10px">
                 <div class="form-group col-md-5" style="margin-bottom: 10px">
-                    <label class="control-label"><font size="6">报销:</font></label>
+                    <label class="control-label"><font size="6">占用资金:</font></label>
                 </div>
                 <div class="form-group col-md-7" style="margin-bottom: 10px">
                     <div id="two">
@@ -146,7 +150,7 @@
                     <option value="">全部</option>
                     <option value="货款">货款</option>
                     <option value="营业外">营业外</option>
-                    <option value="转入">转入</option>
+                    <option value="收入">收入</option>
                     <option value="材料">材料</option>
                     <option value="辅料">辅料</option>
                     <option value="外协">外协</option>
@@ -158,6 +162,8 @@
                     <option value="午餐">午餐</option>
                     <option value="维修">维修</option>
                     <option value="运输">运输</option>
+                    <option value="转出">转出</option>
+                    <option value="社保">社保</option>
                     <option value="其他">其他</option>
                 </select>
             </div>
@@ -196,8 +202,8 @@
     <grid:column label="月" name="y" width="60"/>
     <grid:column label="日" name="r" width="60"/>
     <grid:column label="项目" name="mx2" width="60"/>
-    <grid:column label="资金" name="one"/>
-    <grid:column label="报销" name="two"/>
+    <grid:column label="流动资金" name="one"/>
+    <grid:column label="占用资金" name="two"/>
     <grid:column label="详情" name="mx" width="200"/>
     <%--<grid:column label="${jcszZzseName.three}" name="three"/>--%>
     <%--<grid:column label="${jcszZzseName.four}" name="four"/>--%>
@@ -209,6 +215,7 @@
     <grid:toolbar function="sr" btnclass="btn btn-sm btn-primary" title="收入"/>
     <grid:toolbar function="zc" btnclass="btn btn-sm btn-success" title="支出"/>
     <grid:toolbar function="deleteZjls" icon="fa fa-trash" title="删除" btnclass="btn btn-sm btn-danger"/>
+    <grid:toolbar function="dc" btnclass="btn btn-sm btn-warning" title="导出"/>
     <%--<grid:toolbar function="qksj" btnclass="btn btn-sm btn-warning" title="清空数据"/>--%>
 
     <grid:toolbar function="search"/>
@@ -217,6 +224,35 @@
 
 
 <script type="text/javascript">
+
+    function dc(title, url, gridId, id, width, height, tipMsg){
+        var n = $("#n").val();
+        var y = $("#y").val();
+        var r = $("#r").val();
+        var mx2 = $("#mx2").val();
+        var lx = $("#lx").val();
+        var yi = $("#yi").val();
+        var er = $("#er").val();
+        var zongji = $("#zongji").val();
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/zjls/zjls/dc",
+            data: {
+                n: n,
+                y: y,
+                r: r,
+                mx2: mx2,
+                lx: lx,
+                yi: yi,
+                er: er,
+                zongji: zongji
+            },
+            success: function (data) {
+                top.layer.alert("导出成功，请在D:/bingzhengjixie文件夹下查看", {icon: 0, title:'提示'});
+                //changeValue();
+            }
+        });
+    }
 
     function qksj(title, url, gridId, id, width, height, tipMsg){
 
@@ -386,6 +422,9 @@
                 $("#two").append("</font></label><font size='6'>"+data.two+"</font>");
                 $('#sum').html("");
                 $("#sum").append("</font></label><font size='6'>"+data.sum+"</font>");
+                $("#yi").val(data.one);
+                $("#er").val(data.two);
+                $("#zongji").val(data.sum);
             }
         });
     }

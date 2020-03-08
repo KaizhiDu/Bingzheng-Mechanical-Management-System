@@ -65,10 +65,11 @@
     <grid:button title="编制工艺大类" groupname="opt" function="bzgydl"
                  outclass="btn-success" url="${adminPath}/scgl/ljgybz/bzgydl?id=\"+row.id+\"" />
 
-    <grid:column label="计划名称" name="htid" width="30"/>
-    <grid:column label="名称" name="ljmc" width="30"/>
-    <grid:column label="图号" name="ljth" width="30"/>
-    <grid:column label="数量" name="sl" width="30"/>
+    <grid:column label="计划名称" name="htid" width="20"/>
+    <grid:column label="名称" name="ljmc" width="20"/>
+    <grid:column label="图号" name="ljth" width="20"/>
+    <grid:column label="数量" name="sl" width="20"/>
+    <grid:column label="已分配大类" name="dls" width="80"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>

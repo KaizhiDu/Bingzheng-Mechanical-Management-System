@@ -46,7 +46,6 @@
                  outclass="btn-success" url="${adminPath}/scgl/rcrwfp/fprw?id=\"+row.id+\"" />
 
     <grid:column label="设备编号" name="sbbh"/>
-    <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="所属类别" name="ssdl"/>
 
     <grid:toolbar function="addSb" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加设备"/>

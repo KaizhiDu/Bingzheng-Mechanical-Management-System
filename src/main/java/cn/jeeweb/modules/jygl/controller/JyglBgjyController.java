@@ -28,8 +28,11 @@ import cn.jeeweb.modules.scjhgl.entity.ScjhglLjgl;
 import cn.jeeweb.modules.scjhgl.service.IScjhglBjzcService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglHtglService;
 import cn.jeeweb.modules.scjhgl.service.IScjhglLjglService;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -168,6 +171,9 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
     @RequestMapping(value = "ajaxBgjyList", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PageJson<BgjyDTO> ajaxBgjyList(Queryable queryable, BgjyDTO bgjyDTO, HttpServletRequest request, HttpServletResponse response, Model model){
+        if (bgjyDTO.getSfjy()==null){
+            bgjyDTO.setSfjy("wjy");
+        }
         try {
             Thread.currentThread().sleep(100);
         } catch (InterruptedException e) {
@@ -196,6 +202,9 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         Date date0 = new Date();
         String currentDate = sdf0.format(date0);
         model.addAttribute("currentDate", currentDate);
+
+        ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(jyglBgjy.getBgrwfpid());
+        model.addAttribute("xm", scglBgrwfp.getXm());
 
         //实际完成量
         String sjwcl = jyglBgjy.getSjwcl();
@@ -237,7 +246,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
      */
     @RequestMapping(value = "saveWcl", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveWcl(String sfwdbwc, String bgrwid, String bgrwfpid, String ljgybzid, String sjwcl, String bfl, String jyrq, String bgrg, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveWcl(String sfwdbwc, String bgrwid, String bgrwfpid, String ljgybzid, String sjwcl, String bfl, String jyrq, String bgrg, String rgrecord, String zs, HttpServletRequest request, HttpServletResponse response, Model model){
 
         if (bgrg.equals("日工")) {
             List<BgpgJcxxDTO> getjyxx = scglBgrwfpService.getjyxx(bgrwid);
@@ -256,12 +265,15 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             jyglRgjl.setYwcl(jyxx.getYwcl());
             jyglRgjl.setMtrwl(jyxx.getMtrwl());
             jyglRgjl.setBfl(jyxx.getBfl());
-            jyglRgjl.setSjwcl(sjwcl);
+            jyglRgjl.setSjwcl(rgrecord);
+            jyglRgjl.setZs(zs);
             jyglRgjlService.insert(jyglRgjl);
+            JyglBgjy jyglBgjyy = jyglBgjyService.selectById(bgrwid);
+            jyglBgjyy.setZs(zs);
+            jyglBgjyService.updateById(jyglBgjyy);
         }
 
-        String fpsbid2 = scglBgrwService.selectById(bgrwid).getFpsbid();
-        String bgrwfpid2 = scglBgsbService.selectById(fpsbid2).getBgrwfpid();
+        String bgrwfpid2 = scglBgrwService.selectById(bgrwid).getBgrwfpid();
         //如果是否未达标完成为1，需要减去
         JyglBgjy jyglBgjyJe = jyglBgjyService.selectById(bgrwid);
         if (sfwdbwc.equals("1")){
@@ -660,10 +672,8 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         jyglBgjyService.updateById(finalBgjy);
 
         //得到与该任务平齐的所有任务
-        String fpsbid = finalBgjy.getFpsbid();
-        ScglBgsb scglBgsb = scglBgsbService.selectById(fpsbid);
-        //String bgrwfpid = scglBgsb.getBgrwfpid();
-        List<ScglBgrw> bgrwByBgrwfpid = scglBgrwService.getBgrwByBgrwfpid(bgrwfpid);
+        String bgrwfpidd = finalBgjy.getBgrwfpid();
+        List<ScglBgrw> bgrwByBgrwfpid = scglBgrwService.getBgrwByBgrwfpid(bgrwfpidd);
         if (bgrwByBgrwfpid.size()>0){
             int bfll = 0;
             for (ScglBgrw s : bgrwByBgrwfpid) {
@@ -692,13 +702,12 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                         break;
                     }
                 }
-
             }
 
             //flag是1的话
            if (flag == 1){
                 //首先判断bgrwfp里面sfwc是否为1
-               ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(bgrwfpid);
+               ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(bgrwfpidd);
                //为0的话就可以把钱算上
                if (scglBgrwfp.getSfwc().equals("0")){
                    //先更新包工任务分配里面的sfwc
@@ -726,7 +735,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                        }
 
                    EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<ScglBgmx>();
-                   wrapper.eq("BGRWFPID", bgrwfpid);
+                   wrapper.eq("BGRWFPID", bgrwfpidd);
                    ScglBgmx scglBgmx = scglBgmxService.selectOne(wrapper);
                    float cbjee = 0;
                    if (scglBgmx.getCbje()!=null&&!scglBgmx.getCbje().equals("")){
@@ -827,11 +836,8 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
 
                    //更新
                    grglYgxzglService.updateById(grglYgxzgl);
-
-
                }
            }
-
         }
     }
 
@@ -912,6 +918,8 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
         style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         style.setBorderTop(XSSFCellStyle.BORDER_THIN);
         style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        style.setWrapText(true);
+
 
         //表头
         Row row0 = sheet1.createRow(0);
@@ -971,6 +979,8 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 Cell cell10 = row.createCell(10);
 
                 //给单元格设值
+
+                //cell0.setCellValue(new XSSFRichTextString("hello/r/n world!"));
                 cell0.setCellValue(c.getRq());
                 cell1.setCellValue(c.getXm());
                 cell2.setCellValue(c.getLjth());

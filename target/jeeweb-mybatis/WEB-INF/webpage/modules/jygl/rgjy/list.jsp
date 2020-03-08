@@ -77,7 +77,6 @@
     <grid:column label="零部件名称" name="ljmc" width="150"/>
     <grid:column label="工艺大类名称" name="gydlmc"/>
     <grid:column label="工艺小类名称" name="gyxlmc" width="50"/>
-    <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="应完成量" name="ywcl"/>
     <grid:column label="实际完成量" name="sjwcl"/>
     <grid:column label="报废量" name="bfl" width="50"/>

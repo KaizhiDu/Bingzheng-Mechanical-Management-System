@@ -43,6 +43,14 @@
                 <label class="control-label">日期：</label>
                 <input name="rq" id="rq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*" />
             </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">零部件名称：</label>
+                <input class="form-control" name="lbjmc" id="lbjmc" placeholder="请输入零部件名称" />
+            </div>
+            <div class="form-group col-md-4" style="margin-bottom: 10px">
+                <label class="control-label">零部件图号：</label>
+                <input class="form-control" name="lbjth" id="lbjth" placeholder="请输入零部件图号" />
+            </div>
         </div>
     </div>
 </div>

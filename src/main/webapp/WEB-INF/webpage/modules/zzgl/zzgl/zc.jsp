@@ -98,16 +98,16 @@
                     </td>
                 </tr>
 
-                <tr class="form-group">
-                    <td>
-                        <label>合同：</label>
-                    </td>
-                    <td>
-                        <select name="ht" class="form-control" id="ht">
-                            <option value="">不是合同支出</option>
-                        </select>
-                    </td>
-                </tr>
+<%--                <tr class="form-group">--%>
+<%--                    <td>--%>
+<%--                        <label>合同：</label>--%>
+<%--                    </td>--%>
+<%--                    <td>--%>
+<%--                        <select name="ht" class="form-control" id="ht">--%>
+<%--                            <option value="">不是合同支出</option>--%>
+<%--                        </select>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
 
                 <tr class="form-group">
                     <td>
@@ -188,7 +188,7 @@
             mx1 = $("#mx12").val();
         }
         var mx2 = $("#mx2").val();
-        var ht = $("#ht").val();
+        var ht = "";
         $.ajax({
             type: "GET",
             url: "${adminPath}/zzgl/zzgl/saveZc",

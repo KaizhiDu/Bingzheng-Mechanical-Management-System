@@ -41,6 +41,8 @@
 
     </div>
     <div class="col-md-6">
+
+        <h3>${xm}</h3>
         <form>
             <table class="table">
                 <tr class="form-group">
@@ -56,7 +58,9 @@
                         <label>实际完成量：</label>
                     </td>
                     <td>
-                        <input name="sjwcl" id="sjwcl" htmlEscape="false" class="form-control" value="${sjwcl}" placeholder="请输入实际完成数量" onchange="checkRwl()"/>
+                        <input name="sjwclold" id="sjwclold" disabled htmlEscape="false" class="form-control" value="${sjwcl==null?0:sjwcl}"/>
+
+                        <input name="sjwcl" id="sjwcl" htmlEscape="false" class="form-control" value="" placeholder="请输入实际完成数量" onchange="checkRwl()"/>
                     </td>
                 </tr>
                 <tr class="form-group">
@@ -92,8 +96,14 @@
                         <input name="jyrq" id="jyrq" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" value="${currentDate}" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
                     </td>
                 </tr>
-
-
+                <tr class="form-group">
+                    <td>
+                        <label>注释：</label>
+                    </td>
+                    <td>
+                        <input name="zs" id="zs" htmlEscape="false" class="form-control" value="" placeholder="请输入注释内容"/>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -116,6 +126,7 @@
 
     //校验任务量
     function checkRwl(){
+        var sjwclold = $("#sjwclold").val();
         var sjwcl = $("#sjwcl").val();
         var ljgybzid = $("#ljgybzid").val();
         var bgrwid = $("#bgrwid").val();
@@ -125,6 +136,7 @@
             top.layer.alert("请输入数字");
             $("#sjwcl").val("");
         }else{
+            sjwcl = parseInt(sjwclold) + parseInt(sjwcl);
             //判断输入的数字是否大于剩余数量
             $.ajax({
                 type: "GET",
@@ -148,6 +160,13 @@
     //点击保存，保存数据
     function check() {
         var sjwcl = $("#sjwcl").val();
+        if (sjwcl == "") {
+            alert("请输入完成量");
+            return;
+        }
+        var sjwclold = $("#sjwclold").val();
+        var rgrecord = $("#sjwcl").val();
+        sjwcl = parseInt(sjwclold) + parseInt(sjwcl);
         var ljgybzid = $("#ljgybzid").val();
         var bgrwid = $("#bgrwid").val();
         var bfl = $("#bfl").val();
@@ -155,6 +174,8 @@
         var sfwdbwc = $("#sfwdbwc").val();
         var jyrq = $("#jyrq").val();
         var bgrg = $("#bgrg").val();
+        var zs = $("#zs").val();
+
         $.ajax({
             type: "GET",
             url: "${adminPath}/jygl/bgjy/saveWcl",
@@ -166,7 +187,9 @@
                 bgrwfpid: bgrwfpid,
                 sfwdbwc: sfwdbwc,
                 jyrq: jyrq,
-                bgrg: bgrg
+                bgrg: bgrg,
+                rgrecord: rgrecord,
+                zs: zs
             },
             success: function (data) {
 

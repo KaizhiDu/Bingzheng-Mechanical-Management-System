@@ -23,7 +23,24 @@ public class BgjyDTO {
     private String ljth;
     private String bgrg;
     private String mtrwl;
+    private String zs;
+    private String sfjy;
 
+    public String getSfjy() {
+        return sfjy;
+    }
+
+    public void setSfjy(String sfjy) {
+        this.sfjy = sfjy;
+    }
+
+    public String getZs() {
+        return zs;
+    }
+
+    public void setZs(String zs) {
+        this.zs = zs;
+    }
 
     public String getBgrg() {
         return bgrg;

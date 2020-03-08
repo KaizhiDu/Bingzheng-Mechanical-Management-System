@@ -33,6 +33,8 @@
 
 <h4>任务管理</h4>
 
+<input type="hidden" value="${bgrwfpid}" id="bgrwfpid">
+
 <div class="row">
     <div id="GybzglGridQuery" class="col-md-12">
         <div class="form-inline">
@@ -179,7 +181,7 @@
         }
         $.ajax({
             type: "GET",
-            url: "${adminPath}/scgl/bgrwfp/saveRw?ids="+ids+"&fpsbid=${fpsbid}",
+            url: "${adminPath}/scgl/bgrwfp/saveRw?ids="+ids+"&bgrwfpid=${bgrwfpid}",
             success: function (data) {
                 refreshTable2(gridId);
             }

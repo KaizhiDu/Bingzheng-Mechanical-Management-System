@@ -8,6 +8,12 @@
         <if test="entity.rq!=null and entity.rq!=''">
             AND RQ = #{entity.rq}
         </if>
+        <if test="entity.lbjth!=null and entity.lbjth!=''">
+            AND LBJTH LIKE "%"#{entity.lbjth}"%"
+        </if>
+        <if test="entity.lbjmc!=null and entity.lbjmc!=''">
+            AND LBJMC LIKE "%"#{entity.lbjmc}"%"
+        </if>
     </select>
 
 </mapper>

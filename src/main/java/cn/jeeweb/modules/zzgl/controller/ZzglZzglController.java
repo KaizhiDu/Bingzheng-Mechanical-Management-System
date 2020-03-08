@@ -45,6 +45,7 @@ import java.util.*;
 
 /**
  * Dscription: 资金管理 - 资金管理
+ *
  * @author : Kevin Du
  * @version : 1.0
  * @date : 2019/1/5 9:33
@@ -54,19 +55,27 @@ import java.util.*;
 @RequiresPathPermission("zzgl:zzgl")
 public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
-    /**基础设置 - 资金数额Service*/
+    /**
+     * 基础设置 - 资金数额Service
+     */
     @Autowired
     private IJcszZzseService jcszZzseService;
 
-    /**基础设置 - 明细模板Service*/
+    /**
+     * 基础设置 - 明细模板Service
+     */
     @Autowired
     private IJcszMxmbService jcszMxmbService;
 
-    /**资金管理 - 资金管理Service*/
+    /**
+     * 资金管理 - 资金管理Service
+     */
     @Autowired
     private IZzglZzglService zzglZzglService;
 
-    /**资金管理 - 借款Service*/
+    /**
+     * 资金管理 - 借款Service
+     */
     @Autowired
     private IZzglJhService zzglJhService;
 
@@ -81,12 +90,13 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 搜索项和前置内容
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2018/10/2 16:15
      */
     @Override
-    public void preList(Model model, HttpServletRequest request, HttpServletResponse response){
+    public void preList(Model model, HttpServletRequest request, HttpServletResponse response) {
         //得到当前年月
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
         Date date0 = new Date();
@@ -104,15 +114,15 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
         //把各项基本资金传入
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
-        wrapper2.eq("TYPE","1");
+        wrapper2.eq("TYPE", "1");
         JcszZzse zz1 = jcszZzseService.selectOne(wrapper2);
         model.addAttribute("zz1", zz1);
 
         //把各项流动资金传入
         EntityWrapper<JcszZzse> wrapper3 = new EntityWrapper<JcszZzse>();
-        wrapper3.eq("TYPE","2");
+        wrapper3.eq("TYPE", "2");
         JcszZzse zz2 = jcszZzseService.selectOne(wrapper3);
-        if (zz2==null){
+        if (zz2 == null) {
             JcszZzse zz3 = new JcszZzse();
             zz3.setType("2");
             zz3.setTwo("0");
@@ -124,8 +134,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             zz3.setSix("0");
             zz3.setEight("0");
             model.addAttribute("zz2", zz3);
-        }
-        else{
+        } else {
             model.addAttribute("zz2", zz2);
         }
 
@@ -133,13 +142,14 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 展示所有资金管理信息
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/5 14:47
      */
-    @RequestMapping(value = "ajaxZzglList", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "ajaxZzglList", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<ZzglZzgl> ajaxZzglList(String n, String y, String lx, String px, String r, String mx, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model){
+    public PageJson<ZzglZzgl> ajaxZzglList(String n, String y, String lx, String px, String r, String mx, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model) {
 
         try {
             Thread.currentThread().sleep(100);
@@ -147,7 +157,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             e.printStackTrace();
         }
 
-        if (px==null){
+        if (px == null) {
             px = "0";
         }
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
@@ -165,34 +175,35 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         zzglDTO.setR(r);
         zzglDTO.setMx(mx);
 
-        if (n==null){
-            zzglDTO.setN(nn+"");
+        if (n == null) {
+            zzglDTO.setN(nn + "");
         }
-        if (y==null){
-            zzglDTO.setY(yy+"");
+        if (y == null) {
+            zzglDTO.setY(yy + "");
         }
-        if (r==null){
-            zzglDTO.setR(rr+"");
+        if (r == null) {
+            zzglDTO.setR(rr + "");
         }
-        PageJson<ZzglZzgl> pageJson = zzglZzglService.ajaxZzglList(queryable,zzglDTO);
+        PageJson<ZzglZzgl> pageJson = zzglZzglService.ajaxZzglList(queryable, zzglDTO);
         return pageJson;
     }
 
     /**
      * Dscription: 转到收入界面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/5 11:11
      */
-    @RequestMapping(value = "sr", method={RequestMethod.GET, RequestMethod.POST})
-    public String sr(HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "sr", method = {RequestMethod.GET, RequestMethod.POST})
+    public String sr(HttpServletRequest request, HttpServletResponse response, Model model) {
         EntityWrapper<JcszMxmb> wrapper1 = new EntityWrapper<JcszMxmb>();
         wrapper1.eq("type", "0");
-        wrapper1.orderBy("sort",false);
+        wrapper1.orderBy("sort", false);
         List<JcszMxmb> jcszMxmbs = jcszMxmbService.selectList(wrapper1);
         model.addAttribute("jcszMxmbs", jcszMxmbs);
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
-        wrapper2.eq("TYPE","0");
+        wrapper2.eq("TYPE", "0");
         JcszZzse jcszZzseName = jcszZzseService.selectOne(wrapper2);
         model.addAttribute("jcszZzseName", jcszZzseName);
 
@@ -209,19 +220,20 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 转到支出界面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/5 11:11
      */
-    @RequestMapping(value = "zc", method={RequestMethod.GET, RequestMethod.POST})
-    public String zc(HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "zc", method = {RequestMethod.GET, RequestMethod.POST})
+    public String zc(HttpServletRequest request, HttpServletResponse response, Model model) {
         EntityWrapper<JcszMxmb> wrapper1 = new EntityWrapper<JcszMxmb>();
         wrapper1.eq("type", "1");
-        wrapper1.orderBy("sort",false);
+        wrapper1.orderBy("sort", false);
         List<JcszMxmb> jcszMxmbs = jcszMxmbService.selectList(wrapper1);
         model.addAttribute("jcszMxmbs", jcszMxmbs);
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
-        wrapper2.eq("TYPE","0");
+        wrapper2.eq("TYPE", "0");
         JcszZzse jcszZzseName = jcszZzseService.selectOne(wrapper2);
         model.addAttribute("jcszZzseName", jcszZzseName);
 
@@ -237,19 +249,20 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 转到支出界面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/5 11:11
      */
-    @RequestMapping(value = "dd", method={RequestMethod.GET, RequestMethod.POST})
-    public String dd(HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "dd", method = {RequestMethod.GET, RequestMethod.POST})
+    public String dd(HttpServletRequest request, HttpServletResponse response, Model model) {
 //        EntityWrapper<JcszMxmb> wrapper1 = new EntityWrapper<JcszMxmb>();
 //        wrapper1.eq("type", "1");
 //        wrapper1.orderBy("sort",false);
 //        List<JcszMxmb> jcszMxmbs = jcszMxmbService.selectList(wrapper1);
 //        model.addAttribute("jcszMxmbs", jcszMxmbs);
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
-        wrapper2.eq("TYPE","0");
+        wrapper2.eq("TYPE", "0");
         JcszZzse jcszZzseName = jcszZzseService.selectOne(wrapper2);
         model.addAttribute("jcszZzseName", jcszZzseName);
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
@@ -265,15 +278,16 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 保存输入信息
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/5 13:10
      */
-    @RequestMapping(value = "saveSr", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveSr", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveSr(String ht, String mx1, String mx2, String jz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+    public void saveSr(String ht, String mx1, String mx2, String jz, String money, String lx, String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 
-        if (money==null){
+        if (money == null) {
             money = "0";
         }
 
@@ -298,18 +312,18 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         String jzArray[] = jz.split("-");
         String zjcx = jzArray[0];
         String zjmc = jzArray[1];
-        String xxmx = mx1 + " 转入 " + money + " 到 "+zjmc;
+        String xxmx = mx1 + " 转入 " + money + " 到 " + zjmc;
         String htmc = "";
-        if (!ht.equals("")){
-           htmc = htglHtService.selectById(ht).getHtmc();
-            mx2 = htmc+","+mx2;
+        if (!ht.equals("")) {
+            htmc = htglHtService.selectById(ht).getHtmc();
+            mx2 = htmc + "," + mx2;
         }
-    String htmxid = null;
+        String htmxid = null;
         //联动合同管理里面的合同功能
         //如果合同ID不为空
-        if (!ht.equals("")){
+        if (!ht.equals("")) {
             HtglHtmx h = new HtglHtmx();
-            String uuid  = UUID.randomUUID().toString().replaceAll("-","");
+            String uuid = UUID.randomUUID().toString().replaceAll("-", "");
             htmxid = uuid;
             h.setId(uuid);
             h.setHtid(ht);
@@ -332,7 +346,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             htglGs.setJe(df.format(jeee));
             htglGsService.updateById(htglGs);
             //最后进行判断，该合同是否是总资金
-            if (!htglHt2.getRq().equals("2999-12-31 23:59:59")){
+            if (!htglHt2.getRq().equals("2999-12-31 23:59:59")) {
                 EntityWrapper<HtglHt> wrapper = new EntityWrapper<HtglHt>();
                 wrapper.eq("GSID", htglHt2.getGsid());
                 wrapper.eq("RQ", "2999-12-31 23:59:59");
@@ -346,64 +360,64 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
         //得到所有数据,然后放到实体类中
         ZzglZzgl z = new ZzglZzgl();
-        if (zjcx.equals("1")){
+        if (zjcx.equals("1")) {
             z.setOne(money);
         }
-        if (zjcx.equals("2")){
+        if (zjcx.equals("2")) {
             z.setTwo(money);
         }
-        if (zjcx.equals("3")){
+        if (zjcx.equals("3")) {
             z.setThree(money);
         }
-        if (zjcx.equals("4")){
+        if (zjcx.equals("4")) {
             z.setFour(money);
         }
-        if (zjcx.equals("5")){
+        if (zjcx.equals("5")) {
             z.setFive(money);
         }
-        if (zjcx.equals("6")){
+        if (zjcx.equals("6")) {
             z.setSix(money);
         }
-        if (zjcx.equals("7")){
+        if (zjcx.equals("7")) {
             z.setSeven(money);
         }
-        if (zjcx.equals("8")){
+        if (zjcx.equals("8")) {
             z.setEight(money);
         }
-        if (zjcx.equals("9")){
+        if (zjcx.equals("9")) {
             z.setNine(money);
         }
-        if (zjcx.equals("10")){
+        if (zjcx.equals("10")) {
             z.setTen(money);
         }
-        if (zjcx.equals("11")){
+        if (zjcx.equals("11")) {
             z.setEleven(money);
         }
-        if (zjcx.equals("12")){
+        if (zjcx.equals("12")) {
             z.setTwelve(money);
         }
-        if (zjcx.equals("13")){
+        if (zjcx.equals("13")) {
             z.setThirteen(money);
         }
-        if (zjcx.equals("14")){
+        if (zjcx.equals("14")) {
             z.setFourteen(money);
         }
-        if (zjcx.equals("15")){
+        if (zjcx.equals("15")) {
             z.setFifteen(money);
         }
-        if (zjcx.equals("16")){
+        if (zjcx.equals("16")) {
             z.setSixteen(money);
         }
-        if (zjcx.equals("17")){
+        if (zjcx.equals("17")) {
             z.setSeventeen(money);
         }
-        if (zjcx.equals("18")){
+        if (zjcx.equals("18")) {
             z.setEighteen(money);
         }
-        if (zjcx.equals("19")){
+        if (zjcx.equals("19")) {
             z.setNineteen(money);
         }
-        if (zjcx.equals("20")){
+        if (zjcx.equals("20")) {
             z.setTwenty(money);
         }
         z.setHtmxid(htmxid);
@@ -423,8 +437,8 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         wrapper1.eq("TYPE", "0");
         wrapper1.eq("NAME", mx1);
         JcszMxmb jcszMxmb = jcszMxmbService.selectOne(wrapper1);
-        if (jcszMxmb!=null){
-            int newSort = jcszMxmb.getSort()+1;
+        if (jcszMxmb != null) {
+            int newSort = jcszMxmb.getSort() + 1;
             jcszMxmb.setSort(newSort);
             jcszMxmbService.updateById(jcszMxmb);
         }
@@ -435,7 +449,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
         wrapper2.eq("TYPE", "2");
         JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
-        if (jcszZzse==null){
+        if (jcszZzse == null) {
             JcszZzse j = new JcszZzse();
             j.setType("2");
             j.setOne("0");
@@ -458,64 +472,64 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             j.setEighteen("0");
             j.setNineteen("0");
             j.setTwenty("0");
-            if (zjcx.equals("1")){
+            if (zjcx.equals("1")) {
                 j.setOne(money);
             }
-            if (zjcx.equals("2")){
+            if (zjcx.equals("2")) {
                 j.setTwo(money);
             }
-            if (zjcx.equals("3")){
+            if (zjcx.equals("3")) {
                 j.setThree(money);
             }
-            if (zjcx.equals("4")){
+            if (zjcx.equals("4")) {
                 j.setFour(money);
             }
-            if (zjcx.equals("5")){
+            if (zjcx.equals("5")) {
                 j.setFive(money);
             }
-            if (zjcx.equals("6")){
+            if (zjcx.equals("6")) {
                 j.setSix(money);
             }
-            if (zjcx.equals("7")){
+            if (zjcx.equals("7")) {
                 j.setSeven(money);
             }
-            if (zjcx.equals("8")){
+            if (zjcx.equals("8")) {
                 j.setEight(money);
             }
-            if (zjcx.equals("9")){
+            if (zjcx.equals("9")) {
                 j.setNine(money);
             }
-            if (zjcx.equals("10")){
+            if (zjcx.equals("10")) {
                 j.setTen(money);
             }
-            if (zjcx.equals("11")){
+            if (zjcx.equals("11")) {
                 j.setEleven(money);
             }
-            if (zjcx.equals("12")){
+            if (zjcx.equals("12")) {
                 j.setTwelve(money);
             }
-            if (zjcx.equals("13")){
+            if (zjcx.equals("13")) {
                 j.setThirteen(money);
             }
-            if (zjcx.equals("14")){
+            if (zjcx.equals("14")) {
                 j.setFourteen(money);
             }
-            if (zjcx.equals("15")){
+            if (zjcx.equals("15")) {
                 j.setFifteen(money);
             }
-            if (zjcx.equals("16")){
+            if (zjcx.equals("16")) {
                 j.setSixteen(money);
             }
-            if (zjcx.equals("17")){
+            if (zjcx.equals("17")) {
                 j.setSeventeen(money);
             }
-            if (zjcx.equals("18")){
+            if (zjcx.equals("18")) {
                 j.setEighteen(money);
             }
-            if (zjcx.equals("19")){
+            if (zjcx.equals("19")) {
                 j.setNineteen(money);
             }
-            if (zjcx.equals("20")){
+            if (zjcx.equals("20")) {
                 j.setTwenty(money);
             }
             jcszZzseService.insert(j);
@@ -523,7 +537,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         //累加上
         else {
             double xs = 0;
-            if (zjcx.equals("1")){
+            if (zjcx.equals("1")) {
 //                BigDecimal b1 = new BigDecimal(Float.toString(getNumber(jcszZzse.getOne())));
 //                BigDecimal b2 = new BigDecimal(Float.toString(moneyf));
 //                xs = b1.add(b2).floatValue();
@@ -533,79 +547,79 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 double xss = d1 + d2;
                 jcszZzse.setOne(df.format(xss));
             }
-            if (zjcx.equals("2")){
+            if (zjcx.equals("2")) {
                 xs = getNumber(jcszZzse.getTwo()) + moneyd;
                 jcszZzse.setTwo(df.format(xs));
             }
-            if (zjcx.equals("3")){
+            if (zjcx.equals("3")) {
                 xs = getNumber(jcszZzse.getThree()) + moneyd;
                 jcszZzse.setThree(df.format(xs));
             }
-            if (zjcx.equals("4")){
+            if (zjcx.equals("4")) {
                 xs = getNumber(jcszZzse.getFour()) + moneyd;
                 jcszZzse.setFour(df.format(xs));
             }
-            if (zjcx.equals("5")){
+            if (zjcx.equals("5")) {
                 xs = getNumber(jcszZzse.getFive()) + moneyd;
                 jcszZzse.setFive(df.format(xs));
             }
-            if (zjcx.equals("6")){
+            if (zjcx.equals("6")) {
                 xs = getNumber(jcszZzse.getSix()) + moneyd;
                 jcszZzse.setSix(df.format(xs));
             }
-            if (zjcx.equals("7")){
+            if (zjcx.equals("7")) {
                 xs = getNumber(jcszZzse.getSeven()) + moneyd;
                 jcszZzse.setSeven(df.format(xs));
             }
-            if (zjcx.equals("8")){
+            if (zjcx.equals("8")) {
                 xs = getNumber(jcszZzse.getEight()) + moneyd;
                 jcszZzse.setEight(df.format(xs));
             }
-            if (zjcx.equals("9")){
+            if (zjcx.equals("9")) {
                 xs = getNumber(jcszZzse.getNine()) + moneyd;
                 jcszZzse.setNine(df.format(xs));
             }
-            if (zjcx.equals("10")){
+            if (zjcx.equals("10")) {
                 xs = getNumber(jcszZzse.getTen()) + moneyd;
                 jcszZzse.setTen(df.format(xs));
             }
-            if (zjcx.equals("11")){
+            if (zjcx.equals("11")) {
                 xs = getNumber(jcszZzse.getEleven()) + moneyd;
                 jcszZzse.setEleven(df.format(xs));
             }
-            if (zjcx.equals("12")){
+            if (zjcx.equals("12")) {
                 xs = getNumber(jcszZzse.getTwelve()) + moneyd;
                 jcszZzse.setTwelve(df.format(xs));
             }
-            if (zjcx.equals("13")){
+            if (zjcx.equals("13")) {
                 xs = getNumber(jcszZzse.getThirteen()) + moneyd;
                 jcszZzse.setThirteen(df.format(xs));
             }
-            if (zjcx.equals("14")){
+            if (zjcx.equals("14")) {
                 xs = getNumber(jcszZzse.getFourteen()) + moneyd;
                 jcszZzse.setFourteen(df.format(xs));
             }
-            if (zjcx.equals("15")){
+            if (zjcx.equals("15")) {
                 xs = getNumber(jcszZzse.getFifteen()) + moneyd;
                 jcszZzse.setFifteen(df.format(xs));
             }
-            if (zjcx.equals("16")){
+            if (zjcx.equals("16")) {
                 xs = getNumber(jcszZzse.getSixteen()) + moneyd;
                 jcszZzse.setSixteen(df.format(xs));
             }
-            if (zjcx.equals("17")){
+            if (zjcx.equals("17")) {
                 xs = getNumber(jcszZzse.getSeventeen()) + moneyd;
                 jcszZzse.setSeventeen(df.format(xs));
             }
-            if (zjcx.equals("18")){
+            if (zjcx.equals("18")) {
                 xs = getNumber(jcszZzse.getEighteen()) + moneyd;
                 jcszZzse.setEighteen(df.format(xs));
             }
-            if (zjcx.equals("19")){
+            if (zjcx.equals("19")) {
                 xs = getNumber(jcszZzse.getNineteen()) + moneyd;
                 jcszZzse.setNineteen(df.format(xs));
             }
-            if (zjcx.equals("20")){
+            if (zjcx.equals("20")) {
                 xs = getNumber(jcszZzse.getTwenty()) + moneyd;
                 jcszZzse.setTwenty(df.format(xs));
             }
@@ -616,17 +630,18 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 保存支出信息
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/7 9:27
      */
-    @RequestMapping(value = "saveZc", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveZc", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveZc(String ht, String mx1, String mx2, String cz, String money, String lx,String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+    public void saveZc(String ht, String mx1, String mx2, String cz, String money, String lx, String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 
         DecimalFormat df = new DecimalFormat("#,###.00");
 
-        if (money==null){
+        if (money == null) {
             money = "0";
         }
         String m = money;
@@ -644,14 +659,14 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         String jzArray[] = cz.split("-");
         String zjcx = jzArray[0];
         String zjmc = jzArray[1];
-        String xxmx = "从 "+ zjmc + " 转出 " + m + " 用于 "+mx1;
+        String xxmx = "从 " + zjmc + " 转出 " + m + " 用于 " + mx1;
 
         String htmxid = null;
         //联动合同管理里面的合同功能
         //如果合同ID不为空
-        if (!ht.equals("")){
+        if (!ht.equals("")) {
             HtglHtmx h = new HtglHtmx();
-            String uuid  = UUID.randomUUID().toString().replaceAll("-","");
+            String uuid = UUID.randomUUID().toString().replaceAll("-", "");
             htmxid = uuid;
             h.setId(uuid);
             h.setHtid(ht);
@@ -672,64 +687,64 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
         //得到所有数据,然后放到实体类中
         ZzglZzgl z = new ZzglZzgl();
-        if (zjcx.equals("1")){
+        if (zjcx.equals("1")) {
             z.setOne(money);
         }
-        if (zjcx.equals("2")){
+        if (zjcx.equals("2")) {
             z.setTwo(money);
         }
-        if (zjcx.equals("3")){
+        if (zjcx.equals("3")) {
             z.setThree(money);
         }
-        if (zjcx.equals("4")){
+        if (zjcx.equals("4")) {
             z.setFour(money);
         }
-        if (zjcx.equals("5")){
+        if (zjcx.equals("5")) {
             z.setFive(money);
         }
-        if (zjcx.equals("6")){
+        if (zjcx.equals("6")) {
             z.setSix(money);
         }
-        if (zjcx.equals("7")){
+        if (zjcx.equals("7")) {
             z.setSeven(money);
         }
-        if (zjcx.equals("8")){
+        if (zjcx.equals("8")) {
             z.setEight(money);
         }
-        if (zjcx.equals("9")){
+        if (zjcx.equals("9")) {
             z.setNine(money);
         }
-        if (zjcx.equals("10")){
+        if (zjcx.equals("10")) {
             z.setTen(money);
         }
-        if (zjcx.equals("11")){
+        if (zjcx.equals("11")) {
             z.setEleven(money);
         }
-        if (zjcx.equals("12")){
+        if (zjcx.equals("12")) {
             z.setTwelve(money);
         }
-        if (zjcx.equals("13")){
+        if (zjcx.equals("13")) {
             z.setThirteen(money);
         }
-        if (zjcx.equals("14")){
+        if (zjcx.equals("14")) {
             z.setFourteen(money);
         }
-        if (zjcx.equals("15")){
+        if (zjcx.equals("15")) {
             z.setFifteen(money);
         }
-        if (zjcx.equals("16")){
+        if (zjcx.equals("16")) {
             z.setSixteen(money);
         }
-        if (zjcx.equals("17")){
+        if (zjcx.equals("17")) {
             z.setSeventeen(money);
         }
-        if (zjcx.equals("18")){
+        if (zjcx.equals("18")) {
             z.setEighteen(money);
         }
-        if (zjcx.equals("19")){
+        if (zjcx.equals("19")) {
             z.setNineteen(money);
         }
-        if (zjcx.equals("20")){
+        if (zjcx.equals("20")) {
             z.setTwenty(money);
         }
         z.setLx(lx);
@@ -749,8 +764,8 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         wrapper1.eq("TYPE", "1");
         wrapper1.eq("NAME", mx1);
         JcszMxmb jcszMxmb = jcszMxmbService.selectOne(wrapper1);
-        if (jcszMxmb!=null){
-            int newSort = jcszMxmb.getSort()+1;
+        if (jcszMxmb != null) {
+            int newSort = jcszMxmb.getSort() + 1;
             jcszMxmb.setSort(newSort);
             jcszMxmbService.updateById(jcszMxmb);
         }
@@ -760,7 +775,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
         wrapper2.eq("TYPE", "2");
         JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
-        if (jcszZzse==null){
+        if (jcszZzse == null) {
             JcszZzse j = new JcszZzse();
             j.setType("2");
             j.setOne("0");
@@ -783,64 +798,64 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             j.setEighteen("0");
             j.setNineteen("0");
             j.setTwenty("0");
-            if (zjcx.equals("1")){
+            if (zjcx.equals("1")) {
                 j.setOne(money);
             }
-            if (zjcx.equals("2")){
+            if (zjcx.equals("2")) {
                 j.setTwo(money);
             }
-            if (zjcx.equals("3")){
+            if (zjcx.equals("3")) {
                 j.setThree(money);
             }
-            if (zjcx.equals("4")){
+            if (zjcx.equals("4")) {
                 j.setFour(money);
             }
-            if (zjcx.equals("5")){
+            if (zjcx.equals("5")) {
                 j.setFive(money);
             }
-            if (zjcx.equals("6")){
+            if (zjcx.equals("6")) {
                 j.setSix(money);
             }
-            if (zjcx.equals("7")){
+            if (zjcx.equals("7")) {
                 j.setSeven(money);
             }
-            if (zjcx.equals("8")){
+            if (zjcx.equals("8")) {
                 j.setEight(money);
             }
-            if (zjcx.equals("9")){
+            if (zjcx.equals("9")) {
                 j.setNine(money);
             }
-            if (zjcx.equals("10")){
+            if (zjcx.equals("10")) {
                 j.setTen(money);
             }
-            if (zjcx.equals("11")){
+            if (zjcx.equals("11")) {
                 j.setEleven(money);
             }
-            if (zjcx.equals("12")){
+            if (zjcx.equals("12")) {
                 j.setTwelve(money);
             }
-            if (zjcx.equals("13")){
+            if (zjcx.equals("13")) {
                 j.setThirteen(money);
             }
-            if (zjcx.equals("14")){
+            if (zjcx.equals("14")) {
                 j.setFourteen(money);
             }
-            if (zjcx.equals("15")){
+            if (zjcx.equals("15")) {
                 j.setFifteen(money);
             }
-            if (zjcx.equals("16")){
+            if (zjcx.equals("16")) {
                 j.setSixteen(money);
             }
-            if (zjcx.equals("17")){
+            if (zjcx.equals("17")) {
                 j.setSeventeen(money);
             }
-            if (zjcx.equals("18")){
+            if (zjcx.equals("18")) {
                 j.setEighteen(money);
             }
-            if (zjcx.equals("19")){
+            if (zjcx.equals("19")) {
                 j.setNineteen(money);
             }
-            if (zjcx.equals("20")){
+            if (zjcx.equals("20")) {
                 j.setTwenty(money);
             }
             jcszZzseService.insert(j);
@@ -848,83 +863,83 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         //累加上
         else {
             double xs = 0;
-            if (zjcx.equals("2")){
+            if (zjcx.equals("2")) {
                 xs = getNumber(jcszZzse.getTwo()) + moneyd;
                 jcszZzse.setTwo(df.format(xs));
             }
-            if (zjcx.equals("3")){
+            if (zjcx.equals("3")) {
                 xs = getNumber(jcszZzse.getThree()) + moneyd;
                 jcszZzse.setThree(df.format(xs));
             }
-            if (zjcx.equals("1")){
+            if (zjcx.equals("1")) {
                 xs = getNumber(jcszZzse.getOne()) + moneyd;
                 jcszZzse.setOne(df.format(xs));
             }
-            if (zjcx.equals("4")){
+            if (zjcx.equals("4")) {
                 xs = getNumber(jcszZzse.getFour()) + moneyd;
                 jcszZzse.setFour(df.format(xs));
             }
-            if (zjcx.equals("5")){
+            if (zjcx.equals("5")) {
                 xs = getNumber(jcszZzse.getFive()) + moneyd;
                 jcszZzse.setFive(df.format(xs));
             }
-            if (zjcx.equals("6")){
+            if (zjcx.equals("6")) {
                 xs = getNumber(jcszZzse.getSix()) + moneyd;
                 jcszZzse.setSix(df.format(xs));
             }
-            if (zjcx.equals("7")){
+            if (zjcx.equals("7")) {
                 xs = getNumber(jcszZzse.getSeven()) + moneyd;
                 jcszZzse.setSeven(df.format(xs));
             }
-            if (zjcx.equals("8")){
+            if (zjcx.equals("8")) {
                 xs = getNumber(jcszZzse.getEight()) + moneyd;
                 jcszZzse.setEight(df.format(xs));
             }
-            if (zjcx.equals("9")){
+            if (zjcx.equals("9")) {
                 xs = getNumber(jcszZzse.getNine()) + moneyd;
                 jcszZzse.setNine(df.format(xs));
             }
-            if (zjcx.equals("10")){
+            if (zjcx.equals("10")) {
                 xs = getNumber(jcszZzse.getTen()) + moneyd;
                 jcszZzse.setTen(df.format(xs));
             }
-            if (zjcx.equals("11")){
+            if (zjcx.equals("11")) {
                 xs = getNumber(jcszZzse.getEleven()) + moneyd;
                 jcszZzse.setEleven(df.format(xs));
             }
-            if (zjcx.equals("12")){
+            if (zjcx.equals("12")) {
                 xs = getNumber(jcszZzse.getTwelve()) + moneyd;
                 jcszZzse.setTwelve(df.format(xs));
             }
-            if (zjcx.equals("13")){
+            if (zjcx.equals("13")) {
                 xs = getNumber(jcszZzse.getThirteen()) + moneyd;
                 jcszZzse.setThirteen(df.format(xs));
             }
-            if (zjcx.equals("14")){
+            if (zjcx.equals("14")) {
                 xs = getNumber(jcszZzse.getFourteen()) + moneyd;
                 jcszZzse.setFourteen(df.format(xs));
             }
-            if (zjcx.equals("15")){
+            if (zjcx.equals("15")) {
                 xs = getNumber(jcszZzse.getFifteen()) + moneyd;
                 jcszZzse.setFifteen(df.format(xs));
             }
-            if (zjcx.equals("16")){
+            if (zjcx.equals("16")) {
                 xs = getNumber(jcszZzse.getSixteen()) + moneyd;
                 jcszZzse.setSixteen(df.format(xs));
             }
-            if (zjcx.equals("17")){
+            if (zjcx.equals("17")) {
                 xs = getNumber(jcszZzse.getSeventeen()) + moneyd;
                 jcszZzse.setSeventeen(df.format(xs));
             }
-            if (zjcx.equals("18")){
+            if (zjcx.equals("18")) {
                 xs = getNumber(jcszZzse.getEighteen()) + moneyd;
                 jcszZzse.setEighteen(df.format(xs));
             }
-            if (zjcx.equals("19")){
+            if (zjcx.equals("19")) {
                 xs = getNumber(jcszZzse.getNineteen()) + moneyd;
                 jcszZzse.setNineteen(df.format(xs));
             }
-            if (zjcx.equals("20")){
+            if (zjcx.equals("20")) {
                 xs = getNumber(jcszZzse.getTwenty()) + moneyd;
                 jcszZzse.setTwenty(df.format(xs));
             }
@@ -934,17 +949,18 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 保存调动信息
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/7 11:25
      */
-    @RequestMapping(value = "saveDd", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveDd", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void saveDd(String mx2, String jz, String cz, String money, String lx, String jtsj, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 
         DecimalFormat df = new DecimalFormat("#,###.00");
 
-        if (money==null){
+        if (money == null) {
             money = "0";
         }
         double jmoney = getNumber(money);
@@ -966,130 +982,130 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         String czArray[] = cz.split("-");
         String czcx = czArray[0];
         String czmc = czArray[1];
-        String mx = "从 "+czmc+" 到 "+jzmc;
-        String xxmx = "从 "+ czmc + " 调动 " + money + " 到 "+jzmc;
+        String mx = "从 " + czmc + " 到 " + jzmc;
+        String xxmx = "从 " + czmc + " 调动 " + money + " 到 " + jzmc;
 
         //得到所有数据,然后放到实体类中
         ZzglZzgl z = new ZzglZzgl();
-        if (!jzcx.equals(czcx)){
-            if (jzcx.equals("1")){
+        if (!jzcx.equals(czcx)) {
+            if (jzcx.equals("1")) {
                 z.setOne(money);
             }
-            if (jzcx.equals("2")){
+            if (jzcx.equals("2")) {
                 z.setTwo(money);
             }
-            if (jzcx.equals("3")){
+            if (jzcx.equals("3")) {
                 z.setThree(money);
             }
-            if (jzcx.equals("4")){
+            if (jzcx.equals("4")) {
                 z.setFour(money);
             }
-            if (jzcx.equals("5")){
+            if (jzcx.equals("5")) {
                 z.setFive(money);
             }
-            if (jzcx.equals("6")){
+            if (jzcx.equals("6")) {
                 z.setSix(money);
             }
-            if (jzcx.equals("7")){
+            if (jzcx.equals("7")) {
                 z.setSeven(money);
             }
-            if (jzcx.equals("8")){
+            if (jzcx.equals("8")) {
                 z.setEight(money);
             }
-            if (jzcx.equals("9")){
+            if (jzcx.equals("9")) {
                 z.setNine(money);
             }
-            if (jzcx.equals("10")){
+            if (jzcx.equals("10")) {
                 z.setTen(money);
             }
-            if (jzcx.equals("11")){
+            if (jzcx.equals("11")) {
                 z.setEleven(money);
             }
-            if (jzcx.equals("12")){
+            if (jzcx.equals("12")) {
                 z.setTwelve(money);
             }
-            if (jzcx.equals("13")){
+            if (jzcx.equals("13")) {
                 z.setThirteen(money);
             }
-            if (jzcx.equals("14")){
+            if (jzcx.equals("14")) {
                 z.setFourteen(money);
             }
-            if (jzcx.equals("15")){
+            if (jzcx.equals("15")) {
                 z.setFifteen(money);
             }
-            if (jzcx.equals("16")){
+            if (jzcx.equals("16")) {
                 z.setSixteen(money);
             }
-            if (jzcx.equals("17")){
+            if (jzcx.equals("17")) {
                 z.setSeventeen(money);
             }
-            if (jzcx.equals("18")){
+            if (jzcx.equals("18")) {
                 z.setEighteen(money);
             }
-            if (jzcx.equals("19")){
+            if (jzcx.equals("19")) {
                 z.setNineteen(money);
             }
-            if (jzcx.equals("20")){
+            if (jzcx.equals("20")) {
                 z.setTwenty(money);
             }
-            if (czcx.equals("1")){
+            if (czcx.equals("1")) {
                 z.setOne(czMoney);
             }
-            if (czcx.equals("2")){
+            if (czcx.equals("2")) {
                 z.setTwo(czMoney);
             }
-            if (czcx.equals("3")){
+            if (czcx.equals("3")) {
                 z.setThree(czMoney);
             }
-            if (czcx.equals("4")){
+            if (czcx.equals("4")) {
                 z.setFour(czMoney);
             }
-            if (czcx.equals("5")){
+            if (czcx.equals("5")) {
                 z.setFive(czMoney);
             }
-            if (czcx.equals("6")){
+            if (czcx.equals("6")) {
                 z.setSix(czMoney);
             }
-            if (czcx.equals("7")){
+            if (czcx.equals("7")) {
                 z.setSeven(czMoney);
             }
-            if (czcx.equals("8")){
+            if (czcx.equals("8")) {
                 z.setEight(czMoney);
             }
-            if (czcx.equals("9")){
+            if (czcx.equals("9")) {
                 z.setNine(czMoney);
             }
-            if (czcx.equals("10")){
+            if (czcx.equals("10")) {
                 z.setTen(czMoney);
             }
-            if (czcx.equals("11")){
+            if (czcx.equals("11")) {
                 z.setEleven(czMoney);
             }
-            if (czcx.equals("12")){
+            if (czcx.equals("12")) {
                 z.setTwelve(czMoney);
             }
-            if (czcx.equals("13")){
+            if (czcx.equals("13")) {
                 z.setThirteen(czMoney);
             }
-            if (czcx.equals("14")){
+            if (czcx.equals("14")) {
                 z.setFourteen(czMoney);
             }
-            if (czcx.equals("15")){
+            if (czcx.equals("15")) {
                 z.setFifteen(czMoney);
             }
-            if (czcx.equals("16")){
+            if (czcx.equals("16")) {
                 z.setSixteen(czMoney);
             }
-            if (czcx.equals("17")){
+            if (czcx.equals("17")) {
                 z.setSeventeen(czMoney);
             }
-            if (czcx.equals("18")){
+            if (czcx.equals("18")) {
                 z.setEighteen(czMoney);
             }
-            if (czcx.equals("19")){
+            if (czcx.equals("19")) {
                 z.setNineteen(czMoney);
             }
-            if (czcx.equals("20")){
+            if (czcx.equals("20")) {
                 z.setTwenty(czMoney);
             }
         }
@@ -1110,7 +1126,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         EntityWrapper<JcszZzse> wrapper2 = new EntityWrapper<JcszZzse>();
         wrapper2.eq("TYPE", "2");
         JcszZzse jcszZzse = jcszZzseService.selectOne(wrapper2);
-        if (jcszZzse==null){
+        if (jcszZzse == null) {
             JcszZzse j = new JcszZzse();
             j.setType("2");
             j.setOne("0");
@@ -1133,125 +1149,125 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             j.setEighteen("0");
             j.setNineteen("0");
             j.setTwenty("0");
-            if (jzcx.equals("1")){
+            if (jzcx.equals("1")) {
                 j.setOne(money);
             }
-            if (jzcx.equals("2")){
+            if (jzcx.equals("2")) {
                 j.setTwo(money);
             }
-            if (jzcx.equals("3")){
+            if (jzcx.equals("3")) {
                 j.setThree(money);
             }
-            if (jzcx.equals("4")){
+            if (jzcx.equals("4")) {
                 j.setFour(money);
             }
-            if (jzcx.equals("5")){
+            if (jzcx.equals("5")) {
                 j.setFive(money);
             }
-            if (jzcx.equals("6")){
+            if (jzcx.equals("6")) {
                 j.setSix(money);
             }
-            if (jzcx.equals("7")){
+            if (jzcx.equals("7")) {
                 j.setSeven(money);
             }
-            if (jzcx.equals("8")){
+            if (jzcx.equals("8")) {
                 j.setEight(money);
             }
-            if (jzcx.equals("9")){
+            if (jzcx.equals("9")) {
                 j.setNine(money);
             }
-            if (jzcx.equals("10")){
+            if (jzcx.equals("10")) {
                 j.setTen(money);
             }
-            if (jzcx.equals("11")){
+            if (jzcx.equals("11")) {
                 j.setEleven(money);
             }
-            if (jzcx.equals("12")){
+            if (jzcx.equals("12")) {
                 j.setTwelve(money);
             }
-            if (jzcx.equals("13")){
+            if (jzcx.equals("13")) {
                 j.setThirteen(money);
             }
-            if (jzcx.equals("14")){
+            if (jzcx.equals("14")) {
                 j.setFourteen(money);
             }
-            if (jzcx.equals("15")){
+            if (jzcx.equals("15")) {
                 j.setFifteen(money);
             }
-            if (jzcx.equals("16")){
+            if (jzcx.equals("16")) {
                 j.setSixteen(money);
             }
-            if (jzcx.equals("17")){
+            if (jzcx.equals("17")) {
                 j.setSeventeen(money);
             }
-            if (jzcx.equals("18")){
+            if (jzcx.equals("18")) {
                 j.setEighteen(money);
             }
-            if (jzcx.equals("19")){
+            if (jzcx.equals("19")) {
                 j.setNineteen(money);
             }
-            if (jzcx.equals("20")){
+            if (jzcx.equals("20")) {
                 j.setTwenty(money);
             }
 
-            if (czcx.equals("1")){
+            if (czcx.equals("1")) {
                 j.setOne(czMoney);
             }
-            if (czcx.equals("2")){
+            if (czcx.equals("2")) {
                 j.setTwo(czMoney);
             }
-            if (czcx.equals("3")){
+            if (czcx.equals("3")) {
                 j.setThree(czMoney);
             }
-            if (czcx.equals("4")){
+            if (czcx.equals("4")) {
                 j.setFour(czMoney);
             }
-            if (czcx.equals("5")){
+            if (czcx.equals("5")) {
                 j.setFive(czMoney);
             }
-            if (czcx.equals("6")){
+            if (czcx.equals("6")) {
                 j.setSix(czMoney);
             }
-            if (czcx.equals("8")){
+            if (czcx.equals("8")) {
                 j.setEight(czMoney);
             }
-            if (czcx.equals("7")){
+            if (czcx.equals("7")) {
                 j.setSeven(czMoney);
             }
-            if (czcx.equals("9")){
+            if (czcx.equals("9")) {
                 j.setNine(czMoney);
             }
-            if (czcx.equals("10")){
+            if (czcx.equals("10")) {
                 j.setTen(czMoney);
             }
-            if (czcx.equals("11")){
+            if (czcx.equals("11")) {
                 j.setEleven(czMoney);
             }
-            if (czcx.equals("12")){
+            if (czcx.equals("12")) {
                 j.setTwelve(czMoney);
             }
-            if (czcx.equals("13")){
+            if (czcx.equals("13")) {
                 j.setThirteen(czMoney);
             }
-            if (czcx.equals("14")){
+            if (czcx.equals("14")) {
                 j.setFourteen(czMoney);
             }
-            if (czcx.equals("15")){
+            if (czcx.equals("15")) {
                 j.setFifteen(czMoney);
             }
-            if (czcx.equals("16")){
+            if (czcx.equals("16")) {
                 j.setSixteen(czMoney);
             }
-            if (czcx.equals("17")){
+            if (czcx.equals("17")) {
                 j.setSeventeen(czMoney);
             }
-            if (czcx.equals("18")){
+            if (czcx.equals("18")) {
                 j.setEighteen(czMoney);
             }
-            if (czcx.equals("19")){
+            if (czcx.equals("19")) {
                 j.setNineteen(czMoney);
             }
-            if (czcx.equals("20")){
+            if (czcx.equals("20")) {
                 j.setTwenty(czMoney);
             }
 
@@ -1260,166 +1276,166 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         //累加上
         else {
             double xs = 0;
-            if (jzcx.equals("2")){
+            if (jzcx.equals("2")) {
                 xs = getNumber(jcszZzse.getTwo()) + jmoney;
                 jcszZzse.setTwo(df.format(xs));
             }
-            if (jzcx.equals("1")){
+            if (jzcx.equals("1")) {
                 xs = getNumber(jcszZzse.getOne()) + jmoney;
                 jcszZzse.setOne(df.format(xs));
             }
-            if (jzcx.equals("3")){
+            if (jzcx.equals("3")) {
                 xs = getNumber(jcszZzse.getThree()) + jmoney;
                 jcszZzse.setThree(df.format(xs));
             }
-            if (jzcx.equals("4")){
+            if (jzcx.equals("4")) {
                 xs = getNumber(jcszZzse.getFour()) + jmoney;
                 jcszZzse.setFour(df.format(xs));
             }
-            if (jzcx.equals("5")){
+            if (jzcx.equals("5")) {
                 xs = getNumber(jcszZzse.getFive()) + jmoney;
                 jcszZzse.setFive(df.format(xs));
             }
-            if (jzcx.equals("6")){
+            if (jzcx.equals("6")) {
                 xs = getNumber(jcszZzse.getSix()) + jmoney;
                 jcszZzse.setSix(df.format(xs));
             }
-            if (jzcx.equals("8")){
+            if (jzcx.equals("8")) {
                 xs = getNumber(jcszZzse.getEight()) + jmoney;
                 jcszZzse.setEight(df.format(xs));
             }
-            if (jzcx.equals("7")){
+            if (jzcx.equals("7")) {
                 xs = getNumber(jcszZzse.getSeven()) + jmoney;
                 jcszZzse.setSeven(df.format(xs));
             }
-            if (jzcx.equals("9")){
+            if (jzcx.equals("9")) {
                 xs = getNumber(jcszZzse.getNine()) + jmoney;
                 jcszZzse.setNine(df.format(xs));
             }
-            if (jzcx.equals("10")){
+            if (jzcx.equals("10")) {
                 xs = getNumber(jcszZzse.getTen()) + jmoney;
                 jcszZzse.setTen(df.format(xs));
             }
-            if (jzcx.equals("11")){
+            if (jzcx.equals("11")) {
                 xs = getNumber(jcszZzse.getEleven()) + jmoney;
                 jcszZzse.setEleven(df.format(xs));
             }
-            if (jzcx.equals("12")){
+            if (jzcx.equals("12")) {
                 xs = getNumber(jcszZzse.getTwelve()) + jmoney;
                 jcszZzse.setTwelve(df.format(xs));
             }
-            if (jzcx.equals("13")){
+            if (jzcx.equals("13")) {
                 xs = getNumber(jcszZzse.getThirteen()) + jmoney;
                 jcszZzse.setThirteen(df.format(xs));
             }
-            if (jzcx.equals("14")){
+            if (jzcx.equals("14")) {
                 xs = getNumber(jcszZzse.getFourteen()) + jmoney;
                 jcszZzse.setFourteen(df.format(xs));
             }
-            if (jzcx.equals("15")){
+            if (jzcx.equals("15")) {
                 xs = getNumber(jcszZzse.getFifteen()) + jmoney;
                 jcszZzse.setFifteen(df.format(xs));
             }
-            if (jzcx.equals("16")){
+            if (jzcx.equals("16")) {
                 xs = getNumber(jcszZzse.getSixteen()) + jmoney;
                 jcszZzse.setSixteen(df.format(xs));
             }
-            if (jzcx.equals("17")){
+            if (jzcx.equals("17")) {
                 xs = getNumber(jcszZzse.getSeventeen()) + jmoney;
                 jcszZzse.setSeventeen(df.format(xs));
             }
-            if (jzcx.equals("18")){
+            if (jzcx.equals("18")) {
                 xs = getNumber(jcszZzse.getEighteen()) + jmoney;
                 jcszZzse.setEighteen(df.format(xs));
             }
-            if (jzcx.equals("19")){
+            if (jzcx.equals("19")) {
                 xs = getNumber(jcszZzse.getNineteen()) + jmoney;
                 jcszZzse.setNineteen(df.format(xs));
             }
-            if (jzcx.equals("20")){
+            if (jzcx.equals("20")) {
                 xs = getNumber(jcszZzse.getTwenty()) + jmoney;
                 jcszZzse.setTwenty(df.format(xs));
             }
 
 
             double cxs = 0;
-            if (czcx.equals("2")){
+            if (czcx.equals("2")) {
                 cxs = getNumber(jcszZzse.getTwo()) + cmoney;
                 jcszZzse.setTwo(df.format(cxs));
             }
-            if (czcx.equals("1")){
+            if (czcx.equals("1")) {
                 cxs = getNumber(jcszZzse.getOne()) + cmoney;
                 jcszZzse.setOne(df.format(cxs));
             }
-            if (czcx.equals("3")){
+            if (czcx.equals("3")) {
                 cxs = getNumber(jcszZzse.getThree()) + cmoney;
                 jcszZzse.setThree(df.format(cxs));
             }
-            if (czcx.equals("4")){
+            if (czcx.equals("4")) {
                 cxs = getNumber(jcszZzse.getFour()) + cmoney;
                 jcszZzse.setFour(df.format(cxs));
             }
-            if (czcx.equals("5")){
+            if (czcx.equals("5")) {
                 cxs = getNumber(jcszZzse.getFive()) + cmoney;
                 jcszZzse.setFive(df.format(cxs));
             }
-            if (czcx.equals("6")){
+            if (czcx.equals("6")) {
                 cxs = getNumber(jcszZzse.getSix()) + cmoney;
                 jcszZzse.setSix(df.format(cxs));
             }
-            if (czcx.equals("8")){
+            if (czcx.equals("8")) {
                 cxs = getNumber(jcszZzse.getEight()) + cmoney;
                 jcszZzse.setEight(df.format(cxs));
             }
-            if (czcx.equals("7")){
+            if (czcx.equals("7")) {
                 cxs = getNumber(jcszZzse.getSeven()) + cmoney;
                 jcszZzse.setSeven(df.format(cxs));
             }
-            if (czcx.equals("9")){
+            if (czcx.equals("9")) {
                 xs = getNumber(jcszZzse.getNine()) + cmoney;
                 jcszZzse.setNine(df.format(xs));
             }
-            if (czcx.equals("10")){
+            if (czcx.equals("10")) {
                 xs = getNumber(jcszZzse.getTen()) + cmoney;
                 jcszZzse.setTen(df.format(xs));
             }
-            if (czcx.equals("11")){
+            if (czcx.equals("11")) {
                 xs = getNumber(jcszZzse.getEleven()) + cmoney;
                 jcszZzse.setEleven(df.format(xs));
             }
-            if (czcx.equals("12")){
+            if (czcx.equals("12")) {
                 xs = getNumber(jcszZzse.getTwelve()) + cmoney;
                 jcszZzse.setTwelve(df.format(xs));
             }
-            if (czcx.equals("13")){
+            if (czcx.equals("13")) {
                 xs = getNumber(jcszZzse.getThirteen()) + cmoney;
                 jcszZzse.setThirteen(df.format(xs));
             }
-            if (czcx.equals("14")){
+            if (czcx.equals("14")) {
                 xs = getNumber(jcszZzse.getFourteen()) + cmoney;
                 jcszZzse.setFourteen(df.format(xs));
             }
-            if (czcx.equals("15")){
+            if (czcx.equals("15")) {
                 xs = getNumber(jcszZzse.getFifteen()) + cmoney;
                 jcszZzse.setFifteen(df.format(xs));
             }
-            if (czcx.equals("16")){
+            if (czcx.equals("16")) {
                 xs = getNumber(jcszZzse.getSixteen()) + cmoney;
                 jcszZzse.setSixteen(df.format(xs));
             }
-            if (czcx.equals("17")){
+            if (czcx.equals("17")) {
                 xs = getNumber(jcszZzse.getSeventeen()) + cmoney;
                 jcszZzse.setSeventeen(df.format(xs));
             }
-            if (czcx.equals("18")){
+            if (czcx.equals("18")) {
                 xs = getNumber(jcszZzse.getEighteen()) + cmoney;
                 jcszZzse.setEighteen(df.format(xs));
             }
-            if (czcx.equals("19")){
+            if (czcx.equals("19")) {
                 xs = getNumber(jcszZzse.getNineteen()) + cmoney;
                 jcszZzse.setNineteen(df.format(xs));
             }
-            if (czcx.equals("20")){
+            if (czcx.equals("20")) {
                 xs = getNumber(jcszZzse.getTwenty()) + cmoney;
                 jcszZzse.setTwenty(df.format(xs));
             }
@@ -1430,18 +1446,19 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 删除一条资金管理数据
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/7 12:01
      */
-    @RequestMapping(value = "deleteZzgl", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "deleteZzgl", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void deleteZzgl(String ids, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
 
         DecimalFormat df = new DecimalFormat("#,###.00");
 
         String idsArray[] = ids.split(",");
-        for (int i = 0; i <idsArray.length ; i++) {
+        for (int i = 0; i < idsArray.length; i++) {
             String id = idsArray[i];
             ZzglZzgl zzglZzgl = zzglZzglService.selectById(id);
             double one = 0;
@@ -1464,65 +1481,65 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             double eighteen = 0;
             double nineteen = 0;
             double twenty = 0;
-            if (zzglZzgl.getOne()!=null&&!zzglZzgl.getOne().equals("")){
+            if (zzglZzgl.getOne() != null && !zzglZzgl.getOne().equals("")) {
                 one = getNumber(zzglZzgl.getOne());
             }
-            if (zzglZzgl.getTwo()!=null&&!zzglZzgl.getTwo().equals("")){
+            if (zzglZzgl.getTwo() != null && !zzglZzgl.getTwo().equals("")) {
                 two = getNumber(zzglZzgl.getTwo());
             }
-            if (zzglZzgl.getThree()!=null&&!zzglZzgl.getThree().equals("")){
+            if (zzglZzgl.getThree() != null && !zzglZzgl.getThree().equals("")) {
                 three = getNumber(zzglZzgl.getThree());
             }
-            if (zzglZzgl.getFour()!=null&&!zzglZzgl.getFour().equals("")){
+            if (zzglZzgl.getFour() != null && !zzglZzgl.getFour().equals("")) {
                 four = getNumber(zzglZzgl.getFour());
             }
-            if (zzglZzgl.getFive()!=null&&!zzglZzgl.getFive().equals("")){
+            if (zzglZzgl.getFive() != null && !zzglZzgl.getFive().equals("")) {
                 five = getNumber(zzglZzgl.getFive());
             }
-            if (zzglZzgl.getSix()!=null&&!zzglZzgl.getSix().equals("")){
+            if (zzglZzgl.getSix() != null && !zzglZzgl.getSix().equals("")) {
                 six = getNumber(zzglZzgl.getSix());
             }
-            if (zzglZzgl.getSeven()!=null&&!zzglZzgl.getSeven().equals("")){
+            if (zzglZzgl.getSeven() != null && !zzglZzgl.getSeven().equals("")) {
                 seven = getNumber(zzglZzgl.getSeven());
             }
-            if (zzglZzgl.getEight()!=null&&!zzglZzgl.getEight().equals("")){
+            if (zzglZzgl.getEight() != null && !zzglZzgl.getEight().equals("")) {
                 eight = getNumber(zzglZzgl.getEight());
             }
-            if (zzglZzgl.getNine()!=null&&!zzglZzgl.getNine().equals("")){
+            if (zzglZzgl.getNine() != null && !zzglZzgl.getNine().equals("")) {
                 nine = getNumber(zzglZzgl.getNine());
             }
-            if (zzglZzgl.getTen()!=null&&!zzglZzgl.getTen().equals("")){
+            if (zzglZzgl.getTen() != null && !zzglZzgl.getTen().equals("")) {
                 ten = getNumber(zzglZzgl.getTen());
             }
 
-            if (zzglZzgl.getEleven()!=null&&!zzglZzgl.getEleven().equals("")){
+            if (zzglZzgl.getEleven() != null && !zzglZzgl.getEleven().equals("")) {
                 eleven = getNumber(zzglZzgl.getEleven());
             }
-            if (zzglZzgl.getTwelve()!=null&&!zzglZzgl.getTwelve().equals("")){
+            if (zzglZzgl.getTwelve() != null && !zzglZzgl.getTwelve().equals("")) {
                 twelve = getNumber(zzglZzgl.getTwelve());
             }
-            if (zzglZzgl.getThirteen()!=null&&!zzglZzgl.getThirteen().equals("")){
+            if (zzglZzgl.getThirteen() != null && !zzglZzgl.getThirteen().equals("")) {
                 thirteen = getNumber(zzglZzgl.getThirteen());
             }
-            if (zzglZzgl.getFourteen()!=null&&!zzglZzgl.getFourteen().equals("")){
+            if (zzglZzgl.getFourteen() != null && !zzglZzgl.getFourteen().equals("")) {
                 fourteen = getNumber(zzglZzgl.getFourteen());
             }
-            if (zzglZzgl.getFifteen()!=null&&!zzglZzgl.getFifteen().equals("")){
+            if (zzglZzgl.getFifteen() != null && !zzglZzgl.getFifteen().equals("")) {
                 fifteen = getNumber(zzglZzgl.getFifteen());
             }
-            if (zzglZzgl.getSixteen()!=null&&!zzglZzgl.getSixteen().equals("")){
+            if (zzglZzgl.getSixteen() != null && !zzglZzgl.getSixteen().equals("")) {
                 sixteen = getNumber(zzglZzgl.getSixteen());
             }
-            if (zzglZzgl.getSeventeen()!=null&&!zzglZzgl.getSeventeen().equals("")){
+            if (zzglZzgl.getSeventeen() != null && !zzglZzgl.getSeventeen().equals("")) {
                 seventeen = getNumber(zzglZzgl.getSeventeen());
             }
-            if (zzglZzgl.getEighteen()!=null&&!zzglZzgl.getEighteen().equals("")){
+            if (zzglZzgl.getEighteen() != null && !zzglZzgl.getEighteen().equals("")) {
                 eighteen = getNumber(zzglZzgl.getEighteen());
             }
-            if (zzglZzgl.getNineteen()!=null&&!zzglZzgl.getNineteen().equals("")){
+            if (zzglZzgl.getNineteen() != null && !zzglZzgl.getNineteen().equals("")) {
                 nineteen = getNumber(zzglZzgl.getNineteen());
             }
-            if (zzglZzgl.getTwenty()!=null&&!zzglZzgl.getTwenty().equals("")){
+            if (zzglZzgl.getTwenty() != null && !zzglZzgl.getTwenty().equals("")) {
                 twenty = getNumber(zzglZzgl.getTwenty());
             }
 
@@ -1598,10 +1615,10 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             //然后删除资金管理数据
             zzglZzglService.deleteById(id);
 
-            if (zzglZzgl.getLx().equals("0")){
+            if (zzglZzgl.getLx().equals("0")) {
                 //如果是合同收入或者支出的话，需要同样删掉合同明细
                 String htmxid = zzglZzgl.getHtmxid();
-                if (htmxid!=null&&!htmxid.equals("")){
+                if (htmxid != null && !htmxid.equals("")) {
                     HtglHtmx htglHtmx = htglHtmxService.selectById(htmxid);
                     double je = getNumber(htglHtmx.getJe());
                     String htid = htglHtmx.getHtid();
@@ -1619,7 +1636,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                     wrapper.eq("RQ", "2999-12-31 23:59:59");
                     wrapper.eq("GSID", gsid);
                     HtglHt htglHt1 = htglHtService.selectOne(wrapper);
-                    if (htglHt1!=null){
+                    if (htglHt1 != null) {
                         double jeee = getNumber(htglHt1.getJe()) + je;
                         htglHt1.setJe(df.format(jeee));
                         htglHtService.updateById(htglHt1);
@@ -1629,10 +1646,10 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 }
             }
 
-            if (zzglZzgl.getLx().equals("1")){
+            if (zzglZzgl.getLx().equals("1")) {
                 //如果是合同收入或者支出的话，需要同样删掉合同明细
                 String htmxid = zzglZzgl.getHtmxid();
-                if (htmxid!=null&&!htmxid.equals("")){
+                if (htmxid != null && !htmxid.equals("")) {
                     HtglHtmx htglHtmx = htglHtmxService.selectById(htmxid);
                     double je = getNumber(htglHtmx.getJe());
                     String htid = htglHtmx.getHtid();
@@ -1649,15 +1666,14 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     }
 
 
-
-
     /**
      * Dscription: 静态改变各个资金源的数值
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/6 15:36
      */
-    @RequestMapping(value = "changeValue", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "changeValue", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public ValueDTO changeValue(HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
         DecimalFormat df = new DecimalFormat("#,###.00");
@@ -1675,33 +1691,33 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         wrapper2.eq("TYPE", "2");
         JcszZzse j2 = jcszZzseService.selectOne(wrapper2);
 
-        double one = getNumber2(j1.getOne())+getNumber2(j2.getOne());
-        double two = getNumber2(j1.getTwo())+getNumber2(j2.getTwo());
-        double three = getNumber2(j1.getThree())+getNumber2(j2.getThree());
-        double four = getNumber2(j1.getFour())+getNumber2(j2.getFour());
-        double five = getNumber2(j1.getFive())+getNumber2(j2.getFive());
-        double six = getNumber2(j1.getSix())+getNumber2(j2.getSix());
-        double seven = getNumber2(j1.getSeven())+getNumber2(j2.getSeven());
-        double eight = getNumber2(j1.getEight())+getNumber2(j2.getEight());
-        double nine = getNumber2(j1.getNine())+getNumber2(j2.getNine());
-        double ten = getNumber2(j1.getTen())+getNumber2(j2.getTen());
-        double eleven = getNumber2(j1.getEleven())+getNumber2(j2.getEleven());
-        double twelve = getNumber2(j1.getTwelve())+getNumber2(j2.getTwelve());
-        double thirteen = getNumber2(j1.getThirteen())+getNumber2(j2.getThirteen());
-        double fourteen = getNumber2(j1.getFourteen())+getNumber2(j2.getFourteen());
-        double fifteen = getNumber2(j1.getFifteen())+getNumber2(j2.getFifteen());
-        double sixteen = getNumber2(j1.getSixteen())+getNumber2(j2.getSixteen());
-        double seventeen = getNumber2(j1.getSeventeen())+getNumber2(j2.getSeventeen());
-        double eighteen = getNumber2(j1.getEighteen())+getNumber2(j2.getEighteen());
-        double nineteen = getNumber2(j1.getNineteen())+getNumber2(j2.getNineteen());
-        double twenty = getNumber2(j1.getTwenty())+getNumber2(j2.getTwenty());
+        double one = getNumber2(j1.getOne()) + getNumber2(j2.getOne());
+        double two = getNumber2(j1.getTwo()) + getNumber2(j2.getTwo());
+        double three = getNumber2(j1.getThree()) + getNumber2(j2.getThree());
+        double four = getNumber2(j1.getFour()) + getNumber2(j2.getFour());
+        double five = getNumber2(j1.getFive()) + getNumber2(j2.getFive());
+        double six = getNumber2(j1.getSix()) + getNumber2(j2.getSix());
+        double seven = getNumber2(j1.getSeven()) + getNumber2(j2.getSeven());
+        double eight = getNumber2(j1.getEight()) + getNumber2(j2.getEight());
+        double nine = getNumber2(j1.getNine()) + getNumber2(j2.getNine());
+        double ten = getNumber2(j1.getTen()) + getNumber2(j2.getTen());
+        double eleven = getNumber2(j1.getEleven()) + getNumber2(j2.getEleven());
+        double twelve = getNumber2(j1.getTwelve()) + getNumber2(j2.getTwelve());
+        double thirteen = getNumber2(j1.getThirteen()) + getNumber2(j2.getThirteen());
+        double fourteen = getNumber2(j1.getFourteen()) + getNumber2(j2.getFourteen());
+        double fifteen = getNumber2(j1.getFifteen()) + getNumber2(j2.getFifteen());
+        double sixteen = getNumber2(j1.getSixteen()) + getNumber2(j2.getSixteen());
+        double seventeen = getNumber2(j1.getSeventeen()) + getNumber2(j2.getSeventeen());
+        double eighteen = getNumber2(j1.getEighteen()) + getNumber2(j2.getEighteen());
+        double nineteen = getNumber2(j1.getNineteen()) + getNumber2(j2.getNineteen());
+        double twenty = getNumber2(j1.getTwenty()) + getNumber2(j2.getTwenty());
 
         double sum = one + two + three + four + five + six + seven + eight + nine + ten + eleven + twelve + thirteen + fourteen + fifteen + sixteen + seventeen;
 
         //sum还需要加上借款
         EntityWrapper<ZzglJh> wrapper = new EntityWrapper<ZzglJh>();
         List<ZzglJh> zzglJhs = zzglJhService.selectList(wrapper);
-        if (zzglJhs.size()>0){
+        if (zzglJhs.size() > 0) {
             for (ZzglJh z : zzglJhs) {
                 sum = sum + getNumber2(z.getMoney());
             }
@@ -1739,14 +1755,15 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 转到修改时间页面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/6 15:36
      */
-    @RequestMapping(value = "xgsj", method={RequestMethod.GET, RequestMethod.POST})
-    public String xgsj(String id, HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "xgsj", method = {RequestMethod.GET, RequestMethod.POST})
+    public String xgsj(String id, HttpServletRequest request, HttpServletResponse response, Model model) {
         ZzglZzgl zzglZzgl = zzglZzglService.selectById(id);
-        String rq = zzglZzgl.getN()+"-"+zzglZzgl.getY()+"-"+zzglZzgl.getR();
+        String rq = zzglZzgl.getN() + "-" + zzglZzgl.getY() + "-" + zzglZzgl.getR();
         model.addAttribute("day", rq);
         model.addAttribute("zzglZzgl", zzglZzgl);
         return display("xgsj");
@@ -1754,13 +1771,14 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 修改时间
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/1/7 10:23
      */
-    @RequestMapping(value = "saveXgsj", method={RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "saveXgsj", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveXgsj(String id, String rq, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saveXgsj(String id, String rq, HttpServletRequest request, HttpServletResponse response, Model model) {
         String[] dateArray = rq.split("-");
         String n = dateArray[0];
         String y = dateArray[1];
@@ -1776,15 +1794,16 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         zzglZzglService.updateById(zzglZzgl);
     }
 
-  /**
-   * Dscription: 转到借还页面
-   * @author : Kevin Du
-   * @version : 1.0
-   * @date : 2019/1/7 14:25
-   */
-    @RequestMapping(value = "jh", method={RequestMethod.GET, RequestMethod.POST})
-    public String jh(HttpServletRequest request, HttpServletResponse response, Model model){
-                //得到当前年月
+    /**
+     * Dscription: 转到借还页面
+     *
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/1/7 14:25
+     */
+    @RequestMapping(value = "jh", method = {RequestMethod.GET, RequestMethod.POST})
+    public String jh(HttpServletRequest request, HttpServletResponse response, Model model) {
+        //得到当前年月
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
         Date date0 = new Date();
         String currentDate = sdf0.format(date0);
@@ -1794,38 +1813,58 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         int r = Integer.parseInt(dateArray[2]);
         model.addAttribute("y", y);
         model.addAttribute("n", n);
-        int nArray[] = {n, n-1, n-2};
+        int nArray[] = {n, n - 1, n - 2};
         model.addAttribute("nArray", nArray);
         model.addAttribute("r", r);
         model.addAttribute("day", currentDate);
         return display("jh");
     }
 
-/**
- * Dscription: 导出资金管理
- * @author : Kevin Du
- * @version : 1.0
- * @date : 2019/1/7 22:09
- */
-    @RequestMapping(value = "exprortZzgl", method={RequestMethod.GET, RequestMethod.POST})
+    /**
+     * Dscription: 导出资金管理
+     *
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/1/7 22:09
+     */
+    @RequestMapping(value = "exprortZzgl", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void exprortZzgl(String n, String y, String r, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-        if (!y.equals("")){
-            if (y.equals("1")||y.equals("2")||y.equals("3")||y.equals("4")||y.equals("5")||y.equals("6")||y.equals("7")||y.equals("8")||y.equals("9")){
-                y = "0"+y;
+    public void exprortZzgl(String n, String y, String r, String zongji, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+        if (!y.equals("")) {
+            if (y.equals("1") || y.equals("2") || y.equals("3") || y.equals("4") || y.equals("5") || y.equals("6") || y.equals("7") || y.equals("8") || y.equals("9")) {
+                y = "0" + y;
             }
         }
-        if (!r.equals("")){
-            if (r.equals("1")||r.equals("2")||r.equals("3")||r.equals("4")||r.equals("5")||r.equals("6")||r.equals("7")||r.equals("8")||r.equals("9")){
-                r = "0"+r;
+        if (!r.equals("")) {
+            if (r.equals("1") || r.equals("2") || r.equals("3") || r.equals("4") || r.equals("5") || r.equals("6") || r.equals("7") || r.equals("8") || r.equals("9")) {
+                r = "0" + r;
             }
         }
-        //首先根据搜索条件得到数据
-        List<ZzglZzgl> zzglZzgls = zzglZzglService.exportZzgl(n,y,r);
+
+        String exportExcelName = n + "年";
+        if (!y.equals("")) {
+            exportExcelName = exportExcelName + y + "月";
+            if (r.equals("")) exportExcelName = exportExcelName + ",";
+        }
+        if (!r.equals("")) {
+            exportExcelName = exportExcelName + r + "日,";
+        }
+//        if (!mx.equals("")) {
+//            exportExcelName = exportExcelName + mx + ",";
+//        }
+//        if (!lx.equals("")) {
+//            if (lx.equals("0")) exportExcelName = exportExcelName + "收入,";
+//            if (lx.equals("1")) exportExcelName = exportExcelName + "支出,";
+//            if (lx.equals("2")) exportExcelName = exportExcelName + "调动,";
+//        }
+        exportExcelName = exportExcelName + "资金管理单";
+
+        //首先根据搜索条件得到数据exprortZzgl
+        List<ZzglZzgl> zzglZzgls = zzglZzglService.exportZzgl(n, y, r);
         //新建一个工作簿
         Workbook wb = new XSSFWorkbook();
         //新建工作表
-        Sheet sheet1 = wb.createSheet("资金流动单");
+        Sheet sheet1 = wb.createSheet("资金管理单");
         //设置单元格宽度
         sheet1.setColumnWidth(0, 3000);
         sheet1.setColumnWidth(1, 2500);
@@ -1854,11 +1893,11 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         cell02.setCellStyle(style);
         cell03.setCellStyle(style);
 
-        if (zzglZzgls!=null){
-            for (int i=0;i<zzglZzgls.size();i++){
+        if (zzglZzgls != null) {
+            for (int i = 0; i < zzglZzgls.size(); i++) {
                 ZzglZzgl c = zzglZzgls.get(i);
                 //创建一行
-                Row row = sheet1.createRow(i+1);
+                Row row = sheet1.createRow(i + 1);
                 row.setHeightInPoints(35);
 
                 //创建单元格
@@ -1868,7 +1907,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 Cell cell3 = row.createCell(3);
 
                 //给单元格设值
-                cell0.setCellValue(c.getN()+"-"+c.getY()+"-"+c.getR());
+                cell0.setCellValue(c.getN() + "-" + c.getY() + "-" + c.getR());
                 cell1.setCellValue(c.getLx());
                 cell2.setCellValue(c.getXxmx());
                 cell3.setCellValue(c.getMx());
@@ -1878,40 +1917,37 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 cell3.setCellStyle(style);
             }
         }
-
-        String rq = "";
-        if (!y.equals("")&&!r.equals("")){
-            rq = n+"年"+y+"月"+r+"日";
-        }
-        if (!y.equals("")&&r.equals("")){
-            rq = n+"年"+y+"月";
-        }
-        if (y.equals("")&&r.equals("")){
-            rq = n+"年";
-        }
-
+        Row zjrow1 = sheet1.createRow(zzglZzgls.size()+2);
+        Cell zjcell1 = zjrow1.createCell(3);
+        zjcell1.setCellValue("总计：");
+        zjcell1.setCellStyle(style);
+        Row zjrow2 = sheet1.createRow(zzglZzgls.size()+3);
+        Cell zjcell2 = zjrow2.createCell(3);
+        zjcell2.setCellValue(zongji);
+        zjcell2.setCellStyle(style);
 
         //创建流
-        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\"+rq+" 资金流动单.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\" + exportExcelName +".xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();
     }
 
-/**
- * Dscription: 资金管理 - 加载合同
- * @author : Kevin Du
- * @version : 1.0
- * @date : 2019/1/11 15:05
- */
-    @RequestMapping(value = "loadHt", method={RequestMethod.GET, RequestMethod.POST})
+    /**
+     * Dscription: 资金管理 - 加载合同
+     *
+     * @author : Kevin Du
+     * @version : 1.0
+     * @date : 2019/1/11 15:05
+     */
+    @RequestMapping(value = "loadHt", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public List<HtglHt> loadHt(String mx, HttpServletRequest request, HttpServletResponse response, Model model){
+    public List<HtglHt> loadHt(String mx, HttpServletRequest request, HttpServletResponse response, Model model) {
         List<HtglHt> htList = new ArrayList<HtglHt>();
         EntityWrapper<HtglGs> wrapper = new EntityWrapper<HtglGs>();
         wrapper.eq("JF", mx);
         HtglGs htglGs = htglGsService.selectOne(wrapper);
-        if (htglGs!=null){
+        if (htglGs != null) {
             EntityWrapper<HtglHt> wrapper2 = new EntityWrapper<HtglHt>();
             wrapper2.eq("GSID", htglGs.getId());
             wrapper2.orderBy("RQ", false);
@@ -1930,24 +1966,24 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         return d1;
     }
 
-    public List<QyzjyDTO> getyxList(){
+    public List<QyzjyDTO> getyxList() {
 
         //排序
         EntityWrapper<JcszZzse> wrapper = new EntityWrapper<JcszZzse>();
-        wrapper.eq("TYPE","4");
+        wrapper.eq("TYPE", "4");
         JcszZzse sort = jcszZzseService.selectOne(wrapper);
 
         //是否启用
         EntityWrapper<JcszZzse> wrapper0 = new EntityWrapper<JcszZzse>();
-        wrapper0.eq("TYPE","3");
+        wrapper0.eq("TYPE", "3");
         JcszZzse sfqy = jcszZzseService.selectOne(wrapper0);
 
         EntityWrapper<JcszZzse> wrapper1 = new EntityWrapper<JcszZzse>();
-        wrapper1.eq("TYPE","0");
+        wrapper1.eq("TYPE", "0");
         JcszZzse name = jcszZzseService.selectOne(wrapper1);
 
         List<QyzjyDTO> qyList = new ArrayList<QyzjyDTO>();
-        if (sfqy.getOne().equals("1")){
+        if (sfqy.getOne().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("1");
             qyzjyDTO.setYwzjy("one");
@@ -1955,7 +1991,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getOne());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getTwo().equals("1")){
+        if (sfqy.getTwo().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("2");
             qyzjyDTO.setYwzjy("two");
@@ -1963,7 +1999,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getTwo());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getThree().equals("1")){
+        if (sfqy.getThree().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("3");
             qyzjyDTO.setYwzjy("three");
@@ -1971,7 +2007,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getThree());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getFour().equals("1")){
+        if (sfqy.getFour().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("4");
             qyzjyDTO.setYwzjy("four");
@@ -1979,7 +2015,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getFour());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getFive().equals("1")){
+        if (sfqy.getFive().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("5");
             qyzjyDTO.setYwzjy("five");
@@ -1987,7 +2023,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getFive());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getSix().equals("1")){
+        if (sfqy.getSix().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("6");
             qyzjyDTO.setYwzjy("six");
@@ -1995,7 +2031,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getSix());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getSeven().equals("1")){
+        if (sfqy.getSeven().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("7");
             qyzjyDTO.setYwzjy("seven");
@@ -2003,7 +2039,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getSeven());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getEight().equals("1")){
+        if (sfqy.getEight().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("8");
             qyzjyDTO.setYwzjy("eight");
@@ -2011,7 +2047,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getEight());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getNine().equals("1")){
+        if (sfqy.getNine().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("9");
             qyzjyDTO.setYwzjy("nine");
@@ -2019,7 +2055,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getNine());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getTen().equals("1")){
+        if (sfqy.getTen().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("10");
             qyzjyDTO.setYwzjy("ten");
@@ -2027,7 +2063,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getTen());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getEleven().equals("1")){
+        if (sfqy.getEleven().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("11");
             qyzjyDTO.setYwzjy("eleven");
@@ -2035,7 +2071,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getEleven());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getTwelve().equals("1")){
+        if (sfqy.getTwelve().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("12");
             qyzjyDTO.setYwzjy("twelve");
@@ -2043,7 +2079,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getTwelve());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getThirteen().equals("1")){
+        if (sfqy.getThirteen().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("13");
             qyzjyDTO.setYwzjy("thirteen");
@@ -2051,7 +2087,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getThirteen());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getFourteen().equals("1")){
+        if (sfqy.getFourteen().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("14");
             qyzjyDTO.setYwzjy("fourteen");
@@ -2059,7 +2095,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getFourteen());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getFifteen().equals("1")){
+        if (sfqy.getFifteen().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("15");
             qyzjyDTO.setYwzjy("fifteen");
@@ -2067,7 +2103,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getFifteen());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getSixteen().equals("1")){
+        if (sfqy.getSixteen().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("16");
             qyzjyDTO.setYwzjy("sixteen");
@@ -2075,7 +2111,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getSixteen());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getSeventeen().equals("1")){
+        if (sfqy.getSeventeen().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("17");
             qyzjyDTO.setYwzjy("seventeen");
@@ -2083,7 +2119,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getSeventeen());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getEighteen().equals("1")){
+        if (sfqy.getEighteen().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("18");
             qyzjyDTO.setYwzjy("eighteen");
@@ -2091,7 +2127,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getEighteen());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getNineteen().equals("1")){
+        if (sfqy.getNineteen().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("19");
             qyzjyDTO.setYwzjy("nineteen");
@@ -2099,7 +2135,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
             qyzjyDTO.setPx(sort.getNineteen());
             qyList.add(qyzjyDTO);
         }
-        if (sfqy.getTwenty().equals("1")){
+        if (sfqy.getTwenty().equals("1")) {
             QyzjyDTO qyzjyDTO = new QyzjyDTO();
             qyzjyDTO.setZjy("20");
             qyzjyDTO.setYwzjy("twenty");
@@ -2113,6 +2149,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 根据排序进行排序
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/2/3 22:46
@@ -2129,12 +2166,13 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
 
     /**
      * Dscription: 转到导出页面
+     *
      * @author : Kevin Du
      * @version : 1.0
      * @date : 2019/2/3 20:22
      */
-    @RequestMapping(value = "dcym", method={RequestMethod.GET, RequestMethod.POST})
-    public String dcym(HttpServletRequest request, HttpServletResponse response, Model model){
+    @RequestMapping(value = "dcym", method = {RequestMethod.GET, RequestMethod.POST})
+    public String dcym(HttpServletRequest request, HttpServletResponse response, Model model) {
         return display("dcym");
     }
 }

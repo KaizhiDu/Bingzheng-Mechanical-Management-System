@@ -22,19 +22,17 @@
         AND T1.GYDLBZID = T2.ID
         AND T2.LJID = T3.ID
         AND T3.HTID = T4.ID
-        AND T.FPSBID = #{entity.fpsbid}
+        AND T.BGRWFPID = #{entity.bgrwfpid}
         ORDER BY T.PX
     </select>
 
     <select id="getBgrwByBgrwfpid" resultType="cn.jeeweb.modules.scgl.entity.ScglBgrw">
         select t.*
         from t_scgl_bgrwfp_bg_rw t,
-        t_scgl_bgrwfp_bg_sb t1,
         t_scgl_bgrwfp t2
         where 1=1
-        and t2.id = t1.bgrwfpid
-        and t1.id = t.fpsbid
-        and t2.id=#{bgrwfpid}
+        and t2.id = t.bgrwfpid
+			  and t2.id=#{bgrwfpid}
     </select>
 
 </mapper>

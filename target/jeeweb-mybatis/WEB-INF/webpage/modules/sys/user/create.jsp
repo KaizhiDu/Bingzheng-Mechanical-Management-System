@@ -32,10 +32,10 @@
 		      </tr>
 		      <tr>
 		         <td  class="width-15 active text-right">	
-		              <label><font color="red">*</font>邮箱:</label>
+		              <label><font color="red">*</font>身份证号:</label>
 		         </td>
 		         <td class="width-35" >
-		             <form:input path="email" class="form-control" ajaxurl="${adminPath}/sys/user/validate"   datatype="e" nullmsg="请输入邮箱！"  htmlEscape="false" />
+		             <form:input path="email" class="form-control" ajaxurl="${adminPath}/sys/user/validate"   datatype="e" nullmsg="请输入身份证号！"  htmlEscape="false" />
 		             <label class="Validform_checktip"></label>
 		         </td>
 		         <td  class="width-15 active text-right">	

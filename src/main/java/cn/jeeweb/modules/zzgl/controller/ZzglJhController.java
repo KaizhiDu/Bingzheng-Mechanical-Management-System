@@ -407,7 +407,7 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         money = df.format(hk);
         SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy-MM-dd");
         Date date0 = new Date();
-        String currentDate = sdf0.format(date0);
+        String currentDate = rq;
         model.addAttribute("day", currentDate);
         String[] dateArray = currentDate.split("-");
         String n = dateArray[0];
@@ -417,7 +417,7 @@ public class ZzglJhController extends BaseCRUDController<ZzglJh, String> {
         //排序时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        String currentTime = sdf.format(date);
+        String currentTime = rq;
 
         String hkzhArray[] = hkzh.split("-");
         String hkcx = hkzhArray[0];

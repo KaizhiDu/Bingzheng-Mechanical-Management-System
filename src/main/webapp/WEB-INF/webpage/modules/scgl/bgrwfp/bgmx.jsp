@@ -33,8 +33,16 @@
 <input type="hidden" id="bgrwfpid" name="bgrwfpid" value="${bgrwfp.id}">
 <input type="hidden" id="bgmxid" name="bgmxid" value="${scglBgmx.id}">
 <input type="hidden" id="bgrg" name="bgrg" value="${scglBgmx.bgrg}">
+<input type="hidden" id="xm" name="xm" value="${bgrwfp.xm}">
+
 
 <h2>${bgrwfp.xm}</h2>
+<hr>
+<h3>合作员工</h3>
+<c:forEach items="${grglList}" var="gr">
+    <input type="checkbox" name="grgl" id="${gr.name}" value="${gr.name}"> ${gr.name}
+</c:forEach>
+<hr>
 <input type="radio" name="rgbg" id="rg" value="rg" onclick="checkrgbg()"> 日工
 <input type="radio" name="rgbg" id="bg" value="bg" onclick="checkrgbg()"> 包工
 <div class="row">
@@ -50,7 +58,10 @@
                             <label>日工日期：</label>
                         </td>
                         <td>
-                            <input name="rgrq" id="rgrq" value="${bgrwfp.rq}" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
+                            <input name="rgrq" id="rgrq" value="${bgrwfp.rq}" htmlEscape="false"
+                                   class="form-control layer-date" pattern="yyyy-MM-dd"
+                                   onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" placeholder="年-月-日"
+                                   datatype="*"/>
                         </td>
                     </tr>
                     <tr class="form-group">
@@ -58,7 +69,8 @@
                             <label>日工名称：</label>
                         </td>
                         <td>
-                            <input name="rgmc" id="rgmc" htmlEscape="false" class="form-control" placeholder="请输入名称" value="${scglBgmx.bgmc}"/>
+                            <input name="rgmc" id="rgmc" htmlEscape="false" class="form-control" placeholder="请输入名称"
+                                   value="${scglBgmx.bgmc}"/>
                         </td>
                     </tr>
 
@@ -67,7 +79,8 @@
                             <label>注释：</label>
                         </td>
                         <td>
-                            <textarea id="rgzs" name="rgzs" class="form-control" rows="4" cols="30" placeholder="请注释">${scglBgmx.zs}</textarea>
+                            <textarea id="rgzs" name="rgzs" class="form-control" rows="4" cols="30"
+                                      placeholder="请注释">${scglBgmx.zs}</textarea>
                         </td>
                     </tr>
                 </table>
@@ -82,7 +95,10 @@
                             <label>包工日期：</label>
                         </td>
                         <td>
-                            <input name="rq" id="rq" value="${bgrwfp.rq}" htmlEscape="false" class="form-control layer-date" pattern="yyyy-MM-dd" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"  placeholder="年-月-日"  datatype="*"/>
+                            <input name="rq" id="rq" value="${bgrwfp.rq}" htmlEscape="false"
+                                   class="form-control layer-date" pattern="yyyy-MM-dd"
+                                   onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" placeholder="年-月-日"
+                                   datatype="*"/>
                         </td>
                     </tr>
                     <tr class="form-group">
@@ -90,7 +106,8 @@
                             <label>包工名称：</label>
                         </td>
                         <td>
-                            <input name="bgmc" id="bgmc" htmlEscape="false" class="form-control" placeholder="请输入承包名称" value="${scglBgmx.bgmc}"/>
+                            <input name="bgmc" id="bgmc" htmlEscape="false" class="form-control" placeholder="请输入承包名称"
+                                   value="${scglBgmx.bgmc}"/>
                         </td>
                     </tr>
                     <tr class="form-group">
@@ -107,7 +124,8 @@
                             <label>注释：</label>
                         </td>
                         <td>
-                            <textarea id="zs" name="zs" class="form-control" rows="4" cols="30" placeholder="请对该承包进行注释">${scglBgmx.zs}</textarea>
+                            <textarea id="zs" name="zs" class="form-control" rows="4" cols="30"
+                                      placeholder="请对该承包进行注释">${scglBgmx.zs}</textarea>
                         </td>
                     </tr>
                 </table>
@@ -122,7 +140,7 @@
 
 <script type="text/javascript">
 
-    window.onload=function(){
+    window.onload = function () {
         var bgrg = $("#bgrg").val();
         if (bgrg === '包工') {
             $("#bg").click();
@@ -133,15 +151,24 @@
             $("#rgform").show();
             $("#bgform").hide();
         }
+//$("#optionsRadios2").attr("checked","checked");
+        // 设置checkbox
+        var grs = $("#xm").val();
+        grList = grs.split(',');
+        firstXm = grList[0];
+        //alert(firstXm);
+        for (var i = 0; i <grList.length ; i++) {
+            $("#"+grList[i]).attr("checked","checked");
+        }
+        $("#"+firstXm).removeAttr("checked");
     }
-    
+
     function checkrgbg() {
         var val = $('input[name="rgbg"]:checked').val();
         if (val === 'rg') {
             $("#rgform").show();
             $("#bgform").hide();
-        }
-        else {
+        } else {
             $("#rgform").hide();
             $("#bgform").show();
         }
@@ -152,72 +179,76 @@
     function checkCbje() {
         var cbje = $("#cbje").val();
         var r = cbje.match(/^[0-9]*$/);
-        if(r == null){
+        if (r == null) {
             top.layer.alert("请输入数字");
             $("#cbje").val("");
-        }else{
+        } else {
 
         }
     }
 
     //点击保存，保存数据
     function check() {
+        var xm = $("#xm").val().split(',')[0];
+        //首先得到合作员工
+        $("input[name='grgl']:checked").each(function (i) {//把所有被选中的复选框的值存入数组
+            xm = xm + ',' + $(this).val();
+        });
 
-            var val = $('input[name="rgbg"]:checked').val();
-            var bgrwfpid = $("#bgrwfpid").val();
-            var id = $("#bgmxid").val();
 
-            if (val === 'rg') {
-                var rgzs = $("#rgzs").val();
-                if (rgzs==""||rgzs==null){
-                    top.layer.alert("请输入注释，并注意对注释内容进行区分");
-                } else {
-                    var rgmc = $("#rgmc").val();
-                    var rgrq = $("#rgrq").val();
-                    $.ajax({
-                        type: "GET",
-                        url: "${adminPath}/scgl/bgrwfp/saveBgmx",
-                        data: {
-                            id: id,
-                            zs: rgzs,
-                            rq: rgrq,
-                            bgmc: rgmc,
-                            bgrwfpid: bgrwfpid,
-                            bgrg: "日工"
+        var val = $('input[name="rgbg"]:checked').val();
+        var bgrwfpid = $("#bgrwfpid").val();
+        var id = $("#bgmxid").val();
 
-                        },
-                        success: function (data) {
-                        }
-                    });
-                }
+        if (val === 'rg') {
+            var rgzs = $("#rgzs").val();
+            if (rgzs == "" || rgzs == null) {
+                top.layer.alert("请输入注释，并注意对注释内容进行区分");
+            } else {
+                var rgmc = $("#rgmc").val();
+                var rgrq = $("#rgrq").val();
+                $.ajax({
+                    type: "GET",
+                    url: "${adminPath}/scgl/bgrwfp/saveBgmx",
+                    data: {
+                        id: id,
+                        zs: rgzs,
+                        rq: rgrq,
+                        bgmc: rgmc,
+                        bgrwfpid: bgrwfpid,
+                        bgrg: "日工",
+                        xm: xm
+
+                    },
+                    success: function (data) {
+                    }
+                });
             }
-            else {
+        } else {
 
-                var zs = $("#zs").val();
-                if (zs==""||zs==null){
-                    top.layer.alert("请输入注释，并注意对注释内容进行区分");
-                } else {
-                    var bgmc = $("#bgmc").val();
-                    var rq = $("#rq").val();
-                    $.ajax({
-                        type: "GET",
-                        url: "${adminPath}/scgl/bgrwfp/saveBgmx",
-                        data: {
-                            id: id,
-                            zs: zs,
-                            rq: rq,
-                            bgmc: bgmc,
-                            bgrwfpid: bgrwfpid,
-                            bgrg: "包工"
-                        },
-                        success: function (data) {
-                        }
-                    });
-                }
+            var zs = $("#zs").val();
+            if (zs == "" || zs == null) {
+                top.layer.alert("请输入注释，并注意对注释内容进行区分");
+            } else {
+                var bgmc = $("#bgmc").val();
+                var rq = $("#rq").val();
+                $.ajax({
+                    type: "GET",
+                    url: "${adminPath}/scgl/bgrwfp/saveBgmx",
+                    data: {
+                        id: id,
+                        zs: zs,
+                        rq: rq,
+                        bgmc: bgmc,
+                        bgrwfpid: bgrwfpid,
+                        bgrg: "包工",
+                        xm: xm
+                    },
+                    success: function (data) {
+                    }
+                });
             }
-
-
-
+        }
 
 
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.jeeweb.modules.zjls.mapper.ZjlsZjlsMapper" >
+<mapper namespace="cn.jeeweb.modules.zjls.mapper.ZjlsZjlsMapper">
     <select id="ajaxZjlsList" resultType="cn.jeeweb.modules.zjls.entity.ZjlsZjls">
         SELECT T.ID,
         T.RQ,
@@ -34,8 +34,44 @@
         <if test="mx2!=null and mx2!=''">
             AND T.MX2 = #{mx2}
         </if>
-        ORDER BY T.RQ DESC
+        ORDER BY T.N DESC, T.Y DESC, T.R DESC, T.RQ DESC
 
+    </select>
+
+    <select id="dc" resultType="cn.jeeweb.modules.zjls.entity.ZjlsZjls">
+        SELECT T.ID,
+        T.RQ,
+        T.N,
+        T.Y,
+        T.R,
+        T.MX,
+        T.MX2,
+        CASE
+        WHEN T.LX = '0'
+        THEN '收入'
+        WHEN T.LX = '1'
+        THEN '支出'
+        END LX,
+        T.ONE,
+        T.TWO
+        FROM T_ZJLS_ZJLS T
+        WHERE 1=1
+        <if test="entity.n!=null and entity.n!=''">
+            AND T.N = #{entity.n}
+        </if>
+        <if test="entity.y!=null and entity.y!=''">
+            AND T.Y = #{entity.y}
+        </if>
+        <if test="entity.r!=null and entity.r!=''">
+            AND T.R = #{entity.r}
+        </if>
+        <if test="entity.lx!=null and entity.lx!=''">
+            AND T.LX = #{entity.lx}
+        </if>
+        <if test="entity.mx2!=null and entity.mx2!=''">
+            AND T.MX2 = #{entity.mx2}
+        </if>
+        ORDER BY T.N DESC, T.Y DESC, T.R DESC, T.RQ DESC
     </select>
 
 </mapper>

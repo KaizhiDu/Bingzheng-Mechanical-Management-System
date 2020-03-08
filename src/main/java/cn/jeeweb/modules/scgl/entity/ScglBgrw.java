@@ -27,8 +27,8 @@ public class ScglBgrw extends AbstractEntity<String> {
     @TableField(value = "LJGYBZID")
     private String ljgybzid;
     /** 分配设备ID */
-    @TableField(value = "FPSBID")
-    private String fpsbid;
+    @TableField(value = "BGRWFPID")
+    private String bgrwfpid;
     /** 应完成量 */
     @TableField(value = "YWCL")
     private String ywcl;
@@ -161,12 +161,12 @@ public class ScglBgrw extends AbstractEntity<String> {
         this.px = px;
     }
 
-    public String getFpsbid() {
-        return fpsbid;
+    public String getBgrwfpid() {
+        return bgrwfpid;
     }
 
-    public void setFpsbid(String fpsbid) {
-        this.fpsbid = fpsbid;
+    public void setBgrwfpid(String bgrwfpid) {
+        this.bgrwfpid = bgrwfpid;
     }
 
     public String getBfl() {

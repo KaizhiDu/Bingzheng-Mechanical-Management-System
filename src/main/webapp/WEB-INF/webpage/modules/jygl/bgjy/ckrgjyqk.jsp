@@ -80,7 +80,6 @@
     <grid:column label="创建日期" name="cjrq"/>
     <grid:column label="检验日期" name="jyrq"/>
     <grid:column label="名称" name="mc"/>
-    <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="计划编号" name="jhbh"/>
     <grid:column label="零件名称" name="ljmc"/>
     <grid:column label="零件图号" name="ljth"/>
@@ -89,6 +88,7 @@
     <grid:column label="应完成量" name="ywcl"/>
     <grid:column label="实际完成量" name="sjwcl"/>
     <grid:column label="每天任务量" name="mtrwl"/>
+    <grid:column label="注释" name="zs"/>
 
     <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>

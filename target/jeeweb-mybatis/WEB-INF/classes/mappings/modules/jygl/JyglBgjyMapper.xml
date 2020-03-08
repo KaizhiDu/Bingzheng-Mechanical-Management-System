@@ -13,7 +13,7 @@
             AND LJMC LIKE "%"#{entity.ljmc}"%"
         </if>
         <if test="entity.xm!=null and entity.xm!=''">
-            AND xm = #{entity.xm}
+            AND xm LIKE "%"#{entity.xm}"%"
         </if>
         <if test="entity.cjrq!=null and entity.cjrq!=''">
             AND cjrq = #{entity.cjrq}
@@ -37,22 +37,24 @@
         T6.LJTH,
         T5.GYDLMC,
         T4.GYXLMC,
-        T3.SBMC,
         T.YWCL,
         T.MTRWL,
         T.SJWCL,
-        T.BFL
+        T.BFL,
+        T.ZS
         FROM T_SCGL_BGRWFP_BG_RW T,
-        T_SCGL_BGRWFP_BG_SB T1,
         T_SCGL_BGRWFP T2,
-        T_SBGL_SBGL T3,
         T_SCGL_LJGYBZ T4,
         T_SCGL_GYDLBZ T5,
         T_SCJHGL_LJGL T6,
         T_SCJHGL_HTGL T7
         WHERE 1=1
-        AND T.FPSBID = T1.ID
-        AND T1.BGRWFPID = T2.ID
+        <if test="entity.sfjy == 'yjy'">
+            AND T.SJWCL &gt;= T.YWCL
+        </if>
+        <if test="entity.sfjy == 'wjy'">
+            AND T.SJWCL &lt; T.YWCL
+        </if>
         <if test="entity.bgrg!=null and entity.bgrg!=''">
             AND T2.bgrg = #{entity.bgrg}
         </if>
@@ -60,7 +62,7 @@
             AND T7.ID = #{entity.htid}
         </if>
         <if test="entity.xm!=null and entity.xm!=''">
-            AND T2.XM = #{entity.xm}
+            AND T2.XM LIKE "%"#{entity.xm}"%"
         </if>
         <if test="entity.rq!=null and entity.rq!=''">
             AND T2.RQ = #{entity.rq}
@@ -71,13 +73,13 @@
         <if test="entity.ljmc!=null and entity.ljmc!=''">
             AND T6.LJMC LIKE "%"#{entity.ljmc}"%"
         </if>
+        AND T.BGRWFPID = T2.ID
         AND T.YWCL IS NOT NULL
-        AND T1.SBID = T3.ID
         AND T.LJGYBZID = T4.ID
         AND T4.GYDLBZID = T5.ID
         AND T5.LJID = T6.ID
         AND T6.HTID = T7.ID
-        ORDER BY SJWCL,XM,LJMC,GYDLMC,GYXLMC,SBMC
+        ORDER BY SJWCL,XM,LJMC,GYDLMC,GYXLMC
     </select>
 
     <select id="exportBgjyd" resultType="cn.jeeweb.modules.jygl.dto.BgjyDTO">
@@ -90,22 +92,18 @@
         T6.LJTH,
         T5.GYDLMC,
         T4.GYXLMC,
-        T3.SBMC,
         T.YWCL,
         T.SJWCL,
         T2.BGRG,
-        T.BFL
+        T.BFL,
+        T.MTRWL
         FROM T_SCGL_BGRWFP_BG_RW T,
-        T_SCGL_BGRWFP_BG_SB T1,
         T_SCGL_BGRWFP T2,
-        T_SBGL_SBGL T3,
         T_SCGL_LJGYBZ T4,
         T_SCGL_GYDLBZ T5,
         T_SCJHGL_LJGL T6,
         T_SCJHGL_HTGL T7
         WHERE 1=1
-        AND T.FPSBID = T1.ID
-        AND T1.BGRWFPID = T2.ID
         <if test="xm!=null and xm!=''">
             AND T2.XM = #{xm}
         </if>
@@ -115,13 +113,13 @@
         <if test="bgrg!=null and bgrg!=''">
             AND T2.BGRG = #{bgrg}
         </if>
+        AND T.BGRWFPID = T2.ID
         AND T.YWCL IS NOT NULL
-        AND T1.SBID = T3.ID
         AND T.LJGYBZID = T4.ID
         AND T4.GYDLBZID = T5.ID
         AND T5.LJID = T6.ID
         AND T6.HTID = T7.ID
-        ORDER BY SJWCL,XM,LJMC,GYDLMC,GYXLMC,SBMC
+        ORDER BY SJWCL,XM,LJMC,GYDLMC,GYXLMC
     </select>
 
     <select id="ajaxBgjyxqList" resultType="cn.jeeweb.modules.jygl.dto.BgjyxqDTO">

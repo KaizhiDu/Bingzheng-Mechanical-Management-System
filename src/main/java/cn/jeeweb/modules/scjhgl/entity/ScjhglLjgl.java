@@ -60,6 +60,16 @@ public class ScjhglLjgl extends AbstractEntity<String> {
     @TableField(value = "RQ")
     private String rq;
 
+    private String dls;
+
+    public String getDls() {
+        return dls;
+    }
+
+    public void setDls(String dls) {
+        this.dls = dls;
+    }
+
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
     private User updateBy;

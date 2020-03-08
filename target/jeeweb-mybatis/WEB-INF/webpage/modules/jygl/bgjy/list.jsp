@@ -48,22 +48,11 @@
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">零部件图号：</label>
                 <input name="ljth" id="ljth" htmlEscape="false" class="form-control" placeholder="支持按照关键字查询">
-
             </div>
 
             <div class="form-group col-md-3" style="margin-bottom: 10px">
                 <label class="control-label">零部件名称：</label>
                 <input name="ljmc" id="ljmc" htmlEscape="false" class="form-control" placeholder="支持按照关键字查询">
-            </div>
-
-             <div class="form-group col-md-3" style="margin-bottom: 10px">
-                <label class="control-label">工人：</label>
-                <select name="xm" class="form-control" id="xm">
-                    <option value="">请选择</option>
-                    <c:forEach items="${ygsjList}" var="each">
-                        <option value="${each.xm}">${each.xm}</option>
-                    </c:forEach>
-                </select>
             </div>
 
             <div class="form-group col-md-3" style="margin-bottom: 10px">
@@ -80,6 +69,24 @@
                 </select>
             </div>
 
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">工人：</label>
+                <select name="xm" class="form-control" id="xm">
+                    <option value="">请选择</option>
+                    <c:forEach items="${ygsjList}" var="each">
+                        <option value="${each.xm}">${each.xm}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3" style="margin-bottom: 10px">
+                <label class="control-label">是否检验：</label>
+                <select name="sfjy" class="form-control" id="sfjy">
+                    <option value="wjy">未检验</option>
+                    <option value="yjy">已检验</option>
+                </select>
+            </div>
+
         </div>
     </div>
 </div>
@@ -92,21 +99,22 @@
 
     <grid:button title="检验" groupname="opt" function="jy"
                  outclass="btn-success" url="${adminPath}/jygl/bgjy/jy?id=\"+row.id+\"&bgrwfpid=\"+row.bgrwfpid+\"&bgrg=\"+row.bgrg+\"" />
-    <grid:button title="注释" groupname="opt" function="zs"
-                 outclass="btn-primary" url="${adminPath}/jygl/bgjy/zs?id=\"+row.id+\"" />
+<%--    <grid:button title="注释" groupname="opt" function="zs"--%>
+<%--                 outclass="btn-primary" url="${adminPath}/jygl/bgjy/zs?id=\"+row.id+\"" />--%>
 
     <grid:column label="日工/包工" name="bgrg" width="50"/>
-    <grid:column label="姓名" name="xm" width="50"/>
+    <grid:column label="姓名" name="xm" width="150"/>
     <grid:column label="日期" name="rq"/>
     <grid:column label="零部件图号" name="ljth" width="150"/>
     <grid:column label="零部件名称" name="ljmc" width="150"/>
     <grid:column label="工艺大类名称" name="gydlmc"/>
     <grid:column label="工艺小类名称" name="gyxlmc" width="50"/>
-    <grid:column label="设备名称" name="sbmc"/>
     <grid:column label="应完成量" name="ywcl"/>
     <grid:column label="实际完成量" name="sjwcl"/>
     <grid:column label="每天任务量" name="mtrwl"/>
     <grid:column label="报废量" name="bfl" width="50"/>
+    <grid:column label="注释" name="zs" width="80"/>
+
 
     <grid:toolbar function="exportBgjyd" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="导出检验单"/>
     <grid:toolbar function="ckrgjyqk" icon="fa fa-file-excel-o" btnclass="btn btn-sm btn-warning" title="查看日工检验情况"/>

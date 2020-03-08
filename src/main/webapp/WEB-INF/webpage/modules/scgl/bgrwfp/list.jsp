@@ -41,7 +41,7 @@
         <%--</div>--%>
     </div>
 </div>
-<h2>${currentTime} 任务分配</h2>
+<h2>${currentTime}任务分配</h2>
 <grid:grid id="Yggl" url="${adminPath}/grgl/grgl/ajaxGrglList" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>

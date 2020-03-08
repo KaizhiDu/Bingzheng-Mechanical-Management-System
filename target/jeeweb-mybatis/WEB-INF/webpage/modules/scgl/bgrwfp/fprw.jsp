@@ -36,14 +36,15 @@
 
 <input type="hidden" id="fpsbid" name="fpsbid" value="${fpsbid}">
 <input type="hidden" id="bgrg" name="bgrg" value="${bgrg}">
+<input type="hidden" id="bgrwfpid" name="bgrwfpid" value="${bgrwfpid}">
 
 <grid:grid id="BgrwfpRw"
-           url="${adminPath}/scgl/bgrwfp/ajaxBgrwfpRwList?fpsbid=${fpsbid}" pageable="true">
+           url="${adminPath}/scgl/bgrwfp/ajaxBgrwfpRwList?bgrwfpid=${bgrwfpid}" pageable="true">
 
     <grid:column label="sys.common.key" hidden="true" name="id"/>
     <grid:column label="sys.common.opt" name="opt" formatter="button" width="80"/>
     <grid:button title="分配工作量" groupname="opt" function="fpgzl"
-                 outclass="btn-success" url="${adminPath}/scgl/bgrwfp/fpgzl?id=\"+row.id+\"&&bgrg=${bgrg}" />
+                 outclass="btn-success" url="${adminPath}/scgl/bgrwfp/fpgzl?id=\"+row.id+\"&&bgrg=${bgrg}&&bgrwfpid=${bgrwfpid}" />
 
     <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="ljmc"/>
@@ -103,7 +104,8 @@
 
     //添加任务
     function addRw(title, url, gridId, id, width, height, tipMsg){
-        url = "${adminPath}/scgl/bgrwfp/addRw?fpsbid=${fpsbid}";
+
+        url = "${adminPath}/scgl/bgrwfp/addRw?bgrwfpid=${bgrwfpid}";
         if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
             width='auto';
             height='auto';

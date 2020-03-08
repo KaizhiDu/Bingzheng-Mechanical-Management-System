@@ -48,6 +48,8 @@ public class JyglRgjl {
     private String gydlmc;
     @TableField(value = "gyxlmc")
     private String gyxlmc;
+    @TableField(value = "zs")
+    private String zs;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -212,5 +214,13 @@ public class JyglRgjl {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getZs() {
+        return zs;
+    }
+
+    public void setZs(String zs) {
+        this.zs = zs;
     }
 }

@@ -16,4 +16,5 @@ import java.util.List;
 public interface ZjlsZjlsMapper extends BaseMapper<ZjlsZjls>{
     public List<ZjlsZjls> ajaxZjlsList(Pagination page, @Param("n") String n, @Param("y") String y, @Param("lx") String lx, @Param("r") String r, @Param("mx2") String mx2);
 
+    public List<ZjlsZjls> dc(@Param("entity") ZjlsZjls entity);
 }

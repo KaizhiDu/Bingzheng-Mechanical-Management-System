@@ -36,6 +36,7 @@
 <input type="hidden" id="bgrwid" name="bgrwid" value="${bgrwid}">
 <input type="hidden" id="xygzl" name="xygzl" value="${xygzl}">
 <input type="hidden" id="bgrg" name="bgrg" value="${bgrg}">
+<input type="hidden" id="bgrwfpid" name="bgrg" value="${bgrwfpid}">
 
 <div class="row">
     <div class="col-md-3">
@@ -59,7 +60,8 @@
                             <label>任务量：</label>
                         </td>
                         <td>
-                            <input name="rgrwl" id="rgrwl" htmlEscape="false" class="form-control" placeholder="请输入任务量" value="${xygzl}" onchange="checkRgrwl()"/>
+                            <input name="rgrwl" id="rgrwl" htmlEscape="false" class="form-control" placeholder="请输入任务量"
+                                   value="${xygzl}" onchange="checkRgrwl()"/>
                         </td>
                     </tr>
                     <tr class="form-group">
@@ -67,7 +69,8 @@
                             <label>每天任务量：</label>
                         </td>
                         <td>
-                            <input name="mtrwl" id="mtrwl" htmlEscape="false" class="form-control" placeholder="请输入每天任务量" value="${mtrwl}" onchange="checkMtrwl()"/>
+                            <input name="mtrwl" id="mtrwl" htmlEscape="false" class="form-control"
+                                   placeholder="请输入每天任务量" value="${mtrwl}" onchange="checkMtrwl()"/>
                         </td>
                     </tr>
                 </table>
@@ -90,7 +93,8 @@
                             <label>任务量：</label>
                         </td>
                         <td>
-                            <input name="rwl" id="rwl" htmlEscape="false" class="form-control" placeholder="请输入任务量" value="${xygzl}" onchange="checkRwl()"/>
+                            <input name="rwl" id="rwl" htmlEscape="false" class="form-control" placeholder="请输入任务量"
+                                   value="${xygzl}" onchange="checkRwl()"/>
                         </td>
                     </tr>
                     <tr class="form-group">
@@ -98,7 +102,8 @@
                             <label>单价：</label>
                         </td>
                         <td>
-                            <input name="dj" id="dj" htmlEscape="false" class="form-control" placeholder="请输入单价" onchange="checkSl()" value="${dj}"/>
+                            <input name="dj" id="dj" htmlEscape="false" class="form-control" placeholder="请输入单价"
+                                   onchange="checkSl()" value="${dj}"/>
                         </td>
                     </tr>
                 </table>
@@ -130,19 +135,19 @@
         // var r = yjkc.match(/^[0-9]*$/);
         var r = mtrwl.match(/^\d+(\.\d+)?$/);
         //先判断是不是数字
-        if(r == null){
+        if (r == null) {
             top.layer.alert("请输入数字");
             $("#mtrwl").val("");
         }
     }
-    
+
     //检查数量
-    function checkSl(){
+    function checkSl() {
         var dj = $("#dj").val();
         // var r = yjkc.match(/^[0-9]*$/);
         var r = dj.match(/^\d+(\.\d+)?$/);
         //先判断是不是数字
-        if(r == null){
+        if (r == null) {
             top.layer.alert("请输入数字");
             $("#dj").val("");
         }
@@ -154,18 +159,18 @@
         var xygzl = $("#xygzl").val();
         var r = rgrwl.match(/^[0-9]*$/);
         //先判断是不是数字
-        if(r == null){
+        if (r == null) {
             top.layer.alert("请输入数字");
             $("#rgrwl").val("");
-        }else{
+        } else {
             //在判断输入的数字是否大于剩余数量
-            var a = parseInt(rgrwl,10);
-            var b = parseInt(sysl,10);
+            var a = parseInt(rgrwl, 10);
+            var b = parseInt(sysl, 10);
             var c = 0;
-            if (xygzl!=""){
-                c = parseInt(xygzl,10);
+            if (xygzl != "") {
+                c = parseInt(xygzl, 10);
             }
-            if (a>(b+c)){
+            if (a > (b + c)) {
                 top.layer.alert("任务量不能大于剩余数量");
                 $("#rgrwl").val("");
             }
@@ -174,24 +179,24 @@
 
 
     //校验任务量
-    function checkRwl(){
+    function checkRwl() {
         var rwl = $("#rwl").val();
         var sysl = $("#sysl").val();
         var xygzl = $("#xygzl").val();
         var r = rwl.match(/^[0-9]*$/);
         //先判断是不是数字
-        if(r == null){
+        if (r == null) {
             top.layer.alert("请输入数字");
             $("#rwl").val("");
-        }else{
+        } else {
             //在判断输入的数字是否大于剩余数量
-            var a = parseInt(rwl,10);
-            var b = parseInt(sysl,10);
+            var a = parseInt(rwl, 10);
+            var b = parseInt(sysl, 10);
             var c = 0;
-            if (xygzl!=""){
-                c = parseInt(xygzl,10);
+            if (xygzl != "") {
+                c = parseInt(xygzl, 10);
             }
-            if (a>(b+c)){
+            if (a > (b + c)) {
                 top.layer.alert("任务量不能大于剩余数量");
                 $("#rwl").val("");
             }
@@ -200,35 +205,37 @@
 
     //点击保存，保存数据
     function check() {
-            var bgrg = $("#bgrg").val();
-            var bgrwid = $("#bgrwid").val();
-            if (bgrg === '包工') {
-                var gzl = $("#rwl").val();
-            } else {
-                var gzl = $("#rgrwl").val();
+        var bgrg = $("#bgrg").val();
+        var bgrwid = $("#bgrwid").val();
+        if (bgrg === '包工') {
+            var gzl = $("#rwl").val();
+        } else {
+            var gzl = $("#rgrwl").val();
+        }
+        var sysl = $("#sysl").val();
+        var xygzl = $("#xygzl").val();
+        var dj = $("#dj").val();
+        var oldrwl = $("#oldrwl").val();
+        var mtrwl = $("#mtrwl").val();
+        var bgrwfpid = $("#bgrwfpid").val();
+
+        $.ajax({
+            type: "GET",
+            url: "${adminPath}/scgl/bgrwfp/saveGzl",
+            data: {
+                bgrwid: bgrwid,
+                gzl: gzl,
+                xygzl: xygzl,
+                dj: dj,
+                sysl: sysl,
+                oldrwl: oldrwl,
+                mtrwl: mtrwl,
+                bgrwfpid: bgrwfpid
+            },
+            success: function (data) {
+
             }
-            var sysl = $("#sysl").val();
-            var xygzl = $("#xygzl").val();
-            var dj = $("#dj").val();
-            var oldrwl = $("#oldrwl").val();
-            var mtrwl = $("#mtrwl").val();
-            $.ajax({
-                type: "GET",
-                url: "${adminPath}/scgl/bgrwfp/saveGzl",
-                data: {
-                    bgrwid: bgrwid,
-                    gzl: gzl,
-                    xygzl: xygzl,
-                    dj: dj,
-                    sysl: sysl,
-                    oldrwl: oldrwl,
-                    mtrwl: mtrwl
-                },
-                success: function (data) {
-
-                }
-            });
-
+        });
 
 
     }
