@@ -150,7 +150,7 @@
                     <option value="">全部</option>
                     <option value="货款">货款</option>
                     <option value="营业外">营业外</option>
-                    <option value="收入">收入</option>
+                    <option value="转入">转入</option>
                     <option value="材料">材料</option>
                     <option value="辅料">辅料</option>
                     <option value="外协">外协</option>

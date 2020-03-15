@@ -36,7 +36,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.*;
 
 /**
@@ -1191,130 +1193,213 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 
     public void exportExcel(List<BgpgJcxxDTO> bgpgJcxxList) throws IOException {
 
-        String xm = bgpgJcxxList.get(0).getXm();
-        String rq = bgpgJcxxList.get(0).getRq();
-        String bgrg = bgpgJcxxList.get(0).getBgrg();
-
-
         //新建一个工作簿
         Workbook wb = new XSSFWorkbook();
         //新建工作表
         Sheet sheet1 = wb.createSheet("派工单");
+        sheet1.setVerticallyCenter(true);
         //设置单元格宽度
-        sheet1.setColumnWidth(0, 2800);
-        sheet1.setColumnWidth(1, 2000);
-        sheet1.setColumnWidth(2, 3000);
-        sheet1.setColumnWidth(3, 3500);
-        sheet1.setColumnWidth(4, 3500);
-        sheet1.setColumnWidth(5, 3500);
-        sheet1.setColumnWidth(6, 2500);
-        sheet1.setColumnWidth(7, 2500);
-        sheet1.setColumnWidth(8, 2000);
-        sheet1.setColumnWidth(9, 2000);
-        sheet1.setColumnWidth(10, 2000);
+        sheet1.setColumnWidth(0, 2300);
+        sheet1.setColumnWidth(1, 2300);
+        sheet1.setColumnWidth(2, 2300);
+        sheet1.setColumnWidth(3, 2300);
+        sheet1.setColumnWidth(4, 2700);
+
         //设置边框
         CellStyle style = wb.createCellStyle();
         style.setBorderRight(XSSFCellStyle.BORDER_THIN);
         style.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         style.setBorderTop(XSSFCellStyle.BORDER_THIN);
         style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        style.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        style.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
 
-        //表头
+        CellStyle titleStyle = wb.createCellStyle();
+        titleStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        titleStyle.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+
         Row row0 = sheet1.createRow(0);
-        row0.setHeightInPoints(60);
+        row0.setHeightInPoints(20);
         Cell cell00 = row0.createCell(0);
-        Cell cell01 = row0.createCell(1);
-        Cell cell02 = row0.createCell(2);
-        Cell cell03 = row0.createCell(3);
-        Cell cell04 = row0.createCell(4);
-        Cell cell05 = row0.createCell(5);
-        Cell cell06 = row0.createCell(6);
-        Cell cell07 = row0.createCell(7);
-        Cell cell08 = row0.createCell(8);
-        Cell cell09 = row0.createCell(9);
-        Cell cell010 = row0.createCell(10);
+        cell00.setCellValue("易思创科派工单");
+        cell00.setCellStyle(titleStyle);
 
-        cell00.setCellValue("日期");
-        cell01.setCellValue("姓名");
-        cell02.setCellValue("包工名称");
-        cell03.setCellValue("计划编号");
-        cell04.setCellValue("零件图号");
-        cell05.setCellValue("零件名称");
-        cell06.setCellValue("工艺大类名称");
-        cell07.setCellValue("工艺小类名称");
-        cell08.setCellValue("应完成量");
-        cell09.setCellValue("每天任务量");
-        cell010.setCellValue("已完成量");
-        cell00.setCellStyle(style);
-        cell01.setCellStyle(style);
-        cell02.setCellStyle(style);
-        cell03.setCellStyle(style);
-        cell04.setCellStyle(style);
-        cell05.setCellStyle(style);
-        cell06.setCellStyle(style);
-        cell07.setCellStyle(style);
-        cell08.setCellStyle(style);
-        cell09.setCellStyle(style);
-        cell010.setCellStyle(style);
+        Row row2 = sheet1.createRow(2);
+        row2.setHeightInPoints(20);
+        Cell cell20 = row2.createCell(0);
+        Cell cell21 = row2.createCell(1);
+        Cell cell22 = row2.createCell(2);
+        Cell cell23 = row2.createCell(3);
+        Cell cell24 = row2.createCell(4);
 
+        cell20.setCellValue("姓名");
+        cell21.setCellValue("");
+        cell22.setCellValue("");
+        cell23.setCellValue("派工日期");
+        cell24.setCellValue("");
 
+        cell20.setCellStyle(style);
+        cell21.setCellStyle(style);
+        cell22.setCellStyle(style);
+        cell23.setCellStyle(style);
+        cell24.setCellStyle(style);
 
-        if (bgpgJcxxList!=null){
-            for (int i=0;i<bgpgJcxxList.size();i++){
-                BgpgJcxxDTO c = bgpgJcxxList.get(i);
-                //创建一行
-                Row row = sheet1.createRow(i+1);
-                row.setHeightInPoints(60);
+        Row row3 = sheet1.createRow(3);
+        row3.setHeightInPoints(20);
+        Cell cell30 = row3.createCell(0);
+        Cell cell31 = row3.createCell(1);
+        Cell cell32 = row3.createCell(2);
+        Cell cell33 = row3.createCell(3);
+        Cell cell34 = row3.createCell(4);
 
-                //创建单元格
-                Cell cell0 = row.createCell(0);
-                Cell cell1 = row.createCell(1);
-                Cell cell2 = row.createCell(2);
-                Cell cell3 = row.createCell(3);
-                Cell cell4 = row.createCell(4);
-                Cell cell5 = row.createCell(5);
-                Cell cell6 = row.createCell(6);
-                Cell cell7 = row.createCell(7);
-                Cell cell8 = row.createCell(8);
-                Cell cell9 = row.createCell(9);
-                Cell cell10 = row.createCell(10);
+        cell30.setCellValue("");
+        cell31.setCellValue("");
+        cell32.setCellValue("");
+        cell33.setCellValue("完工日期");
+        cell34.setCellValue("");
 
-                //给单元格设值
-                cell0.setCellValue(c.getRq());
-                cell1.setCellValue(c.getXm());
-                cell2.setCellValue(c.getBgmc());
-                cell3.setCellValue(c.getJhbh());
-                cell4.setCellValue(c.getLjth());
-                cell5.setCellValue(c.getLjmc());
-                cell6.setCellValue(c.getGydlmc());
-                cell7.setCellValue(c.getGyxlmc());
-                cell8.setCellValue(c.getYwcl());
-                if (bgrg.equals("包工")) {
-                    cell9.setCellValue("无");
-                } else {
-                    cell9.setCellValue(c.getMtrwl());
-                }
-                cell10.setCellValue(c.getSjwcl());
+        cell30.setCellStyle(style);
+        cell31.setCellStyle(style);
+        cell32.setCellStyle(style);
+        cell33.setCellStyle(style);
+        cell34.setCellStyle(style);
 
-                cell0.setCellStyle(style);
-                cell1.setCellStyle(style);
-                cell2.setCellStyle(style);
-                cell3.setCellStyle(style);
-                cell4.setCellStyle(style);
-                cell5.setCellStyle(style);
-                cell6.setCellStyle(style);
-                cell7.setCellStyle(style);
-                cell8.setCellStyle(style);
-                cell9.setCellStyle(style);
-                cell10.setCellStyle(style);
+        Row row4 = sheet1.createRow(4);
+        row4.setHeightInPoints(20);
+        Cell cell40 = row4.createCell(0);
+        Cell cell41 = row4.createCell(1);
+        Cell cell42 = row4.createCell(2);
+        Cell cell43 = row4.createCell(3);
+        Cell cell44 = row4.createCell(4);
+
+        cell40.setCellValue("零部件名称");
+        cell41.setCellValue("");
+        cell42.setCellValue("工序");
+        cell43.setCellValue("");
+        cell44.setCellValue("数量");
+
+        cell40.setCellStyle(style);
+        cell41.setCellStyle(style);
+        cell42.setCellStyle(style);
+        cell43.setCellStyle(style);
+        cell44.setCellStyle(style);
+
+        for (int i = 0 ; i < 5 ; i++) {
+            Row row = sheet1.createRow(i + 5);
+            row.setHeightInPoints(20);
+            Cell cell0 = row.createCell(0);
+            Cell cell1 = row.createCell(1);
+            Cell cell2 = row.createCell(2);
+            Cell cell3 = row.createCell(3);
+            Cell cell4 = row.createCell(4);
+
+            cell0.setCellStyle(style);
+            cell1.setCellStyle(style);
+            cell2.setCellStyle(style);
+            cell3.setCellStyle(style);
+            cell4.setCellStyle(style);
+
+            int size = bgpgJcxxList.size();
+            if (i < size) {
+                BgpgJcxxDTO entity = bgpgJcxxList.get(i);
+                String lbjmc = entity.getLjmc();
+                String gx = entity.getGyxlmc();
+                String sl = entity.getYwcl();
+                cell0.setCellValue(lbjmc);
+                cell2.setCellValue(gx);
+                cell4.setCellValue(sl);
             }
         }
+
+        Row row9 = sheet1.createRow(10);
+        row9.setHeightInPoints(20);
+        Cell cell90 = row9.createCell(0);
+        Cell cell91 = row9.createCell(1);
+        Cell cell92 = row9.createCell(2);
+        Cell cell93 = row9.createCell(3);
+        Cell cell94 = row9.createCell(4);
+
+        cell90.setCellValue("备注");
+        cell91.setCellValue("");
+        cell92.setCellValue("");
+        cell93.setCellValue("");
+        cell94.setCellValue("");
+
+        cell90.setCellStyle(style);
+        cell91.setCellStyle(style);
+        cell92.setCellStyle(style);
+        cell93.setCellStyle(style);
+        cell94.setCellStyle(style);
+
+        Row row10 = sheet1.createRow(11);
+        row10.setHeightInPoints(20);
+        Cell cell100 = row10.createCell(0);
+        Cell cell101 = row10.createCell(1);
+        Cell cell102 = row10.createCell(2);
+        Cell cell103 = row10.createCell(3);
+        Cell cell104 = row10.createCell(4);
+
+        cell100.setCellValue("制表");
+        cell101.setCellValue("");
+        cell102.setCellValue("验收");
+        cell103.setCellValue("");
+        cell104.setCellValue("");
+
+
+        CellRangeAddress region0 = new CellRangeAddress(0, 0, 0, 4);
+        sheet1.addMergedRegion(region0);
+        for (int i = 4 ; i < 10 ; i++) {
+            CellRangeAddress region1 = new CellRangeAddress(i, i, 0, 1);
+            CellRangeAddress region2 = new CellRangeAddress(i, i, 2, 3);
+            sheet1.addMergedRegion(region1);
+            sheet1.addMergedRegion(region2);
+        }
+        CellRangeAddress region1 = new CellRangeAddress(10, 10, 1, 4);
+        sheet1.addMergedRegion(region1);
+
+        String xm = bgpgJcxxList.get(0).getXm();
+        String rq = bgpgJcxxList.get(0).getRq();
+        String bgrg = bgpgJcxxList.get(0).getBgrg();
+        String zs = bgpgJcxxList.get(0).getZs();
+        String yesterdayDate = getYesterdayDate(rq);
+
+        String xmArray[] = xm.split(",");
+        for (int i = 0; i<xmArray.length; i++) {
+            switch (i) {
+                case 0 : cell30.setCellValue(xmArray[i]);break;
+                case 1 : cell21.setCellValue(xmArray[i]);break;
+                case 2 : cell22.setCellValue(xmArray[i]);break;
+                case 3 : cell31.setCellValue(xmArray[i]);break;
+                case 4 : cell32.setCellValue(xmArray[i]);break;
+                default: break;
+            }
+        }
+        cell24.setCellValue(rq);
+        cell34.setCellValue(rq);
+        cell91.setCellValue(zs);
+        cell104.setCellValue(yesterdayDate);
 
         //创建流
         FileOutputStream fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+rq+" "+xm+" "+bgrg+" 派工单.xlsx");
         //输出流
         wb.write(fileOut);
         fileOut.close();
+    }
+
+    public String getYesterdayDate(String rq) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String yesterdayDate;
+        try {
+            Date date = sdf.parse(rq);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.DATE, -1);
+            Date dBefore = calendar.getTime();
+            yesterdayDate = sdf.format(dBefore);
+        } catch (Exception e) {
+            yesterdayDate=null;
+        }
+        return yesterdayDate;
     }
 
     /**
