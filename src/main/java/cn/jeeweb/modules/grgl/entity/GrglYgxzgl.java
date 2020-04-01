@@ -63,7 +63,7 @@ public class GrglYgxzgl extends AbstractEntity<String> {
     /** 出勤工资 */
     @TableField(value = "CQGZ")
     private String cqgz;
-    /** 出勤工资2 */
+    /** 夜班费 */
     @TableField(value = "CQGZ2")
     private String cqgz2;
     /** 总出勤工资 */

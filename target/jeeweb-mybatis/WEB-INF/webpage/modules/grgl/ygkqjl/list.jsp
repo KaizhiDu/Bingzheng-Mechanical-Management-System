@@ -64,10 +64,8 @@
 
     <grid:column label="日期" name="rq"/>
     <grid:column label="姓名" name="name"/>
-    <grid:column label="性别" name="gender" dict="sex" dateformat=""/>
-    <grid:column label="上午" name="sw" dict="kq" dateformat=""/>
-    <grid:column label="下午" name="xw" dict="kq" dateformat=""/>
-    <grid:column label="加班" name="jb" dict="sf" dateformat=""/>
+    <grid:column label="考勤时间" name="kqsj"/>
+    <grid:column label="夜班" name="jb" dict="kq" dateformat=""/>
     <grid:column label="缺勤原因" name="qqyy"/>
 
     <grid:toolbar function="Szkqjcsj" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="设置考勤基础数据"/>

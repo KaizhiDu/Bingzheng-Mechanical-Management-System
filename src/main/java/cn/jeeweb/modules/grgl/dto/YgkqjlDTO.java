@@ -13,8 +13,18 @@ public class YgkqjlDTO {
     private String gender;
     private String sw;
     private String xw;
+    private String kqsj;
     private String jb;
     private String qqyy;
+
+
+    public String getKqsj() {
+        return kqsj;
+    }
+
+    public void setKqsj(String kqsj) {
+        this.kqsj = kqsj;
+    }
 
     public String getId() {
         return id;

@@ -32,6 +32,7 @@
 <body class="container">
 <input type="hidden" id="bcpid" name="bcpid" value="${ckglBcp.id}">
 <input type="hidden" id="kc" name="kc" value="${ckglBcp.rksl}">
+<input type="hidden" id="syrksl" name="syrksl" value="${ckglBcp.syrksl}">
 <div class="row">
     <div class="col-md-3">
 
@@ -60,7 +61,7 @@
                         <label>库存数量：</label>
                     </td>
                     <td>
-                        ${ckglBcp.rksl}
+                        ${ckglBcp.syrksl}
                     </td>
                     </td>
                 </tr>
@@ -93,7 +94,7 @@
     //检查数量
     function checkSl(){
         var cksl = $("#cksl").val();
-        var kc = $("#kc").val();
+        var syrksl = $("#syrksl").val();
         var r = cksl.match(/^[0-9]*$/);
         //先判断是不是数字
         if(r == null){
@@ -101,7 +102,7 @@
             $("#cksl").val("");
         }
         else{
-            if (parseFloat(cksl)>parseFloat(kc)){
+            if (parseFloat(cksl)>parseFloat(syrksl)){
                 top.layer.alert("出库数量大于库存");
                 $("#cksl").val("");
             }

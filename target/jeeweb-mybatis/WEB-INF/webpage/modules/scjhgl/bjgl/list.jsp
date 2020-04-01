@@ -140,7 +140,7 @@
                 }, function (index, layero) {
                     $.ajax({
                         type: "GET",
-                        url: "${adminPath}/scjhgl/htgl/deleteHt?ids="+ids,
+                        url: "${adminPath}/scjhgl/htglold/deleteHt?ids="+ids,
                         success: function (data) {
                             refreshTable2(gridId);
                         }

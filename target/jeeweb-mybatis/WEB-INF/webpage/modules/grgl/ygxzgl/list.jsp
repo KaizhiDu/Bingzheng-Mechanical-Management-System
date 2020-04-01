@@ -85,7 +85,8 @@
     <grid:column label="补贴" name="bt"/>
     <grid:column label="保险(-)" name="bx"/>
     <grid:column label="餐补" name="cq"/>
-    <grid:column label="出勤工资" name="zcqgz"/>
+    <grid:column label="出勤工资" name="cqgz"/>
+    <grid:column label="夜班费" name="cqgz2"/>
     <grid:column label="日工工资" name="rggz"/>
     <grid:column label="承包金额" name="cbje"/>
     <grid:column label="奖励" name="jl"/>

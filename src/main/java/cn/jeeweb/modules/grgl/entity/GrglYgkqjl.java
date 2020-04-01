@@ -32,6 +32,9 @@ public class GrglYgkqjl extends AbstractEntity<String> {
     /** 下午 */
     @TableField(value = "XW")
     private String xw;
+    /** 考勤时间 */
+    @TableField(value = "KQSJ")
+    private String kqsj;
     /** 加班 */
     @TableField(value = "JB")
     private String jb;
@@ -54,6 +57,14 @@ public class GrglYgkqjl extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+    public String getKqsj() {
+        return kqsj;
+    }
+
+    public void setKqsj(String kqsj) {
+        this.kqsj = kqsj;
+    }
 
     @Override
     public String getId() {

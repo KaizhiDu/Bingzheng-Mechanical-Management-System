@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.htglold.mapper.HtglHtMapper" >
+
+    <select id="ajaxHtList" resultType="cn.jeeweb.modules.htglold.entity.HtglHt">
+        SELECT * FROM T_HTGL_HT
+        WHERE 1=1
+        AND GSID = #{entity.id}
+        ORDER BY RQ DESC
+
+    </select>
+</mapper>

@@ -74,7 +74,7 @@
     <grid:column label="计划名称" name="jhbh"/>
     <grid:column label="零部件名称" name="lbjmc"/>
     <grid:column label="零部件图号" name="lbjth"/>
-    <grid:column label="库存数量" name="rksl"/>
+    <grid:column label="库存数量" name="syrksl"/>
 
     <grid:toolbar function="createBcp" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="手动添加"/>
     <grid:toolbar function="checkRcpkxq" icon="fa fa-edit" btnclass="btn btn-sm btn-warning" title="查看入成品详情"/>

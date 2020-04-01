@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.htgl.mapper.HtglHtglMapper" >
+
+    <select id="ajaxHtglList" resultType="cn.jeeweb.modules.htgl.entity.HtglHtgl">
+        SELECT * FROM T_HTGL_HTGL
+        WHERE 1=1
+        <if test="entity.hth!=null and entity.hth!=''">
+            AND hth LIKE "%"#{entity.hth}"%"
+        </if>
+        <if test="entity.qyhth!=null and entity.qyhth!=''">
+            AND qyhth LIKE "%"#{entity.qyhth}"%"
+        </if>
+        <if test="entity.qdrq!=null and entity.qdrq!=''">
+            AND qdrq = #{entity.qdrq}
+        </if>
+        <if test="entity.ssgs!=null and entity.ssgs!=''">
+            AND ssgs = #{entity.ssgs}
+        </if>
+        ORDER BY QDRQ ASC
+    </select>
+</mapper>

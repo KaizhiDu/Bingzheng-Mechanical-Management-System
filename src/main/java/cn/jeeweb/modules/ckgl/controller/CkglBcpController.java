@@ -180,15 +180,18 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
             ckglCp1.setRksl(rksl + "");
             ckglCpService.updateById(ckglCp1);
         }
-        //最后删除半成品里面的信息
-        ckglBcpService.deleteById(id);
 
         //记录明细
         CkglBcpMx ckglBcpMx = new CkglBcpMx();
-        String mx = "仓库管理员 于   " + currentDate + "   把   " + ckglBcp.getLbjmc() + "   转入成品库";
+        String mx = "仓库管理员 于   " + currentDate + "   把   " + ckglBcp.getSyrksl() + "件   " + ckglBcp.getLbjmc() + "   转入成品库";
         ckglBcpMx.setMx(mx);
         ckglBcpMx.setRq(currentDate);
         ckglBcpMxService.insert(ckglBcpMx);
+
+        //最后更新半成品里面的信息
+        //ckglBcpService.deleteById(id);
+        ckglBcp.setSyrksl("0");
+        ckglBcpService.updateById(ckglBcp);
 
     }
 
@@ -305,15 +308,15 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
             cksli = Integer.parseInt(cksl);
         }
         CkglBcp ckglBcp = ckglBcpService.selectById(id);
-        int kc = Integer.parseInt(ckglBcp.getRksl());
+        int kc = Integer.parseInt(ckglBcp.getSyrksl());
         kc = kc - cksli;
         //如果kc为0，就删除；否则更新
-        if (kc == 0) {
-            ckglBcpService.deleteById(id);
-        } else {
-            ckglBcp.setRksl(kc + "");
+       // if (kc == 0) {
+            //ckglBcpService.deleteById(id);
+       // } else {
+            ckglBcp.setSyrksl(kc + "");
             ckglBcpService.updateById(ckglBcp);
-        }
+       // }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -321,7 +324,7 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
 
         //记录明细
         CkglBcpCkMx ckglBcpCkMx = new CkglBcpCkMx();
-        String mx = lyr + " 于   " + currentDate + "   把   " + ckglBcp.getLbjmc() + "   领出半成品库";
+        String mx = lyr + " 于   " + currentDate + "   把   " + cksl + "件   " + ckglBcp.getLbjmc() + "   领出半成品库";
         ckglBcpCkMx.setMx(mx);
         ckglBcpCkMx.setRq(currentDate);
         ckglBcpCkMxService.insert(ckglBcpCkMx);

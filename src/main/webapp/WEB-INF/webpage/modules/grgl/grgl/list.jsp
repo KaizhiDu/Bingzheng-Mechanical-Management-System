@@ -46,10 +46,10 @@
                  <%--outclass="btn-danger" url="${adminPath}/grgl/grgl/deleteWorker?id=\"+row.id+\"" />--%>
 
     <grid:column label="姓名" name="name"/>
-    <grid:column label="性别" name="gender" dict="sex" dateformat=""/>
+    <grid:column label="性别" name="gender" dict="sex" width="40"/>
     <grid:column label="电话" name="tel"/>
     <grid:column label="身份证号" name="email"/>
-    <grid:column label="入职日期" name="enterdate" dateformat=""/>
+    <grid:column label="入职日期" name="enterdate" dateformat="yyyy-MM-dd"/>
 
     <grid:toolbar function="createWorker" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
     <grid:toolbar function="deleteWorker" icon="fa fa-trash" title="删除" btnclass="btn-danger"/>

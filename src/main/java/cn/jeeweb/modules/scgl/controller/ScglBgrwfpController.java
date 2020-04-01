@@ -1233,32 +1233,13 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
         cell00.setCellValue("易思创科派工单");
         cell00.setCellStyle(titleStyle);
 
-        if (bgpgJcxxList.size() == 0) {
-            ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(id);
-            String xm = scglBgrwfp.getXm();
-            String rq = scglBgrwfp.getRq();
-            String bgrg = scglBgrwfp.getBgrg();
-            EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<>();
-            wrapper.eq("BGRWFPID", id);
-            String zs = scglBgmxService.selectOne(wrapper).getZs();
-            Row row2 = sheet1.createRow(2);
-            row2.setHeightInPoints(30);
-            Cell cell20 = row2.createCell(0);
-            Cell cell21 = row2.createCell(1);
-            Cell cell22 = row2.createCell(2);
-            Cell cell23 = row2.createCell(3);
-            Cell cell24 = row2.createCell(4);
-            cell20.setCellValue(zs);
-            cell21.setCellValue("");
-            cell22.setCellValue("");
-            cell23.setCellValue("");
-            cell24.setCellValue("");
-            CellRangeAddress region0 = new CellRangeAddress(0, 0, 0, 4);
-            CellRangeAddress region1 = new CellRangeAddress(2, 2, 0, 4);
-            sheet1.addMergedRegion(region0);
-            sheet1.addMergedRegion(region1);
-            fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+rq+" "+xm+" "+bgrg+" 派工单.xlsx");
-        } else {
+        ScglBgrwfp scglBgrwfp = scglBgrwfpService.selectById(id);
+        String xm = scglBgrwfp.getXm();
+        String rq = scglBgrwfp.getRq();
+        String bgrg = scglBgrwfp.getBgrg();
+        EntityWrapper<ScglBgmx> wrapper = new EntityWrapper<>();
+        wrapper.eq("BGRWFPID", id);
+        String zs = scglBgmxService.selectOne(wrapper).getZs();
             Row row2 = sheet1.createRow(2);
             row2.setHeightInPoints(30);
             Cell cell20 = row2.createCell(0);
@@ -1392,10 +1373,6 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
             CellRangeAddress region1 = new CellRangeAddress(10, 10, 1, 4);
             sheet1.addMergedRegion(region1);
 
-            String xm = bgpgJcxxList.get(0).getXm();
-            String rq = bgpgJcxxList.get(0).getRq();
-            String bgrg = bgpgJcxxList.get(0).getBgrg();
-            String zs = bgpgJcxxList.get(0).getZs();
             String yesterdayDate = getYesterdayDate(rq);
 
             String xmArray[] = xm.split(",");
@@ -1416,7 +1393,7 @@ public class ScglBgrwfpController extends BaseCRUDController<ScglBgrwfp, String>
 
             //创建流
             fileOut = new FileOutputStream("d:\\bingzhengjixie\\生产\\"+rq+" "+xm+" "+bgrg+" 派工单.xlsx");
-        }
+
 
 
         //输出流

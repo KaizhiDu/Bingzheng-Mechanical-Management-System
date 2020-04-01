@@ -286,100 +286,109 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
      */
     @RequestMapping(value = "saveKq", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saceKq(String rq, String id, String ygid, String checked, String qqyy, HttpServletRequest request, HttpServletResponse response, Model model){
+    public void saceKq(String rq, String id, String ygid, String checked, String qqyy, String kqsj, HttpServletRequest request, HttpServletResponse response, Model model){
+
+        //先拿到考勤基础数据
+        EntityWrapper<GrglYgkqjlJcsj> wrapper0 = new EntityWrapper<GrglYgkqjlJcsj>();
+        List<GrglYgkqjlJcsj> grglYgkqjlJcsjs = grglYgkqjlJcsjService.selectList(wrapper0);
+
         //先拿到原始数据
         GrglYgkqjl ysYgkqjl = grglYgkqjlService.selectById(id);
         //得到当前时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String currentTime = sdf.format(date);
-        //分析得到上午，下午信息
-        String sw = "0";
-        String xw = "0";
-        String jb = "0";
-        //如果选中了上午或者下午的话
-        if (!checked.equals("")){
-            String kqjl[] = checked.split(",");
-            for (int i=1;i<kqjl.length;i++){
-                if (kqjl[i].equals("sw")){
-                    sw = "1";
-                }
-                if (kqjl[i].equals("xw")){
-                    xw = "1";
-                }
-                if (kqjl[i].equals("jb")){
-                    jb = "1";
-                }
-            }
-        }
-        else{
 
-        }
         GrglYgkqjl grglYgkqjl = new GrglYgkqjl();
         grglYgkqjl.setRq(rq);
-        grglYgkqjl.setSw(sw);
-        grglYgkqjl.setXw(xw);
-        grglYgkqjl.setJb(jb);
+        grglYgkqjl.setKqsj(kqsj);
+        grglYgkqjl.setJb(checked);
         grglYgkqjl.setYgid(ygid);
         grglYgkqjl.setQqyy(qqyy);
+
+        float prejbf = 0;
+        float precqgz = 0;
+
         //如果id为"",则插入
         if (id.equals("")){
             grglYgkqjlService.insert(grglYgkqjl);
         }
         //否则更新
         else{
+            // 要更新前先记录下加班和考勤时间
+            float preJbf = 0;
+            float precqxsgz = 0;
+            String preKqsj = "0";
+            String preJb = "0";
+            if (ysYgkqjl.getKqsj()!=null && !ysYgkqjl.getKqsj().equals("")) {
+                preKqsj = ysYgkqjl.getKqsj();
+            }
+            if (ysYgkqjl.getJb()!=null && !ysYgkqjl.getJb().equals("")) {
+                preJb = ysYgkqjl.getJb();
+            }
+            for (GrglYgkqjlJcsj g : grglYgkqjlJcsjs) {
+
+                if (g.getMc().equals("中班费")){
+                    if (preJb.equals("jb")){
+                        preJbf = Float.parseFloat(g.getSz());
+                    }
+                }
+                if (g.getMc().equals("夜班费")){
+                    if (preJb.equals("yb")){
+                        preJbf = Float.parseFloat(g.getSz());
+                    }
+                }
+                if (g.getMc().equals("大夜班费")){
+                    if (preJb.equals("dyb")){
+                        preJbf = Float.parseFloat(g.getSz());
+                    }
+                }
+                if (g.getMc().equals("出勤工资(每小时)")){
+                    precqxsgz = Float.parseFloat(g.getSz());
+                }
+            }
+            prejbf = preJbf;
+            float preKqsjf = 0;
+            if (preKqsj!=null && !preKqsj.equals("")) {
+                preKqsjf = Float.parseFloat(preKqsj);
+            }
+            precqgz = precqxsgz * preKqsjf;
             grglYgkqjl.setId(id);
             grglYgkqjlService.updateById(grglYgkqjl);
         }
 
 
-        //先拿到考勤基础数据
-        EntityWrapper<GrglYgkqjlJcsj> wrapper0 = new EntityWrapper<GrglYgkqjlJcsj>();
-        List<GrglYgkqjlJcsj> grglYgkqjlJcsjs = grglYgkqjlJcsjService.selectList(wrapper0);
-        float swcf = 0;
-        float jbcf = 0;
+
+        float jbf = 0;
         float cqxsgz = 0;
         for (GrglYgkqjlJcsj g : grglYgkqjlJcsjs) {
-            if (g.getMc().equals("上午餐费")){
-                swcf = Float.parseFloat(g.getSz());
+
+            if (g.getMc().equals("中班费")){
+                if (checked.equals("jb")){
+                    jbf = Float.parseFloat(g.getSz());
+                }
             }
-            if (g.getMc().equals("加班餐费")){
-                jbcf = Float.parseFloat(g.getSz());
+            if (g.getMc().equals("夜班费")){
+                if (checked.equals("yb")){
+                    jbf = Float.parseFloat(g.getSz());
+                }
+            }
+            if (g.getMc().equals("大夜班费")){
+                if (checked.equals("dyb")){
+                    jbf = Float.parseFloat(g.getSz());
+                }
             }
             if (g.getMc().equals("出勤工资(每小时)")){
                 cqxsgz = Float.parseFloat(g.getSz());
             }
         }
 
-        //需要根据上午和加班的出勤情况，决定餐补; 上午和下午决定出勤工资
-        float cb = 0;
-        float cqgzf = 0;
-        if (ysYgkqjl.getSw()!=null){
-            if (ysYgkqjl.getSw().equals("1")){
-                cb = cb - swcf;
-                cqgzf = cqgzf - 4*cqxsgz;
-            }
+        float kqsjf = 0;
+        if (kqsj!=null && !kqsj.equals("")) {
+            kqsjf = Float.parseFloat(kqsj);
         }
-        if (ysYgkqjl.getXw()!=null){
-            if (ysYgkqjl.getXw().equals("1")){
-                cqgzf = cqgzf - 4*cqxsgz;
-            }
-        }
-        if (ysYgkqjl.getJb()!=null){
-            if (ysYgkqjl.getJb().equals("1")){
-                cb = cb - jbcf;
-            }
-        }
-        if (grglYgkqjl.getSw().equals("1")){
-            cb = cb + swcf;
-            cqgzf = cqgzf + 4*cqxsgz;
-        }
-        if (grglYgkqjl.getXw().equals("1")){
-            cqgzf = cqgzf + 4*cqxsgz;
-        }
-        if (grglYgkqjl.getJb().equals("1")){
-            cb = cb + jbcf;
-        }
+        float cqgzf = kqsjf * cqxsgz;
+
         //得到年月
         String[] dateArray = rq.split("-");
         int nd = Integer.parseInt(dateArray[0]);
@@ -390,23 +399,34 @@ public class GrglYgkqjlController extends BaseCRUDController<GrglYgkqjl, String>
         wrapper.eq("YGID", ygid);
         GrglYgxzgl grglYgxzgl = grglYgxzglService.selectOne(wrapper);
 
-        if (grglYgxzgl.getCq()==null){
-            String cq = cb+"";
-            grglYgxzgl.setCq(cq);
-        }
-        else{
-            cb = cb + Float.parseFloat(grglYgxzgl.getCq());
-            String cq = cb+"";
-            grglYgxzgl.setCq(cq);
-        }
+//        if (grglYgxzgl.getCq()==null){
+//            String cq = kqsjf+"";
+//            grglYgxzgl.setCq(cq);
+//        }
+//        else{
+//            kqsjf = kqsjf + Float.parseFloat(grglYgxzgl.getCq());
+//            String cq = kqsjf+"";
+//            grglYgxzgl.setCq(cq);
+//        }
+
+//        float prejbf = 0;
+//        float precqgz = 0;
 
          if (grglYgxzgl.getCqgz()==null){
-             grglYgxzgl.setCqgz(cqgzf+"");
+             grglYgxzgl.setCqgz(cqgzf-precqgz+"");
          }
          else{
              cqgzf = cqgzf + Float.parseFloat(grglYgxzgl.getCqgz());
-             grglYgxzgl.setCqgz(cqgzf+"");
+             grglYgxzgl.setCqgz(cqgzf-precqgz+"");
          }
+
+        if (grglYgxzgl.getCqgz2()==null){
+            grglYgxzgl.setCqgz2(jbf-prejbf+"");
+        }
+        else{
+            jbf = jbf + Float.parseFloat(grglYgxzgl.getCqgz2());
+            grglYgxzgl.setCqgz2(jbf-prejbf+"");
+        }
 
         //注意判断null和""的情况
         //合计

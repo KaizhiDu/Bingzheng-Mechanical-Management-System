@@ -476,11 +476,11 @@ public class ScglRcrwfpController extends BaseCRUDController<ScglRcrwfp, String>
         EntityWrapper<GrglYgkqjlJcsj> wrapper0 = new EntityWrapper<GrglYgkqjlJcsj>();
         List<GrglYgkqjlJcsj> grglYgkqjlJcsjs = grglYgkqjlJcsjService.selectList(wrapper0);
         float cqxsgz = 0;
-        for (GrglYgkqjlJcsj g : grglYgkqjlJcsjs) {
-            if (g.getMc().equals("出勤工资(每小时)")){
-                cqxsgz = Float.parseFloat(g.getSz());
-            }
-        }
+//        for (GrglYgkqjlJcsj g : grglYgkqjlJcsjs) {
+//            if (g.getMc().equals("出勤工资(每小时)")){
+//                cqxsgz = Float.parseFloat(g.getSz());
+//            }
+//        }
 
         //同步插入工资表里
         float zgs = 0;

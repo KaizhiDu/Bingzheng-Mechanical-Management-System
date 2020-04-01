@@ -5,12 +5,12 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
-import cn.jeeweb.modules.htgl.entity.HtglGs;
-import cn.jeeweb.modules.htgl.entity.HtglHt;
-import cn.jeeweb.modules.htgl.entity.HtglHtmx;
-import cn.jeeweb.modules.htgl.service.IHtglGsService;
-import cn.jeeweb.modules.htgl.service.IHtglHtService;
-import cn.jeeweb.modules.htgl.service.IHtglHtmxService;
+import cn.jeeweb.modules.htglold.entity.HtglGs;
+import cn.jeeweb.modules.htglold.entity.HtglHt;
+import cn.jeeweb.modules.htglold.entity.HtglHtmx2;
+import cn.jeeweb.modules.htglold.service.IHtglGsService;
+import cn.jeeweb.modules.htglold.service.IHtglHtService;
+import cn.jeeweb.modules.htglold.service.IHtglHtmxService2;
 import cn.jeeweb.modules.jcsz.entity.JcszMxmb;
 import cn.jeeweb.modules.jcsz.entity.JcszZzse;
 import cn.jeeweb.modules.jcsz.service.IJcszMxmbService;
@@ -22,7 +22,6 @@ import cn.jeeweb.modules.zzgl.entity.ZzglJh;
 import cn.jeeweb.modules.zzgl.entity.ZzglZzgl;
 import cn.jeeweb.modules.zzgl.service.IZzglJhService;
 import cn.jeeweb.modules.zzgl.service.IZzglZzglService;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -37,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -86,7 +84,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
     private IHtglHtService htglHtService;
 
     @Autowired
-    private IHtglHtmxService htglHtmxService;
+    private IHtglHtmxService2 htglHtmxService;
 
     /**
      * Dscription: 搜索项和前置内容
@@ -322,7 +320,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         //联动合同管理里面的合同功能
         //如果合同ID不为空
         if (!ht.equals("")) {
-            HtglHtmx h = new HtglHtmx();
+            HtglHtmx2 h = new HtglHtmx2();
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
             htmxid = uuid;
             h.setId(uuid);
@@ -665,7 +663,7 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
         //联动合同管理里面的合同功能
         //如果合同ID不为空
         if (!ht.equals("")) {
-            HtglHtmx h = new HtglHtmx();
+            HtglHtmx2 h = new HtglHtmx2();
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
             htmxid = uuid;
             h.setId(uuid);
@@ -1619,9 +1617,9 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 //如果是合同收入或者支出的话，需要同样删掉合同明细
                 String htmxid = zzglZzgl.getHtmxid();
                 if (htmxid != null && !htmxid.equals("")) {
-                    HtglHtmx htglHtmx = htglHtmxService.selectById(htmxid);
-                    double je = getNumber(htglHtmx.getJe());
-                    String htid = htglHtmx.getHtid();
+                    HtglHtmx2 htglHtmx2 = htglHtmxService.selectById(htmxid);
+                    double je = getNumber(htglHtmx2.getJe());
+                    String htid = htglHtmx2.getHtid();
                     HtglHt htglHt = htglHtService.selectById(htid);
                     String gsid = htglHt.getGsid();
                     HtglGs htglGs = htglGsService.selectById(gsid);
@@ -1650,9 +1648,9 @@ public class ZzglZzglController extends BaseCRUDController<ZzglZzgl, String> {
                 //如果是合同收入或者支出的话，需要同样删掉合同明细
                 String htmxid = zzglZzgl.getHtmxid();
                 if (htmxid != null && !htmxid.equals("")) {
-                    HtglHtmx htglHtmx = htglHtmxService.selectById(htmxid);
-                    double je = getNumber(htglHtmx.getJe());
-                    String htid = htglHtmx.getHtid();
+                    HtglHtmx2 htglHtmx2 = htglHtmxService.selectById(htmxid);
+                    double je = getNumber(htglHtmx2.getJe());
+                    String htid = htglHtmx2.getHtid();
                     HtglHt htglHt = htglHtService.selectById(htid);
                     //先把合同je加上
                     htglHt.setFkyk(df.format(getNumber(htglHt.getFkyk()) - je));

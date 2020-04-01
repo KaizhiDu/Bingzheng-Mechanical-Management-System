@@ -474,6 +474,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                     ckgl.setKczl(kczl);
                     ckgl.setSfswwcbcp(sfswwcbcp);
                     ckgl.setRksl(abc+"");
+                    ckgl.setSyrksl(abc+"");
                     ckglService.insert(ckgl);
                 }
             }
@@ -482,13 +483,29 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
                 //先判断abc是否为0
                 //为0的话要删除半成品已完成库里面相关的数量
                 if (abc==0){
-                    ckglService.delete(wrapper);
+                    // ckglService.delete(wrapper);
                 }
                 //更新半成品已完成库里面相关数量
                 else{
                     CkglBcp ckglBcp111 = ckglService.selectOne(wrapper);
-                    ckglBcp111.setRksl(abc+"");
-                    ckglService.updateById(ckglBcp111);
+                    int rkslInt = 0;
+                    int syrkslInt = 0;
+                    if (ckglBcp111.getRksl()!=null && !ckglBcp111.getRksl().equals("")) {
+                        rkslInt = Integer.parseInt(ckglBcp111.getRksl());
+                    }
+                    if (ckglBcp111.getSyrksl()!=null && !ckglBcp111.getSyrksl().equals("")) {
+                        syrkslInt = Integer.parseInt(ckglBcp111.getSyrksl());
+                    }
+                    // 如果两值相等，则啥也不做
+                    if (rkslInt == abc) {
+
+                    } else {
+                        ckglBcp111.setRksl(abc+"");
+                        int newSyrksl = abc - rkslInt + syrkslInt;
+                        ckglBcp111.setSyrksl(newSyrksl + "");
+                        ckglService.updateById(ckglBcp111);
+                    }
+
                 }
             }
 
@@ -601,6 +618,7 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             ckgl.setKczl(kczl);
             ckgl.setSfswwcbcp(sfswwcbcp);
             ckgl.setRksl(rksl+"");
+            ckgl.setSyrksl(rksl+"");
             //要查询有没有同样的图号
             EntityWrapper<CkglBcp> wrapper = new EntityWrapper<CkglBcp>();
             wrapper.eq("JHBH", jhbh);
@@ -613,10 +631,28 @@ public class JyglBgjyController extends BaseCRUDController<JyglBgjy, String> {
             }
             //更新入库数量
             else{
-                CkglBcp ckgl2 = ckglService.selectOne(wrapper);
-                int newRksl = Integer.parseInt(ckgl2.getRksl())+rksl;
-                ckgl2.setRksl(newRksl+"");
-                ckglService.updateById(ckgl2);
+//                CkglBcp ckgl2 = ckglService.selectOne(wrapper);
+//                int newRksl = Integer.parseInt(ckgl2.getRksl())+rksl;
+//                ckgl2.setRksl(newRksl+"");
+//                ckglService.updateById(ckgl2);
+                CkglBcp ckglBcp111 = ckglService.selectOne(wrapper);
+                int rkslInt = 0;
+                int syrkslInt = 0;
+                if (ckglBcp111.getRksl()!=null && !ckglBcp111.getRksl().equals("")) {
+                    rkslInt = Integer.parseInt(ckglBcp111.getRksl());
+                }
+                if (ckglBcp111.getSyrksl()!=null && !ckglBcp111.getSyrksl().equals("")) {
+                    syrkslInt = Integer.parseInt(ckglBcp111.getSyrksl());
+                }
+                // 如果两值相等，则啥也不做
+                if (rkslInt == rksl) {
+
+                } else {
+                    ckglBcp111.setRksl(rksl+"");
+                    int newSyrksl = rksl - rkslInt + syrkslInt;
+                    ckglBcp111.setSyrksl(newSyrksl + "");
+                    ckglService.updateById(ckglBcp111);
+                }
             }
         }
 

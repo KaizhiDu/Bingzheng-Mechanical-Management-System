@@ -3,29 +3,20 @@
 <mapper namespace="cn.jeeweb.modules.htgl.mapper.HtglHtmxMapper" >
 
     <select id="ajaxHtmxList" resultType="cn.jeeweb.modules.htgl.entity.HtglHtmx">
-        SELECT ID,
-                HTID,
-                CASE
-                  WHEN LX = '0'
-                  THEN '回款'
-                  WHEN LX = '1'
-                  THEN '发票'
-                  WHEN LX = '2'
-                  THEN '返款'
-                END LX,
-                CX,
-                BZ,
-                JE,
-                YF,
-                RQ,
-                RQ2
-        FROM T_HTGL_HTMX
+        SELECT * FROM T_HTGL_HTMX
         WHERE 1=1
-        AND HTID = #{htid}
-        <if test="lx!=null and lx!=''">
-            AND LX = #{lx}
+<!--        <if test="entity.hth!=null and entity.hth!=''">-->
+<!--            AND hth LIKE "%"#{entity.hth}"%"-->
+<!--        </if>-->
+<!--        <if test="entity.qyhth!=null and entity.qyhth!=''">-->
+<!--            AND qyhth LIKE "%"#{entity.qyhth}"%"-->
+<!--        </if>-->
+<!--        <if test="entity.qdrq!=null and entity.qdrq!=''">-->
+<!--            AND qdrq = #{entity.qdrq}-->
+<!--        </if>-->
+        <if test="entity.htid!=null and entity.htid!=''">
+            AND htid = #{entity.htid}
         </if>
-        ORDER BY RQ DESC
-
+<!--        ORDER BY QDRQ ASC-->
     </select>
 </mapper>

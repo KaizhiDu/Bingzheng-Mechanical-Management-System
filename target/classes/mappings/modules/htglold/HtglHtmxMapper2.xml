@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.htglold.mapper.HtglHtmxMapper2" >
+
+    <select id="ajaxHtmxList" resultType="cn.jeeweb.modules.htglold.entity.HtglHtmx2">
+        SELECT ID,
+                HTID,
+                CASE
+                  WHEN LX = '0'
+                  THEN '回款'
+                  WHEN LX = '1'
+                  THEN '发票'
+                  WHEN LX = '2'
+                  THEN '返款'
+                END LX,
+                CX,
+                BZ,
+                JE,
+                YF,
+                RQ,
+                RQ2
+        FROM T_HTGL_HTMX
+        WHERE 1=1
+        AND HTID = #{htid}
+        <if test="lx!=null and lx!=''">
+            AND LX = #{lx}
+        </if>
+        ORDER BY RQ DESC
+
+    </select>
+</mapper>

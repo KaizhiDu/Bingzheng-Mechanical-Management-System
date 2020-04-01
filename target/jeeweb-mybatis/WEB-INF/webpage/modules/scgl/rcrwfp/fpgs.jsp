@@ -59,30 +59,30 @@
                         <input name="jb" id="jb" htmlEscape="false" class="form-control" placeholder="请输入加班时间，默认为空" value="${rggs.jb}" onchange="checkJb()"/>
                     </td>
                 </tr>
-                <tr class3201="form-group">
-                    <td>
-                        <label>10元补助：</label>
-                    </td>
-                    <td>
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="10">
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>20元补助：</label>
-                    </td>
-                    <td>
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="20">
-                    </td>
-                </tr>
-                <tr class="form-group">
-                    <td>
-                        <label>30元补助：</label>
-                    </td>
-                    <td>
-                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="30">
-                    </td>
-                </tr>
+<%--                <tr class3201="form-group">--%>
+<%--                    <td>--%>
+<%--                        <label>10元补助：</label>--%>
+<%--                    </td>--%>
+<%--                    <td>--%>
+<%--                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="10">--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr class="form-group">--%>
+<%--                    <td>--%>
+<%--                        <label>20元补助：</label>--%>
+<%--                    </td>--%>
+<%--                    <td>--%>
+<%--                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="20">--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
+<%--                <tr class="form-group">--%>
+<%--                    <td>--%>
+<%--                        <label>30元补助：</label>--%>
+<%--                    </td>--%>
+<%--                    <td>--%>
+<%--                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="30">--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
             </table>
         </form>
     </div>
@@ -92,20 +92,20 @@
 
 
 
-<script type="text/javascript">
-    window.onload = function(){
-        var zybf = $("#zybf").val();
-        if (zybf=='10'){
-            $("#optionsRadios1").attr("checked","checked");
-        }
-        if (zybf=='20'){
-            $("#optionsRadios2").attr("checked","checked");
-        }
-        if (zybf=='30'){
-            $("#optionsRadios3").attr("checked","checked");
-        }
-    };
-</script>
+<%--<script type="text/javascript">--%>
+<%--    window.onload = function(){--%>
+<%--        var zybf = $("#zybf").val();--%>
+<%--        if (zybf=='10'){--%>
+<%--            $("#optionsRadios1").attr("checked","checked");--%>
+<%--        }--%>
+<%--        if (zybf=='20'){--%>
+<%--            $("#optionsRadios2").attr("checked","checked");--%>
+<%--        }--%>
+<%--        if (zybf=='30'){--%>
+<%--            $("#optionsRadios3").attr("checked","checked");--%>
+<%--        }--%>
+<%--    };--%>
+<%--</script>--%>
 
 
 <script type="text/javascript">
@@ -136,7 +136,7 @@
 
     //点击保存，保存数据
     function check() {
-        var zybf = $("input[name='optionsRadios']:checked").val();
+        //var zybf = $("input[name='optionsRadios']:checked").val();
         var jb = $("#jb").val();
         var rcrwfpid = $("#rcrwfpid").val();
         var id = $("#rggsid").val();
@@ -153,7 +153,7 @@
                 jb: jb,
                 gs: gs,
                 rq: rq,
-                zybf: zybf,
+                //zybf: zybf,
                 rcrwfpid: rcrwfpid
             },
             success: function (data) {

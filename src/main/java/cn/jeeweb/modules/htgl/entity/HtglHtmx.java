@@ -1,5 +1,6 @@
 package cn.jeeweb.modules.htgl.entity;
 
+import cn.jeeweb.core.common.entity.AbstractEntity;
 import cn.jeeweb.modules.sys.entity.User;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -9,15 +10,8 @@ import com.baomidou.mybatisplus.enums.IdType;
 
 import java.util.Date;
 
-/**
- * Dscription: 合同管理 - 合同明细
- * @author : Kevin Du
- * @version : 1.0
- * @date : 2019/1/11 13:40
- */
 @TableName("T_HTGL_HTMX")
-@SuppressWarnings("serial")
-public class HtglHtmx {
+public class HtglHtmx extends AbstractEntity<String> {
     /** 主键 */
     @TableId(value = "ID", type = IdType.UUID)
     private String id;
@@ -25,27 +19,30 @@ public class HtglHtmx {
     /** 合同ID */
     @TableField(value = "HTID")
     private String htid;
-    /** 类型 */
-    @TableField(value = "LX")
-    private String lx;
-    /** 次序 */
-    @TableField(value = "CX")
-    private int cx;
+    /** 名称 */
+    @TableField(value = "MC")
+    private String mc;
+    /** 型号 */
+    @TableField(value = "XH")
+    private String xh;
+    /** 单位 */
+    @TableField(value = "DW")
+    private String dw;
+    /** 单价 */
+    @TableField(value = "DJ")
+    private Double dj;
+    /** 数量 */
+    @TableField(value = "SL")
+    private Double sl;
+    /** 数量 */
+    @TableField(value = "SYSL")
+    private Double sysl;
+    /** 金额 */
+    @TableField(value = "JE")
+    private Double je;
     /** 备注 */
     @TableField(value = "BZ")
     private String bz;
-    /** 金额 */
-    @TableField(value = "JE")
-    private String je;
-    /** 日期 */
-    @TableField(value = "RQ")
-    private String rq;
-    /** 日期2 */
-    @TableField(value = "RQ2")
-    private String rq2;
-    /** 乙方 */
-    @TableField(value = "YF")
-    private String yf;
 
     /** 更新者 */
     @TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
@@ -60,10 +57,28 @@ public class HtglHtmx {
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
 
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
+    }
+
+    public Double getSysl() {
+        return sysl;
+    }
+
+    public void setSysl(Double sysl) {
+        this.sysl = sysl;
+    }
+
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -76,52 +91,44 @@ public class HtglHtmx {
         this.htid = htid;
     }
 
-    public String getLx() {
-        return lx;
+    public String getXh() {
+        return xh;
     }
 
-    public void setLx(String lx) {
-        this.lx = lx;
+    public void setXh(String xh) {
+        this.xh = xh;
     }
 
-    public int getCx() {
-        return cx;
+    public String getDw() {
+        return dw;
     }
 
-    public void setCx(int cx) {
-        this.cx = cx;
+    public void setDw(String dw) {
+        this.dw = dw;
     }
 
-    public String getBz() {
-        return bz;
+    public Double getDj() {
+        return dj;
     }
 
-    public void setBz(String bz) {
-        this.bz = bz;
+    public void setDj(Double dj) {
+        this.dj = dj;
     }
 
-    public String getJe() {
+    public Double getSl() {
+        return sl;
+    }
+
+    public void setSl(Double sl) {
+        this.sl = sl;
+    }
+
+    public Double getJe() {
         return je;
     }
 
-    public void setJe(String je) {
+    public void setJe(Double je) {
         this.je = je;
-    }
-
-    public String getRq() {
-        return rq;
-    }
-
-    public void setRq(String rq) {
-        this.rq = rq;
-    }
-
-    public String getRq2() {
-        return rq2;
-    }
-
-    public void setRq2(String rq2) {
-        this.rq2 = rq2;
     }
 
     public User getUpdateBy() {
@@ -156,11 +163,11 @@ public class HtglHtmx {
         this.updateDate = updateDate;
     }
 
-    public String getYf() {
-        return yf;
+    public String getBz() {
+        return bz;
     }
 
-    public void setYf(String yf) {
-        this.yf = yf;
+    public void setBz(String bz) {
+        this.bz = bz;
     }
 }

@@ -7,10 +7,12 @@
 			 LBJMC,
 			 LBJTH,
 			 RKSL,
+			 SYRKSL,
               UPDATE_DATE
 FROM T_CKGL_BCP
 WHERE 1=1
      AND SFSWWCBCP = '0'
+     AND SYRKSL &gt; '0'
         <if test="entity.jhbh!=null and entity.jhbh!=''">
             AND JHBH = #{entity.jhbh}
         </if>

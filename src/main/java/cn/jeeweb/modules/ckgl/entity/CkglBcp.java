@@ -40,6 +40,9 @@ public class CkglBcp extends AbstractEntity<String> {
     /** 入库数量 */
     @TableField(value = "RKSL")
     private String rksl;
+    /** 剩余入库数量 */
+    @TableField(value = "SYRKSL")
+    private String syrksl;
     /** 库存种类 */
     @TableField(value = "KCZL")
     private String kczl;
@@ -59,6 +62,15 @@ public class CkglBcp extends AbstractEntity<String> {
     /** 更新时间 */
     @TableField(value = "update_date", fill = FieldFill.UPDATE)
     private Date updateDate;
+
+
+    public String getSyrksl() {
+        return syrksl;
+    }
+
+    public void setSyrksl(String syrksl) {
+        this.syrksl = syrksl;
+    }
 
     @Override
     public String getId() {

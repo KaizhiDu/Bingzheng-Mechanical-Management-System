@@ -7,13 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * Dscription: 合同管理 - 合同明细
- * @author : Kevin Du
- * @version : 1.0
- * @date : 2019/1/11 13:40
- */
-public interface HtglHtmxMapper extends BaseMapper<HtglHtmx>{
+public interface HtglHtmxMapper extends BaseMapper<HtglHtmx> {
 
-    public List<HtglHtmx> ajaxHtmxList(Pagination page, @Param("htid") String htid, @Param("lx") String lx);
+    public List<HtglHtmx> ajaxHtmxList(Pagination page, @Param("entity") HtglHtmx entity);
+
 }
