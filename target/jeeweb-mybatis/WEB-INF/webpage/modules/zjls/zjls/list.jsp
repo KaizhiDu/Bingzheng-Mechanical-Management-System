@@ -148,23 +148,19 @@
                 <label class="control-label">项目：</label>
                 <select name="mx2" class="form-control" id="mx2">
                     <option value="">全部</option>
-                    <option value="货款">货款</option>
-                    <option value="营业外">营业外</option>
-                    <option value="转入">转入</option>
-                    <option value="材料">材料</option>
-                    <option value="辅料">辅料</option>
-                    <option value="外协">外协</option>
-                    <option value="物业水电">物业水电</option>
-                    <option value="工资">工资</option>
-                    <option value="税金财务">税金财务</option>
-                    <option value="办公">办公</option>
-                    <option value="招待">招待</option>
-                    <option value="午餐">午餐</option>
-                    <option value="维修">维修</option>
-                    <option value="运输">运输</option>
-                    <option value="转出">转出</option>
-                    <option value="社保">社保</option>
-                    <option value="其他">其他</option>
+                    <c:forEach items="${xmList}" var="xm">
+                        <option value="${xm.name}">${xm.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="form-group col-md-2" style="margin-bottom: 10px">
+                <label class="control-label">公司：</label>
+                <select name="gs" class="form-control" id="gs">
+                    <option value="">全部</option>
+                    <c:forEach items="${gsList}" var="gs">
+                        <option value="${gs.name}">${gs.name}</option>
+                    </c:forEach>
                 </select>
             </div>
 
@@ -202,6 +198,7 @@
     <grid:column label="月" name="y" width="60"/>
     <grid:column label="日" name="r" width="60"/>
     <grid:column label="项目" name="mx2" width="60"/>
+    <grid:column label="公司" name="gs" width="60"/>
     <grid:column label="流动资金" name="one"/>
     <grid:column label="占用资金" name="two"/>
     <grid:column label="详情" name="mx" width="200"/>

@@ -43,6 +43,10 @@
                     <option value="1">支出</option>
                     <option value="2">调动</option>
                     <option value="3">借还</option>
+                    <option value="4">资金流水公司</option>
+                    <option value="5">资金流水输入项目</option>
+                    <option value="6">资金流水支出项目</option>
+
                 </select>
             </div>
         </div>
@@ -64,8 +68,8 @@
     <grid:toolbar function="insertMxmb" icon="fa fa-plus" btnclass="btn btn-sm btn-primary" title="添加"/>
 
     <grid:toolbar function="delete"/>
-    <grid:toolbar function="search"/>
     <grid:toolbar function="reset"/>
+    <grid:toolbar function="search"/>
 </grid:grid>
 
 <script type="text/javascript">

@@ -10,11 +10,17 @@
         WHEN TYPE = '0'
          THEN '收入'
          WHEN TYPE = '1'
-         THEN ' 支出'
+         THEN '支出'
          WHEN TYPE = '2'
-         THEN ' 调动'
+         THEN '调动'
          WHEN TYPE = '3'
-         THEN ' 借还'
+         THEN '借还'
+         WHEN TYPE = '4'
+         THEN '资金流水公司'
+         WHEN TYPE = '5'
+         THEN '资金流水收入项目'
+         WHEN TYPE = '6'
+         THEN '资金流水支出项目'
          END TYPE
         FROM T_JCSZ_MXMB
         WHERE 1=1

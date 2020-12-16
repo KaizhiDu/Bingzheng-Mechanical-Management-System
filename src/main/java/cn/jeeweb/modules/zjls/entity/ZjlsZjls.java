@@ -41,6 +41,9 @@ public class ZjlsZjls extends AbstractEntity<String> {
     /**明细2*/
     @TableField(value = "MX2")
     private String mx2;
+    /**公司*/
+    @TableField(value = "GS")
+    private String gs;
     /**1*/
     @TableField(value = "ONE")
     private String one;
@@ -176,5 +179,13 @@ public class ZjlsZjls extends AbstractEntity<String> {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getGs() {
+        return gs;
+    }
+
+    public void setGs(String gs) {
+        this.gs = gs;
     }
 }

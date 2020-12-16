@@ -9,6 +9,7 @@
         T.R,
         T.MX,
         T.MX2,
+        T.GS,
         CASE
         WHEN T.LX = '0'
         THEN '收入'
@@ -33,6 +34,9 @@
         </if>
         <if test="mx2!=null and mx2!=''">
             AND T.MX2 = #{mx2}
+        </if>
+        <if test="gs!=null and gs!=''">
+            AND T.GS = #{gs}
         </if>
         ORDER BY T.N DESC, T.Y DESC, T.R DESC, T.RQ DESC
 

@@ -54,10 +54,23 @@
                     </td>
                     <td>
                         <select name="mx2" class="form-control" id="mx2">
-                            <option value="货款">货款</option>
-                            <option value="营业外">营业外</option>
-                            <option value="转入">转入</option>
+                            <c:forEach items="${xmsrList}" var="xm">
+                                <option value="${xm.id}">${xm.name}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                </tr>
 
+                <tr class="form-group">
+                    <td>
+                        <label>公司：</label>
+                    </td>
+                    <td>
+                        <select name="gs" class="form-control" id="gs">
+                            <option value="">无</option>
+                            <c:forEach items="${gsList}" var="gs">
+                                <option value="${gs.id}">${gs.name}</option>
+                            </c:forEach>
                         </select>
                     </td>
                 </tr>
@@ -120,6 +133,8 @@
         var mx2 = $("#mx2").val();
         var rq = $("#rq").val();
         var zjly = $("#zjly").val();
+        var gs = $("#gs").val();
+
         $.ajax({
             type: "GET",
             url: "${adminPath}/zjls/zjls/saveSr",
@@ -129,7 +144,9 @@
                 mx2: mx2,
                 lx: "0",
                 jtsj: rq,
-                zjly: zjly
+                zjly: zjly,
+                gs: gs
+
             },
             success: function (data) {
 

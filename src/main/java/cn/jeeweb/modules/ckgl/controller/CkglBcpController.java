@@ -163,7 +163,7 @@ public class CkglBcpController extends BaseCRUDController<CkglBcp, String> {
         ckglCp.setLbjid(ckglBcp.getLbjid());
         ckglCp.setLbjmc(ckglBcp.getLbjmc());
         ckglCp.setLbjth(ckglBcp.getLbjth());
-        ckglCp.setRksl(ckglBcp.getRksl());
+        ckglCp.setRksl(ckglBcp.getSyrksl());
         //根据图号判断，成品库里面有没有该信息
         EntityWrapper<CkglCp> wrapper = new EntityWrapper<CkglCp>();
         wrapper.eq("LBJTH", ckglBcp.getLbjth());

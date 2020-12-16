@@ -48,6 +48,9 @@
                             <option value="1">支出</option>
                             <option value="2">调动</option>
                             <option value="3">借还</option>
+                            <option value="4">资金流水公司</option>
+                            <option value="5">资金流水收入项目</option>
+                            <option value="6">资金流水支出项目</option>
                         </select>
                     </td>
                 </tr>

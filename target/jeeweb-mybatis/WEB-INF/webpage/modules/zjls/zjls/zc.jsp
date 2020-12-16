@@ -54,21 +54,23 @@
                     </td>
                     <td>
                         <select name="mx2" class="form-control" id="mx2">
-                            <option value="材料">材料</option>
-                            <option value="辅料">辅料</option>
-                            <option value="外协">外协</option>
-                            <option value="物业水电">物业水电</option>
-                            <option value="工资">工资</option>
-                            <option value="税金财务">税金财务</option>
-                            <option value="办公">办公</option>
-                            <option value="招待">招待</option>
-                            <option value="午餐">午餐</option>
-                            <option value="维修">维修</option>
-                            <option value="运输">运输</option>
-                            <option value="转出">转出</option>
-                            <option value="社保">社保</option>
-                            <option value="其他">其他</option>
+                            <c:forEach items="${xmzcList}" var="xm">
+                                <option value="${xm.id}">${xm.name}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                </tr>
 
+                <tr class="form-group">
+                    <td>
+                        <label>公司：</label>
+                    </td>
+                    <td>
+                        <select name="gs" class="form-control" id="gs">
+                            <option value="">无</option>
+                            <c:forEach items="${gsList}" var="gs">
+                                <option value="${gs.id}">${gs.name}</option>
+                            </c:forEach>
                         </select>
                     </td>
                 </tr>
@@ -131,6 +133,8 @@
         var mx2 = $("#mx2").val();
         var rq = $("#rq").val();
         var zjly = $("#zjly").val();
+        var gs = $("#gs").val();
+
         $.ajax({
             type: "GET",
             url: "${adminPath}/zjls/zjls/saveZc",
@@ -140,7 +144,8 @@
                 mx2: mx2,
                 lx: "1",
                 jtsj: rq,
-                zjly: zjly
+                zjly: zjly,
+                gs: gs
             },
             success: function (data) {
 

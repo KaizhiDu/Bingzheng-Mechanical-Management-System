@@ -50,24 +50,61 @@
                                 <option value="1">支出</option>
                                 <option value="2">调动</option>
                                 <option value="3">借还</option>
+                                <option value="4">资金流水公司</option>
+                                <option value="5">资金流水项目</option>
                             </c:if>
                             <c:if test="${jcszMxmb.type==1}">
                                 <option value="1">支出</option>
                                 <option value="0">收入</option>
                                 <option value="2">调动</option>
                                 <option value="3">借还</option>
+                                <option value="4">资金流水公司</option>
+                                <option value="5">资金流水项目</option>
                             </c:if>
                             <c:if test="${jcszMxmb.type==2}">
                                 <option value="2">调动</option>
                                 <option value="0">收入</option>
                                 <option value="1">支出</option>
                                 <option value="3">借还</option>
+                                <option value="4">资金流水公司</option>
+                                <option value="5">资金流水收入项目</option>
+                                <option value="6">资金流水支出项目</option>
                             </c:if>
                             <c:if test="${jcszMxmb.type==3}">
                                 <option value="3">借还</option>
                                 <option value="0">收入</option>
                                 <option value="1">支出</option>
                                 <option value="2">调动</option>
+                                <option value="4">资金流水公司</option>
+                                <option value="5">资金流水收入项目</option>
+                                <option value="6">资金流水支出项目</option>
+                            </c:if>
+                            <c:if test="${jcszMxmb.type==4}">
+                                <option value="4">资金流水公司</option>
+                                <option value="3">借还</option>
+                                <option value="0">收入</option>
+                                <option value="1">支出</option>
+                                <option value="2">调动</option>
+                                <option value="5">资金流水收入项目</option>
+                                <option value="6">资金流水支出项目</option>
+                            </c:if>
+                            <c:if test="${jcszMxmb.type==5}">
+                                <option value="5">资金流水收入项目</option>
+                                <option value="3">借还</option>
+                                <option value="0">收入</option>
+                                <option value="1">支出</option>
+                                <option value="2">调动</option>
+                                <option value="4">资金流水公司</option>
+                                <option value="6">资金流水支出项目</option>
+                            </c:if>
+                            <c:if test="${jcszMxmb.type==6}">
+                                <option value="6">资金流水支出项目</option>
+                                <option value="5">资金流水收入项目</option>
+                                <option value="3">借还</option>
+                                <option value="0">收入</option>
+                                <option value="1">支出</option>
+                                <option value="2">调动</option>
+                                <option value="4">资金流水公司</option>
                             </c:if>
                         </select>
                     </td>

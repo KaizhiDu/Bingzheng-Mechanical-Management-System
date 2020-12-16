@@ -5,13 +5,13 @@ import cn.jeeweb.core.model.PageJson;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.modules.jcsz.entity.JcszMxmb;
+import cn.jeeweb.modules.jcsz.service.IJcszMxmbService;
 import cn.jeeweb.modules.zjls.dto.ZjlsValueDTO;
 import cn.jeeweb.modules.zjls.entity.ZjlsZj;
 import cn.jeeweb.modules.zjls.entity.ZjlsZjls;
-import cn.jeeweb.modules.zjls.mapper.ZjlsZjlsMapper;
 import cn.jeeweb.modules.zjls.service.ZjlsZjService;
 import cn.jeeweb.modules.zjls.service.ZjlsZjlsService;
-import cn.jeeweb.modules.zzgl.entity.ZzglZzgl;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -28,7 +28,6 @@ import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +48,9 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
 
     @Autowired
     private ZjlsZjlsService zjlsZjlsService;
+
+    @Autowired
+    private IJcszMxmbService iJcszMxmbService;
 
 
     /**
@@ -81,7 +83,24 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
             zjlsZj.setTwo("0");
             zjlsZjService.insert(zjlsZj);
         }
-        //ZjlsZj zjlsZj = zjlsZjService.selectOne(wrapper);
+        EntityWrapper<JcszMxmb> wrapper2 = new EntityWrapper<JcszMxmb>();
+        wrapper2.eq("type", "4");
+        List<JcszMxmb> zjlsGsList = iJcszMxmbService.selectList(wrapper2);
+        wrapper2.orderBy("sort", false);
+        model.addAttribute("gsList", zjlsGsList);
+
+        EntityWrapper<JcszMxmb> wrapper3 = new EntityWrapper<JcszMxmb>();
+        wrapper3.eq("type", "5");
+        wrapper3.orderBy("sort", false);
+        List<JcszMxmb> zjlsXmList = iJcszMxmbService.selectList(wrapper3);
+        EntityWrapper<JcszMxmb> wrapper4 = new EntityWrapper<JcszMxmb>();
+        wrapper4.eq("type", "6");
+        wrapper4.orderBy("sort", false);
+        List<JcszMxmb> zjlsXmzcList = iJcszMxmbService.selectList(wrapper4);
+        for (JcszMxmb jcszMxmb : zjlsXmzcList) {
+            zjlsXmList.add(jcszMxmb);
+        }
+        model.addAttribute("xmList", zjlsXmList);
     }
 
     /**
@@ -293,6 +312,19 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
         Date date0 = new Date();
         String currentDate = sdf0.format(date0);
         model.addAttribute("day", currentDate);
+
+        EntityWrapper<JcszMxmb> wrapper2 = new EntityWrapper<JcszMxmb>();
+        wrapper2.eq("type", "4");
+        List<JcszMxmb> zjlsGsList = iJcszMxmbService.selectList(wrapper2);
+        wrapper2.orderBy("sort", false);
+        model.addAttribute("gsList", zjlsGsList);
+
+        EntityWrapper<JcszMxmb> wrapper3 = new EntityWrapper<JcszMxmb>();
+        wrapper3.eq("type", "5");
+        wrapper3.orderBy("sort", false);
+        List<JcszMxmb> zjlsXmsrList = iJcszMxmbService.selectList(wrapper3);
+        model.addAttribute("xmsrList", zjlsXmsrList);
+
         return display("sr");
     }
 
@@ -324,7 +356,23 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
      */
     @RequestMapping(value = "saveSr", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveSr(String mx, String money, String lx, String jtsj, String zjly, String mx2, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+    public void saveSr(String mx, String gs, String money, String lx, String jtsj, String zjly, String mx2, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        // mxmb添加次数
+        if (gs!=null&&!gs.equals("")) {
+            JcszMxmb jcszMxmb = iJcszMxmbService.selectById(gs);
+            jcszMxmb.setSort(jcszMxmb.getSort() + 1);
+            iJcszMxmbService.updateById(jcszMxmb);
+            gs = jcszMxmb.getName();
+        }
+
+        if (mx2!=null&&!mx2.equals("")) {
+            JcszMxmb jcszMxmb = iJcszMxmbService.selectById(mx2);
+            jcszMxmb.setSort(jcszMxmb.getSort() + 1);
+            iJcszMxmbService.updateById(jcszMxmb);
+            mx2 = jcszMxmb.getName();
+        }
+
         if (money == null) {
             money = "0";
         }
@@ -360,6 +408,7 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
         zjlsZjls.setLx(lx);
         zjlsZjls.setMx(mx);
         zjlsZjls.setMx2(mx2);
+        zjlsZjls.setGs(gs);
 
         zjlsZjlsService.insert(zjlsZjls);
 
@@ -387,7 +436,7 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
      */
     @RequestMapping(value = "ajaxZjlsList", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PageJson<ZjlsZjls> ajaxZzglList(String n, String y, String lx, String r, String mx2, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model) {
+    public PageJson<ZjlsZjls> ajaxZzglList(String n, String y, String gs, String lx, String r, String mx2, Queryable queryable, HttpServletRequest request, HttpServletResponse response, Model model) {
         try {
             Thread.currentThread().sleep(100);
         } catch (InterruptedException e) {
@@ -406,6 +455,7 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
         zjlsZjls.setY(y);
         zjlsZjls.setR(r);
         zjlsZjls.setMx2(mx2);
+        zjlsZjls.setGs(gs);
 
         if (n == null) {
             zjlsZjls.setN(nn + "");
@@ -433,6 +483,18 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
         Date date0 = new Date();
         String currentDate = sdf0.format(date0);
         model.addAttribute("day", currentDate);
+
+        EntityWrapper<JcszMxmb> wrapper2 = new EntityWrapper<JcszMxmb>();
+        wrapper2.eq("type", "4");
+        List<JcszMxmb> zjlsGsList = iJcszMxmbService.selectList(wrapper2);
+        wrapper2.orderBy("sort", false);
+        model.addAttribute("gsList", zjlsGsList);
+
+        EntityWrapper<JcszMxmb> wrapper3 = new EntityWrapper<JcszMxmb>();
+        wrapper3.eq("type", "6");
+        wrapper3.orderBy("sort", false);
+        List<JcszMxmb> zjlsXmzcList = iJcszMxmbService.selectList(wrapper3);
+        model.addAttribute("xmzcList", zjlsXmzcList);
         return display("zc");
     }
 
@@ -445,7 +507,23 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
      */
     @RequestMapping(value = "saveZc", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public void saveZc(String mx, String money, String lx, String jtsj, String zjly, String mx2, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+    public void saveZc(String mx, String money, String lx, String jtsj, String zjly, String mx2, String gs, HttpServletRequest request, HttpServletResponse response, Model model) throws ParseException {
+
+        // mxmb添加次数
+        if (gs!=null&&!gs.equals("")) {
+            JcszMxmb jcszMxmb = iJcszMxmbService.selectById(gs);
+            jcszMxmb.setSort(jcszMxmb.getSort() + 1);
+            iJcszMxmbService.updateById(jcszMxmb);
+            gs = jcszMxmb.getName();
+        }
+
+        if (mx2!=null&&!mx2.equals("")) {
+            JcszMxmb jcszMxmb = iJcszMxmbService.selectById(mx2);
+            jcszMxmb.setSort(jcszMxmb.getSort() + 1);
+            iJcszMxmbService.updateById(jcszMxmb);
+            mx2 = jcszMxmb.getName();
+        }
+
         if (money == null) {
             money = "0";
         } else {
@@ -480,6 +558,7 @@ public class ZjlsZjlsController extends BaseCRUDController<ZjlsZjls, String> {
         zjlsZjls.setLx(lx);
         zjlsZjls.setMx(mx);
         zjlsZjls.setMx2(mx2);
+        zjlsZjls.setGs(gs);
 
         zjlsZjlsService.insert(zjlsZjls);
 

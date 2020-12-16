@@ -42,7 +42,7 @@ public class ZjlsZjlsServiceImpl extends CommonServiceImpl<ZjlsZjlsMapper, ZjlsZ
         }
         Pageable pageable = queryable.getPageable();
         Page<ZjlsZjls> page = new Page<ZjlsZjls>(pageable.getPageNumber(), pageable.getPageSize());
-        page.setRecords(zjlsZjlsMapper.ajaxZjlsList(page, zjlsZjls.getN(), zjlsZjls.getY(), zjlsZjls.getLx(), zjlsZjls.getR(), zjlsZjls.getMx2()));
+        page.setRecords(zjlsZjlsMapper.ajaxZjlsList(page, zjlsZjls.getN(), zjlsZjls.getY(), zjlsZjls.getGs(), zjlsZjls.getLx(), zjlsZjls.getR(), zjlsZjls.getMx2()));
         PageJson<ZjlsZjls> pagejson = new PageJson<ZjlsZjls>(pageable.getPageNumber(), page.getSize(), page.getTotal(), page.getRecords());
         return pagejson;
     }

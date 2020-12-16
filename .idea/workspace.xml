@@ -7,265 +7,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b631381a-3479-4398-b332-265db3ac3f90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtglController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHzgsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglFpxq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglGsht.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHkxq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHtgl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHzgs.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglWcqk.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglFpxqMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglHkxqMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglHtglMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglHzgsMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglWcqkMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglFpxqService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglHkxqService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglHtglService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglHzgsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglWcqkService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglFpxqServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglHkxqServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglHtglServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglHzgsServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglWcqkServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/entity/HtglHtmx2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/mapper/HtglHtmxMapper2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/service/IHtglHtmxService2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/service/impl/HtglHtmxService2Impl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglFpxqMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglHkxqMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglHtglMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglWcqkMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/htglold/HtglHtmxMapper2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/fp.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/hk.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/htjd.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/htmx.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/kfp.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/khk.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/list.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/tjht.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/tjhtmx.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/wc.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/wcqk.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/hzgs/htxq.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/hzgs/list.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/hzgs/tjgs.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/jeeweb-mybatis.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/controller/HtglHtglController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/controller/HtglHzgsController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglFpxq.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglGsht.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglHkxq.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglHtgl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglHzgs.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglWcqk.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglFpxqMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglHkxqMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglHtglMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglHzgsMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglWcqkMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/IHtglFpxqService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/IHtglHkxqService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/IHtglHtglService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/IHtglHzgsService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/IHtglWcqkService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglFpxqServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglHkxqServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglHtglServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglHzgsServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglWcqkServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/controller/HtglGsController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/entity/HtglHtmx2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/mapper/HtglGsMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/mapper/HtglHtMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/mapper/HtglHtmxMapper2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/service/IHtglGsService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/service/IHtglHtService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/service/IHtglHtmxService2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/service/impl/HtglGsServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/service/impl/HtglHtServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/service/impl/HtglHtmxService2Impl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/mappings/modules/htgl/HtglFpxqMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/mappings/modules/htgl/HtglHkxqMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/mappings/modules/htgl/HtglHtglMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/mappings/modules/htgl/HtglWcqkMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/mappings/modules/htglold/HtglHtmxMapper2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/META-INF/jeeweb-mybatis.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/controller/HtglHtglController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/controller/HtglHzgsController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglFpxq.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglGsht.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglHkxq.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglHtgl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglHzgs.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglWcqk.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglFpxqMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglHkxqMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglHtglMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglHzgsMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglWcqkMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/IHtglFpxqService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/IHtglHkxqService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/IHtglHtglService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/IHtglHzgsService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/IHtglWcqkService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglFpxqServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglHkxqServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglHtglServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglHzgsServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglWcqkServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/controller/HtglGsController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/entity/HtglHtmx2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/mapper/HtglGsMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/mapper/HtglHtMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/mapper/HtglHtmxMapper2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/service/IHtglGsService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/service/IHtglHtService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/service/IHtglHtmxService2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/service/impl/HtglGsServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/service/impl/HtglHtServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/service/impl/HtglHtmxService2Impl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htgl/HtglFpxqMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htgl/HtglHkxqMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htgl/HtglHtglMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htgl/HtglWcqkMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htglold/HtglHtmxMapper2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/fp.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/hk.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/htjd.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/htmx.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/kfp.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/khk.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/list.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/tjht.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/tjhtmx.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/wc.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/htgl/wcqk.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/hzgs/htxq.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/hzgs/list.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/hzgs/tjgs.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglFpglController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtjdglController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/fpgl/list.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htjdgl/list.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/ckgl/controller/CkglBcpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/ckgl/controller/CkglBcpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/ckgl/entity/CkglBcp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/ckgl/entity/CkglBcp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/controller/GrglYgkqjlController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/controller/GrglYgkqjlController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/dto/YgkqjlDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/dto/YgkqjlDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/entity/GrglYgkqjl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/entity/GrglYgkqjl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/entity/GrglYgxzgl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/entity/GrglYgxzgl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglGsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/controller/HtglGsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/entity/HtglGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/entity/HtglHt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHtmx.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHtmx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglGsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/mapper/HtglGsMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglHtMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/mapper/HtglHtMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglHtmxMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglHtmxMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglGsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/service/IHtglGsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglHtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/service/IHtglHtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglHtmxService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglHtmxService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglGsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/service/impl/HtglGsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglHtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/service/impl/HtglHtServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglHtmxServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglHtmxServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/jygl/controller/JyglBgjyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/jygl/controller/JyglBgjyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/scgl/controller/ScglBgrwfpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/scgl/controller/ScglBgrwfpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/scgl/controller/ScglRcrwfpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/scgl/controller/ScglRcrwfpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zzgl/controller/ZzglZzglController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zzgl/controller/ZzglZzglController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mappings/modules/grgl/GrglYgkqjlMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/grgl/GrglYgkqjlMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtghHtMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/htglold/HtghHtMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglHtmxMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglHtmxMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mappings/modules/kcgl/CkglBcpMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/kcgl/CkglBcpMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/ck.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/ck.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/grgl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/grgl/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/ygkqjl/jlkq.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/ygkqjl/jlkq.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/ygkqjl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/ygkqjl/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/ygxzgl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/ygxzgl/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/gs/createFp.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htglold/gs/createFp.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/gs/createGs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htglold/gs/createGs.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/gs/createHt.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htglold/gs/createHt.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/gs/ht.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htglold/gs/ht.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/gs/kfp.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htglold/gs/kfp.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/gs/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htglold/gs/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/gs/xg.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htglold/gs/xg.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/gs/xq.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htglold/gs/xq.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/scgl/rcrwfp/fpgs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/scgl/rcrwfp/fpgs.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/scjhgl/bjgl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/scjhgl/bjgl/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/entity/ZjlsZjls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/entity/ZjlsZjls.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mappings/modules/jcsz/JcszMxmbMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/jcsz/JcszMxmbMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mappings/modules/zjls/ZjlsZjlsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/zjls/ZjlsZjlsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/insertMxmb.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/insertMxmb.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/modifyMxmb.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/modifyMxmb.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/sr.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/sr.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/zc.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/zc.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/ckgl/controller/CkglBcpController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/ckgl/controller/CkglBcpController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/ckgl/entity/CkglBcp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/ckgl/entity/CkglBcp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/grgl/controller/GrglYgkqjlController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/grgl/controller/GrglYgkqjlController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/grgl/dto/YgkqjlDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/grgl/dto/YgkqjlDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/grgl/entity/GrglYgkqjl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/grgl/entity/GrglYgkqjl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/controller/HtglGsController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/entity/HtglGs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglHt.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/entity/HtglHt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglHtmx.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/entity/HtglHtmx.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglGsMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglHtMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglHtmxMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/mapper/HtglHtmxMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/IHtglGsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/IHtglHtService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglGsServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglHtServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglHtmxServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htgl/service/impl/HtglHtmxServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/jygl/controller/JyglBgjyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/jygl/controller/JyglBgjyController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/scgl/controller/ScglBgrwfpController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/scgl/controller/ScglBgrwfpController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/scgl/controller/ScglRcrwfpController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/scgl/controller/ScglRcrwfpController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/scjhgl/controller/ScjhglHtglController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/scjhgl/controller/ScjhglHtglController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zzgl/controller/ZzglZzglController$SortByPx.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zzgl/controller/ZzglZzglController$SortByPx.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zzgl/controller/ZzglZzglController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zzgl/controller/ZzglZzglController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mappings/modules/grgl/GrglYgkqjlMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappings/modules/grgl/GrglYgkqjlMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mappings/modules/htgl/HtghHtMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htglold/HtghHtMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mappings/modules/htgl/HtglHtmxMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappings/modules/htgl/HtglHtmxMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mappings/modules/kcgl/CkglBcpMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappings/modules/kcgl/CkglBcpMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zjls/entity/ZjlsZjls.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zjls/entity/ZjlsZjls.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mappings/modules/jcsz/JcszMxmbMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappings/modules/jcsz/JcszMxmbMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mappings/modules/zjls/ZjlsZjlsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappings/modules/zjls/ZjlsZjlsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis.war" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/ckgl/controller/CkglBcpController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/ckgl/controller/CkglBcpController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/ckgl/entity/CkglBcp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/ckgl/entity/CkglBcp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/grgl/controller/GrglYgkqjlController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/grgl/controller/GrglYgkqjlController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/grgl/dto/YgkqjlDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/grgl/dto/YgkqjlDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/grgl/entity/GrglYgkqjl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/grgl/entity/GrglYgkqjl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/controller/HtglGsController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/jeeweb/modules/htglold/entity/HtglGs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglHt.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htglold/entity/HtglHt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglHtmx.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/entity/HtglHtmx.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglGsMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglHtMapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglHtmxMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/mapper/HtglHtmxMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/IHtglGsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/IHtglHtService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglGsServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglHtServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglHtmxServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/htgl/service/impl/HtglHtmxServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/jygl/controller/JyglBgjyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/jygl/controller/JyglBgjyController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/scgl/controller/ScglBgrwfpController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/scgl/controller/ScglBgrwfpController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/scgl/controller/ScglRcrwfpController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/scgl/controller/ScglRcrwfpController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/scjhgl/controller/ScjhglHtglController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/scjhgl/controller/ScjhglHtglController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zzgl/controller/ZzglZzglController$SortByPx.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zzgl/controller/ZzglZzglController$SortByPx.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zzgl/controller/ZzglZzglController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zzgl/controller/ZzglZzglController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/grgl/GrglYgkqjlMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/grgl/GrglYgkqjlMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htgl/HtghHtMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mappings/modules/htglold/HtghHtMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htgl/HtglHtmxMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/htgl/HtglHtmxMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/kcgl/CkglBcpMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/kcgl/CkglBcpMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/ck.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/ck.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/grgl/grgl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/grgl/grgl/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/grgl/ygkqjl/jlkq.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/grgl/ygkqjl/jlkq.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/grgl/ygkqjl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/grgl/ygkqjl/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/grgl/ygxzgl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/grgl/ygxzgl/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/gs/createFp.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htglold/gs/createFp.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/gs/createGs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htglold/gs/createGs.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/gs/createHt.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htglold/gs/createHt.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/gs/ht.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htglold/gs/ht.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/gs/kfp.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htglold/gs/kfp.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/gs/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htglold/gs/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/gs/xg.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htglold/gs/xg.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htgl/gs/xq.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/htglold/gs/xq.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scgl/rcrwfp/fpgs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scgl/rcrwfp/fpgs.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/bjgl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/bjgl/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/htgl/copy.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/htgl/copy.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/htgl/create.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/htgl/create.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/htgl/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/htgl/list.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/htgl/update.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/scjhgl/htgl/update.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zjls/entity/ZjlsZjls.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zjls/entity/ZjlsZjls.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/jcsz/JcszMxmbMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/jcsz/JcszMxmbMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/zjls/ZjlsZjlsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/classes/mappings/modules/zjls/ZjlsZjlsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/jcsz/mxmb/insertMxmb.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/jcsz/mxmb/insertMxmb.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/jcsz/mxmb/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/jcsz/mxmb/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/jcsz/mxmb/modifyMxmb.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/jcsz/mxmb/modifyMxmb.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/zjls/zjls/list.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/zjls/zjls/list.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/zjls/zjls/sr.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/zjls/zjls/sr.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/zjls/zjls/zc.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/jeeweb-mybatis/WEB-INF/webpage/modules/zjls/zjls/zc.jsp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -279,44 +59,64 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/fp.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="44" column="45" lean-forward="true" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/hk.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="38" column="10" lean-forward="true" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/list.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="75" column="70" selection-start-line="75" selection-start-column="68" selection-end-line="75" selection-end-column="70" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtglController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="474">
-              <caret line="246" column="39" lean-forward="true" selection-start-line="246" selection-start-column="39" selection-end-line="246" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.507874">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="8341">
+                  <caret line="468" column="59" selection-start-line="468" selection-start-column="59" selection-end-line="468" selection-end-column="59" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="532">
+                  <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="285">
+                  <caret line="20" selection-start-line="20" selection-end-line="20" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/zjls/ZjlsZjlsMapper.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-359">
+                  <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/sr.jsp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="116">
+                  <caret line="17" column="23" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="23" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -330,21 +130,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>rcpk</find>
-      <find>fileOut</find>
-      <find>dateformat</find>
-      <find>10元</find>
-      <find>scgl/rcrwfp/</find>
-      <find>saveGs</find>
-      <find>jb</find>
-      <find>cqxsgz</find>
-      <find>Radio</find>
-      <find>ajaxGrglYgkqjlList</find>
-      <find>jy</find>
-      <find>fp</find>
-      <find>khk</find>
-      <find>员工薪资管理</find>
-      <find>员工考勤记录</find>
       <find>加班费</find>
       <find>考勤时间</find>
       <find>createHt</find>
@@ -360,6 +145,21 @@
       <find>htgl/htgl</find>
       <find>ajaxFpxqList</find>
       <find>hk</find>
+      <find>rcpk</find>
+      <find>明细模板</find>
+      <find>modifyMxmb</find>
+      <find>c:for</find>
+      <find>ajaxMxmbList</find>
+      <find>sr</find>
+      <find>xmzcList</find>
+      <find>zc</find>
+      <find>.equals(&quot;&quot;)</find>
+      <find>saveSr</find>
+      <find>saveZc</find>
+      <find>savers</find>
+      <find>ajaxZjlsList</find>
+      <find>order</find>
+      <find>ajzx</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -374,23 +174,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglWcqkMapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/htjd.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/wcqk.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/htmx.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHzgs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHtgl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHtmx.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglWcqk.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/tjhtmx.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglFpxqMapper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglFpxqService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglFpxqServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglFpxq.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglHkxq.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/IHtglHkxqService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/mapper/HtglHkxqMapper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/service/impl/HtglHkxqServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglHkxqMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglFpxqMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/entity/HtglGsht.java" />
@@ -418,13 +201,30 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/scjhgl/htgl/list.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/list.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/hzgs/htxq.jsp" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/ckgl/controller/CkglBcpController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/ck.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/ygkqjl/jlkq.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/controller/GrglYgkqjlController.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtglController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/fp.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/hk.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/ckgl/controller/CkglBcpController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/fpgl/index.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglFpglController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtjdglController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/fpgl/list.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htjdgl/list.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/list.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/modifyMxmb.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/insertMxmb.jsp" />
+        <option value="$PROJECT_DIR$/src/main/resources/mappings/modules/jcsz/JcszMxmbMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/zc.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/sr.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/entity/ZjlsZjls.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/list.jsp" />
+        <option value="$PROJECT_DIR$/src/main/resources/mappings/modules/zjls/ZjlsZjlsMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.java" />
       </list>
     </option>
   </component>
@@ -442,9 +242,9 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="862" />
+    <option name="y" value="20" />
     <option name="width" value="978" />
     <option name="height" value="1056" />
   </component>
@@ -456,7 +256,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -518,7 +317,7 @@
               <item name="cn" type="462c0819:PsiDirectoryNode" />
               <item name="jeeweb" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="htgl" type="462c0819:PsiDirectoryNode" />
+              <item name="jcsz" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
@@ -529,7 +328,65 @@
               <item name="cn" type="462c0819:PsiDirectoryNode" />
               <item name="jeeweb" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="htgl" type="462c0819:PsiDirectoryNode" />
+              <item name="jcsz" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="jeeweb" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zjls" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="jeeweb" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zjls" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="jeeweb" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zjls" type="462c0819:PsiDirectoryNode" />
+              <item name="entity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="jeeweb" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zzgl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="jeeweb" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zzgl" type="462c0819:PsiDirectoryNode" />
               <item name="controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -590,6 +447,42 @@
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
               <item name="webpage" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="ckgl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="ckgl" type="462c0819:PsiDirectoryNode" />
+              <item name="bcp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="ckgl" type="462c0819:PsiDirectoryNode" />
+              <item name="bcp" type="462c0819:PsiDirectoryNode" />
+              <item name="ywcbcp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
               <item name="htgl" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -602,12 +495,94 @@
               <item name="webpage" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
               <item name="htgl" type="462c0819:PsiDirectoryNode" />
+              <item name="fpgl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
               <item name="htgl" type="462c0819:PsiDirectoryNode" />
+              <item name="htjdgl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="jcsz" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="jcsz" type="462c0819:PsiDirectoryNode" />
+              <item name="mxmb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zjls" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zjls" type="462c0819:PsiDirectoryNode" />
+              <item name="zjls" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zzgl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bingzheng-Mechanical-Management-System" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bingzheng-Mechanical-Management-System" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="webpage" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="zzgl" type="462c0819:PsiDirectoryNode" />
+              <item name="zzgl" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -790,7 +765,9 @@
       <workItem from="1585533467238" duration="1937000" />
       <workItem from="1585552003136" duration="480000" />
       <workItem from="1585624139471" duration="6887000" />
-      <workItem from="1585710937530" duration="904000" />
+      <workItem from="1585710937530" duration="6119000" />
+      <workItem from="1587248302578" duration="9538000" />
+      <workItem from="1606622845750" duration="1258000" />
     </task>
     <task id="LOCAL-00001" summary="各种改">
       <created>1565839214119</created>
@@ -803,7 +780,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="356939000" />
+    <option name="totallyTimeSpent" value="372950000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -815,10 +792,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="2575" height="1415" extended-state="6" />
+    <frame x="862" y="20" width="978" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19110052" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.39760348" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -827,14 +804,14 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3308026" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4989339" visible="true" weight="0.43335932" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32969603" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3308026" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4989339" weight="0.395947" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.329718" />
       <window_info anchor="bottom" id="Spring" order="7" weight="0.329718" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.34345794" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.34294623" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010661" side_tool="true" weight="0.12798265" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" weight="0.329718" />
@@ -870,12 +847,6 @@
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtglController.java</url>
-          <line>205</line>
-          <properties />
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -885,162 +856,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/kcgl/CkglBcpMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="24" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-          <folding>
-            <element signature="e#465#469#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/scgl/controller/ScglBgrwfpController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="1387" column="13" selection-start-line="1387" selection-start-column="13" selection-end-line="1387" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htglold/controller/HtglGsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="70" column="29" selection-start-line="70" selection-start-column="29" selection-end-line="70" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/scgl/entity/ScglRggs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/grgl/list.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="48" column="65" lean-forward="true" selection-start-line="48" selection-start-column="65" selection-end-line="48" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/scgl/controller/ScglRcrwfpController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="488" column="39" lean-forward="true" selection-start-line="488" selection-start-column="39" selection-end-line="488" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/dto/YgkqjlDTO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="22" lean-forward="true" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
-          <folding>
-            <element signature="e#433#434#0" expanded="true" />
-            <element signature="e#460#461#0" expanded="true" />
-            <element signature="e#500#501#0" expanded="true" />
-            <element signature="e#532#533#0" expanded="true" />
-            <element signature="e#590#591#0" expanded="true" />
-            <element signature="e#654#655#0" expanded="true" />
-            <element signature="e#712#713#0" expanded="true" />
-            <element signature="e#784#785#0" expanded="true" />
-            <element signature="e#838#839#0" expanded="true" />
-            <element signature="e#902#903#0" expanded="true" />
-            <element signature="e#960#961#0" expanded="true" />
-            <element signature="e#1032#1033#0" expanded="true" />
-            <element signature="e#1094#1095#0" expanded="true" />
-            <element signature="e#1174#1175#0" expanded="true" />
-            <element signature="e#1228#1229#0" expanded="true" />
-            <element signature="e#1292#1293#0" expanded="true" />
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1410#1411#0" expanded="true" />
-            <element signature="e#1468#1469#0" expanded="true" />
-            <element signature="e#1540#1541#0" expanded="true" />
-            <element signature="e#1594#1595#0" expanded="true" />
-            <element signature="e#1658#1659#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/entity/GrglYgkqjlJcsj.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="25" lean-forward="true" selection-start-column="25" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/grgl/ygkqjl/Szkqjcsj.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-342" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/entity/GrglYgkqjl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="47" column="14" lean-forward="true" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="14" />
-          <folding>
-            <element signature="e#1703#1704#0" expanded="true" />
-            <element signature="e#1730#1731#0" expanded="true" />
-            <element signature="e#1770#1771#0" expanded="true" />
-            <element signature="e#1802#1803#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/scgl/rcrwfp/fpgs.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1430">
-          <caret line="138" column="35" selection-start-line="138" selection-start-column="35" selection-end-line="138" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/grgl/GrglYgxzglMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/grgl/GrglXzzwfpMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/grgl/GrglMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/htglold/HtghHtMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/htglold/HtglHtmxMapper2.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="23" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="14" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglWcqkMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglHtmxMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglHtglMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglHkxqMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/htgl/HtglFpxqMapper.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/grgl/entity/GrglYgxzgl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="66" column="14" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/grgl/GrglYgkqjlMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/wcqk.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-171" />
@@ -1141,13 +956,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/list.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="71" column="72" selection-start-line="71" selection-start-column="57" selection-end-line="71" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/hzgs/htxq.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
@@ -1162,24 +970,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/ckgl/controller/CkglBcpController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="314" column="44" lean-forward="true" selection-start-line="314" selection-start-column="44" selection-end-line="314" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/wc.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="557">
           <caret line="49" column="53" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/ck.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="94" column="23" lean-forward="true" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -1197,20 +991,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/list.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="75" column="70" selection-start-line="75" selection-start-column="68" selection-end-line="75" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtglController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="246" column="39" lean-forward="true" selection-start-line="246" selection-start-column="39" selection-end-line="246" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/fp.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
@@ -1222,6 +1002,209 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="38" column="10" lean-forward="true" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/ck.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="94" column="23" lean-forward="true" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/fpgl/index.jsp" />
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/fpgl/list.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="34" column="10" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtjdglController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htgl/list.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1216">
+          <caret line="64" column="6" selection-end-line="334" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglFpglController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="11" column="76" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="76" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/htgl/controller/HtglHtglController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="31" column="76" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/htgl/htjdgl/list.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/ckgl/controller/CkglBcpController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="161" column="42" selection-start-line="161" selection-start-column="42" selection-end-line="161" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/ckgl/bcp/ywcbcp/list.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="62" column="23" lean-forward="true" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zzgl/zzgl/dcym.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1351" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/jcsz/service/impl/JcszMxmbServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/jcsz/mapper/JcszMxmbMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="22" column="38" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/insertMxmb.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="52" column="44" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/modifyMxmb.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="49" column="61" lean-forward="true" selection-start-line="49" selection-start-column="61" selection-end-line="49" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/jcsz/JcszMxmbMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/jcsz/mxmb/list.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="50" column="18" lean-forward="true" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/jcsz/entity/JcszMxmb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/entity/ZjlsZjls.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="44" column="29" lean-forward="true" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+          <folding>
+            <element signature="e#3661#3662#0" expanded="true" />
+            <element signature="e#3686#3687#0" expanded="true" />
+            <element signature="e#3722#3723#0" expanded="true" />
+            <element signature="e#3750#3751#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/list.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="187" column="51" selection-start-line="187" selection-start-column="39" selection-end-line="187" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/zc.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="147" column="22" selection-start-line="147" selection-start-column="22" selection-end-line="147" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/jcsz/controller/JcszMxmbController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="78" column="28" lean-forward="true" selection-start-line="78" selection-start-column="28" selection-end-line="78" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zzgl/controller/ZzglZzglController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="196" column="66" lean-forward="true" selection-start-line="196" selection-start-column="66" selection-end-line="196" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/controller/ZjlsZjlsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8341">
+          <caret line="468" column="59" selection-start-line="468" selection-start-column="59" selection-end-line="468" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/service/impl/ZjlsZjlsServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jeeweb/modules/zjls/mapper/ZjlsZjlsMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mappings/modules/zjls/ZjlsZjlsMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-359">
+          <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/webpage/modules/zjls/zjls/sr.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="17" column="23" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="23" />
         </state>
       </provider>
     </entry>
