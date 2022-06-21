@@ -18,7 +18,7 @@
 		<shiro.version>1.2.2</shiro.version>
 		<druid.version>0.2.23</druid.version>
 		<!-- mysql -->
-		<mysql.version>5.1.27</mysql.version>
+		<mysql.version>8.0.28</mysql.version>
 		<!-- oracle -->
 		<oracle.version>10.2.0.1.0</oracle.version>
 		<!-- 4.0 -->
