@@ -56,7 +56,7 @@
 		<!-- 并发框架Disruptor -->
 		<disruptor.version>3.3.6</disruptor.version>
 		<!-- 邮件发送工具 -->
-		<email.version>1.4</email.version>
+		<email.version>1.5</email.version>
 		<!-- Excel导入导出 -->
 		<poi.version>3.12</poi.version>
 		<!-- velocity工具用于代码生成 -->
